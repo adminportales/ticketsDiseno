@@ -73,7 +73,7 @@ return [
     |
     */
     'user_models' => [
-        'users' => \App\Models\User::class,
+        'users' => \App\User::class,
     ],
 
     /*
@@ -88,14 +88,14 @@ return [
     */
     'models' => [
 
-        'role' => \App\Models\Role::class,
+        'role' => \App\Role::class,
 
-        'permission' => \App\Models\Permission::class,
+        'permission' => \App\Permission::class,
 
         /**
          * Will be used only if the teams functionality is enabled.
          */
-        'team' => \App\Models\Team::class,
+        'team' => \App\Team::class,
     ],
 
     /*
