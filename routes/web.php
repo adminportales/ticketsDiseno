@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('inicio', function () {
-    return view('administrador.pagina_inicio');
+    return view('administrador.inicio');
 })->name('Inicio');
 
 Route::get('ver_usuario', function () {
@@ -40,6 +40,22 @@ Route::get('asignar_permisos', function () {
 Route::get('editar_usuario', function () {
     return view('administrador.editar_usuario');
 })->name('editar_usuario');
+
+Route::get('reporte_tickets', function () {
+    return view('administrador.reporte_tickets');
+})->name('reporte_tickets');
+
+Route::get('inicio_vendedor', function () {
+    return view('vendedor.inicio');
+})->name('inicio_vendedor');
+
+Route::get('crear_ticket', function () {
+    return view('vendedor.crear_ticket');
+})->name('crear_ticket');
+
+Route::get('consultar_ticket', function () {
+    return view('vendedor.consultar_ticket');
+})->name('consultar_ticket');
 
 Auth::routes(['verify' => true]);
 

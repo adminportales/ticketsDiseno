@@ -1,44 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Crear nuevo usuario</title>
 </head>
+
 <body>
     <div style="width: 980px; text-align: center; margin: auto; border: 2px solid gray;">
         <h1>Crear nuevo usuario</h1>
-            <h3>Ver usuario</h3>
-            <h2>Samuel Administrador</h2>
-            <ul>
-            <li><a href="{{route('ver_usuario')}}">Ver usuario</a></li>
+        <h3>Ver usuario</h3>
+        <h2>Samuel Administrador</h2>
+        <ul>
+            <li><a href="{{ route('ver_usuario') }}">Ver usuario</a></li>
             <li><a href="{{ route('asignar_permisos') }}">Asignar permisos</a></li>
-            <li><a href="#">Reporte de tickets</a></li>
-            <li><a href="#">Cerrar Sesión</a></li>
-            </ul>
+            <li><a href="{{ route('reporte_tickets') }}">Reporte de tickets</a></li>
+            <li><a href="exit">Cerrar Sesión</a></li>
+        </ul>
 
-            <form action="" method="get">
-                <p>Nombre: <input type="text" name="nombre" size="40" required></p>
-                <p>Apellidos: <input type="text" name="apellidos" size="40" required></p>
-                <p>Email: <input type="email" name="email" size="40" required></p>
-                <p>Contraseña: <input type="password" size="40"></p>
-                <p>Confirmar contraseña: <input type="password" size="40" required></p>
-                <p>
-                    <input type="submit" id="boton_crear" value="Crear nuevo usuario">
-                  <input type="reset" value="Cancelar">
-                </p>
+        <form action="" method="get">
+            <p>Nombre: <input type="text" name="nombre" size="40" required></p>
+            <p>Apellidos: <input type="text" name="apellidos" size="40" required></p>
+            <p>Email: <input type="email" name="email" size="40" required></p>
+            <p>Contraseña: <input type="password" size="40"></p>
+            <p>Confirmar contraseña: <input type="password" size="40" required></p>
+            <p>
+                <input type="submit" id="boton_crear" value="Crear nuevo usuario">
+                <input type="reset" value="Cancelar">
+            </p>
 
-              </form>
+        </form>
 
-              <script>
-                const boton_crear = document.querySelector("#boton_crear");
-                boton_crear.addEventListener('click',()=>{
-                    confirm("¿Estas seguro de realizar cambios?")
-                } )
-
-            </script>
+        <script>
+            const boton_crear = document.querySelector("#boton_crear");
+            boton_crear.addEventListener('click', () => {
+                confirm("¿Estas seguro de realizar cambios?")
+            })
+        </script>
 
 
 </body>
+
 </html>
