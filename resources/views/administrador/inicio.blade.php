@@ -15,6 +15,7 @@
         <h2>Samuel Administrador</h2>
 
         <ul>
+            <li><a href="{{ route('inicio')}}">Inicio</a></li>
             <li><a href="{{ route('ver_usuario') }}">Ver usuario</a></li>
             <li><a href="{{ route('asignar_permisos') }}">Asignar permisos</a></li>
             <li><a href="#">Reporte de tickets</a></li>

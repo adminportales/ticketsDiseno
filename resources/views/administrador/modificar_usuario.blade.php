@@ -14,13 +14,14 @@
         <h3>Ver usuario</h3>
         <h2>Samuel Administrador</h2>
         <ul>
+            <li><a href="{{ route('inicio')}}">Inicio</li>
             <li><a href="{{ route('ver_usuario') }}">Ver usuario</a></li>
             <li><a href="{{ route('asignar_permisos') }}">Asignar permisos</a></li>
             <li><a href="{{ route('reporte_tickets') }}">Reporte de tickets</a></li>
             <li><a href="#">Cerrar Sesión</a></li>
         </ul>
 
-        <form>
+        <form action="">
             <p>Nombre a modificar: <input type="text" name="nombre" size="40" required></p>
             <p>Apellidos a modificar: <input type="text" name="apellidos" size="40" required></p>
             <p>Email a modificar: <input type="email" name="email" size="40" required></p>
