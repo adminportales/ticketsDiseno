@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes(['verify' => true]);
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -56,7 +58,5 @@ Route::get('crear_ticket', function () {
 Route::get('consultar_ticket', function () {
     return view('vendedor.consultar_ticket');
 })->name('consultar_ticket');
-
-Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');

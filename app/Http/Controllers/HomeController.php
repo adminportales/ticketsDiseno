@@ -23,6 +23,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        if(auth()->user()->hasRole('seller')){
+
+        }
+        if(auth()->user()->hasRole('designer')){
+
+        }
+        if(auth()->user()->hasRole('admin')){
+
+        }
+        if(auth()->user()->hasRole('saler_manager')){
+
+        }
+        if(auth()->user()->hasRole('saler_design')){
+
+        }
     }
 }
