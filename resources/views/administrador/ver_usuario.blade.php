@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ver Usuario</title>
-</head>
-
+@section('content')
 <body>
     <div style="width: 980px; text-align: center; margin: auto; border: 2px solid gray;">
         <h1>Lista de usuarios</h1>
@@ -69,6 +62,4 @@
 
         <a href="{{ route('crear_usuario') }}">Crear nuevo usuario </a>
 
-</body>
-
-</html>
+@endsection

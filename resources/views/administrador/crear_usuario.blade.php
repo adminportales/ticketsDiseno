@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Crear nuevo usuario</title>
-</head>
+@section('content')
 
-<body>
     <div style="width: 980px; text-align: center; margin: auto; border: 2px solid gray;">
         <h1>Crear nuevo usuario</h1>
         <h3>Ver usuario</h3>
@@ -42,6 +35,4 @@
         </script>
 
 
-</body>
-
-</html>
+@endsection
