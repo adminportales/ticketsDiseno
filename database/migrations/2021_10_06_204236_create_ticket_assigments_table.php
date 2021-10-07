@@ -15,6 +15,8 @@ class CreateTicketAssigmentsTable extends Migration
     {
         Schema::create('ticket_assigments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('designer_id')->references('id')->on('users');
+            $table->foreignId('type_id')->constrained();
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTicketDeliveriesTable extends Migration
+class CreateFilesLocationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateTicketDeliveriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ticket_deliveries', function (Blueprint $table) {
+        Schema::create('files_locations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ticket_id')->constrained();
-            $table->foreignId('designer_id')->references('id')->on('users');
-            $table->boolean('is_accepted');
+            $table->foreignId('ticket_information_id')->constrained();
+            $table->text('file_location');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateTicketDeliveriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ticket_deliveries');
+        Schema::dropIfExists('files_locations');
     }
 }

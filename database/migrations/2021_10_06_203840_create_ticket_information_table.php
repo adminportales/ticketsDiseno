@@ -13,8 +13,17 @@ class CreateTicketInformationTable extends Migration
      */
     public function up()
     {
-        Schema::create('ticket_information', function (Blueprint $table) {
+        Schema::create('ticket_informations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('ticket_id')->constrained();
+            $table->foreignId('status_id')->constrained();
+            $table->string('customer');
+            $table->string('technique');
+            $table->text('description');
+            $table->string('title');
+            $table->text('logo');
+            $table->text('product');
+            $table->string('pantone');
             $table->timestamps();
         });
     }
