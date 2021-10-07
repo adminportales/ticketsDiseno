@@ -1,30 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Inicio</title>
+    <title>Consultar ticket</title>
 </head>
-
 <body>
     <div style="width: 980px; text-align: center; margin: auto; border: 2px solid rgb(29, 123, 151);">
-        <h1>Bienvenido Tomas</h1>
-        <h3>Inicio</h3>
-        <h2>Tomas Vendedor</h2>
+        <h1>Bienvenido Ernesto</h1>
+        <h3>Consultar ticket</h3>
+        <h2>Ernesto Gerente de Diseño</h2>
         <ul>
-            <li><a href="{{ route('inicio_vendedor') }}">Inicio</a></li>
-            <li><a href="{{ route('crear_ticket') }}">Crear tickets</a></li>
-            <li><a href="{{ route('consultar_ticket') }}">Consultar Ticket</a></li>
-
+            <li><a href="{{ route('inicio_gerente_diseño') }}">Inicio</a></li>
+            <li><a href="{{ route('consultar_ticketgerente') }}">Consultar ticket</a></li>
+            <li><a href="{{ route('reasignar_tickets') }}">Reasignar tickets</a></li>
         </ul>
         <br>
-        <p> Total de tickets:<b>10</b><br /><br />
-            Total de tickets abiertos:<b>3</b><br /><br />
-            Total de tickets cerrados:<b>5</b><br /><br />
-            Total de tickets pendientes:<b>2</b><br /><br />
-        </p>
 
         <table>
             <tr>
@@ -40,6 +32,7 @@
                 <td>Presentacion Bimbo</td>
                 <td>Presentación</td>
                 <td>Nuevo</td>
+                <th><a href="{{ route('atender_ticket_diseño') }}">Atender ticket</a></th>
             </tr>
 
             <tr>
@@ -47,6 +40,7 @@
                 <td>Diseño especial Caribe Cooler</td>
                 <td>Diseño especial</td>
                 <td>En proceso</td>
+                <th><a href="{{ route('atender_ticket_diseño') }}">Atender ticket</a></th>
             </tr>
 
             <tr>
@@ -54,10 +48,9 @@
                 <td>Virtual Barcel</td>
                 <td>Virtual</td>
                 <td>En revisión</td>
+                <th><a href="{{ route('atender_ticket_diseño') }}">Atender ticket</a></th>
             </tr>
 
         </table>
-
 </body>
-
 </html>
