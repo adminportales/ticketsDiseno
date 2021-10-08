@@ -4,19 +4,25 @@
     <div style="width: 980px; text-align: center; margin: auto; border: 2px solid gray;">
         <div class="row">
             <div class="col-md-3 my-5">
-                @include('administrador.menu')
+                @include('seller.menu')
             </div>
             <div class="col-md-9">
-                <h1>Bienvenido Administrador</h1>
+                <h1>Bienvenido Tomas</h1>
                 <h3>Inicio</h3>
-                <h2>Samuel Administrador</h2>
+                <h2>Tomas Vendedor</h2>
                 <br>
 
-                <p> Total de tickets:<b>10</b><br /><br />
-                    Total de tickets abiertos:<b>3</b><br /><br />
-                    Total de tickets cerrados:<b>5</b><br /><br />
-                    Total de tickets pendientes:<b>2</b><br /><br />
-                </p>
+                <div class="d-flex">
+                    <div class="m-3"> Total de tickets:<b>10</b> </div>
+
+                    <div class="m-3"> Total de tickets abiertos:<b>3</b></div>
+
+                    <div class="m-3"> Total de tickets cerrados:<b>5</b></div>
+
+                    <div class="m-3"> Total de tickets pendientes:<b>2</b></div>
+                </div>
+
+
 
                 <table>
                     <tr>
@@ -49,8 +55,4 @@
                     </tr>
 
                 </table>
-
-            </div>
-        </div>
-    </div>
-@endsection
+            @endsection

@@ -1,5 +1,6 @@
 <?php
 
+use App\Type;
 use Illuminate\Database\Seeder;
 
 class TypeSeeder extends Seeder
@@ -11,6 +12,14 @@ class TypeSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Type::create([
+            'type' => 'Virtual'
+        ]);
+        Type::create([
+            'type' => 'Presentacion'
+        ]);
+        Type::create([
+            'type' => 'Diseño Especial'
+        ]);
     }
 }

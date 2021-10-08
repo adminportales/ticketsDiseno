@@ -16,6 +16,7 @@ Auth::routes(['verify' => true]);
 
 
 Route::resource('/users','UserController');
+Route::resource('/tickets','TicketController');
 
 Route::get('/', function () {
     return redirect('/home');

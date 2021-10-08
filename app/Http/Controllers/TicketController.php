@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Ticket;
+use App\Type;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -19,7 +21,8 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+        $tickets = Ticket::all();
+        return view('seller.tickets.index', compact('tickets'));
     }
 
     /**
@@ -29,7 +32,8 @@ class TicketController extends Controller
      */
     public function create()
     {
-        //
+        $types = Type::all();
+        return view('seller.tickets.create', compact('types'));
     }
 
     /**

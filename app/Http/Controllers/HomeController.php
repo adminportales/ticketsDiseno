@@ -24,7 +24,7 @@ class HomeController extends Controller
     public function index()
     {
         if (auth()->user()->hasRole('seller')) {
-            return view('vendedor.inicio');
+           return redirect()->action('TicketController@index');
         }
 
         if (auth()->user()->hasRole('designer')) {
