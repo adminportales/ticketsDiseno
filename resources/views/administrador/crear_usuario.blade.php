@@ -6,13 +6,8 @@
         <h1>Crear nuevo usuario</h1>
         <h3>Ver usuario</h3>
         <h2>Samuel Administrador</h2>
-        <ul>
-            <li><a href="{{ route('inicio')}}">Inicio</a></li>
-            <li><a href="{{ route('ver_usuario') }}">Ver usuario</a></li>
-            <li><a href="{{ route('asignar_permisos') }}">Asignar permisos</a></li>
-            <li><a href="{{ route('reporte_tickets') }}">Reporte de tickets</a></li>
-            <li><a href="exit">Cerrar Sesión</a></li>
-        </ul>
+        @include('administrador.menu')
+
 
         <form action="">
             <p>Nombre: <input type="text" name="nombre" size="40" required></p>

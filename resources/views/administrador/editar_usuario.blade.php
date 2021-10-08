@@ -6,13 +6,7 @@
         <h1>Editar usuario</h1>
         <h3>Asignar permisos</h3>
         <h2>Samuel Administrador</h2>
-        <ul>
-            <li><a href="{{ route('inicio')}}">Inicio</a></li>
-            <li><a href="{{ route('ver_usuario') }}">Ver usuario</a></li>
-            <li><a href="{{ route('asignar_permisos') }}">Asignar permisos</a></li>
-            <li><a href="{{ route('reporte_tickets') }}">Reporte de tickets</a></li>
-            <li><a href="#">Cerrar Sesión</a></li>
-        </ul>
+        @include('administrador.menu')
 
         <form action="">
             <p>Nombre: <input type="text" name="nombre" size="40" required></p>
@@ -47,4 +41,4 @@
         </form>
 
 
-@endsection
+    @endsection

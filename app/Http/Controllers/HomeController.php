@@ -23,23 +23,24 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(auth()->user()->hasRole('seller')){
-            return view ('vendedor.inicio');
-        }
-        if(auth()->user()->hasRole('designer')){
-            return view ('diseñador.inicio_diseno');
+        if (auth()->user()->hasRole('seller')) {
+            return view('vendedor.inicio');
         }
 
-        if(auth()->user()->hasRole('admin')){
-            return view ('administrador.inicio');
+        if (auth()->user()->hasRole('designer')) {
+            return view('diseñador.inicio_diseno');
         }
-        if(auth()->user()->hasRole('saler_manager')){
+
+        if (auth()->user()->hasRole('admin')) {
+            return view('administrador.inicio');
+        }
+
+        if (auth()->user()->hasRole('saler_manager')) {
             return view('gerente_ventas.inicio_gerenteventas');
         }
-        if(auth()->user()->hasRole('saler_design')){
-            return view ('gerentediseño.inicio_gerente_diseño');
 
-
+        if (auth()->user()->hasRole('saler_design')) {
+            return view('gerentediseño.inicio_gerente_diseño');
         }
         return view('home');
     }

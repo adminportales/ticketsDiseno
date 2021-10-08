@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['verify' => true]);
 
 
+Route::resource('/users','UserController');
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/home');
 });
 
 Route::get('inicio', function () {
