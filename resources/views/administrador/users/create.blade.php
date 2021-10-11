@@ -16,21 +16,21 @@
                         @method('POST')
                         <div class="form-group">
                             <label for="name">Nombre</label>
-                            <input class="form-control" type="text" name="name" required>
+                            <input class="form-control" type="text" name="name">
                             @error('name')
                                 {{$message}}
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="lastname">Apellidos</label>
-                            <input class="form-control" type="text" name="lastname" required>
+                            <input class="form-control" type="text" name="lastname">
                             @error('lastname')
                                 {{$message}}
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input class="form-control" type="email" name="email" required>
+                            <input class="form-control" type="email" name="email">
                             @error('email')
                                 {{$message}}
                             @enderror

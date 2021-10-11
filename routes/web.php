@@ -17,6 +17,7 @@ Auth::routes(['verify' => true]);
 
 Route::resource('/users','UserController');
 Route::resource('/tickets','TicketController');
+Route::get('/designer','DesignerController@index')->name('designer.inicio');
 
 Route::get('/', function () {
     return redirect('/home');

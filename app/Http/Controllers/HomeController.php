@@ -28,7 +28,8 @@ class HomeController extends Controller
         }
 
         if (auth()->user()->hasRole('designer')) {
-            return view('diseñador.inicio_diseno');
+            return redirect()->action('DesignerController@index');
+            //return view('diseñador.inicio_diseno');
         }
 
         if (auth()->user()->hasRole('admin')) {

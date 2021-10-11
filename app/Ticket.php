@@ -14,4 +14,25 @@ class Ticket extends Model
         'priority_id',
         'type_id',
     ];
+
+    // Toda la informacion del ticket
+    public function ticketInformation(){
+        return $this->hasMany('App\TicketInformation');
+    }
+
+    //Ultima informacion del ticket
+    public function latestTicketInformation()
+    {
+        return $this->hasOne('App\TicketInformation');
+    }
+    //Traer el tipo de ticket
+    public function typeTicket()
+    {
+        return $this->belongsTo('App\Type', 'type_id');
+    }
+    //Traer el status de ticket
+    public function statusTicket()
+    {
+        return $this->belongsTo('App\Status', 'type_id');
+    }
 }

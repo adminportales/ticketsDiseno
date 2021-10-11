@@ -1,5 +1,6 @@
 <?php
 
+use App\Priority;
 use Illuminate\Database\Seeder;
 
 class PrioritySeeder extends Seeder
@@ -11,6 +12,14 @@ class PrioritySeeder extends Seeder
      */
     public function run()
     {
-        //
+        Priority::create([
+            'priority' => 'Alta'
+        ]);
+        Priority::create([
+            'priority' => 'Media'
+        ]);
+        Priority::create([
+            'priority' => 'Baja'
+        ]);
     }
 }
