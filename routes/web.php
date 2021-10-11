@@ -12,40 +12,49 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Rutas de Inicio de Sesion
 Auth::routes(['verify' => true]);
 
-
-Route::resource('/users','UserController');
-Route::resource('/tickets','TicketController');
-Route::get('/designer','DesignerController@index')->name('designer.inicio');
-
+// Ruta de inicio de la aplicacion
 Route::get('/', function () {
     return redirect('/home');
 });
 
-Route::get('inicio', function () {
-    return view('administrador.inicio');
-})->name('inicio');
+// Home de cada uno de los perfiles
+Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('ver_usuario', function () {
-    return view('administrador.ver_usuario');
-})->name('ver_usuario');
+// Rutas del administrador
+Route::prefix('admin')->middleware('role:admin')->group(function () {
+    Route::resource('/users', 'UserController')->except('show');
+});
 
-Route::get('crear_usuario', function () {
-    return view('administrador.crear_usuario');
-})->name('crear_usuario');
+// Rutas del diseñador
+Route::prefix('designer')->middleware('role:designer')->group(function () {
+    Route::get('/designer', 'DesignerController@index')->name('designer.inicio');
+});
 
-Route::get('modificar_usuario', function () {
-    return view('administrador.modificar_usuario');
-})->name('modificar_usuario');
+// Rutas del vendedor
+Route::prefix('seller')->middleware('role:seller')->group(function () {
+    Route::resource('/tickets', 'TicketController');
+});
 
-Route::get('asignar_permisos', function () {
-    return view('administrador.asignar_permisos');
-})->name('asignar_permisos');
+// Rutas del gerente de diseño
+Route::prefix('designer_manager')->middleware('role:designer')->group(function () {
+    Route::get('/designer', 'DesignerController@index')->name('designer.inicio');
+});
 
-Route::get('editar_usuario', function () {
-    return view('administrador.editar_usuario');
-})->name('editar_usuario');
+// Rutas del gerente de ventas
+Route::prefix('seller_manager')->middleware('role:seller')->group(function () {
+    Route::resource('/tickets', 'TicketController');
+});
+
+
+
+
+
+
+
+
 
 Route::get('reporte_tickets', function () {
     return view('administrador.reporte_tickets');
@@ -118,5 +127,3 @@ Route::get('modificar_ticketventas', function () {
 Route::get('atender_ticketventas', function () {
     return view('gerente_ventas.atender_ticketventas');
 })->name('atender_ticketventas');
-
-Route::get('/home', 'HomeController@index')->name('home');

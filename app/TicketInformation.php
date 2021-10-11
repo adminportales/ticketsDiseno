@@ -20,4 +20,9 @@ class TicketInformation extends Model
         'pantone',
     ];
 
+    //Traer el status de ticket
+    public function statusTicket()
+    {
+        return $this->belongsTo('App\Status', 'status_id');
+    }
 }

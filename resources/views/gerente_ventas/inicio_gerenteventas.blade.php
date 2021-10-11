@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<body>
     <div style="width: 980px; text-align: center; margin: auto; border: 2px solid rgb(29, 123, 151);">
         <h1>Bienvenido Aide</h1>
         <h3>Inicio</h3>
@@ -53,4 +52,5 @@
             </tr>
 
         </table>
+    </div>
 @endsection

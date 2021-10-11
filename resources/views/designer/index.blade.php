@@ -11,18 +11,18 @@
 
         </ul>
         <br>
-        <p> Total de tickets:<b>{{$totalTickets}}</b><br /><br />
-            Total de tickets abiertos:<b>3</b><br /><br />
-            Total de tickets cerrados:<b>5</b><br /><br />
-            Total de tickets pendientes:<b>2</b><br /><br />
-        </p>
-
+        <div class="d-flex justify-content-between p-3">
+            <div> Total de tickets:<b>{{ $totalTickets }}</b></div>
+            <div> Total de tickets abiertos:<b>{{ $openTickets }}</b></div>
+            <div> Total de tickets cerrados:<b>{{ $closedTickets }}</b></div>
+        </div>
         <table class="table">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Titulo</th>
                     <th>Categoria de Ticket</th>
+                    <th>Prioridad</th>
                     <th>Estatus</th>
                     <th>Hora</th>
                 </tr>
@@ -30,11 +30,13 @@
             <tbody>
                 @foreach ($tickets as $ticket)
                     <tr>
-                        <td>{{$loop->iteration}}</td>
-                        <td>{{$ticket->latestTicketInformation->title}}</td>
-                        <td>{{$ticket->typeTicket->type}}</td>
-                        <td>{{$ticket->statusTicket->status}}</td>
-                        <td>{{$ticket->latestTicketInformation->created_at}} {{$ticket->latestTicketInformation->created_at->diffForHumans()}}</td>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $ticket->latestTicketInformation->title }}</td>
+                        <td>{{ $ticket->typeTicket->type }}</td>
+                        <td>{{ $ticket->priorityTicket->priority }}</td>
+                        <td>{{ $ticket->latestTicketInformation->statusTicket->status }}</td>
+                        <td>{{ $ticket->latestTicketInformation->created_at }}
+                            {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
                     </tr>
                 @endforeach
             </tbody>

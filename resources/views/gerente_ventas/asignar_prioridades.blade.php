@@ -28,13 +28,13 @@
                 <td>Virtual Adidas</td>
                 <td>Virtual</td>
                 <td><select name="prioridad1">
-                    <option>Alta
-                    </option>
-                    <option>Media
-                    </option>
-                    <option>Baja
-                    </option>
-                </select></td>
+                        <option>Alta
+                        </option>
+                        <option>Media
+                        </option>
+                        <option>Baja
+                        </option>
+                    </select></td>
             </tr>
 
             <tr>
@@ -42,13 +42,13 @@
                 <td>Presentacion de USB</td>
                 <td>Presentación</td>
                 <td> <select name="prioridad2">
-                    <option>Alta
-                    </option>
-                    <option>Media
-                    </option>
-                    <option>Baja
-                    </option>
-                </select></td>
+                        <option>Alta
+                        </option>
+                        <option>Media
+                        </option>
+                        <option>Baja
+                        </option>
+                    </select></td>
 
             </tr>
 
@@ -57,13 +57,14 @@
                 <td>Diseño Bimbo</td>
                 <td>Diseño Especial</td>
                 <td> <select name="prioridad3">
-                    <option>Alta
-                    </option>
-                    <option>Media
-                    </option>
-                    <option>Baja
-                    </option>
-                </select></td></td>
+                        <option>Alta
+                        </option>
+                        <option>Media
+                        </option>
+                        <option>Baja
+                        </option>
+                    </select></td>
+                </td>
 
             </tr>
 
@@ -72,17 +73,19 @@
                 <td>Diseño Caribe Cooler</td>
                 <td>Virtual</td>
                 <td><select name="prioridad4">
-                    <option>Alta
-                    </option>
-                    <option>Media
-                    </option>
-                    <option>Baja
-                    </option>
-                </select></td></td>
+                        <option>Alta
+                        </option>
+                        <option>Media
+                        </option>
+                        <option>Baja
+                        </option>
+                    </select></td>
+                </td>
 
             </tr>
 
         </table>
         <br>
         <input type="submit" value="Guardar">
+    </div>
 @endsection

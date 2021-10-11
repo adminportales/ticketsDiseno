@@ -24,22 +24,22 @@
                                     @endforeach
                                 </select>
                                 @error('category')
-                                {{$message}}
-                            @enderror
+                                    {{ $message }}
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="customer">Cliente</label>
                                 <input type="text" class="form-control" name="customer" />
                                 @error('customer')
-                                {{$message}}
-                            @enderror
+                                    {{ $message }}
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="title">Titulo</label>
                                 <input type="text" class="form-control" name="title" />
                                 @error('title')
-                                {{$message}}
-                            @enderror
+                                    {{ $message }}
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -47,8 +47,8 @@
                                 <label for="technique">Tecnica</label>
                                 <input type="text" class="form-control" name="technique" />
                                 @error('technique')
-                                {{$message}}
-                            @enderror
+                                    {{ $message }}
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="pantone">Pantone</label>
@@ -58,8 +58,8 @@
                                 <label for="logo">Logo</label>
                                 <input type="file" class="form-control" name="logo" />
                                 @error('logo')
-                                {{$message}}
-                            @enderror
+                                    {{ $message }}
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -67,16 +67,16 @@
                                 <label for="descripcion">Descripcion</label>
                                 <textarea rows="" cols="" class="form-control w-100" name="description"></textarea>
                                 @error('description')
-                                {{$message}}
-                            @enderror
+                                    {{ $message }}
+                                @enderror
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="product">Producto</label>
                             <input type="file" class="form-control" name="product" />
                             @error('product')
-                            {{$message}}
-                        @enderror
+                                {{ $message }}
+                            @enderror
                         </div>
 
 
@@ -86,4 +86,5 @@
                 </form>
             </div>
         </div>
-    @endsection
+    </div>
+@endsection

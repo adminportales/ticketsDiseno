@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DesignerController extends Controller
 {
@@ -14,11 +15,24 @@ class DesignerController extends Controller
     public function index()
     {
 
-        $totalTickets= count(auth()->user()->assignedTickets);
-        $pendientTickets= count(auth()->user()->assignedTickets->type());
         $tickets = auth()->user()->assignedTickets;
 
+        $totalTickets = 0;
+        $closedTickets = 0;
+        $openTickets = 0;
+
+        foreach ($tickets as $ticket) {
+            $statusTicket = $ticket->latestTicketInformation->statusTicket->status;
+            if ($statusTicket == 'Finalizado') {
+                $closedTickets++;
+            } else {
+                $openTickets++;
+            }
+            $totalTickets++;
+        }
+
         //Mostrar la vista
+        return view('designer.index', compact('totalTickets', 'tickets', 'openTickets', 'closedTickets'));
     }
 
     /**

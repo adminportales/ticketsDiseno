@@ -10,53 +10,54 @@
             <li><a href="{{ route('crear_ticketventas') }}">Crear ticket</a></li>
             <li><a href="{{ route('consultar_ticketventas') }}">Consultar ticket</a></li>
             <li><a href="{{ route('asignar_prioridades') }}">Asignar prioridades</a></li>
+        </ul>
+        <br>
+        <form enctype="multipart/form-data">
+            <option>Virtual
+            </option>
 
-            <br>
-            <form enctype="multipart/form-data">
-                <option>Virtual
-                </option>
+            <p>Cliente: <input type="text" name="cliente" size="40"></p>
+            <p>Titulo: <input type="text" name="titulo" size="40"></p>
+            <p>Técnica: <input type="text" name="técnica" size="40"></p>
+            <p>Pantone: <input type="color"></p>
+            <p>Logo: <input type="file" name="subirarchivos"></p>
+            <p>Descripción: <input type="text" name="descripcion" size="100"></p>
+            <p>
+                <input type="submit" value="Crear">
+                <input type="reset" value="Borrar">
+            </p>
+        </form>
+        <br>
 
-                <p>Cliente: <input type="text" name="cliente" size="40"></p>
-                <p>Titulo: <input type="text" name="titulo" size="40"></p>
-                <p>Técnica: <input type="text" name="técnica" size="40"></p>
-                <p>Pantone: <input type="color"></p>
-                <p>Logo: <input type="file" name="subirarchivos"></p>
-                <p>Descripción: <input type="text" name="descripcion" size="100"></p>
-                <p>
-                    <input type="submit" value="Crear">
-                    <input type="reset" value="Borrar">
-                </p>
-            </form>
-            <br>
+        <form enctype="multipart/form-data">
+            <option>Presentación
+            </option>
 
-            <form enctype="multipart/form-data">
-                <option>Presentación
-                </option>
+            <p>Cliente: <input type="text" name="cliente" size="40"></p>
+            <p>Titulo: <input type="text" name="titulo" size="40"></p>
+            <p>Items del producto: <input type="file" name="item"></p>
+            <p>Logo: <input type="file" name="logo"></p>
+            <p>Descripción: <input type="text" name="descripcion" size="100"></p>
+            <p>
+                <input type="submit" value="Crear">
+                <input type="reset" value="Borrar">
+            </p>
+        </form>
+        <br>
 
-                <p>Cliente: <input type="text" name="cliente" size="40"></p>
-                <p>Titulo: <input type="text" name="titulo" size="40"></p>
-                <p>Items del producto: <input type="file" name="item"></p>
-                <p>Logo: <input type="file" name="logo"></p>
-                <p>Descripción: <input type="text" name="descripcion" size="100"></p>
-                <p>
-                    <input type="submit" value="Crear">
-                    <input type="reset" value="Borrar">
-                </p>
-            </form>
-            <br>
+        <form enctype="multipart/form-data">
+            <option>Diseño
+            </option>
 
-            <form enctype="multipart/form-data">
-                <option>Diseño
-                </option>
-
-                <p>Cliente: <input type="text" name="cliente" size="40"></p>
-                <p>Titulo: <input type="text" name="titulo" size="40"></p>
-                <p>Logo: <input type="file" name="item"></p>
-                <p>Archivo: <input type="file" name="logo"></p>
-                <p>Descripción: <input type="text" name="descripcion" size="100"></p>
-                <p>
-                    <input type="submit" value="Crear">
-                    <input type="reset" value="Borrar">
-                </p>
-            </form>
+            <p>Cliente: <input type="text" name="cliente" size="40"></p>
+            <p>Titulo: <input type="text" name="titulo" size="40"></p>
+            <p>Logo: <input type="file" name="item"></p>
+            <p>Archivo: <input type="file" name="logo"></p>
+            <p>Descripción: <input type="text" name="descripcion" size="100"></p>
+            <p>
+                <input type="submit" value="Crear">
+                <input type="reset" value="Borrar">
+            </p>
+        </form>
+    </div>
 @endsection

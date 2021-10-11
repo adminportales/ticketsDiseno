@@ -9,7 +9,6 @@
             </div>
             <div class="col-md-9">
 
-
                 <h1>Editar usuario</h1>
 
                 <div class="d-flex justify-content-center">

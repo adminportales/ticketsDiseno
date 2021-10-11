@@ -22,8 +22,6 @@
                     <div class="m-3"> Total de tickets pendientes:<b>2</b></div>
                 </div>
 
-
-
                 <table>
                     <tr>
                         <th>ID</th>
@@ -55,4 +53,7 @@
                     </tr>
 
                 </table>
-            @endsection
+            </div>
+        </div>
+    </div>
+@endsection

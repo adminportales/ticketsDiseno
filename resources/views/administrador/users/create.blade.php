@@ -18,21 +18,21 @@
                             <label for="name">Nombre</label>
                             <input class="form-control" type="text" name="name">
                             @error('name')
-                                {{$message}}
+                                {{ $message }}
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="lastname">Apellidos</label>
                             <input class="form-control" type="text" name="lastname">
                             @error('lastname')
-                                {{$message}}
+                                {{ $message }}
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input class="form-control" type="email" name="email">
                             @error('email')
-                                {{$message}}
+                                {{ $message }}
                             @enderror
                         </div>
                         <div class="form-group">
@@ -45,7 +45,7 @@
                                 @endforeach
                             </select>
                             @error('role')
-                                {{$message}}
+                                {{ $message }}
                             @enderror
                         </div>
                         <div class="form-group">

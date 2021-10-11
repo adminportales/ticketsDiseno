@@ -12,5 +12,6 @@
             <li><a href="{{ route('consultar_ticketventas') }}">Consultar ticket</a></li>
             <li><a href="{{ route('asignar_prioridades') }}">Asignar prioridades</a></li>
         </ul>
+    </div>
 
 @endsection

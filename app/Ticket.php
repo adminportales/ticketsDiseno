@@ -31,8 +31,8 @@ class Ticket extends Model
         return $this->belongsTo('App\Type', 'type_id');
     }
     //Traer el status de ticket
-    public function statusTicket()
+    public function priorityTicket()
     {
-        return $this->belongsTo('App\Status', 'type_id');
+        return $this->belongsTo('App\Priority', 'priority_id');
     }
 }
