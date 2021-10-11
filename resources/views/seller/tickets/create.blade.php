@@ -23,20 +23,32 @@
                                         <option value="{{ $type->id }}">{{ $type->type }}</option>
                                     @endforeach
                                 </select>
+                                @error('category')
+                                {{$message}}
+                            @enderror
                             </div>
                             <div class="form-group">
                                 <label for="customer">Cliente</label>
                                 <input type="text" class="form-control" name="customer" />
+                                @error('customer')
+                                {{$message}}
+                            @enderror
                             </div>
                             <div class="form-group">
                                 <label for="title">Titulo</label>
                                 <input type="text" class="form-control" name="title" />
+                                @error('title')
+                                {{$message}}
+                            @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="technique">Tecnica</label>
                                 <input type="text" class="form-control" name="technique" />
+                                @error('technique')
+                                {{$message}}
+                            @enderror
                             </div>
                             <div class="form-group">
                                 <label for="pantone">Pantone</label>
@@ -45,14 +57,28 @@
                             <div class="form-group">
                                 <label for="logo">Logo</label>
                                 <input type="file" class="form-control" name="logo" />
+                                @error('logo')
+                                {{$message}}
+                            @enderror
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="logo">Descripcion</label>
-                                <textarea rows="" cols="" class="form-control w-100"></textarea>
+                                <label for="descripcion">Descripcion</label>
+                                <textarea rows="" cols="" class="form-control w-100" name="description"></textarea>
+                                @error('description')
+                                {{$message}}
+                            @enderror
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="product">Producto</label>
+                            <input type="file" class="form-control" name="product" />
+                            @error('product')
+                            {{$message}}
+                        @enderror
+                        </div>
+
 
                         <p>Dropzone para los items</p>
                     </div>

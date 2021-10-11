@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Ticket;
+use App\TicketInformation;
 use App\Type;
 use Illuminate\Http\Request;
 
@@ -44,8 +45,57 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
+
+        $datosTicket = request()->except('_token');
+
+
+
+        //return response()->json($datosTicket);
+        // Validar los datos
+        request()->validate([
+            'category' => 'required',
+            'customer' => ['required', 'string', 'max:255'],
+            'technique' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'max:255'],
+            'title' => ['required', 'string', 'max:255'],
+            'logo' => 'required|image',
+            'product' => 'required|image',
+            'pantone' => 'required'
+
+        ]);
         $seller_id = auth()->user()->id;
-        $seller_name = auth()->user()->name.' '.auth()->user()->lastname;
+        $seller_name = auth()->user()->name . ' ' . auth()->user()->lastname;
+
+        // Registrar el ticket
+        $ticket = Ticket::create([
+            'seller_id' => $seller_id,
+            'seller_name' =>  $seller_name,
+            'designer_id' => 1,
+            'designer_name' => 'diseñador',
+            'priority_id' => 1,
+            'type_id' => 1
+
+        ]);
+
+        // Registrar la informacion del ticket
+        $ticketInformation = ([
+            'ticket_id' => $ticket->id,
+            'status_id' => 1,
+            'customer' => $request->customer,
+            'technique' => $request->technique,
+            'description' => $request->description,
+            'title' => $request->title,
+            'logo' => $request->logo,
+            'product' => $request->product,
+            'pantone' => $request->pantone
+
+        ]);
+        TicketInformation::insert($ticketInformation);
+
+
+
+        // Regresar a la vista de inicio
+        return redirect()->action('HomeController@index');
     }
 
     /**
