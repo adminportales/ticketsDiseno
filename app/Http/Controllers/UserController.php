@@ -133,6 +133,7 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
+    /**Eliminar usuario */
     public function destroy(User $user)
     {
         $user->update(['status' => false]);

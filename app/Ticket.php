@@ -14,4 +14,10 @@ class Ticket extends Model
         'priority_id',
         'type_id',
     ];
+
+    public function ticketInformation(){
+
+        return $this->hasOne('App\TicketInformation');
+
+    }
 }
