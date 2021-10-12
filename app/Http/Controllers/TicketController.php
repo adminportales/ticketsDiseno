@@ -61,12 +61,6 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-
-        $datosTicket = request()->except('_token');
-
-
-
-        //return response()->json($datosTicket);
         // Validar los datos
         request()->validate([
             'type' => 'required',
@@ -77,8 +71,9 @@ class TicketController extends Controller
             'logo' => 'required|image',
             'product' => 'required|image',
             'pantone' => 'required'
-
         ]);
+
+        // Obtener el id y el nombre del vendedor
         $seller_id = auth()->user()->id;
         $seller_name = auth()->user()->name . ' ' . auth()->user()->lastname;
 
@@ -92,6 +87,8 @@ class TicketController extends Controller
             'type_id' => $request->type
 
         ]);
+
+        // Guardar las imagenes y obtener las rutas
         $ruta_imagen_producto = $request['product']->store('upload-tickets_producto', 'public');
         $ruta_imagen_logo = $request['logo']->store('upload-tickets_logo', 'public');
 
@@ -103,16 +100,14 @@ class TicketController extends Controller
             'technique' => $request->technique,
             'description' => $request->description,
             'title' => $request->title,
-            'logo' => $request->logo,
-            'product' => $request->product,
+            'logo' => $ruta_imagen_producto,
+            'product' => $ruta_imagen_producto,
             'pantone' => $request->pantone,
             'created_at'=>now(),
             'updated_at'=>now()
-
         ]);
+
         TicketInformation::insert($ticketInformation);
-
-
 
         // Regresar a la vista de inicio
         return redirect()->action('HomeController@index');
