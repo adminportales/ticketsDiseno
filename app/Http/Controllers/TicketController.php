@@ -22,8 +22,24 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::all();
-        return view('seller.tickets.index', compact('tickets'));
+        $tickets = auth()->user()->ticketsCreated;
+
+        $totalTickets = 0;
+        $closedTickets = 0;
+        $openTickets = 0;
+
+        foreach ($tickets as $ticket){
+            $statusTicket= $ticket->latestTicketInformation->statusTicket->status;
+            if($statusTicket=='Finalizado'){
+                $closedTickets++;
+            }else{
+                $openTickets++;
+
+            }
+            $totalTickets++;
+        }
+
+        return view('seller.tickets.index', compact('tickets','totalTickets', 'closedTickets','openTickets'));
     }
 
     /**
@@ -53,7 +69,7 @@ class TicketController extends Controller
         //return response()->json($datosTicket);
         // Validar los datos
         request()->validate([
-            'category' => 'required',
+            'type' => 'required',
             'customer' => ['required', 'string', 'max:255'],
             'technique' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string', 'max:255'],
@@ -73,9 +89,11 @@ class TicketController extends Controller
             'designer_id' => 1,
             'designer_name' => 'diseñador',
             'priority_id' => 1,
-            'type_id' => 1
+            'type_id' => $request->type
 
         ]);
+        $ruta_imagen_producto = $request['product']->store('upload-tickets_producto', 'public');
+        $ruta_imagen_logo = $request['logo']->store('upload-tickets_logo', 'public');
 
         // Registrar la informacion del ticket
         $ticketInformation = ([
@@ -87,7 +105,9 @@ class TicketController extends Controller
             'title' => $request->title,
             'logo' => $request->logo,
             'product' => $request->product,
-            'pantone' => $request->pantone
+            'pantone' => $request->pantone,
+            'created_at'=>now(),
+            'updated_at'=>now()
 
         ]);
         TicketInformation::insert($ticketInformation);

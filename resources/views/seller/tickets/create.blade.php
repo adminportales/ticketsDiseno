@@ -16,8 +16,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="category">Categoria</label>
-                                <select name="category" class="form-control">
+                                <label for="type">Tipo</label>
+                                <select name="type" class="form-control">
                                     <option value="">Seleccione...</option>
                                     @foreach ($types as $type)
                                         <option value="{{ $type->id }}">{{ $type->type }}</option>

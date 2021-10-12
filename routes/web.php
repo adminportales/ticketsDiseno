@@ -38,7 +38,7 @@ Route::prefix('seller')->middleware('role:seller')->group(function () {
     Route::resource('/tickets', 'TicketController');
 });
 
-// Rutas del gerente de diseño
+/* // Rutas del gerente de diseño
 Route::prefix('designer_manager')->middleware('role:designer')->group(function () {
     Route::get('/designer', 'DesignerController@index')->name('designer.inicio');
 });
@@ -47,7 +47,7 @@ Route::prefix('designer_manager')->middleware('role:designer')->group(function (
 Route::prefix('seller_manager')->middleware('role:seller')->group(function () {
     Route::resource('/tickets', 'TicketController');
 });
-
+ */
 
 
 

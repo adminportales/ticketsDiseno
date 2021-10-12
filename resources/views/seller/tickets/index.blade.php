@@ -13,44 +13,35 @@
                 <br>
 
                 <div class="d-flex">
-                    <div class="m-3"> Total de tickets:<b>10</b> </div>
+                    <div class="m-3"> Total de tickets:<b>{{$totalTickets}}</b> </div>
 
-                    <div class="m-3"> Total de tickets abiertos:<b>3</b></div>
+                    <div class="m-3"> Total de tickets abiertos:<b>{{$openTickets}}</b></div>
 
-                    <div class="m-3"> Total de tickets cerrados:<b>5</b></div>
+                    <div class="m-3"> Total de tickets cerrados:<b>{{$closedTickets}}</b></div>
 
-                    <div class="m-3"> Total de tickets pendientes:<b>2</b></div>
                 </div>
 
-                <table>
+                <table class="table">
                     <tr>
                         <th>ID</th>
                         <th>Titulo</th>
                         <th>Categoria de Ticket</th>
                         <th>Estatus</th>
+                        <th>Hora de creación</th>
 
                     </tr>
-
-                    <tr>
-                        <td>1</td>
-                        <td>Presentacion Bimbo</td>
-                        <td>Presentación</td>
-                        <td>Nuevo</td>
-                    </tr>
+                    @foreach ($tickets as $ticket )
 
                     <tr>
-                        <td>2</td>
-                        <td>Diseño especial Caribe Cooler</td>
-                        <td>Diseño especial</td>
-                        <td>En proceso</td>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{$ticket->latestTicketInformation->title}}</td>
+                        <td>{{$ticket->typeTicket->type}}</td>
+                        <td>{{$ticket->latestTicketInformation->statusTicket->status }}</td>
+                        <td>{{ $ticket->latestTicketInformation->created_at }}
+                            {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
                     </tr>
 
-                    <tr>
-                        <td>3</td>
-                        <td>Virtual Barcel</td>
-                        <td>Virtual</td>
-                        <td>En revisión</td>
-                    </tr>
+                    @endforeach
 
                 </table>
             </div>

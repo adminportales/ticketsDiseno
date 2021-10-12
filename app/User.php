@@ -45,9 +45,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
     }
 
-    //Funcion para obtener los tickets del diseñador
+    //Funcion para obtener los tickets asignados al diseñador
     public function assignedTickets()
     {
         return $this->hasMany('App\Ticket', 'designer_id');
     }
+     //Funcion para obtener los tickets creados por el vendedor
+     public function ticketsCreated()
+     {
+         return $this->hasMany('App\Ticket', 'seller_id');
+     }
 }
