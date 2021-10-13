@@ -40,6 +40,7 @@
                         <td>{{ $ticket->latestTicketInformation->created_at }}
                             {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
                             <td><a href="{{ route('tickets.show', ['ticket'=>$ticket->id]) }}" class="btn btn-warning">Ver ticket</a></td>
+                            <td><a href="{{ route('tickets.edit', ['ticket'=>$ticket->id]) }}" class="btn btn-primary">Modificar tickets</a></td>
                     </tr>
 
                     @endforeach

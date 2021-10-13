@@ -131,6 +131,9 @@ class TicketController extends Controller
      */
     public function edit(Ticket $ticket)
     {
+        $types = Type::all();
+        $ticketInformation=$ticket->latestTicketInformation;
+        return view('seller.tickets.edit', compact('ticket', 'types', 'ticketInformation'));
         //
     }
 
@@ -143,6 +146,39 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
+        request()->validate([
+            'type' => 'required',
+            'customer' => ['required', 'string', 'max:255'],
+            'technique' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'max:255'],
+            'title' => ['required', 'string', 'max:255'],
+            'logo' => 'required|image',
+            'product' => 'required|image',
+            'pantone' => 'required'
+        ]);
+
+        // Guardar las imagenes y obtener las rutas
+        $ruta_imagen_producto = $request['product']->store('upload-tickets_producto', 'public');
+        $ruta_imagen_logo = $request['logo']->store('upload-tickets_logo', 'public');
+        // Registrar la informacion del ticket
+        $ticketInformation = ([
+            'ticket_id' => $ticket->id,
+            'status_id' => 1,
+            'customer' => $request->customer,
+            'technique' => $request->technique,
+            'description' => $request->description,
+            'title' => $request->title,
+            'logo' => $ruta_imagen_logo,
+            'product' => $ruta_imagen_producto,
+            'pantone' => $request->pantone,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        TicketInformation::insert($ticketInformation);
+
+        // Regresar a la vista de inicio
+        return redirect()->action('HomeController@index');
         //
     }
 

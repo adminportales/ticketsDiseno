@@ -11,12 +11,13 @@
                 <h3>Atender ticket</h3>
                 <h2>Tomas Vendedor</h2>
                 <br>
-                <button>Nuevo</button>
-                <button>En proceso</button>
-                <button>Entregado</button>
-                <button>Ajustes</button>
-                <button>Finalizado</button>
-
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-secondary">Nuevo</button>
+                    <button type="button" class="btn btn-secondary">En proceso</button>
+                    <button type="button" class="btn btn-secondary">Entregado</button>
+                    <button type="button" class="btn btn-secondary">Ajustes</button>
+                    <button type="button" class="btn btn-secondary">Finalizado</button>
+                </div>
                 <section class="d-flex">
                     <article>
                         <h3 align="left">Chat</h3>
@@ -57,21 +58,42 @@
                     </article>
 
                     <article>
-                        <h3 align="left">Información del ticket</h3>
-                        <ul align="left">
+
+
+                        <div class="accordion" id="accordionExample">
                             @foreach ($ticketInformation as $ticket)
-                                <li>{{ $loop->iteration }}</li>
-                                <li>{{$ticket->statusTicket->status}}</li>
-                                <li>{{$ticket->customer}}</li>
-                                <li>{{$ticket->technique}}</li>
-                                <li>{{$ticket->description}}</li>
-                                <li>{{$ticket->title}}</li>
-                                <li><img src="{{ asset('storage').'/'.$ticket->logo}}" alt="" width="200"> </li>
-                                <li><img src="{{ asset ('storage').'/'.$ticket->product}}" alt="" width="200"></li>
-                                <li>{{$ticket->pantone}}</li>
-                                <li>{{$ticket->created_at}}s</li>
-                                <li>{{$ticket->updated_at}}s</li>
+                                <div class="card">
+                                    <div class="card-header" id="headingOne">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left" type="button"
+                                                data-toggle="collapse" data-target="#collapseOne{{$loop->iteration}}" aria-expanded="true"
+                                                aria-controls="collapseOne">
+                                                Información del ticket
+                                            </button>
+                                        </h2>
+                                    </div>
+
+                                    <div id="collapseOne{{$loop->iteration}}" class="collapse show" aria-labelledby="headingOne"
+                                        data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <li>{{ $loop->iteration }}</li>
+                                            <li>{{ $ticket->statusTicket->status }}</li>
+                                            <li>{{ $ticket->customer }}</li>
+                                            <li>{{ $ticket->technique }}</li>
+                                            <li>{{ $ticket->description }}</li>
+                                            <li>{{ $ticket->title }}</li>
+                                            <li><img src="{{ asset('storage') . '/' . $ticket->logo }}" alt=""
+                                                    width="200"> </li>
+                                            <li><img src="{{ asset('storage') . '/' . $ticket->product }}" alt=""
+                                                    width="200">
+                                            </li>
+                                            <li>{{ $ticket->pantone }}</li>
+                                            <li>{{ $ticket->created_at }}s</li>
+                                            <li>{{ $ticket->updated_at }}s</li>
+                                        </div>
+                                    </div>
                             @endforeach
+                        </div>
                         </ul>
                     </article>
 
