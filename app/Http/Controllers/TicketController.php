@@ -101,7 +101,7 @@ class TicketController extends Controller
             'technique' => $request->technique,
             'description' => $request->description,
             'title' => $request->title,
-            'logo' => $ruta_imagen_producto,
+            'logo' => $ruta_imagen_logo,
             'product' => $ruta_imagen_producto,
             'pantone' => $request->pantone,
             'created_at'=>now(),
@@ -122,7 +122,8 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        //
+        $ticketInformation=$ticket->ticketInformation;
+        return view('seller.tickets.show', compact('ticketInformation'));
     }
 
     /**
