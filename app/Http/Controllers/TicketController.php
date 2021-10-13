@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Ticket;
 use App\TicketInformation;
 use App\Type;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
@@ -156,5 +157,25 @@ class TicketController extends Controller
     public function destroy(Ticket $ticket)
     {
         //
+    }
+
+    public function uploadItems(Request $request)
+    {
+        $imagen = $request->file('file');
+        $nombreImagen = time() . '.' . $imagen->extension();
+        $imagen->move(public_path('storage/items'), $nombreImagen);
+        return response()->json(['correcto' => $nombreImagen]);
+    }
+
+    public function deleteItem(Request $request)
+    {
+        if ($request->ajax()) {
+            $imagen = $request->get('imagen');
+
+            if (File::exists('storage/items/' . $imagen)) {
+                File::delete('storage/items/' . $imagen);
+            }
+            return response('Imagen Eliminada', 200);
+        }
     }
 }

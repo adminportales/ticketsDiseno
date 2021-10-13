@@ -37,6 +37,8 @@ Route::prefix('designer')->middleware('role:designer')->group(function () {
 Route::prefix('seller')->middleware('role:seller')->group(function () {
     Route::resource('/tickets', 'TicketController');
 });
+Route::post('/tickets/items', 'TicketController@uploadItems')->name('tickets.uploadItems');
+Route::post('/tickets/deleteItem', 'TicketController@deleteItem')->name('tickets.deleteItem');
 
 /* // Rutas del gerente de diseño
 Route::prefix('designer_manager')->middleware('role:designer')->group(function () {
