@@ -7,6 +7,7 @@ use App\TicketInformation;
 use App\Type;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TicketController extends Controller
 {
@@ -29,18 +30,17 @@ class TicketController extends Controller
         $closedTickets = 0;
         $openTickets = 0;
 
-        foreach ($tickets as $ticket){
-            $statusTicket= $ticket->latestTicketInformation->statusTicket->status;
-            if($statusTicket=='Finalizado'){
+        foreach ($tickets as $ticket) {
+            $statusTicket = $ticket->latestTicketInformation->statusTicket->status;
+            if ($statusTicket == 'Finalizado') {
                 $closedTickets++;
-            }else{
+            } else {
                 $openTickets++;
-
             }
             $totalTickets++;
         }
 
-        return view('seller.tickets.index', compact('tickets','totalTickets', 'closedTickets','openTickets'));
+        return view('seller.tickets.index', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets'));
     }
 
     /**
@@ -86,13 +86,10 @@ class TicketController extends Controller
             'designer_name' => 'diseñador',
             'priority_id' => 1,
             'type_id' => $request->type
-
         ]);
-
         // Guardar las imagenes y obtener las rutas
         $ruta_imagen_producto = $request['product']->store('upload-tickets_producto', 'public');
         $ruta_imagen_logo = $request['logo']->store('upload-tickets_logo', 'public');
-
         // Registrar la informacion del ticket
         $ticketInformation = ([
             'ticket_id' => $ticket->id,
@@ -101,11 +98,11 @@ class TicketController extends Controller
             'technique' => $request->technique,
             'description' => $request->description,
             'title' => $request->title,
-            'logo' => $ruta_imagen_producto,
+            'logo' => $ruta_imagen_logo,
             'product' => $ruta_imagen_producto,
             'pantone' => $request->pantone,
-            'created_at'=>now(),
-            'updated_at'=>now()
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
 
         TicketInformation::insert($ticketInformation);
@@ -162,7 +159,7 @@ class TicketController extends Controller
     public function uploadItems(Request $request)
     {
         $imagen = $request->file('file');
-        $nombreImagen = time() . '.' . $imagen->extension();
+        $nombreImagen = time() . rand(10, 100) . '.' . $imagen->extension();
         $imagen->move(public_path('storage/items'), $nombreImagen);
         return response()->json(['correcto' => $nombreImagen]);
     }
@@ -175,7 +172,7 @@ class TicketController extends Controller
             if (File::exists('storage/items/' . $imagen)) {
                 File::delete('storage/items/' . $imagen);
             }
-            return response('Imagen Eliminada', 200);
+            return response(['mensaje' => 'Imagen Eliminada', 'imagen' => $imagen], 200);
         }
     }
 }

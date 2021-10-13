@@ -35,7 +35,7 @@
                                         <option value="{{ $type->id }}">{{ $type->type }}</option>
                                     @endforeach
                                 </select>
-                                @error('category')
+                                @error('type')
                                     {{ $message }}
                                 @enderror
                             </div>
@@ -115,7 +115,7 @@
         integrity="sha512-oQq8uth41D+gIH/NJvSJvVB85MFk1eWpMK6glnkg6I7EdMqC1XVkW7RxLheXwmFdG03qScCM7gKS/Cx3FYt7Tg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-
+        let items = new Set()
         Dropzone.autoDiscover = false;
         document.addEventListener('DOMContentLoaded', () => {
             // Dropzone
@@ -129,26 +129,36 @@
                     'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
                 },
                 init: function() {
+                    const itemsOld = document.querySelector('#imagen').value.split(',')
                     if (document.querySelector('#imagen').value.trim()) {
-                        let imagenPublicada = {}
-                        imagenPublicada.size = 3000;
-                        imagenPublicada.name = document.querySelector('#imagen').value
+                        console.log(itemsOld);
+                        let imagenPublicada = []
+                        itemsOld.forEach((itemOld, index) => {
+                            items.add(itemOld)
+                            imagenPublicada[index] = {}
+                            imagenPublicada[index].size = 1024;
+                            imagenPublicada[index].name = itemOld
 
-                        this.options.addedfile.call(this, imagenPublicada)
-                        this.options.thumbnail.call(this, imagenPublicada,
-                            `/storage/vacantes/${imagenPublicada.name}`)
-
-                        imagenPublicada.previewElement.classList.add('dz-success')
-                        imagenPublicada.previewElement.classList.add('complete')
-                    } else {
-                        console.log("No hay nada");
+                            this.options.addedfile.call(this, imagenPublicada[index])
+                            this.options.thumbnail.call(this, imagenPublicada[index],
+                                `/storage/items/${imagenPublicada[index].name}`)
+                            imagenPublicada[index].previewElement.classList.add('dz-success')
+                            imagenPublicada[index].nombreServidor = itemOld
+                            //imagenPublicada[index].previewElement.classList.add('complete')
+                            imagenPublicada[index].previewElement.children[2].classList.add(
+                                'd-none')
+                            imagenPublicada[index].previewElement.children[0].children[0]
+                                .classList.add('w-100')
+                        });
                     }
                 },
                 success: function(file, response) {
                     console.log(file);
-                    console.log(response.correcto);
+                    console.log(response);
                     document.querySelector('#error').textContent = ''
-                    document.querySelector('#imagen').value += response.correcto
+                    items.add(response.correcto)
+                    console.log(items);
+                    document.querySelector("#imagen").value = [...items];
                     // Add al objeto de archivo, el nombre de la imagen en el servidor
                     file.nombreServidor = response.correcto
                     // file.previewElement.parentNode.removeChild(file.previewElement)
@@ -157,13 +167,6 @@
                     // console.log(response);
                     // console.log(file);
                     document.querySelector('#error').textContent = 'Formato no valido'
-                },
-                maxfilesexceeded: function(file) {
-                    if (this.files[1] != null) {
-                        this.removeFile(this.files[0]);
-                        this.addFile(file);
-                    }
-                    // console.log(this.files);
                 },
                 removedfile: function(file, response) {
                     file.previewElement.parentNode.removeChild(file.previewElement)
@@ -174,7 +177,14 @@
                     }
                     // console.log(params);
                     axios.post('/tickets/deleteItem', params)
-                        .then(response => console.log(response))
+                        .then(response => {
+                            console.log(response.data);
+                            if (items.has(response.data.imagen)) {
+                                items.delete(response.data.imagen)
+                                document.querySelector("#imagen").value = [...items];
+                            }
+                            console.log(items);
+                        })
                 }
             });
         })
