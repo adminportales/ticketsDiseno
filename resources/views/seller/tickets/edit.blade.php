@@ -22,19 +22,21 @@
                 <h1>Editar ticket</h1>
                 <h2>Tomas Vendedor</h2>
 
-                <form action="{{ route('tickets.update', ['ticket'=>$ticket->id]) }}" method="post" enctype="multipart/form-data"
-                    class="mx-5">
+                <form action="{{ route('tickets.update', ['ticket' => $ticket->id]) }}" method="post"
+                    enctype="multipart/form-data" class="mx-5">
                     @csrf
                     @method('PUT')
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="type">Tipo</label>
-                                {{$ticket->typeTicket->type}}
+                                {{ $ticket->typeTicket->type }}
                                 <select name="type" class="form-control" disabled>
                                     <option value="">Seleccione...</option>
                                     @foreach ($types as $type)
-                                        <option {{$type->id==$ticket->type_id?'selected':''}} value="{{ $type->id }}">{{ $type->type }}</option>
+                                        <option {{ $type->id == $ticket->type_id ? 'selected' : '' }}
+                                            value="{{ $type->id }}">
+                                            {{ $type->type }}</option>
                                     @endforeach
                                 </select>
                                 @error('type')
@@ -43,14 +45,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="customer">Cliente</label>
-                                <input type="text" class="form-control" name="customer"  value="{{$ticketInformation->customer}}"/>
+                                <input type="text" class="form-control" name="customer"
+                                    value="{{ $ticketInformation->customer }}" />
                                 @error('customer')
                                     {{ $message }}
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label for="title">Titulo</label>
-                                <input type="text" class="form-control" name="title" value="{{$ticketInformation->title}}" />
+                                <input type="text" class="form-control" name="title"
+                                    value="{{ $ticketInformation->title }}" />
                                 @error('title')
                                     {{ $message }}
                                 @enderror
@@ -59,25 +63,29 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="technique">Tecnica</label>
-                                <input type="text" class="form-control" name="technique" value="{{$ticketInformation->technique}}" />
+                                <input type="text" class="form-control" name="technique"
+                                    value="{{ $ticketInformation->technique }}" />
                                 @error('technique')
                                     {{ $message }}
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label for="pantone">Pantone</label>
-                                <input type="color" class="form-control" name="pantone" value="{{$ticketInformation->pantone}}" />
+                                <input type="color" class="form-control" name="pantone"
+                                    value="{{ $ticketInformation->pantone }}" />
                             </div>
                             <div class="form-group">
                                 <label for="logo">Logo</label>
-                                <input type="file" class="form-control" name="logo" value="{{$ticketInformation->logo}}" />
+                                <input type="file" class="form-control" name="logo"
+                                    value="{{ $ticketInformation->logo }}" />
                                 @error('logo')
                                     {{ $message }}
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label for="product">Producto</label>
-                                <input type="file" class="form-control" name="product" value="{{$ticketInformation->product}}" />
+                                <input type="file" class="form-control" name="product"
+                                    value="{{ $ticketInformation->product }}" />
                                 @error('product')
                                     {{ $message }}
                                 @enderror
@@ -86,7 +94,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="descripcion">Descripcion</label>
-                                <textarea rows="" cols="" class="form-control w-100" name="description">{{$ticketInformation->description}}</textarea>
+                                <textarea rows="" cols="" class="form-control w-100"
+                                    name="description">{{ $ticketInformation->description }}</textarea>
                                 @error('description')
                                     {{ $message }}
                                 @enderror

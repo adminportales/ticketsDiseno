@@ -67,7 +67,7 @@ class TicketController extends Controller
             'type' => 'required',
             'customer' => ['required', 'string', 'max:255'],
             'technique' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
             'title' => ['required', 'string', 'max:255'],
             'logo' => 'required|image',
             'product' => 'required|image',
@@ -119,7 +119,7 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        $ticketInformation=$ticket->ticketInformation;
+        $ticketInformation = $ticket->ticketInformation;
         return view('seller.tickets.show', compact('ticketInformation'));
     }
 
@@ -132,7 +132,7 @@ class TicketController extends Controller
     public function edit(Ticket $ticket)
     {
         $types = Type::all();
-        $ticketInformation=$ticket->latestTicketInformation;
+        $ticketInformation = $ticket->latestTicketInformation;
         return view('seller.tickets.edit', compact('ticket', 'types', 'ticketInformation'));
         //
     }
@@ -147,10 +147,9 @@ class TicketController extends Controller
     public function update(Request $request, Ticket $ticket)
     {
         request()->validate([
-            'type' => 'required',
             'customer' => ['required', 'string', 'max:255'],
             'technique' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
             'title' => ['required', 'string', 'max:255'],
             'logo' => 'required|image',
             'product' => 'required|image',
@@ -179,7 +178,6 @@ class TicketController extends Controller
 
         // Regresar a la vista de inicio
         return redirect()->action('HomeController@index');
-        //
     }
 
     /**
