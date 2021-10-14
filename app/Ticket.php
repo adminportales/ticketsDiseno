@@ -35,6 +35,8 @@ class Ticket extends Model
     {
         return $this->belongsTo('App\Priority', 'priority_id');
     }
+
+    //Funcion para traer los mensajes del los tickets
     public function messagesTicket()
     {
         return $this->hasMany('App\Message');

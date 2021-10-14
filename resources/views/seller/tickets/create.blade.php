@@ -11,102 +11,96 @@
 
     </style>
 @endsection
-
+@section('title')
+    <h3>Crear Ticket</h3>
+@endsection
 @section('content')
-    <div style="width: 980px; text-align: center; margin: auto; border: 2px solid gray;">
-        <div class="row">
-            <div class="col-md-3 my-5">
-                @include('seller.menu')
-            </div>
-            <div class="col-md-9">
-                <h1>Crear ticket</h1>
-                <h2>Tomas Vendedor</h2>
+    <div class="card-header">
+        <h4 class="card-title">Crear ticket</h4>
+    </div>
+    <div class="card-body">
 
-                <form action="{{ route('tickets.store') }}" method="post" enctype="multipart/form-data"
-                    class="mx-5">
-                    @csrf
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="type">Tipo</label>
-                                <select name="type" class="form-control">
-                                    <option value="">Seleccione...</option>
-                                    @foreach ($types as $type)
-                                        <option value="{{ $type->id }}">{{ $type->type }}</option>
-                                    @endforeach
-                                </select>
-                                @error('type')
-                                    {{ $message }}
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="customer">Cliente</label>
-                                <input type="text" class="form-control" name="customer" />
-                                @error('customer')
-                                    {{ $message }}
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="title">Titulo</label>
-                                <input type="text" class="form-control" name="title" />
-                                @error('title')
-                                    {{ $message }}
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="technique">Tecnica</label>
-                                <input type="text" class="form-control" name="technique" />
-                                @error('technique')
-                                    {{ $message }}
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="pantone">Pantone</label>
-                                <input type="color" class="form-control" name="pantone" />
-                            </div>
-                            <div class="form-group">
-                                <label for="logo">Logo</label>
-                                <input type="file" class="form-control" name="logo" />
-                                @error('logo')
-                                    {{ $message }}
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="product">Producto</label>
-                                <input type="file" class="form-control" name="product" />
-                                @error('product')
-                                    {{ $message }}
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="descripcion">Descripcion</label>
-                                <textarea rows="" cols="" class="form-control w-100" name="description"></textarea>
-                                @error('description')
-                                    {{ $message }}
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label for="imagen">
-                                    Items del Producto:
-                                </label>
-                                <div id="dropzoneItems" class="dropzone form-control" style="height: auto;"></div>
-                                <input type="hidden" name="imagen" id="imagen" value="{{ old('imagen') }}">
-                                @error('imagen')
-                                    <span class="block">{{ $message }}</span>
-                                @enderror
-                                <p id="error"></p>
-                            </div>
-                        </div>
+        <form action="{{ route('tickets.store') }}" method="post" enctype="multipart/form-data" class="mx-5">
+            <div class="row">
+                @csrf
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="type">Tipo</label>
+                        <select name="type" class="form-control">
+                            <option value="">Seleccione...</option>
+                            @foreach ($types as $type)
+                                <option value="{{ $type->id }}">{{ $type->type }}</option>
+                            @endforeach
+                        </select>
+                        @error('type')
+                            {{ $message }}
+                        @enderror
                     </div>
-                    <input type="submit" value="Crear Ticket" class="btn btn-success">
-                </form>
+                    <div class="form-group">
+                        <label for="customer">Cliente</label>
+                        <input type="text" class="form-control" name="customer" value="{{ old('customer') }}" />
+                        @error('customer')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Titulo</label>
+                        <input type="text" class="form-control" name="title" value="{{ old('title') }}" />
+                        @error('title')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="technique">Tecnica</label>
+                        <input type="text" class="form-control" name="technique" value="{{ old('technique') }}" />
+                        @error('technique')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="pantone">Pantone</label>
+                        <input type="color" class="form-control" name="pantone" value="{{ old('pantone') }}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion">Descripcion</label>
+                        <textarea rows="" cols="" class="form-control w-100"
+                            name="description">{{ old('descripcion') }}</textarea>
+                        @error('description')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="logo">Logo</label>
+                        <input type="file" class="form-control" name="logo" value="{{ old('logo') }}" />
+                        @error('logo')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="product">Producto</label>
+                        <input type="file" class="form-control" name="product" value="{{ old('product') }}" />
+                        @error('product')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="imagen">
+                            Items del Producto:
+                        </label>
+                        <div id="dropzoneItems" class="dropzone form-control" style="height: auto;"></div>
+                        <input type="hidden" name="imagen" id="imagen" value="{{ old('imagen') }}">
+                        @error('imagen')
+                            <span class="block">{{ $message }}</span>
+                        @enderror
+                        <p id="error"></p>
+                    </div>
+                </div>
             </div>
-        </div>
+            <input type="submit" value="Crear Ticket" class="btn btn-success">
+        </form>
     </div>
 @endsection
 
