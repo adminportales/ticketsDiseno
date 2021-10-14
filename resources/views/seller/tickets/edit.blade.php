@@ -11,12 +11,14 @@
 
     </style>
 @endsection
-
+@section('title')
+    <h3>Editar Ticket</h3>
+@endsection
 @section('content')
+    <div class="card-header">
+        <h4 class="card-title">Edita la información necesaria de tu solicitud</h4>
+    </div>
     <div class="card-body">
-        <h1>Editar ticket</h1>
-        <h2>Tomas Vendedor</h2>
-
         <form action="{{ route('tickets.update', ['ticket' => $ticket->id]) }}" method="post"
             enctype="multipart/form-data" class="mx-5">
             @csrf
@@ -25,7 +27,6 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="type">Tipo</label>
-                        {{ $ticket->typeTicket->type }}
                         <select name="type" class="form-control" disabled>
                             <option value="">Seleccione...</option>
                             @foreach ($types as $type)
@@ -52,8 +53,6 @@
                             {{ $message }}
                         @enderror
                     </div>
-                </div>
-                <div class="col-md-6">
                     <div class="form-group">
                         <label for="technique">Tecnica</label>
                         <input type="text" class="form-control" name="technique"
@@ -67,6 +66,16 @@
                         <input type="color" class="form-control" name="pantone"
                             value="{{ $ticketInformation->pantone }}" />
                     </div>
+                    <div class="form-group">
+                        <label for="descripcion">Descripcion</label>
+                        <textarea rows="" cols="" class="form-control w-100"
+                            name="description">{{ $ticketInformation->description }}</textarea>
+                        @error('description')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="logo">Logo</label>
                         <input type="file" class="form-control" name="logo" value="{{ $ticketInformation->logo }}" />
@@ -82,17 +91,6 @@
                             {{ $message }}
                         @enderror
                     </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="descripcion">Descripcion</label>
-                        <textarea rows="" cols="" class="form-control w-100"
-                            name="description">{{ $ticketInformation->description }}</textarea>
-                        @error('description')
-                            {{ $message }}
-                        @enderror
-                    </div>
-
                     <div class="form-group">
                         <label for="imagen">
                             Items del Producto:
@@ -106,7 +104,7 @@
                     </div>
                 </div>
             </div>
-            <input type="submit" value="Crear Ticket" class="btn btn-success">
+            <input type="submit" value="Editar Ticket" class="btn btn-warning">
         </form>
     </div>
 @endsection

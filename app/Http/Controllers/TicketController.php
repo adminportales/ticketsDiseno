@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Status;
 use App\Ticket;
 use App\TicketInformation;
 use App\Type;
@@ -120,9 +121,13 @@ class TicketController extends Controller
     public function show(Ticket $ticket)
     {
         $ticketInformation = $ticket->ticketInformation;
+        $statuses = Status::all();
 
-        $messages = $ticket->messagesTicket;
-        return view('seller.tickets.show', compact('messages', 'ticketInformation', 'ticket'));
+        $messages = $ticket->messagesTicket()->orderByDesc('created_at')->get();
+        return view(
+            'seller.tickets.show',
+            compact('messages', 'ticketInformation', 'ticket', 'statuses')
+        );
     }
 
     /**

@@ -16,7 +16,7 @@
 @endsection
 @section('content')
     <div class="card-header">
-        <h4 class="card-title">Crear ticket</h4>
+        <h4 class="card-title">Ingresa la información necesaria para tu solicitud</h4>
     </div>
     <div class="card-body">
 
@@ -64,7 +64,7 @@
                     <div class="form-group">
                         <label for="descripcion">Descripcion</label>
                         <textarea rows="" cols="" class="form-control w-100"
-                            name="description">{{ old('descripcion') }}</textarea>
+                            name="description">{{ old('description') }}</textarea>
                         @error('description')
                             {{ $message }}
                         @enderror
