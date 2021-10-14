@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,6 +40,9 @@ Route::prefix('seller')->middleware('role:seller')->group(function () {
 });
 Route::post('/tickets/items', 'TicketController@uploadItems')->name('tickets.uploadItems');
 Route::post('/tickets/deleteItem', 'TicketController@deleteItem')->name('tickets.deleteItem');
+
+//Ruta de mensajes
+Route::post('/message', 'MessageController@store')->name('message.store');
 
 /* // Rutas del gerente de diseño
 Route::prefix('designer_manager')->middleware('role:designer')->group(function () {

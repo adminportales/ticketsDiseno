@@ -120,7 +120,9 @@ class TicketController extends Controller
     public function show(Ticket $ticket)
     {
         $ticketInformation = $ticket->ticketInformation;
-        return view('seller.tickets.show', compact('ticketInformation'));
+
+        $messages = $ticket->messagesTicket;
+        return view('seller.tickets.show', compact('messages', 'ticketInformation', 'ticket'));
     }
 
     /**

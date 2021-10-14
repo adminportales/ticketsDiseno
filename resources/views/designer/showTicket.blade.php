@@ -7,9 +7,9 @@
                 @include('seller.menu')
             </div>
             <div class="col-md-9">
-                <h1>Atender ticket</h1>
+                <h1>Bienvenido {{ auth()->user()->name }}</h1>
                 <h3>Atender ticket</h3>
-                <h2>Tomas Vendedor</h2>
+                <h2>Federico</h2>
                 <br>
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" class="btn btn-secondary">Nuevo</button>

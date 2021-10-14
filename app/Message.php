@@ -11,7 +11,7 @@ class Message extends Model
         'seller_name',
         'designer_id',
         'designer_name',
-        'menssage',
+        'message',
         'ticket_id',
     ];
 }
