@@ -35,4 +35,9 @@ class Ticket extends Model
     {
         return $this->belongsTo('App\Priority', 'priority_id');
     }
+    //Ultima informacion del ticket
+    public function messagesTicket()
+    {
+        return $this->hasMany('App\Message');
+    }
 }
