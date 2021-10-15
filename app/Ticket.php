@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Ticket extends Model
 {
@@ -16,7 +17,8 @@ class Ticket extends Model
     ];
 
     // Toda la informacion del ticket
-    public function ticketInformation(){
+    public function ticketInformation()
+    {
         return $this->hasMany('App\TicketInformation');
     }
 
@@ -24,6 +26,7 @@ class Ticket extends Model
     public function latestTicketInformation()
     {
         return $this->hasOne('App\TicketInformation');
+
     }
     //Traer el tipo de ticket
     public function typeTicket()
@@ -40,5 +43,10 @@ class Ticket extends Model
     public function messagesTicket()
     {
         return $this->hasMany('App\Message');
+    }
+    //Funcion para traer el historial del ticket
+    public function historyTicket()
+    {
+        return $this->hasMany('App\TicketHistory');
     }
 }

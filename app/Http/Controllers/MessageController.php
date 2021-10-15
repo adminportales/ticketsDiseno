@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Message;
 use App\Ticket;
+use App\TicketHistory;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -70,7 +71,12 @@ class MessageController extends Controller
             "designer_name" => $designer_name,
             "message" =>$request->message,
             "ticket_id" => $ticket->id
+        ]);
 
+        TicketHistory::create([
+            'ticket_id' => $ticket->id,
+            'reference_id' => $message->id,
+            'type' => 'message'
         ]);
 
 

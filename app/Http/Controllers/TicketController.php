@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Status;
 use App\Ticket;
+use App\TicketHistory;
 use App\TicketInformation;
 use App\Type;
 use Illuminate\Support\Facades\File;
@@ -25,7 +26,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = auth()->user()->ticketsCreated;
+        $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
 
         $totalTickets = 0;
         $closedTickets = 0;
@@ -92,7 +93,10 @@ class TicketController extends Controller
         $ruta_imagen_producto = $request['product']->store('upload-tickets_producto', 'public');
         $ruta_imagen_logo = $request['logo']->store('upload-tickets_logo', 'public');
         // Registrar la informacion del ticket
-        $ticketInformation = ([
+
+
+
+        $ticketInformation = TicketInformation::create([
             'ticket_id' => $ticket->id,
             'status_id' => 1,
             'customer' => $request->customer,
@@ -102,12 +106,14 @@ class TicketController extends Controller
             'logo' => $ruta_imagen_logo,
             'product' => $ruta_imagen_producto,
             'pantone' => $request->pantone,
-            'created_at' => now(),
-            'updated_at' => now()
         ]);
 
-        TicketInformation::insert($ticketInformation);
 
+        TicketHistory::create([
+            'ticket_id' => $ticket->id,
+            'reference_id' => $ticketInformation->id,
+            'type' => 'info'
+        ]);
         // Regresar a la vista de inicio
         return redirect()->action('HomeController@index');
     }
@@ -120,13 +126,14 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        $ticketInformation = $ticket->ticketInformation;
+        $ticketInformation = $ticket->ticketInformation()->orderByDesc('created_at')->get();
+        $messages = $ticket->messagesTicket()->orderByDesc('created_at')->get();
         $statuses = Status::all();
 
-        $messages = $ticket->messagesTicket()->orderByDesc('created_at')->get();
+        $ticketHistories = $ticket->historyTicket()->orderByDesc('created_at')->get();
         return view(
             'seller.tickets.show',
-            compact('messages', 'ticketInformation', 'ticket', 'statuses')
+            compact('messages', 'ticketInformation', 'ticket', 'statuses','ticketHistories')
         );
     }
 
