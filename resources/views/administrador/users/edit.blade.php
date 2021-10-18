@@ -1,57 +1,49 @@
 @extends('layouts.app')
 
+@section('title')
+    <h3>Editar usuario</h3>
+@endsection
+
 @section('content')
 
-    <div style="width: 980px; text-align: center; margin: auto; border: 2px solid gray;">
-        <div class="row">
-            <div class="col-md-3 my-5">
-                @include('administrador.menu')
-            </div>
-            <div class="col-md-9">
+    <div class="card-header">
+        <h4 class="card-title">Ingresa la información para modificar el usuario</h4>
 
-                <h1>Editar usuario</h1>
+    </div>
+    <div class="card-body">
 
-                <div class="d-flex justify-content-center">
-                    <form action="{{ route('users.update', ['user' => $user->id]) }}" class="w-75" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="form-group">
-                            <label for="name">Nombre</label>
-                            <input class="form-control" type="text" name="name" required value="{{ $user->name }}">
-                            @error('name')
-                                {{ $message }}
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="lastname">Apellidos</label>
-                            <input class="form-control" type="text" name="lastname" required
-                                value="{{ $user->lastname }}">
-                            @error('lastname')
-                                {{ $message }}
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input class="form-control" type="email" name="email" required value="{{ $user->email }}">
-                            @error('email')
-                                {{ $message }}
-                            @enderror
-                        </div>
-                        <p>
-                            <input type="submit" id="boton_crear" class="btn btn-warning" value="Editar usuario">
-                            <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancelar</a>
-                        </p>
-
-                    </form>
+        <form action="{{ route('users.update', ['user' => $user->id]) }}" class="w-75" method="POST">
+            <div class="row">
+                @csrf
+                @method('PUT')
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input class="form-control" type="text" name="name" required value="{{ $user->name }}">
+                    @error('name')
+                        {{ $message }}
+                    @enderror
                 </div>
+                <div class="form-group">
+                    <label for="lastname">Apellidos</label>
+                    <input class="form-control" type="text" name="lastname" required value="{{ $user->lastname }}">
+                    @error('lastname')
+                        {{ $message }}
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input class="form-control" type="email" name="email" required value="{{ $user->email }}">
+                    @error('email')
+                        {{ $message }}
+                    @enderror
+                </div>
+                <p>
+                    <input type="submit" id="boton_crear" class="btn btn-success" value="Editar usuario">
+                    <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancelar</a>
+                </p>
             </div>
-        </div>
-        <script>
-            const boton_crear = document.querySelector("#boton_crear");
-            boton_crear.addEventListener('click', () => {
-                confirm("¿Estas seguro de realizar cambios?")
-            })
-        </script>
+        </form>
+    </div>
 
 
-    @endsection
+@endsection

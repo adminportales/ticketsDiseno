@@ -18,14 +18,14 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="name">Nombre</label>
-                        <input class="form-control" type="text" name="name">
+                        <input class="form-control" type="text" name="name" value="{{ old('name') }}">
                         @error('name')
                             {{ $message }}
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input class="form-control" type="email" name="email">
+                        <input class="form-control" type="email" name="email" value="{{ old('email') }}">
                         @error('email')
                             {{ $message }}
                         @enderror
@@ -34,7 +34,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="lastname">Apellidos</label>
-                        <input class="form-control" type="text" name="lastname">
+                        <input class="form-control" type="text" name="lastname" value="{{ old('lastname') }}">
                         @error('lastname')
                             {{ $message }}
                         @enderror
@@ -44,11 +44,13 @@
                         <select name="role" class="form-control">
                             <option value="">Seleccione</option>
                             @foreach ($roles as $role)
-                                <option value="{{ $role->id }}">{{ $role->display_name }}</option>
+
+                                <option {{ $role->id == old('role') ? 'selected' : '' }} value="{{ $role->id }}">
+                                    {{ $role->display_name }}</option>
                                 <br>
                             @endforeach
                         </select>
-                        <select-rol></select-rol>
+
                         @error('role')
                             {{ $message }}
                         @enderror

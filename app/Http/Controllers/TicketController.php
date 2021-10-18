@@ -84,8 +84,8 @@ class TicketController extends Controller
         $ticket = Ticket::create([
             'seller_id' => $seller_id,
             'seller_name' =>  $seller_name,
-            'designer_id' => 1,
-            'designer_name' => 'diseñador',
+            'designer_id' => 8,
+            'designer_name' => 'Edwin Samuel',
             'priority_id' => 1,
             'type_id' => $request->type
         ]);

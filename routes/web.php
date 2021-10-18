@@ -32,6 +32,8 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
 
 // Rutas del diseñador
 Route::prefix('designer')->middleware('role:designer')->group(function () {
+    route::post('/message', 'DesignerController@store')->name('designer.store');
+    route::get('/ticketShow/{ticket}', 'DesignerController@show')->name('designer.show');
     Route::get('/designer', 'DesignerController@index')->name('designer.inicio');
 });
 

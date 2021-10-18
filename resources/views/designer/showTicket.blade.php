@@ -1,100 +1,118 @@
 @extends('layouts.app')
 
+@section('title')
+    <h3>{{ $ticket->latestTicketInformation->title }}</h3>
+@endsection
+
+
 @section('content')
-    <div style="width: 980px; text-align: center; margin: auto; border: 2px solid rgb(29, 123, 151);">
-        <div class="row">
-            <div class="col-md-3 my-5">
-                @include('seller.menu')
+    <div class="card-header">
+        <div class="d-flex justify-content-between">
+            <div class="titulo">
+                <h4 class="card-title">Informacion acerca de tu solicitud</h4>
             </div>
-            <div class="col-md-9">
-                <h1>Bienvenido {{ auth()->user()->name }}</h1>
-                <h3>Atender ticket</h3>
-                <h2>Federico</h2>
-                <br>
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-secondary">Nuevo</button>
-                    <button type="button" class="btn btn-secondary">En proceso</button>
-                    <button type="button" class="btn btn-secondary">Entregado</button>
-                    <button type="button" class="btn btn-secondary">Ajustes</button>
-                    <button type="button" class="btn btn-secondary">Finalizado</button>
-                </div>
-                <section class="d-flex">
-                    <article>
-                        <h3 align="left">Chat</h3>
-                        @foreach ($messages as $message)
+            <div class="estado">
+                @foreach ($statuses as $status)
+                    <small
+                        class="{{ $statusTicket == $status->id ? 'text-success fw-bold' : '' }}">{{ $status->status }}</small>
 
-                        {{$message->message}} <br>
-                        {{$message->created_at}} <br>
-                        {{$message->seller_name}} <br>
-
-                        @endforeach
-                        <form action="{{ route('message.store') }}" method="post">
-                            @csrf
-                            @method('POST')
-                            <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
-                            <textarea rows="" cols="" class="form-control w-50" name="message"></textarea>
-
-                            <input type="submit" value="Enviar mensaje">
-                        </form>
-                        <button>Cerrar ticket</button>
-
-                    </article>
-
-                    <article>
-                        <h3 align="left">Archivos</h3>
-                        <ul align="left">
-                            <li>Archivo.jpg</li>
-                            <li>img.jpg</li>
-                            <li>documento.pdf</li>
-                            <li>modificación.pdf</li>
-                        </ul>
-
-                        <button> Enviar archivo</button>
-                    </article>
-
-                    <article>
-
-
-                        <div class="accordion" id="accordionExample">
-                            @foreach ($ticketInformation as $ticket)
-                                <div class="card">
-                                    <div class="card-header" id="headingOne">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left" type="button"
-                                                data-toggle="collapse" data-target="#collapseOne{{ $loop->iteration }}"
-                                                aria-expanded="true" aria-controls="collapseOne">
-                                                Información del ticket
-                                            </button>
-                                        </h2>
-                                    </div>
-
-                                    <div id="collapseOne{{ $loop->iteration }}" class="collapse show"
-                                        aria-labelledby="headingOne" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <li>{{ $loop->iteration }}</li>
-                                            <li>{{ $ticket->statusTicket->status }}</li>
-                                            <li>{{ $ticket->customer }}</li>
-                                            <li>{{ $ticket->technique }}</li>
-                                            <li>{{ $ticket->description }}</li>
-                                            <li>{{ $ticket->title }}</li>
-                                            <li><img src="{{ asset('storage') . '/' . $ticket->logo }}" alt=""
-                                                    width="200"> </li>
-                                            <li><img src="{{ asset('storage') . '/' . $ticket->product }}" alt=""
-                                                    width="200">
-                                            </li>
-                                            <li>{{ $ticket->pantone }}</li>
-                                            <li>{{ $ticket->created_at }}s</li>
-                                            <li>{{ $ticket->updated_at }}s</li>
-                                        </div>
-                                    </div>
-                            @endforeach
-                        </div>
-                        </ul>
-                    </article>
-
-                </section>
-
+                @endforeach
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-info" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
             </div>
         </div>
     </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-9">
+                <section class="border-0">
+                    <h5>Historial</h5>
+                    <form action="{{ route('designer.store') }}" method="post">
+                        @csrf
+                        @method('POST')
+                        <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
+                        <div class="d-flex">
+                            <div class="form-group flex-grow-1">
+                                <input type="text" class="form-control" placeholder="Agrega una nota adicional"
+                                    name="message">
+                            </div>
+                            <input type="submit" class="btn btn-sm btn-info mx-1" value="Enviar">
+                        </div>
+                    </form>
+                    @foreach ($ticketHistories as $ticketHistory)
+                        @if ($ticketHistory->type == 'info')
+                            @php $information = $ticketHistory->ticketInformation; @endphp
+                            <div class="border border-primary rounded px-3 py-2 my-1">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="m-0"><strong>Estado:
+                                            </strong>{{ $information->statusTicket->status }}
+                                        </p>
+                                        <p class="m-0"><strong>Cliente:
+                                            </strong>{{ $information->customer }}
+                                        </p>
+                                        <p class="m-0"><strong>Tecnica:
+                                            </strong>{{ $information->technique }}
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="m-0 d-inline"><strong>Color aproximado:</strong>
+                                            <small class="m-0 pantone"
+                                                style="height: 10px; background-color: {{ $information->pantone }}; color: {{ $information->pantone }}">.</small>
+                                            <small style="display: inline-block"> {{ $information->pantone }} </small>
+                                        </p>
+                                        <p class="m-0"><strong>Descripción:
+                                            </strong>{{ $information->description }}
+                                        </p>
+                                    </div>
+                                    <p class="m-0" style="font-size: .7rem">
+                                        <small>{{ $information->created_at->diffForHumans() }}</small>
+                                    </p>
+                                </div>
+                            </div>
+                        @else
+                            @php $message = $ticketHistory->ticketMessage; @endphp
+                            <div class="border border-warning rounded px-3 py-2 my-1">
+                                <p class="m-0">{{ $message->message }}</p>
+                                <p class="m-0" style="font-size: .7rem">
+                                    <small>{{ $message->created_at->diffForHumans() }}</small>
+                                </p>
+                            </div>
+                        @endif
+                    @endforeach
+                </section>
+            </div>
+            <div class="col-md-3">
+                <h5>Entregas</h5>
+                <ul>
+                    <li>Archivo.jpg</li>
+                    <li>img.jpg</li>
+                    <li>documento.pdf</li>
+                    <li>modificación.pdf</li>
+                </ul>
+                <form action="" method="post" enctype="multipart/form-data" class="mx-5">
+                    <input type="file" class="form-control" name="archivo" value="{{ old('archivo') }}" /><br>
+                    <input type="submit" value="Enviar" class="btn btn-success">
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
+
+
+
+@section('styles')
+    <style>
+        .pantone {
+            border-radius: 50px;
+            text-align: center;
+            width: 50px;
+            padding: 0 35px;
+            margin-right: 100px;
+        }
+
+    </style>
 @endsection

@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Message;
+use App\Status;
+use App\Ticket;
+use App\TicketHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DesignerController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -53,8 +62,48 @@ class DesignerController extends Controller
      */
     public function store(Request $request)
     {
+                // Obtener los datos del formulario de mensajes
+                request()->validate(
+                    [
+
+                        'message' => ['required', 'string'],
+                        'ticket_id' => ['required']
+
+                        ]
+                    );
+
+
+                // Obtener el id del ticket, hay traerlo del formulario
+                $ticket = Ticket::find($request->ticket_id);
+
+                // Obtener el id y nombre del vendedor y diseñador asignados al ticket
+                $seller_id = auth()->user()->id;
+                $seller_name = auth()->user()->name . ' ' . auth()->user()->lastname;
+                $designer_id = auth()->user()->id;
+                $designer_name = auth()->user()->name . ' ' . auth()->user()->lastname;
+                // Guardar el mensaje con los sigioetes datos
+
+                $message = Message::create([
+                    "seller_id" => $seller_id,
+                    "seller_name" => $seller_name,
+                    "designer_id" => $designer_id,
+                    "designer_name" => $designer_name,
+                    "message" =>$request->message,
+                    "ticket_id" => $ticket->id
+                ]);
+
+                TicketHistory::create([
+                    'ticket_id' => $ticket->id,
+                    'reference_id' => $message->id,
+                    'type' => 'message'
+                ]);
+
+
+
+                // Regresar a la misma vista AtenderTicket (ticket.show)
+            return redirect()->action('DesignerController@show', ['ticket'=>$ticket->id]);
+            }
         //
-    }
 
     /**
      * Display the specified resource.
@@ -62,8 +111,17 @@ class DesignerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Ticket $ticket)
     {
+        $ticketInformation = $ticket->ticketInformation()->orderByDesc('created_at')->get();
+        $messages = $ticket->messagesTicket()->orderByDesc('created_at')->get();
+        $statuses = Status::all();
+        $statusTicket = $ticket->latestTicketInformation->statusTicket->id;
+        $ticketHistories = $ticket->historyTicket()->orderByDesc('created_at')->get();
+
+        return view(
+            'designer.showTicket',
+            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories'));
         //
     }
 
