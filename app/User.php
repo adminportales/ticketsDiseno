@@ -40,7 +40,7 @@ class User extends Authenticatable
     ];
 
     //Funcion para saber que rol tengo
-    public function whatRole()
+    public function whatRoles()
     {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
     }

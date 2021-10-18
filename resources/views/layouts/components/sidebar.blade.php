@@ -14,13 +14,39 @@
         <div class="sidebar-menu">
             <ul class="menu">
                 <li class="sidebar-title">Menu</li>
-                @role('seller')
-                    <li class="sidebar-item  active">
-                        <a href="{{ route('home') }}" class='sidebar-link'>
+                <li class="sidebar-item  active">
+                    <a href="{{ route('home') }}" class='sidebar-link'>
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                @role('admin')
+                    <li class="sidebar-item  ">
+                        <a href="{{ route('users.index') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
-                            <span>Dashboard</span>
+                            <span>Ver Usuarios</span>
                         </a>
                     </li>
+                    <li class="sidebar-item  ">
+                        <a href="{{ route('users.create') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Crear nuevo usuario</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item  ">
+                        <a href="{{ Request::root() . '/roles_assignment' }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Asignar Permisos</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item  ">
+                        <a href="{{ route('reporte_tickets') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Reporte de tickets</span>
+                        </a>
+                    </li>
+                @endrole
+                @role('seller')
                     <li class="sidebar-item  ">
                         <a href="{{ route('tickets.index') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
@@ -46,24 +72,24 @@
                         </li>
                     @endif
                 @else
-                    <li class="sidebar-item dropdown">
-                        <a id="navbarDropdown" class="sidebar-link dropdown-toggle" href="#" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            <i class="bi bi-grid-fill"></i>
+                    <li class="sidebar-item  has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-stack"></i>
                             <span>{{ Auth::user()->name }}</span>
-                            <span class="caret"></span>
                         </a>
+                        <ul class="submenu ">
+                            <li class="submenu-item ">
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
 
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </div>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                </form>
+                            </li>
+                        </ul>
                     </li>
                 @endguest
             </ul>

@@ -24,7 +24,7 @@ class HomeController extends Controller
     public function index()
     {
         if (auth()->user()->hasRole('seller')) {
-           return redirect()->action('TicketController@index');
+            return redirect()->action('TicketController@index');
         }
 
         if (auth()->user()->hasRole('designer')) {
@@ -44,5 +44,10 @@ class HomeController extends Controller
             return view('gerentediseño.inicio_gerente_diseño');
         }
         return view('home');
+    }
+
+    public function userActive()
+    {
+        return view('inactive');
     }
 }

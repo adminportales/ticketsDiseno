@@ -25,7 +25,7 @@ class Ticket extends Model
     //Ultima informacion del ticket
     public function latestTicketInformation()
     {
-        return $this->hasOne('App\TicketInformation');
+        return $this->hasOne('App\TicketInformation')->latestOfMany();
 
     }
     //Traer el tipo de ticket

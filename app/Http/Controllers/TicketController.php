@@ -98,7 +98,7 @@ class TicketController extends Controller
 
         $ticketInformation = TicketInformation::create([
             'ticket_id' => $ticket->id,
-            'status_id' => 1,
+            'status_id' =>1,
             'customer' => $request->customer,
             'technique' => $request->technique,
             'description' => $request->description,
@@ -107,8 +107,6 @@ class TicketController extends Controller
             'product' => $ruta_imagen_producto,
             'pantone' => $request->pantone,
         ]);
-
-
         TicketHistory::create([
             'ticket_id' => $ticket->id,
             'reference_id' => $ticketInformation->id,
@@ -129,11 +127,13 @@ class TicketController extends Controller
         $ticketInformation = $ticket->ticketInformation()->orderByDesc('created_at')->get();
         $messages = $ticket->messagesTicket()->orderByDesc('created_at')->get();
         $statuses = Status::all();
+        $statusTicket = $ticket->latestTicketInformation->statusTicket->id;
 
         $ticketHistories = $ticket->historyTicket()->orderByDesc('created_at')->get();
+
         return view(
             'seller.tickets.show',
-            compact('messages', 'ticketInformation', 'ticket', 'statuses','ticketHistories')
+            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories')
         );
     }
 
@@ -174,9 +174,9 @@ class TicketController extends Controller
         $ruta_imagen_producto = $request['product']->store('upload-tickets_producto', 'public');
         $ruta_imagen_logo = $request['logo']->store('upload-tickets_logo', 'public');
         // Registrar la informacion del ticket
-        $ticketInformation = ([
+        $ticketInformation = TicketInformation::create(([
             'ticket_id' => $ticket->id,
-            'status_id' => 1,
+            'status_id' =>  $ticket->latestTicketInformation->status_id,
             'customer' => $request->customer,
             'technique' => $request->technique,
             'description' => $request->description,
@@ -184,12 +184,13 @@ class TicketController extends Controller
             'logo' => $ruta_imagen_logo,
             'product' => $ruta_imagen_producto,
             'pantone' => $request->pantone,
-            'created_at' => now(),
-            'updated_at' => now()
+        ]));
+
+        TicketHistory::create([
+            'ticket_id' => $ticket->id,
+            'reference_id' => $ticketInformation->id,
+            'type' => 'info'
         ]);
-
-        TicketInformation::insert($ticketInformation);
-
         // Regresar a la vista de inicio
         return redirect()->action('HomeController@index');
     }

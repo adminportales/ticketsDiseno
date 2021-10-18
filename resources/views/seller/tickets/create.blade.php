@@ -23,6 +23,15 @@
         <form action="{{ route('tickets.store') }}" method="post" enctype="multipart/form-data" class="mx-5">
             <div class="row">
                 @csrf
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="title">Titulo</label>
+                        <input type="text" class="form-control" name="title" value="{{ old('title') }}" />
+                        @error('title')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="type">Tipo</label>
@@ -40,13 +49,6 @@
                         <label for="customer">Cliente</label>
                         <input type="text" class="form-control" name="customer" value="{{ old('customer') }}" />
                         @error('customer')
-                            {{ $message }}
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="title">Titulo</label>
-                        <input type="text" class="form-control" name="title" value="{{ old('title') }}" />
-                        @error('title')
                             {{ $message }}
                         @enderror
                     </div>

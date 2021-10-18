@@ -24,6 +24,15 @@
             @csrf
             @method('PUT')
             <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="title">Titulo</label>
+                        <input type="text" class="form-control" name="title" value="{{ $ticketInformation->title }}" />
+                        @error('title')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="type">Tipo</label>
@@ -43,13 +52,6 @@
                         <input type="text" class="form-control" name="customer"
                             value="{{ $ticketInformation->customer }}" />
                         @error('customer')
-                            {{ $message }}
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="title">Titulo</label>
-                        <input type="text" class="form-control" name="title" value="{{ $ticketInformation->title }}" />
-                        @error('title')
                             {{ $message }}
                         @enderror
                     </div>

@@ -18,48 +18,39 @@
 </head>
 
 <body>
-    <div id="app">
-        @include('layouts.components.sidebar')
-        <div id="main">
-            {{-- Menu Hamburguesa --}}
-            <header class="mb-3 d-xl-none">
-                <a href="#" class="burger-btn d-block">
-                    <i class="bi bi-justify fs-3"></i>
-                </a>
-            </header>
+    <div id="apdp">
+        <div id="appVue">
+            @include('layouts.components.sidebar')
+            <div id="main">
+                {{-- Menu Hamburguesa --}}
+                <header class="mb-3 d-xl-none">
+                    <a href="#" class="burger-btn d-block">
+                        <i class="bi bi-justify fs-3"></i>
+                    </a>
+                </header>
 
-            <div class="page-heading ">
-                <div class="page-title">
-                    <div class="row">
-                        <div class="col-12 col-md-6 order-md-1 order-last">
-                            @yield('title')
-                            {{-- <h3>Layout Default</h3> --}}
-                            {{-- <p class="text-subtitle text-muted">The default layout </p> --}}
+                <div class="page-heading ">
+                    <div class="page-title">
+                        <div class="row">
+                            <div class="col-12 col-md-6 order-md-1 order-last">
+                                @yield('title')
+                            </div>
                         </div>
                     </div>
+                    <section class="section">
+                        <div class="card">
+                            @yield('content')
+                        </div>
+                    </section>
                 </div>
-                <section class="section">
-                    <div class="card">
-                        @yield('content')
-                        {{-- <div class="card-header">
-                            <h4 class="card-title">Default Layout</h4>
-                        </div>
-                        <div class="card-body">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, commodi? Ullam quaerat
-                            similique iusto
-                            temporibus, vero aliquam praesentium, odit deserunt eaque nihil saepe hic deleniti? Placeat
-                            delectus
-                            quibusdam ratione ullam!
-                        </div> --}}
-                    </div>
-                </section>
+                @include('layouts.components.footer')
             </div>
-            @include('layouts.components.footer')
         </div>
     </div>
     <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     @yield('scripts')
+    <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('assets/js/mazer.js') }}"></script>
 </body>
 

@@ -22,7 +22,8 @@ Route::get('/', function () {
 });
 
 // Home de cada uno de los perfiles
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->middleware('user.active')->name('home');
+Route::get('/home/inactive', 'HomeController@userActive')->name('user.active');
 
 // Rutas del administrador
 Route::prefix('admin')->middleware('role:admin')->group(function () {

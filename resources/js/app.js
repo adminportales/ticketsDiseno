@@ -21,6 +21,7 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('form-create-ticket', require('./components/FormCreateTicket.vue').default);
+Vue.component('select-rol', require('./components/SelectRol.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,5 +30,5 @@ Vue.component('form-create-ticket', require('./components/FormCreateTicket.vue')
  */
 
 const app = new Vue({
-    el: '#app',
+    el: '#appVue',
 });
