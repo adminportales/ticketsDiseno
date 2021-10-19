@@ -44,7 +44,7 @@ if (document.querySelector('#dropzoneItems')) {
                 document.querySelector('#error').textContent = ''
                 items.add(response.correcto)
                 console.log(items);
-                document.querySelector("#imagen").value = [...items];
+                document.querySelector("#items").value = [...items];
                 // Add al objeto de archivo, el nombre de la imagen en el servidor
                 file.nombreServidor = response.correcto
                 // file.previewElement.parentNode.removeChild(file.previewElement)
@@ -67,7 +67,7 @@ if (document.querySelector('#dropzoneItems')) {
                         console.log(response.data);
                         if (items.has(response.data.imagen)) {
                             items.delete(response.data.imagen)
-                            document.querySelector("#imagen").value = [...items];
+                            document.querySelector("#items").value = [...items];
                         }
                         console.log(items);
                     })

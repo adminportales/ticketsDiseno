@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Status;
 use App\Technique;
 use App\Ticket;
+use App\TicketAssigment;
 use App\TicketHistory;
 use App\TicketInformation;
 use App\Type;
+use App\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -83,33 +85,43 @@ class TicketController extends Controller
         $seller_id = auth()->user()->id;
         $seller_name = auth()->user()->name . ' ' . auth()->user()->lastname;
 
+        //Asignar el ticket de forma correcta
+        $designerAssigments = TicketAssigment::where('type_id', '=', $request->type)->get();
+        $designerAssigment = '';
+        if (count($designerAssigments) <= 0) {
+            return back()->with('message', 'Aun no existen diseñadores que puedan atender tu solicitud! Contacta al gerente de diseño para solicitar una aclaracion!');
+        }
+        if (count($designerAssigments) == 1) {
+            $designerAssigment = User::find($designerAssigments[0]->designer_id);
+        } else {
+            //verificar la carga de trabajo
+            $designerAssigment = $this->checkWorkload($designerAssigment);
+        }
+
         // Registrar el ticket
         $ticket = Ticket::create([
             'seller_id' => $seller_id,
             'seller_name' =>  $seller_name,
-            'designer_id' => 8,
-            'designer_name' => 'Edwin Samuel',
+            'designer_id' => $designerAssigment->id,
+            'designer_name' => $designerAssigment->name . ' ' . $designerAssigment->lastname,
             'priority_id' => 1,
             'type_id' => $request->type
         ]);
-        // Guardar las imagenes y obtener las rutas
-        $ruta_imagen_producto = $request['product']->store('upload-tickets_producto', 'public');
-        $ruta_imagen_logo = $request['logo']->store('upload-tickets_logo', 'public');
+
         // Registrar la informacion del ticket
-
-
-
         $ticketInformation = TicketInformation::create([
             'ticket_id' => $ticket->id,
             'status_id' => 1,
             'customer' => $request->customer,
             'technique' => $request->technique,
             'description' => $request->description,
-            'title' => $request->title,
-            'logo' => $ruta_imagen_logo,
-            'product' => $ruta_imagen_producto,
             'pantone' => $request->pantone,
+            'title' => $request->title,
+            'logo' => $request->logo,
+            'product' => $request->product,
+            'items' => $request->items,
         ]);
+
         TicketHistory::create([
             'ticket_id' => $ticket->id,
             'reference_id' => $ticketInformation->id,
@@ -264,6 +276,14 @@ class TicketController extends Controller
                 File::delete('storage/logos/' . $imagen);
             }
             return response(['mensaje' => 'Imagen Eliminada', 'imagen' => $imagen], 200);
+        }
+    }
+
+    public function checkWorkload($designerAssigments)
+    {
+        // Si nunnguno tiene asignaciones, se asigna aleatorieamente
+        foreach ($designerAssigments as $key => $designerAssigment) {
+
         }
     }
 }

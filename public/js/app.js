@@ -45978,7 +45978,7 @@ if (document.querySelector('#dropzoneItems')) {
         document.querySelector('#error').textContent = '';
         items.add(response.correcto);
         console.log(items);
-        document.querySelector("#imagen").value = _toConsumableArray(items); // Add al objeto de archivo, el nombre de la imagen en el servidor
+        document.querySelector("#items").value = _toConsumableArray(items); // Add al objeto de archivo, el nombre de la imagen en el servidor
 
         file.nombreServidor = response.correcto; // file.previewElement.parentNode.removeChild(file.previewElement)
       },
@@ -46000,7 +46000,7 @@ if (document.querySelector('#dropzoneItems')) {
 
           if (items.has(response.data.imagen)) {
             items["delete"](response.data.imagen);
-            document.querySelector("#imagen").value = _toConsumableArray(items);
+            document.querySelector("#items").value = _toConsumableArray(items);
           }
 
           console.log(items);
