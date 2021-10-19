@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Message;
 use App\Ticket;
 use App\TicketHistory;
+use App\User;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -44,32 +45,30 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         // Obtener los datos del formulario de mensajes
-        request()->validate(
-            [
-
-                'message' => ['required', 'string'],
-                'ticket_id' => ['required']
-
-                ]
-            );
+        request()->validate([
+            'message' => ['required', 'string'],
+            'ticket_id' => ['required']
+        ]);
 
 
         // Obtener el id del ticket, hay traerlo del formulario
         $ticket = Ticket::find($request->ticket_id);
 
         // Obtener el id y nombre del vendedor y diseñador asignados al ticket
-        $seller_id = auth()->user()->id;
-        $seller_name = auth()->user()->name . ' ' . auth()->user()->lastname;
-        $designer_id = auth()->user()->id;
-        $designer_name = auth()->user()->name . ' ' . auth()->user()->lastname;
+        $transmitter_id = auth()->user()->id;
+        $transmitter_name = auth()->user()->name . ' ' . auth()->user()->lastname;
+        $userReceiver = User::find($ticket->designer_id);
+        $receiver_id = $userReceiver->id;
+        $receiver_name = $userReceiver->name . ' ' . $userReceiver->lastname;
         // Guardar el mensaje con los sigioetes datos
 
         $message = Message::create([
-            "seller_id" => $seller_id,
-            "seller_name" => $seller_name,
-            "designer_id" => $designer_id,
-            "designer_name" => $designer_name,
-            "message" =>$request->message,
+            "transmitter_id" => $transmitter_id,
+            "transmitter_name" => $transmitter_name,
+            'transmitter_role' => auth()->user()->whatRoles[0]->name,
+            "receiver_id" => $receiver_id,
+            "receiver_name" => $receiver_name,
+            "message" => $request->message,
             "ticket_id" => $ticket->id
         ]);
 
@@ -79,10 +78,8 @@ class MessageController extends Controller
             'type' => 'message'
         ]);
 
-
-
         // Regresar a la misma vista AtenderTicket (ticket.show)
-    return redirect()->action('TicketController@show', ['ticket'=>$ticket->id]);
+        return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
     }
 
     /**

@@ -19,17 +19,18 @@
 
 <body>
     <div id="apdp">
-        <div id="appVue">
-            @include('layouts.components.sidebar')
-            <div id="main">
-                {{-- Menu Hamburguesa --}}
-                <header class="mb-3 d-xl-none">
-                    <a href="#" class="burger-btn d-block">
-                        <i class="bi bi-justify fs-3"></i>
-                    </a>
-                </header>
 
-                <div class="page-heading ">
+        @include('layouts.components.sidebar')
+        <div id="main">
+            {{-- Menu Hamburguesa --}}
+            <header class="mb-3 d-xl-none">
+                <a href="#" class="burger-btn d-block">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+
+            <div class="page-heading ">
+                <div id="appVue">
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
@@ -43,9 +44,10 @@
                         </div>
                     </section>
                 </div>
-                @include('layouts.components.footer')
             </div>
+            @include('layouts.components.footer')
         </div>
+    </div>
     </div>
     <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>

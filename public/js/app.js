@@ -45633,6 +45633,8 @@ module.exports = function(module) {
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+__webpack_require__(/*! ./scripts/crearTicket */ "./resources/js/scripts/crearTicket.js");
+
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /**
  * The following block of code may be used to automatically register your
@@ -45906,6 +45908,265 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectRol_vue_vue_type_template_id_aa381850___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/scripts/crearTicket.js":
+/*!*********************************************!*\
+  !*** ./resources/js/scripts/crearTicket.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+if (document.querySelector('#dropzoneItems')) {
+  var items = new Set();
+  var products = new Set();
+  var logos = new Set();
+  Dropzone.autoDiscover = false;
+  document.addEventListener('DOMContentLoaded', function () {
+    // Dropzone
+    var dropzoneItem = new Dropzone('#dropzoneItems', {
+      url: "/tickets/items",
+      dictDefaultMessage: 'Arrastra aqui los items',
+      acceptedFiles: '.png,.jpg,.jpeg,.gif,.bmp',
+      addRemoveLinks: true,
+      dictRemoveFile: 'Borrar Archivo',
+      headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+      },
+      init: function init() {
+        var _this = this;
+
+        var itemsOld = document.querySelector('#items').value.split(',');
+
+        if (document.querySelector('#items').value.trim()) {
+          console.log(itemsOld);
+          var imagenPublicada = [];
+          itemsOld.forEach(function (itemOld, index) {
+            items.add(itemOld);
+            imagenPublicada[index] = {};
+            imagenPublicada[index].size = 1024;
+            imagenPublicada[index].name = itemOld;
+
+            _this.options.addedfile.call(_this, imagenPublicada[index]);
+
+            _this.options.thumbnail.call(_this, imagenPublicada[index], "/storage/items/".concat(imagenPublicada[index].name));
+
+            imagenPublicada[index].previewElement.classList.add('dz-success');
+            imagenPublicada[index].nombreServidor = itemOld; //imagenPublicada[index].previewElement.classList.add('complete')
+
+            imagenPublicada[index].previewElement.children[2].classList.add('d-none');
+            imagenPublicada[index].previewElement.children[0].children[0].classList.add('w-100');
+          });
+        }
+      },
+      success: function success(file, response) {
+        console.log(file);
+        console.log(response);
+        document.querySelector('#error').textContent = '';
+        items.add(response.correcto);
+        console.log(items);
+        document.querySelector("#imagen").value = _toConsumableArray(items); // Add al objeto de archivo, el nombre de la imagen en el servidor
+
+        file.nombreServidor = response.correcto; // file.previewElement.parentNode.removeChild(file.previewElement)
+      },
+      error: function error(file, response) {
+        // console.log(response);
+        // console.log(file);
+        document.querySelector('#error').textContent = 'Formato no valido';
+      },
+      removedfile: function removedfile(file, response) {
+        file.previewElement.parentNode.removeChild(file.previewElement); // console.log(file);
+
+        console.log('El archivo borrado fue');
+        params = {
+          imagen: file.nombreServidor
+        }; // console.log(params);
+
+        axios.post('/tickets/deleteItem', params).then(function (response) {
+          console.log(response.data);
+
+          if (items.has(response.data.imagen)) {
+            items["delete"](response.data.imagen);
+            document.querySelector("#imagen").value = _toConsumableArray(items);
+          }
+
+          console.log(items);
+        });
+      }
+    });
+    var dropzoneProduct = new Dropzone('#dropzoneProduct', {
+      url: "/tickets/upload-product",
+      dictDefaultMessage: 'Selecciona o arrastra aqui tu archivo',
+      acceptedFiles: '.png,.jpg,.jpeg,.gif,.bmp',
+      addRemoveLinks: true,
+      dictRemoveFile: 'Borrar Archivo',
+      maxFiles: 1,
+      headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+      },
+      init: function init() {
+        var _this2 = this;
+
+        var productsOld = document.querySelector('#product').value.split(',');
+
+        if (document.querySelector('#product').value.trim()) {
+          console.log(productsOld);
+          var imagenPublicada = [];
+          productsOld.forEach(function (itemOld, index) {
+            products.add(itemOld);
+            imagenPublicada[index] = {};
+            imagenPublicada[index].size = 1024;
+            imagenPublicada[index].name = itemOld;
+
+            _this2.options.addedfile.call(_this2, imagenPublicada[index]);
+
+            _this2.options.thumbnail.call(_this2, imagenPublicada[index], "/storage/products/".concat(imagenPublicada[index].name));
+
+            imagenPublicada[index].previewElement.classList.add('dz-success');
+            imagenPublicada[index].nombreServidor = itemOld; //imagenPublicada[index].previewElement.classList.add('complete')
+
+            imagenPublicada[index].previewElement.children[2].classList.add('d-none');
+            imagenPublicada[index].previewElement.children[0].children[0].classList.add('w-100');
+          });
+        }
+      },
+      success: function success(file, response) {
+        console.log(file);
+        console.log(response);
+        document.querySelector('#error').textContent = '';
+        products.add(response.correcto);
+        console.log(products);
+        document.querySelector('#product').value = _toConsumableArray(products); // Add al objeto de archivo, el nombre de la imagen en el servidor
+
+        file.nombreServidor = response.correcto; // file.previewElement.parentNode.removeChild(file.previewElement)
+      },
+      error: function error(file, response) {
+        // console.log(response);
+        // console.log(file);
+        document.querySelector('#error').textContent = 'Formato no valido';
+      },
+      maxfilesexceeded: function maxfilesexceeded(file) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Solo puedes agregar 1 image!'
+        });
+        file.previewElement.parentNode.removeChild(file.previewElement);
+      },
+      removedfile: function removedfile(file, response) {
+        file.previewElement.parentNode.removeChild(file.previewElement); // console.log(file);
+
+        console.log('El archivo borrado fue');
+        params = {
+          imagen: file.nombreServidor
+        };
+        axios.post('/tickets/deleteProduct', params).then(function (response) {
+          console.log('datos de elimia');
+          console.log(response.data);
+
+          if (products.has(response.data.imagen)) {
+            products["delete"](response.data.imagen);
+            document.querySelector('#product').value = _toConsumableArray(products);
+          }
+
+          console.log(products);
+        });
+      }
+    });
+    var dropzoneLogo = new Dropzone('#dropzoneLogo', {
+      url: "/tickets/upload-logo",
+      dictDefaultMessage: 'Selecciona o arrastra aqui tu archivo',
+      acceptedFiles: '.png,.jpg,.jpeg,.gif,.bmp',
+      addRemoveLinks: true,
+      dictRemoveFile: 'Borrar Archivo',
+      maxFiles: 1,
+      headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+      },
+      init: function init() {
+        var _this3 = this;
+
+        var logosOld = document.querySelector('#logo').value.split(',');
+
+        if (document.querySelector('#logo').value.trim()) {
+          console.log(logosOld);
+          var imagenPublicada = [];
+          logosOld.forEach(function (itemOld, index) {
+            logos.add(itemOld);
+            imagenPublicada[index] = {};
+            imagenPublicada[index].size = 1024;
+            imagenPublicada[index].name = itemOld;
+
+            _this3.options.addedfile.call(_this3, imagenPublicada[index]);
+
+            _this3.options.thumbnail.call(_this3, imagenPublicada[index], "/storage/logos/".concat(imagenPublicada[index].name));
+
+            imagenPublicada[index].previewElement.classList.add('dz-success');
+            imagenPublicada[index].nombreServidor = itemOld; //imagenPublicada[index].previewElement.classList.add('complete')
+
+            imagenPublicada[index].previewElement.children[2].classList.add('d-none');
+            imagenPublicada[index].previewElement.children[0].children[0].classList.add('w-100');
+          });
+        }
+      },
+      success: function success(file, response) {
+        console.log(file);
+        console.log(response);
+        document.querySelector('#error').textContent = '';
+        logos.add(response.correcto);
+        console.log(logos);
+        document.querySelector('#logo').value = _toConsumableArray(logos); // Add al objeto de archivo, el nombre de la imagen en el servidor
+
+        file.nombreServidor = response.correcto; // file.previewElement.parentNode.removeChild(file.previewElement)
+      },
+      error: function error(file, response) {
+        // console.log(response);
+        // console.log(file);
+        document.querySelector('#error').textContent = 'Formato no valido';
+      },
+      maxfilesexceeded: function maxfilesexceeded(file) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Solo puedes agregar 1 image!'
+        });
+        file.previewElement.parentNode.removeChild(file.previewElement);
+      },
+      removedfile: function removedfile(file, response) {
+        file.previewElement.parentNode.removeChild(file.previewElement); // console.log(file);
+
+        console.log('El archivo borrado fue');
+        params = {
+          imagen: file.nombreServidor
+        };
+        axios.post('/tickets/deleteLogo', params).then(function (response) {
+          console.log('datos de elimia');
+          console.log(response.data);
+
+          if (logos.has(response.data.imagen)) {
+            logos["delete"](response.data.imagen);
+            document.querySelector('#logo').value = _toConsumableArray(logos);
+          }
+
+          console.log(logos);
+        });
+      }
+    });
+  });
+}
 
 /***/ }),
 

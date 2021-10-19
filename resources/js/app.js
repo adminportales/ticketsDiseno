@@ -5,6 +5,7 @@
  */
 
 require('./bootstrap');
+require('./scripts/crearTicket');
 
 window.Vue = require('vue');
 

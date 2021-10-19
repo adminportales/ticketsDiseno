@@ -71,8 +71,9 @@ class TicketController extends Controller
             'technique' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'title' => ['required', 'string', 'max:255'],
-            'logo' => 'required|image',
-            'product' => 'required|image',
+            'logo' => 'required',
+            'product' => 'required',
+            'items' => 'required',
             'pantone' => 'required'
         ]);
 
@@ -98,7 +99,7 @@ class TicketController extends Controller
 
         $ticketInformation = TicketInformation::create([
             'ticket_id' => $ticket->id,
-            'status_id' =>1,
+            'status_id' => 1,
             'customer' => $request->customer,
             'technique' => $request->technique,
             'description' => $request->description,
@@ -221,6 +222,44 @@ class TicketController extends Controller
 
             if (File::exists('storage/items/' . $imagen)) {
                 File::delete('storage/items/' . $imagen);
+            }
+            return response(['mensaje' => 'Imagen Eliminada', 'imagen' => $imagen], 200);
+        }
+    }
+    public function uploadProducts(Request $request)
+    {
+        $imagen = $request->file('file');
+        $nombreImagen = time() . rand(10, 100) . '.' . $imagen->extension();
+        $imagen->move(public_path('storage/products'), $nombreImagen);
+        return response()->json(['correcto' => $nombreImagen]);
+    }
+
+    public function deleteProduct(Request $request)
+    {
+        if ($request->ajax()) {
+            $imagen = $request->get('imagen');
+
+            if (File::exists('storage/products/' . $imagen)) {
+                File::delete('storage/products/' . $imagen);
+            }
+            return response(['mensaje' => 'Imagen Eliminada', 'imagen' => $imagen], 200);
+        }
+    }
+    public function uploadLogos(Request $request)
+    {
+        $imagen = $request->file('file');
+        $nombreImagen = time() . rand(10, 100) . '.' . $imagen->extension();
+        $imagen->move(public_path('storage/logos'), $nombreImagen);
+        return response()->json(['correcto' => $nombreImagen]);
+    }
+
+    public function deleteLogo(Request $request)
+    {
+        if ($request->ajax()) {
+            $imagen = $request->get('imagen');
+
+            if (File::exists('storage/logos/' . $imagen)) {
+                File::delete('storage/logos/' . $imagen);
             }
             return response(['mensaje' => 'Imagen Eliminada', 'imagen' => $imagen], 200);
         }

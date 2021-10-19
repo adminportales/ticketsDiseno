@@ -6,6 +6,7 @@ use App\Message;
 use App\Status;
 use App\Ticket;
 use App\TicketHistory;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -59,51 +60,50 @@ class DesignerController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * Registrar el mensaje
      */
     public function store(Request $request)
     {
-                // Obtener los datos del formulario de mensajes
-                request()->validate(
-                    [
-
-                        'message' => ['required', 'string'],
-                        'ticket_id' => ['required']
-
-                        ]
-                    );
+        // Obtener los datos del formulario de mensajes
+        request()->validate([
+            'message' => ['required', 'string'],
+            'ticket_id' => ['required']
+        ]);
 
 
-                // Obtener el id del ticket, hay traerlo del formulario
-                $ticket = Ticket::find($request->ticket_id);
+        // Obtener el id del ticket, hay traerlo del formulario
+        $ticket = Ticket::find($request->ticket_id);
 
-                // Obtener el id y nombre del vendedor y diseñador asignados al ticket
-                $seller_id = auth()->user()->id;
-                $seller_name = auth()->user()->name . ' ' . auth()->user()->lastname;
-                $designer_id = auth()->user()->id;
-                $designer_name = auth()->user()->name . ' ' . auth()->user()->lastname;
-                // Guardar el mensaje con los sigioetes datos
+        // Obtener el id y nombre del vendedor y diseñador asignados al ticket
+        $transmitter_id = auth()->user()->id;
+        $transmitter_name = auth()->user()->name . ' ' . auth()->user()->lastname;
+        $userReceiver = User::find($ticket->seller_id);
+        $receiver_id = $userReceiver->id;
+        $receiver_name = $userReceiver->name . ' ' . $userReceiver->lastname;
+        // Guardar el mensaje con los sigioetes datos
 
-                $message = Message::create([
-                    "seller_id" => $seller_id,
-                    "seller_name" => $seller_name,
-                    "designer_id" => $designer_id,
-                    "designer_name" => $designer_name,
-                    "message" =>$request->message,
-                    "ticket_id" => $ticket->id
-                ]);
+        $message = Message::create([
+            "transmitter_id" => $transmitter_id,
+            "transmitter_name" => $transmitter_name,
+            'transmitter_role' =>auth()->user()->whatRoles[0]->name,
+            "receiver_id" => $receiver_id,
+            "receiver_name" => $receiver_name,
+            "message" => $request->message,
+            "ticket_id" => $ticket->id
+        ]);
 
-                TicketHistory::create([
-                    'ticket_id' => $ticket->id,
-                    'reference_id' => $message->id,
-                    'type' => 'message'
-                ]);
+        TicketHistory::create([
+            'ticket_id' => $ticket->id,
+            'reference_id' => $message->id,
+            'type' => 'message'
+        ]);
 
 
 
-                // Regresar a la misma vista AtenderTicket (ticket.show)
-            return redirect()->action('DesignerController@show', ['ticket'=>$ticket->id]);
-            }
-        //
+        // Regresar a la misma vista AtenderTicket (ticket.show)
+        return redirect()->action('DesignerController@show', ['ticket' => $ticket->id]);
+    }
+    //
 
     /**
      * Display the specified resource.
@@ -121,7 +121,8 @@ class DesignerController extends Controller
 
         return view(
             'designer.showTicket',
-            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories'));
+            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories')
+        );
         //
     }
 

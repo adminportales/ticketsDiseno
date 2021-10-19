@@ -4,12 +4,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css"
         integrity="sha512-jU/7UFiaW5UBGODEopEqnbIAHOI8fO6T99m7Tsmqs2gkdujByJfkCbbfPSN4Wlqlb9TGnsuC0YgUgWkRBK7B9A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        .dropzoneItems {
-            height: 400px;
-        }
-
-    </style>
+    <link rel="stylesheet" href="{{ asset('assets\vendors\sweetalert2\sweetalert2.min.css
+        ') }}">
 @endsection
 @section('title')
     <h3>Crear Ticket</h3>
@@ -32,7 +28,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="form-group">
                         <label for="type">Tipo</label>
                         <select name="type" class="form-control">
@@ -73,28 +69,35 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="logo">Logo</label>
-                        <input type="file" class="form-control" name="logo" value="{{ old('logo') }}" />
-                        @error('logo')
-                            {{ $message }}
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="product">Producto</label>
-                        <input type="file" class="form-control" name="product" value="{{ old('product') }}" />
-                        @error('product')
-                            {{ $message }}
-                        @enderror
+                <div class="col-md-7">
+                    <div class="d-flex">
+                        <div class="form-group w-50">
+                            <label for="logo">Logo</label>
+                            <div id="dropzoneLogo" class="dropzone form-control text-center"
+                                style="height: auto; width: auto"></div>
+                            <input type="hidden" name="logo" id="logo" value="{{ old('logo') }}">
+                            @error('logo')
+                                {{ $message }}
+                            @enderror
+                        </div>
+
+                        <div class="form-group w-50">
+                            <label for="product">Producto</label>
+                            <div id="dropzoneProduct" class="dropzone form-control text-center"
+                                style="height: auto; width: auto"></div>
+                            <input type="hidden" name="product" id="product" value="{{ old('product') }}">
+                            @error('product')
+                                {{ $message }}
+                            @enderror
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="imagen">
                             Items del Producto:
                         </label>
-                        <div id="dropzoneItems" class="dropzone form-control" style="height: auto;"></div>
-                        <input type="hidden" name="imagen" id="imagen" value="{{ old('imagen') }}">
-                        @error('imagen')
+                        <div id="dropzoneItems" class="dropzone form-control text-center" style="height: auto;"></div>
+                        <input type="hidden" name="items" id="items" value="{{ old('items') }}">
+                        @error('items')
                             <span class="block">{{ $message }}</span>
                         @enderror
                         <p id="error"></p>
@@ -110,79 +113,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"
         integrity="sha512-oQq8uth41D+gIH/NJvSJvVB85MFk1eWpMK6glnkg6I7EdMqC1XVkW7RxLheXwmFdG03qScCM7gKS/Cx3FYt7Tg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        let items = new Set()
-        Dropzone.autoDiscover = false;
-        document.addEventListener('DOMContentLoaded', () => {
-            // Dropzone
-            const dropzoneDevJobs = new Dropzone('#dropzoneItems', {
-                url: "/tickets/items",
-                dictDefaultMessage: 'Arrastra aqui tu archivo',
-                acceptedFiles: '.png,.jpg,.jpeg,.gif,.bmp',
-                addRemoveLinks: true,
-                dictRemoveFile: 'Borrar Archivo',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
-                },
-                init: function() {
-                    const itemsOld = document.querySelector('#imagen').value.split(',')
-                    if (document.querySelector('#imagen').value.trim()) {
-                        console.log(itemsOld);
-                        let imagenPublicada = []
-                        itemsOld.forEach((itemOld, index) => {
-                            items.add(itemOld)
-                            imagenPublicada[index] = {}
-                            imagenPublicada[index].size = 1024;
-                            imagenPublicada[index].name = itemOld
-
-                            this.options.addedfile.call(this, imagenPublicada[index])
-                            this.options.thumbnail.call(this, imagenPublicada[index],
-                                `/storage/items/${imagenPublicada[index].name}`)
-                            imagenPublicada[index].previewElement.classList.add('dz-success')
-                            imagenPublicada[index].nombreServidor = itemOld
-                            //imagenPublicada[index].previewElement.classList.add('complete')
-                            imagenPublicada[index].previewElement.children[2].classList.add(
-                                'd-none')
-                            imagenPublicada[index].previewElement.children[0].children[0]
-                                .classList.add('w-100')
-                        });
-                    }
-                },
-                success: function(file, response) {
-                    console.log(file);
-                    console.log(response);
-                    document.querySelector('#error').textContent = ''
-                    items.add(response.correcto)
-                    console.log(items);
-                    document.querySelector("#imagen").value = [...items];
-                    // Add al objeto de archivo, el nombre de la imagen en el servidor
-                    file.nombreServidor = response.correcto
-                    // file.previewElement.parentNode.removeChild(file.previewElement)
-                },
-                error: function(file, response) {
-                    // console.log(response);
-                    // console.log(file);
-                    document.querySelector('#error').textContent = 'Formato no valido'
-                },
-                removedfile: function(file, response) {
-                    file.previewElement.parentNode.removeChild(file.previewElement)
-                    // console.log(file);
-                    console.log('El archivo borrado fue');
-                    params = {
-                        imagen: file.nombreServidor
-                    }
-                    // console.log(params);
-                    axios.post('/tickets/deleteItem', params)
-                        .then(response => {
-                            console.log(response.data);
-                            if (items.has(response.data.imagen)) {
-                                items.delete(response.data.imagen)
-                                document.querySelector("#imagen").value = [...items];
-                            }
-                            console.log(items);
-                        })
-                }
-            });
-        })
-    </script>
+    <script src="{{ asset('assets\vendors\sweetalert2\sweetalert2.all.min.js') }}"></script>
 @endsection

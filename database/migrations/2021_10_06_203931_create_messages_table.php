@@ -15,10 +15,11 @@ class CreateMessagesTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('seller_id')->references('id')->on('users');
-            $table->string('seller_name');
-            $table->foreignId('designer_id')->references('id')->on('users');
-            $table->string('designer_name');
+            $table->foreignId('transmitter_id')->references('id')->on('users');
+            $table->string('transmitter_name');
+            $table->string('transmitter_role');
+            $table->foreignId('receiver_id')->references('id')->on('users');
+            $table->string('receiver_name');
             $table->text('message');
             $table->foreignId('ticket_id')->constrained();
             $table->timestamps();

@@ -22,6 +22,7 @@ class CreateTicketInformationTable extends Migration
             $table->text('description');
             $table->string('title');
             $table->text('logo');
+            $table->text('items');
             $table->text('product');
             $table->string('pantone');
             $table->timestamps();

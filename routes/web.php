@@ -43,6 +43,10 @@ Route::prefix('seller')->middleware('role:seller')->group(function () {
 });
 Route::post('/tickets/items', 'TicketController@uploadItems')->name('tickets.uploadItems');
 Route::post('/tickets/deleteItem', 'TicketController@deleteItem')->name('tickets.deleteItem');
+Route::post('/tickets/upload-product', 'TicketController@uploadProducts')->name('tickets.uploadProducts');
+Route::post('/tickets/deleteProduct', 'TicketController@deleteProduct')->name('tickets.deleteProduct');
+Route::post('/tickets/upload-logo', 'TicketController@uploadLogos')->name('tickets.uploadLogos');
+Route::post('/tickets/deleteLogo', 'TicketController@deleteLogo')->name('tickets.deleteLogo');
 
 //Ruta de mensajes
 Route::post('/message', 'MessageController@store')->name('message.store');
