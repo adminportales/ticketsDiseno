@@ -15,6 +15,11 @@
         <h4 class="card-title">Ingresa la información necesaria para tu solicitud</h4>
     </div>
     <div class="card-body">
+        @if (session('message'))
+            <div class="alert alert-danger" role="alert" id="message">
+                {{ session('message') }}
+            </div>
+        @endif
 
         <form action="{{ route('tickets.store') }}" method="post" enctype="multipart/form-data" class="mx-5">
             <div class="row">
@@ -114,4 +119,12 @@
         integrity="sha512-oQq8uth41D+gIH/NJvSJvVB85MFk1eWpMK6glnkg6I7EdMqC1XVkW7RxLheXwmFdG03qScCM7gKS/Cx3FYt7Tg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('assets\vendors\sweetalert2\sweetalert2.all.min.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const message = document.querySelector('#message')
+            setTimeout(() => {
+                message.remove()
+            }, 5000);
+        })
+    </script>
 @endsection
