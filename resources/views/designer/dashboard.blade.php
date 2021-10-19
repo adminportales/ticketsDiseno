@@ -1,23 +1,22 @@
 @extends('layouts.app')
 
 @section('title')
-    <h3>Bienvenido Vendedor</h3>
+    <h3>Bienvenido Diseñador</h3>
 @endsection
 
 @section('content')
-
     <div class="card-header">
         <h4 class="card-title">Información general acerca de las solicitudes</h4>
     </div>
 
     <div class="d-flex justify-content-between p-3">
-        <div class="m-3"> Total de tickets:<b>{{ $totalTickets }}</b> </div>
-        <div class="m-3"> Total de tickets abiertos:<b>{{ $openTickets }}</b></div>
-        <div class="m-3"> Total de tickets cerrados:<b>{{ $closedTickets }}</b></div>
+        <div> Total de tickets:<b>{{ $totalTickets }}</b></div>
+        <div> Total de tickets abiertos:<b>{{ $openTickets }}</b></div>
+        <div> Total de tickets cerrados:<b>{{ $closedTickets }}</b></div>
     </div>
 
     <div class="card-body">
-    <table class="table" id="tableTickets">
+        <table class="table" id="tableTickets">
         <thead>
             <tr>
                 <th>ID</th>
@@ -38,7 +37,7 @@
                     <td>{{ $ticket->latestTicketInformation->statusTicket->status }}</td>
                     <td>{{ $ticket->latestTicketInformation->created_at }}
                         {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
-                    <td><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="btn btn-warning">Ver
+                        <td><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="btn btn-warning">Ver
                             ticket</a></td>
                 </tr>
             @endforeach
@@ -71,3 +70,4 @@
         let jquery_datatable = $("#tableTickets").DataTable()
     </script>
 @endsection
+

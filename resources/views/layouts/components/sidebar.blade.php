@@ -62,6 +62,14 @@
                         </a>
                     </li>
                 @endrole
+                @role('designer')
+                    <li class="sidebar-item  ">
+                        <a href="{{ route('designer.inicio') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Ver tickets</span>
+                        </a>
+                    </li>
+                @endrole
 
                 <!-- Authentication Links -->
                 @guest

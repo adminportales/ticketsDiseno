@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Ticket;
 use Illuminate\Http\Request;
+use TicketSeeder;
 
 class HomeController extends Controller
 {
@@ -24,24 +26,28 @@ class HomeController extends Controller
     public function index()
     {
         if (auth()->user()->hasRole('seller')) {
-            return redirect()->action('TicketController@index');
+
+            return $this->indexSeller();
         }
 
         if (auth()->user()->hasRole('designer')) {
-            return redirect()->action('DesignerController@index');
-            //return view('diseñador.inicio_diseno');
+
+            return $this->indexDesigner();
         }
 
         if (auth()->user()->hasRole('admin')) {
-            return view('administrador.inicio');
+
+            return $this->indexAdministrador();
         }
 
         if (auth()->user()->hasRole('saler_manager')) {
-            return view('gerente_ventas.inicio_gerenteventas');
+
+            return $this->indexSalerManager();
         }
 
         if (auth()->user()->hasRole('saler_design')) {
-            return view('gerentediseño.inicio_gerente_diseño');
+
+            return $this->indexSalerDesigner();
         }
         return view('home');
     }
@@ -50,4 +56,70 @@ class HomeController extends Controller
     {
         return view('inactive');
     }
+    public function indexSeller()
+    {
+        $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
+
+        $totalTickets = 0;
+        $closedTickets = 0;
+        $openTickets = 0;
+
+        foreach ($tickets as $ticket) {
+            $statusTicket = $ticket->latestTicketInformation->statusTicket->status;
+            if ($statusTicket == 'Finalizado') {
+                $closedTickets++;
+            } else {
+                $openTickets++;
+            }
+            $totalTickets++;
+        }
+        return view('seller.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets'));
+    }
+    public function indexDesigner()
+    {
+        $tickets = auth()->user()->assignedTickets;
+
+        $totalTickets = 0;
+        $closedTickets = 0;
+        $openTickets = 0;
+
+        foreach ($tickets as $ticket) {
+            $statusTicket = $ticket->latestTicketInformation->statusTicket->status;
+            if ($statusTicket == 'Finalizado') {
+                $closedTickets++;
+            } else {
+                $openTickets++;
+            }
+            $totalTickets++;
+        }
+
+        return view('designer.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets'));
+    }
+    public function indexAdministrador()
+    {
+        $tickets = Ticket::all();
+        $totalTickets = 0;
+        $closedTickets = 0;
+        $openTickets = 0;
+
+        foreach ($tickets as $ticket) {
+            $statusTicket = $ticket->latestTicketInformation->statusTicket->status;
+            if ($statusTicket == 'Finalizado') {
+                $closedTickets++;
+            } else {
+                $openTickets++;
+            }
+            $totalTickets++;
+        }
+
+        return view('administrador.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets'));
+    }
+    /*public function indexSalerManager()
+    {
+        return view('gerente_ventas.inicio_gerenteventas');
+    }
+    public function indexSalerDesigner()
+    {
+        return view ('gerentediseño.inicio_gerente_diseño');
+    }*/
 }
