@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Status;
+use App\Technique;
 use App\Ticket;
 use App\TicketHistory;
 use App\TicketInformation;
@@ -53,7 +54,8 @@ class TicketController extends Controller
     public function create()
     {
         $types = Type::all();
-        return view('seller.tickets.create', compact('types'));
+        $techniques = Technique::all();
+        return view('seller.tickets.create', compact('types', 'techniques'));
     }
 
     /**
@@ -68,7 +70,7 @@ class TicketController extends Controller
         request()->validate([
             'type' => 'required',
             'customer' => ['required', 'string', 'max:255'],
-            'technique' => ['required', 'string', 'max:255'],
+            'technique' => 'required',
             'description' => ['required', 'string'],
             'title' => ['required', 'string', 'max:255'],
             'logo' => 'required',

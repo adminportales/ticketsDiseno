@@ -50,7 +50,12 @@
                     </div>
                     <div class="form-group">
                         <label for="technique">Tecnica</label>
-                        <input type="text" class="form-control" name="technique" value="{{ old('technique') }}" />
+                        <select name="type" class="form-control">
+                            <option value="">Seleccione...</option>
+                            @foreach ($techniques as $technique)
+                                <option value="{{ $technique->id }}">{{ $technique->name }}</option>
+                            @endforeach
+                        </select>
                         @error('technique')
                             {{ $message }}
                         @enderror
