@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Status;
 use App\Technique;
 use App\Ticket;
+use App\TicketAssigment;
 use App\TicketHistory;
 use App\TicketInformation;
 use App\Type;
+use App\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class TicketController extends Controller
 {
@@ -27,12 +28,17 @@ class TicketController extends Controller
      */
     public function index()
     {
+        //Validar quien esta en su qeuipo
+
+        // Traer tickes que crearon los usuario que pertenecen a us qeuipo
+
+        // Traer sus proios tickets
+
         $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
 
         $totalTickets = 0;
         $closedTickets = 0;
         $openTickets = 0;
-
         foreach ($tickets as $ticket) {
             $statusTicket = $ticket->latestTicketInformation->statusTicket->status;
             if ($statusTicket == 'Finalizado') {
@@ -42,7 +48,6 @@ class TicketController extends Controller
             }
             $totalTickets++;
         }
-
         return view('seller.tickets.index', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets'));
     }
 
@@ -83,6 +88,19 @@ class TicketController extends Controller
         $seller_id = auth()->user()->id;
         $seller_name = auth()->user()->name . ' ' . auth()->user()->lastname;
 
+        //Asignar el ticket de forma correcta
+        $designerAssigments = TicketAssigment::where('type_id', '=', $request->type)->get();
+        $designerAssigment = '';
+        if (count($designerAssigments) <= 0) {
+            return back()->with('message', 'Aun no existen diseñadores que puedan atender tu solicitud! Contacta al gerente de diseño para solicitar una aclaracion!');
+        }
+        if (count($designerAssigments) == 1) {
+            $designerAssigment = User::find($designerAssigments[0]->designer_id);
+        } else {
+            //verificar la carga de trabajo
+            $designerAssigment = $this->checkWorkload($designerAssigments);
+        }
+
         // Registrar el ticket
         $ticket = Ticket::create([
             'seller_id' => $seller_id,
@@ -96,27 +114,27 @@ class TicketController extends Controller
         $ruta_imagen_producto = $request['product']->store('upload-tickets_producto', 'public');
         $ruta_imagen_logo = $request['logo']->store('upload-tickets_logo', 'public');
         // Registrar la informacion del ticket
-
-
-
-        $ticketInformation = TicketInformation::create([
+        $ticketInformation = $ticket->ticketInformation()->create([
             'ticket_id' => $ticket->id,
             'status_id' => 1,
             'customer' => $request->customer,
             'technique' => $request->technique,
             'description' => $request->description,
             'title' => $request->title,
-            'logo' => $ruta_imagen_logo,
-            'product' => $ruta_imagen_producto,
-            'pantone' => $request->pantone,
+            'logo' => $request->logo,
+            'items' => $request->items,
+            'product' => $request->product,
+            'items' => $request->items,
         ]);
-        TicketHistory::create([
+
+        $ticket->historyTicket()->create([
             'ticket_id' => $ticket->id,
             'reference_id' => $ticketInformation->id,
             'type' => 'info'
         ]);
+
         // Regresar a la vista de inicio
-        return redirect()->action('HomeController@index');
+        return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
     }
 
     /**
@@ -198,17 +216,6 @@ class TicketController extends Controller
         return redirect()->action('HomeController@index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Ticket  $ticket
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Ticket $ticket)
-    {
-        //
-    }
-
     public function uploadItems(Request $request)
     {
         $imagen = $request->file('file');
@@ -228,6 +235,7 @@ class TicketController extends Controller
             return response(['mensaje' => 'Imagen Eliminada', 'imagen' => $imagen], 200);
         }
     }
+
     public function uploadProducts(Request $request)
     {
         $imagen = $request->file('file');
@@ -247,6 +255,7 @@ class TicketController extends Controller
             return response(['mensaje' => 'Imagen Eliminada', 'imagen' => $imagen], 200);
         }
     }
+
     public function uploadLogos(Request $request)
     {
         $imagen = $request->file('file');
@@ -264,6 +273,49 @@ class TicketController extends Controller
                 File::delete('storage/logos/' . $imagen);
             }
             return response(['mensaje' => 'Imagen Eliminada', 'imagen' => $imagen], 200);
+        }
+    }
+
+    public function checkWorkload($designerAssigments)
+    {
+
+        $data = [];
+        // Crear un arreglo para guardar el total de tickets que no estan finalizados
+        foreach ($designerAssigments as $key => $designerAssigment) {
+            $designer = User::find($designerAssigment->designer_id);
+
+            $totalTickets = 0;
+            $timeWait = 0;
+
+            foreach ($designer->assignedTickets as $ticket) {
+                if ($ticket->latestTicketInformation->statusTicket->status != 'Finalizado') {
+                    $totalTickets++;
+                }
+            }
+
+            $data[$key] = [
+                'designer' => $designer,
+                'total' => $totalTickets,
+                'time' => $timeWait,
+            ];
+        }
+
+        //Verificar quien tiene el menor numero de tickets o si son iguales
+        $designerAssigment = $data[0];
+        $sameAmountOfVirtual = true;
+        foreach ($data as $key => $item) {
+            if ($item['total'] < $designerAssigment['total']) {
+                $designerAssigment = $item;
+                $sameAmountOfVirtual = false;
+            }
+        }
+
+        //Si el numero de tickets es el mismo, asignalos aleatoreamemte
+        //Si no, regresa el que tenga el menor numero de tickets asignados
+        if (!$sameAmountOfVirtual) {
+            return $designerAssigment['designer'];
+        } else {
+            return $data[rand(0, count($data) - 1)]['designer'];
         }
     }
 }

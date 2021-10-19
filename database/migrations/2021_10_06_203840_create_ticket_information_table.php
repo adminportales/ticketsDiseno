@@ -17,8 +17,8 @@ class CreateTicketInformationTable extends Migration
             $table->id();
             $table->foreignId('ticket_id')->constrained();
             $table->foreignId('status_id')->constrained();
+            $table->foreignId('technique_id')->constrained();
             $table->string('customer');
-            $table->string('technique');
             $table->text('description');
             $table->string('title');
             $table->text('logo');
