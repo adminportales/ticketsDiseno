@@ -1,7 +1,5 @@
 <?php
 
-namespace Database\Seeders;
-
 use App\Technique;
 use Illuminate\Database\Seeder;
 
@@ -14,10 +12,20 @@ class TechniqueSeeder extends Seeder
      */
     public function run()
     {
-        Technique::create(['name'=>'Grabado Laser']);
-        Technique::create(['name'=>'Serigrafia']);
-        Technique::create(['name'=>'Tampografia']);
-        Technique::create(['name'=>'Gota de resina']);
-        Technique::create(['name'=>'Bordado']);
+        Technique::create([
+            'name' => 'Grabado Laser'
+        ]);
+        Technique::create([
+            'name' => 'Serigrafia'
+        ]);
+        Technique::create([
+            'name' => 'Tampografia'
+        ]);
+        Technique::create([
+            'name' => 'Gota de resina'
+        ]);
+        Technique::create([
+            'name' => 'Bordado'
+        ]);
     }
 }

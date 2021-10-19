@@ -9,6 +9,5 @@ class Type extends Model
     protected $fillable = [
         'type'
     ];
-    public $timestamps= false;
-
+    public $timestamps = false;
 }
