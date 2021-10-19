@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    <h3>Bienvenido Diseñador</h3>
+    <h3>Bienvenido {{ auth()->user()->name }}</h3>
 @endsection
 
 @section('content')
@@ -17,32 +17,33 @@
 
     <div class="card-body">
         <table class="table" id="tableTickets">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Titulo</th>
-                <th>Categoria de Ticket</th>
-                <th>Prioridad</th>
-                <th>Estatus</th>
-                <th>Hora</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($tickets as $ticket)
+            <thead>
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $ticket->latestTicketInformation->title }}</td>
-                    <td>{{ $ticket->typeTicket->type }}</td>
-                    <td>{{ $ticket->priorityTicket->priority }}</td>
-                    <td>{{ $ticket->latestTicketInformation->statusTicket->status }}</td>
-                    <td>{{ $ticket->latestTicketInformation->created_at }}
-                        {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
-                        <td><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="btn btn-warning">Ver
-                            ticket</a></td>
+                    <th>ID</th>
+                    <th>Titulo</th>
+                    <th>Categoria de Ticket</th>
+                    <th>Prioridad</th>
+                    <th>Estatus</th>
+                    <th>Hora</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach ($tickets as $ticket)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $ticket->latestTicketInformation->title }}</td>
+                        <td>{{ $ticket->typeTicket->type }}</td>
+                        <td>{{ $ticket->priorityTicket->priority }}</td>
+                        <td>{{ $ticket->latestTicketInformation->statusTicket->status }}</td>
+                        <td>{{ $ticket->latestTicketInformation->created_at }}
+                            {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
+                        <td><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="btn btn-warning">Ver
+                                ticket</a></td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 @endsection
 
 @section('styles')
@@ -70,4 +71,3 @@
         let jquery_datatable = $("#tableTickets").DataTable()
     </script>
 @endsection
-

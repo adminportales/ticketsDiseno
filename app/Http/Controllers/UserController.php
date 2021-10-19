@@ -46,6 +46,7 @@ class UserController extends Controller
         request()->validate([
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
+            'company' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'role' => ['required'],
         ]);
@@ -60,6 +61,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($pass)
         ]);
+        $user->profile->create(['company'=>$request->company]);
 
         // Asignar el rol seleccionado
         $role = Role::find($request->role);
@@ -113,7 +115,8 @@ class UserController extends Controller
         request()->validate([
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users']
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'company' => ['required', 'string', 'max:255'],
         ]);
 
         // Actualizar el usuario
@@ -122,6 +125,7 @@ class UserController extends Controller
             'lastname' => $request->lastname,
             'email' => $request->email,
         ]);
+        $user->profile->create(['company'=>$request->company]);
 
         // Retornar a la vista
         return redirect()->action('UserController@index');

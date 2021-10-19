@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use TicketSeeder;
 
 class HomeController extends Controller
@@ -40,14 +41,14 @@ class HomeController extends Controller
             return $this->indexAdministrador();
         }
 
-        if (auth()->user()->hasRole('saler_manager')) {
+        if (auth()->user()->hasRole('sales_manager')) {
 
-            return $this->indexSalerManager();
+            return $this->indexSalesManager();
         }
 
-        if (auth()->user()->hasRole('saler_design')) {
+        if (auth()->user()->hasRole('desing_manager')) {
 
-            return $this->indexSalerDesigner();
+            return $this->indexDesignerManager();
         }
         return view('home');
     }
@@ -56,6 +57,27 @@ class HomeController extends Controller
     {
         return view('inactive');
     }
+
+    public function indexAdministrador()
+    {
+        $tickets = Ticket::all();
+        $totalTickets = 0;
+        $closedTickets = 0;
+        $openTickets = 0;
+
+        foreach ($tickets as $ticket) {
+            $statusTicket = $ticket->latestTicketInformation->statusTicket->status;
+            if ($statusTicket == 'Finalizado') {
+                $closedTickets++;
+            } else {
+                $openTickets++;
+            }
+            $totalTickets++;
+        }
+
+        return view('administrador.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets'));
+    }
+
     public function indexSeller()
     {
         $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
@@ -75,6 +97,7 @@ class HomeController extends Controller
         }
         return view('seller.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets'));
     }
+
     public function indexDesigner()
     {
         $tickets = auth()->user()->assignedTickets;
@@ -95,9 +118,16 @@ class HomeController extends Controller
 
         return view('designer.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets'));
     }
-    public function indexAdministrador()
+
+    public function indexSalesManager()
     {
-        $tickets = Ticket::all();
+        $tickets = DB::table('users')
+            ->join('tickets', 'users.id', '=', 'tickets.seller_id')
+            ->join('profiles', 'users.id', '=', 'profiles.user_id')
+            ->where('profiles.company', '=', auth()->user()->profile->company)
+            ->select('tickets.*')
+            ->get();
+
         $totalTickets = 0;
         $closedTickets = 0;
         $openTickets = 0;
@@ -111,15 +141,11 @@ class HomeController extends Controller
             }
             $totalTickets++;
         }
+        return view('sales_manager.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets'));
+    }
 
-        return view('administrador.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets'));
-    }
-    /*public function indexSalerManager()
+    public function indexDesignerManager()
     {
-        return view('gerente_ventas.inicio_gerenteventas');
+        return view('gerentediseño.inicio_gerente_diseño');
     }
-    public function indexSalerDesigner()
-    {
-        return view ('gerentediseño.inicio_gerente_diseño');
-    }*/
 }

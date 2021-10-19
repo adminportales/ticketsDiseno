@@ -39,6 +39,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    //Funcion para obtener el perfil
+    public function profile()
+    {
+        return $this->hasOne('App\Profile');
+    }
+
     //Funcion para saber que rol tengo
     public function whatRoles()
     {

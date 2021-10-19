@@ -40,12 +40,12 @@ class UserSeeder extends Seeder
             'description' => '', // optional
         ]);
         Role::create([
-            'name' => 'saler_manager',
+            'name' => 'sales_manager',
             'display_name' => 'Gerente de Ventas', // optional
             'description' => '', // optional
         ]);
         Role::create([
-            'name' => 'saler_design',
+            'name' => 'desing_manager',
             'display_name' => 'Gerente de Diseño', // optional
             'description' => '', // optional
         ]);

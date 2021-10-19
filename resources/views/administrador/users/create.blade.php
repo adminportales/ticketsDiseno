@@ -40,6 +40,24 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label for="company">La empresa a la que pertenece</label>
+                        <select name="company" class="form-control">
+                            <option value="">Seleccione</option>
+                            @php
+                                $companies = ['BH', 'Promo Life'];
+                            @endphp
+                            @foreach ($companies as $company)
+                                <option {{ $company == old('company') ? 'selected' : '' }} value="{{ $company }}">
+                                    {{ $company }}</option>
+                                <br>
+                            @endforeach
+                        </select>
+
+                        @error('company')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label for="role">Seleccione el rol del usuario</label>
                         <select name="role" class="form-control">
                             <option value="">Seleccione</option>

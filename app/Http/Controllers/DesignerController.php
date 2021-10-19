@@ -62,7 +62,7 @@ class DesignerController extends Controller
      * @return \Illuminate\Http\Response
      * Registrar el mensaje
      */
-    public function store(Request $request)
+    public function messageStore(Request $request)
     {
         // Obtener los datos del formulario de mensajes
         request()->validate([
@@ -97,8 +97,6 @@ class DesignerController extends Controller
             'reference_id' => $message->id,
             'type' => 'message'
         ]);
-
-
 
         // Regresar a la misma vista AtenderTicket (ticket.show)
         return redirect()->action('DesignerController@show', ['ticket' => $ticket->id]);

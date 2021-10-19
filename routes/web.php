@@ -7,12 +7,8 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
 */
+
 // Rutas de Inicio de Sesion
 Auth::routes(['verify' => true]);
 
@@ -31,14 +27,13 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
 });
 
 // Rutas del diseñador
-Route::prefix('designer')->middleware('role:designer')->group(function () {
-    route::post('/message', 'DesignerController@store')->name('designer.store');
+Route::prefix('designer')->middleware('role:designer|designer_manager')->group(function () {
     route::get('/ticketShow/{ticket}', 'DesignerController@show')->name('designer.show');
-    Route::get('/designer', 'DesignerController@index')->name('designer.inicio');
+    Route::get('/designer/home', 'DesignerController@index')->name('designer.inicio');
 });
 
 // Rutas del vendedor
-Route::prefix('seller')->middleware('role:seller')->group(function () {
+Route::prefix('seller')->middleware('role:seller|sales_manager')->group(function () {
     Route::resource('/tickets', 'TicketController');
 });
 Route::post('/tickets/items', 'TicketController@uploadItems')->name('tickets.uploadItems');
@@ -50,7 +45,7 @@ Route::post('/tickets/deleteLogo', 'TicketController@deleteLogo')->name('tickets
 
 //Ruta de mensajes
 Route::post('/message', 'MessageController@store')->name('message.store');
-
+route::post('/message/create', 'DesignerController@messageStore')->name('designer.store');
 /* // Rutas del gerente de diseño
 Route::prefix('designer_manager')->middleware('role:designer')->group(function () {
     Route::get('/designer', 'DesignerController@index')->name('designer.inicio');
