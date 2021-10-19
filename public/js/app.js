@@ -46062,7 +46062,7 @@ if (document.querySelector('#dropzoneItems')) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Solo puedes agregar 1 image!'
+          text: 'Solo puedes agregar 1 imagen!'
         });
         file.previewElement.parentNode.removeChild(file.previewElement);
       },
@@ -46141,7 +46141,7 @@ if (document.querySelector('#dropzoneItems')) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Solo puedes agregar 1 image!'
+          text: 'Solo puedes agregar 1 imagen!'
         });
         file.previewElement.parentNode.removeChild(file.previewElement);
       },

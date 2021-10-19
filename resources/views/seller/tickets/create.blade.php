@@ -55,7 +55,7 @@
                     </div>
                     <div class="form-group">
                         <label for="technique">Tecnica</label>
-                        <select name="type" class="form-control">
+                        <select name="technique" class="form-control">
                             <option value="">Seleccione...</option>
                             @foreach ($techniques as $technique)
                                 <option value="{{ $technique->id }}">{{ $technique->name }}</option>

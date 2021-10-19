@@ -15,6 +15,7 @@ class TicketInformation extends Model
         'technique',
         'description',
         'title',
+        'items',
         'logo',
         'product',
         'pantone',
