@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Route;
 
 /*

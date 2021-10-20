@@ -17,7 +17,7 @@ class CreateTicketHistoriesTable extends Migration
             $table->id();
             $table->foreignId('ticket_id')->constrained();
             $table->integer('reference_id');
-            $table->enum('type', ['message', 'info']);
+            $table->enum('type', ['message', 'info', 'delivery']);
             $table->timestamps();
         });
     }

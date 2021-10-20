@@ -37,6 +37,24 @@
                         {{ $message }}
                     @enderror
                 </div>
+                <div class="form-group">
+                    <label for="company">La empresa a la que pertenece</label>
+                    <select name="company" class="form-control">
+                        <option value="">Seleccione</option>
+                        @php
+                            $companies = ['BH', 'Promo Life'];
+                        @endphp
+                        @foreach ($companies as $company)
+                            <option {{ $company == $user->profile->email ? 'selected' : '' }} value="{{ $company }}">
+                                {{ $company }}</option>
+                            <br>
+                        @endforeach
+                    </select>
+
+                    @error('company')
+                        {{ $message }}
+                    @enderror
+                </div>
                 <p>
                     <input type="submit" id="boton_crear" class="btn btn-success" value="Editar usuario">
                     <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancelar</a>

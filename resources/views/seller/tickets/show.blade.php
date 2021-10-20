@@ -68,10 +68,14 @@
                             </div>
                         @else
                             @php $message = $ticketHistory->ticketMessage; @endphp
-                            <div class="border border-warning rounded px-3 py-2 my-1">
-                                <p class="m-0">{{ $message->message }}</p>
+                            <div
+                                class="border rounded px-3 py-2 my-1
+                                {{ $message->transmitter_id == auth()->user()->id ? 'border-success d-flex flex-column align-items-end' : 'border-warning' }}">
+                                <p class="m-0 ">{{ $message->message }}</p>
+                                <p class="m-0 " style="font-size: .8rem">
+                                    {{ $message->transmitter_id == auth()->user()->id ? 'Yo' : $message->transmitter_name }}
+                                    {{ $message->created_at->diffForHumans() }}</p>
                                 <p class="m-0" style="font-size: .7rem">
-                                    <small>{{ $message->created_at->diffForHumans() }}</small>
                                 </p>
                             </div>
                         @endif
@@ -100,6 +104,5 @@
             padding: 0 35px;
             margin-right: 100px;
         }
-
     </style>
 @endsection

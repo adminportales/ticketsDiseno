@@ -94,6 +94,7 @@ class TicketController extends Controller
         if (count($designerAssigments) <= 0) {
             return back()->with('message', 'Aun no existen diseñadores que puedan atender tu solicitud! Contacta al gerente de diseño para solicitar una aclaracion!');
         }
+
         if (count($designerAssigments) == 1) {
             $designerAssigment = User::find($designerAssigments[0]->designer_id);
         } else {
@@ -130,6 +131,8 @@ class TicketController extends Controller
             'reference_id' => $ticketInformation->id,
             'type' => 'info'
         ]);
+
+        // TODO: Crear notificacion para avisar al diseñador
 
         // Regresar a la vista de inicio
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
@@ -276,7 +279,6 @@ class TicketController extends Controller
 
     public function checkWorkload($designerAssigments)
     {
-
         $data = [];
         // Crear un arreglo para guardar el total de tickets que no estan finalizados
         foreach ($designerAssigments as $key => $designerAssigment) {

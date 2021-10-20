@@ -16,7 +16,7 @@
         <div class="sidebar-menu">
             <ul class="menu">
                 <li class="sidebar-title">Menu</li>
-                <li class="sidebar-item  active">
+                <li class="sidebar-item {{ request()->is('home') ? 'active' : '' }}">
                     <a href="{{ route('home') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Dashboard</span>
@@ -56,6 +56,28 @@
                         </a>
                     </li>
                     <li class="sidebar-item  ">
+                        <a href="{{ route('tickets.create') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Crear ticket</span>
+                        </a>
+                    </li>
+                @endrole
+                @role('designer')
+                    <li class="sidebar-item  ">
+                        <a href="{{ route('designer.inicio') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Ver tickets</span>
+                        </a>
+                    </li>
+                @endrole
+                @role('sales_manager')
+                    <li class="sidebar-item  {{ request()->is('seller/tickets') ? 'active' : '' }}">
+                        <a href="{{ route('tickets.index') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Mis Tickets</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item  {{ request()->is('seller/tickets/create') ? 'active' : '' }} ">
                         <a href="{{ route('tickets.create') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Crear ticket</span>
