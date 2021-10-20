@@ -112,7 +112,7 @@ class TicketController extends Controller
             'type_id' => $request->type
         ]);
         // Registrar la informacion del ticket
-        $ticketInformation = $ticket->ticketInformation()->create([
+        $ticketInformation = $ticket->latestTicketInformation()->update([
             'ticket_id' => $ticket->id,
             'status_id' => 1,
             'technique_id' => $request->technique,
@@ -170,7 +170,6 @@ class TicketController extends Controller
         $types = Type::all();
         $ticketInformation = $ticket->latestTicketInformation;
         return view('seller.tickets.edit', compact('ticket', 'types', 'ticketInformation'));
-        //
     }
 
     /**
@@ -195,6 +194,7 @@ class TicketController extends Controller
         // Guardar las imagenes y obtener las rutas
         $ruta_imagen_producto = $request['product']->store('upload-tickets_producto', 'public');
         $ruta_imagen_logo = $request['logo']->store('upload-tickets_logo', 'public');
+
         // Registrar la informacion del ticket
         $ticketInformation = TicketInformation::create(([
             'ticket_id' => $ticket->id,
@@ -213,6 +213,7 @@ class TicketController extends Controller
             'reference_id' => $ticketInformation->id,
             'type' => 'info'
         ]);
+
         // Regresar a la vista de inicio
         return redirect()->action('HomeController@index');
     }
@@ -312,6 +313,7 @@ class TicketController extends Controller
 
         //Si el numero de tickets es el mismo, asignalos aleatoreamemte
         //Si no, regresa el que tenga el menor numero de tickets asignados
+
         if (!$sameAmountOfVirtual) {
             return $designerAssigment['designer'];
         } else {

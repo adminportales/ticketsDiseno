@@ -33,7 +33,7 @@
             <div class="col-md-9">
                 <section class="border-0">
                     <h5>Historial</h5>
-                    <form action="{{ route('designer.store') }}" method="post">
+                    <form action="{{ route('message.store') }}" method="post">
                         @csrf
                         @method('POST')
                         <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">

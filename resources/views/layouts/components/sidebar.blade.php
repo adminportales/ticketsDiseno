@@ -92,13 +92,19 @@
                 @endrole
                 @role('sales_manager')
                     <li class="sidebar-item  {{ request()->is('seller/tickets') ? 'active' : '' }}">
-                        <a href="{{ route('tickets.index') }}" class='sidebar-link'>
+                        <a href="{{ route('sales_manager.index') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Mis Tickets</span>
                         </a>
                     </li>
+                    <li class="sidebar-item  {{ request()->is('seller/tickets') ? 'active' : '' }}">
+                        <a href="{{ route('sales_manager.all') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Ver Tickets</span>
+                        </a>
+                    </li>
                     <li class="sidebar-item  {{ request()->is('seller/tickets/create') ? 'active' : '' }} ">
-                        <a href="{{ route('tickets.create') }}" class='sidebar-link'>
+                        <a href="{{ route('sales_manager.create') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Crear ticket</span>
                         </a>

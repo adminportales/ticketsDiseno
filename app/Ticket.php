@@ -16,6 +16,17 @@ class Ticket extends Model
         'type_id',
     ];
 
+
+    //Crear el primer registro de informacion de ticket al momento de crear el usuario
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($ticket) {
+            $ticket->latestTicketInformation()->create();
+        });
+    }
+
     // Toda la informacion del ticket
     public function ticketInformation()
     {
@@ -26,14 +37,15 @@ class Ticket extends Model
     public function latestTicketInformation()
     {
         return $this->hasOne('App\TicketInformation')->latestOfMany();
-
     }
+
     //Traer el tipo de ticket
     public function typeTicket()
     {
         return $this->belongsTo('App\Type', 'type_id');
     }
-    //Traer el status de ticket
+
+    //Traer la prioridad del ticket
     public function priorityTicket()
     {
         return $this->belongsTo('App\Priority', 'priority_id');
@@ -44,6 +56,7 @@ class Ticket extends Model
     {
         return $this->hasMany('App\Message');
     }
+
     //Funcion para traer el historial del ticket
     public function historyTicket()
     {

@@ -22,6 +22,7 @@ class MessageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
         // Obtener los datos del formulario de mensajes
@@ -30,18 +31,24 @@ class MessageController extends Controller
             'ticket_id' => ['required']
         ]);
 
-
-        // Obtener el id del ticket, hay traerlo del formulario
+        // Obtener el id del ticket, hay que traerlo del formulario
         $ticket = Ticket::find($request->ticket_id);
 
         // Obtener el id y nombre del vendedor y diseñador asignados al ticket
+        // El diseñador transmite el mensaje y el vendedor recibe
         $transmitter_id = auth()->user()->id;
         $transmitter_name = auth()->user()->name . ' ' . auth()->user()->lastname;
-        $userReceiver = User::find($ticket->designer_id);
+        $userReceiver = '';
+        if (auth()->user()->hasRole(['designer', 'design_manager'])) {
+            $userReceiver = User::find($ticket->designer_id);
+        } else if (auth()->user()->hasRole(['seller', 'sales_manager'])) {
+            $userReceiver = User::find($ticket->seller_id);
+        }
         $receiver_id = $userReceiver->id;
         $receiver_name = $userReceiver->name . ' ' . $userReceiver->lastname;
         // Guardar el mensaje con los sigioetes datos
 
+        // Creamos el mensaje y lo guardamos en la base de datos
         $message = Message::create([
             "transmitter_id" => $transmitter_id,
             "transmitter_name" => $transmitter_name,
@@ -52,6 +59,7 @@ class MessageController extends Controller
             "ticket_id" => $ticket->id
         ]);
 
+        // Creamos un registro en el historial de logs
         TicketHistory::create([
             'ticket_id' => $ticket->id,
             'reference_id' => $message->id,
@@ -59,6 +67,10 @@ class MessageController extends Controller
         ]);
 
         // Regresar a la misma vista AtenderTicket (ticket.show)
-        return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
+        if (auth()->user()->hasRole(['designer', 'design_manager'])) {
+            return redirect()->action('DesignerController@show', ['ticket' => $ticket->id]);
+        } else if (auth()->user()->hasRole(['seller', 'sales_manager'])) {
+            return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
+        }
     }
 }
