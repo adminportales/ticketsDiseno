@@ -1,24 +1,21 @@
 @extends('layouts.app')
 
 @section('title')
-    <h3>Bienvenido Diseñador </h3>
+    <h3>Tickets asignados</h3>
 @endsection
 
 @section('content')
     <div class="card-header">
-        <h4 class="card-title">Información general acerca de las solicitudes</h4>
+        <h4 class="card-title">Información general de tickets asignados</h4>
     </div>
-
     <div class="card-body">
         <table class="table" id="tableTickets">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Titulo</th>
+                    <th>Nombre de Diseñador</th>
                     <th>Categoria de Ticket</th>
-                    <th>Prioridad</th>
-                    <th>Estatus</th>
-                    <th>Hora</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -27,32 +24,23 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $ticket->latestTicketInformation->title }}</td>
                         <td>{{ $ticket->typeTicket->type }}</td>
-                        <td>{{ $ticket->priorityTicket->priority }}</td>
                         <td>{{ $ticket->latestTicketInformation->statusTicket->status }}</td>
                         <td>{{ $ticket->latestTicketInformation->created_at }}
                             {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
-                        <td><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="btn btn-warning">Ver
-                                ticket</a></td>
+                        <td class="text-center"><a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
+                                class="btn btn-warning">Ver</a>
+                            <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
+                                class="btn btn-primary">Modificar</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Bar Chart</h4>
-            </div>
-            <div class="card-body">
-                <canvas id="bar"></canvas>
-            </div>
-        </div>
-
+    </div>
 @endsection
 
 @section('styles')
-    <link rel="stylesheet"
-    href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
-    <link rel= "stylesheet"
-    href="{{ asset('assets/vendors/chartjs/Chart.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
     {{-- <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}"> --}}
     <style>
         table.dataTable td {
@@ -67,9 +55,6 @@
 @endsection
 
 @section('scripts')
-
-    <script src="{{ asset('assets/vendors/chartjs/Chart.min.js') }}"></script>
-    <script src="{{ asset('assets/js/pages/ui-chartjs.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>

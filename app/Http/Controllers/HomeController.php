@@ -46,7 +46,7 @@ class HomeController extends Controller
             return $this->indexSalesManager();
         }
 
-        if (auth()->user()->hasRole('desing_manager')) {
+        if (auth()->user()->hasRole('design_manager')) {
 
             return $this->indexDesignerManager();
         }
@@ -146,6 +146,22 @@ class HomeController extends Controller
 
     public function indexDesignerManager()
     {
-        return view('gerentediseño.inicio_gerente_diseño');
+        $tickets = auth()->user()->assignedTickets;
+
+        $totalTickets = 0;
+        $closedTickets = 0;
+        $openTickets = 0;
+
+        foreach ($tickets as $ticket) {
+            $statusTicket = $ticket->latestTicketInformation->statusTicket->status;
+            if ($statusTicket == 'Finalizado') {
+                $closedTickets++;
+            } else {
+                $openTickets++;
+            }
+            $totalTickets++;
+        }
+
+        return view('design_manager.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets'));
     }
 }

@@ -1,12 +1,18 @@
 @extends('layouts.app')
 
 @section('title')
-    <h3>Bienvenido Diseñador </h3>
+    <h3>Bienvenido Gerente de Diseño</h3>
 @endsection
 
 @section('content')
     <div class="card-header">
         <h4 class="card-title">Información general acerca de las solicitudes</h4>
+    </div>
+
+    <div class="d-flex justify-content-between p-3">
+        <div> Total de tickets:<b>{{ $totalTickets }}</b></div>
+        <div> Total de tickets abiertos:<b>{{ $openTickets }}</b></div>
+        <div> Total de tickets cerrados:<b>{{ $closedTickets }}</b></div>
     </div>
 
     <div class="card-body">
@@ -37,22 +43,11 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Bar Chart</h4>
-            </div>
-            <div class="card-body">
-                <canvas id="bar"></canvas>
-            </div>
-        </div>
-
+    </div>
 @endsection
 
 @section('styles')
-    <link rel="stylesheet"
-    href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
-    <link rel= "stylesheet"
-    href="{{ asset('assets/vendors/chartjs/Chart.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
     {{-- <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}"> --}}
     <style>
         table.dataTable td {
@@ -67,9 +62,6 @@
 @endsection
 
 @section('scripts')
-
-    <script src="{{ asset('assets/vendors/chartjs/Chart.min.js') }}"></script>
-    <script src="{{ asset('assets/js/pages/ui-chartjs.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>

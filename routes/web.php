@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DesignerController;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Route;
 
@@ -27,9 +28,13 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
 });
 
 // Rutas del diseñador
-Route::prefix('designer')->middleware('role:designer|designer_manager')->group(function () {
+Route::prefix('designer')->middleware('role:designer|design_manager')->group(function () {
     route::get('/ticketShow/{ticket}', 'DesignerController@show')->name('designer.show');
     Route::get('/designer/home', 'DesignerController@index')->name('designer.inicio');
+
+    Route::get('/design_manager/ver-tickets', 'DesignerManagerController@index')->name('design_manager.inicio');
+    Route::get('/design_manager/mis-tickets', 'DesignerManagerController@verTickets')->name('design_manager.tickets');
+    Route::get('/design_manager/assign-ticket', 'DesignerManagerController@ticketPropio')->name('design_manager.assign');
 });
 
 // Rutas del vendedor
@@ -46,6 +51,7 @@ Route::post('/tickets/deleteLogo', 'TicketController@deleteLogo')->name('tickets
 //Ruta de mensajes
 Route::post('/message', 'MessageController@store')->name('message.store');
 route::post('/message/create', 'DesignerController@messageStore')->name('designer.store');
+
 /* // Rutas del gerente de diseño
 Route::prefix('designer_manager')->middleware('role:designer')->group(function () {
     Route::get('/designer', 'DesignerController@index')->name('designer.inicio');

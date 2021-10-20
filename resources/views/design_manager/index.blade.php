@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    <h3>Bienvenido Diseñador </h3>
+    <h3>Lista de Solicitudes </h3>
 @endsection
 
 @section('content')
@@ -18,7 +18,10 @@
                     <th>Categoria de Ticket</th>
                     <th>Prioridad</th>
                     <th>Estatus</th>
+                    <th>Vendedor que lo asigno</th>
+                    <th>Diseñador que lo tiene asignado</th>
                     <th>Hora</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,6 +32,8 @@
                         <td>{{ $ticket->typeTicket->type }}</td>
                         <td>{{ $ticket->priorityTicket->priority }}</td>
                         <td>{{ $ticket->latestTicketInformation->statusTicket->status }}</td>
+                        <td></td>
+                        <td></td>
                         <td>{{ $ticket->latestTicketInformation->created_at }}
                             {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
                         <td><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="btn btn-warning">Ver
@@ -37,14 +42,6 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Bar Chart</h4>
-            </div>
-            <div class="card-body">
-                <canvas id="bar"></canvas>
-            </div>
-        </div>
 
 @endsection
 

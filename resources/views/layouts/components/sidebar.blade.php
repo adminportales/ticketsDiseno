@@ -70,6 +70,26 @@
                         </a>
                     </li>
                 @endrole
+                @role('design_manager')
+                <li class="sidebar-item  ">
+                    <a href="{{ route('design_manager.inicio') }}" class='sidebar-link'>
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Ver tickets</span>
+                    </a>
+                </li>
+                <li class="sidebar-item  ">
+                    <a href="{{ route('design_manager.tickets') }}" class='sidebar-link'>
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Mis tickets</span>
+                    </a>
+                </li>
+                <li class="sidebar-item  ">
+                    <a href="{{ route('design_manager.assign') }}" class='sidebar-link'>
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Asignar tickets</span>
+                    </a>
+                </li>
+            @endrole
 
                 <!-- Authentication Links -->
                 @guest
