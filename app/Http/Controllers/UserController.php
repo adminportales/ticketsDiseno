@@ -126,6 +126,7 @@ class UserController extends Controller
             'name' => $request->name,
             'lastname' => $request->lastname,
             'email' => $request->email,
+            'company' => $request->company
         ]);
         $user->profile->create(['company' => $request->company]);
 

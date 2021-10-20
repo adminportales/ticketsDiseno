@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\DesignerController;
-use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Route;
 
 /*
