@@ -110,19 +110,19 @@ class TicketController extends Controller
             'priority_id' => 1,
             'type_id' => $request->type
         ]);
-
         // Registrar la informacion del ticket
         $ticketInformation = $ticket->ticketInformation()->create([
             'ticket_id' => $ticket->id,
             'status_id' => 1,
+            'technique_id' => $request->technique,
             'customer' => $request->customer,
-            'technique' => $request->technique,
             'description' => $request->description,
             'title' => $request->title,
             'logo' => $request->logo,
             'items' => $request->items,
             'product' => $request->product,
             'items' => $request->items,
+            'pantone' => $request->pantone,
         ]);
 
         $ticket->historyTicket()->create([

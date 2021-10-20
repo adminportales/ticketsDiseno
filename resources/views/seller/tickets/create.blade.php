@@ -39,7 +39,8 @@
                         <select name="type" class="form-control">
                             <option value="">Seleccione...</option>
                             @foreach ($types as $type)
-                                <option value="{{ $type->id }}">{{ $type->type }}</option>
+                                <option value="{{ $type->id }}"
+                                    {{ $type->id == old('type') ? 'selected' : '' }}>{{ $type->type }}</option>
                             @endforeach
                         </select>
                         @error('type')
@@ -58,7 +59,9 @@
                         <select name="technique" class="form-control">
                             <option value="">Seleccione...</option>
                             @foreach ($techniques as $technique)
-                                <option value="{{ $technique->id }}">{{ $technique->name }}</option>
+                                <option value="{{ $technique->id }}"
+                                    {{ $technique->id == old('technique') ? 'selected' : '' }}>{{ $technique->name }}
+                                </option>
                             @endforeach
                         </select>
                         @error('technique')
