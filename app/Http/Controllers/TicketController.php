@@ -105,14 +105,12 @@ class TicketController extends Controller
         $ticket = Ticket::create([
             'seller_id' => $seller_id,
             'seller_name' =>  $seller_name,
-            'designer_id' => 8,
-            'designer_name' => 'Edwin Samuel',
+            'designer_id' => $designerAssigment->id,
+            'designer_name' => $designerAssigment->name . ' ' . $designerAssigment->lastname,
             'priority_id' => 1,
             'type_id' => $request->type
         ]);
-        // Guardar las imagenes y obtener las rutas
-        $ruta_imagen_producto = $request['product']->store('upload-tickets_producto', 'public');
-        $ruta_imagen_logo = $request['logo']->store('upload-tickets_logo', 'public');
+
         // Registrar la informacion del ticket
         $ticketInformation = $ticket->ticketInformation()->create([
             'ticket_id' => $ticket->id,

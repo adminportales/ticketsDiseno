@@ -39,6 +39,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    //Crear el perfil al momento de crear el usuario
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) {
+            $user->profile()->create();
+        });
+    }
+
     //Funcion para obtener el perfil
     public function profile()
     {

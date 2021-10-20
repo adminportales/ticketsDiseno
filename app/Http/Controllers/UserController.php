@@ -61,7 +61,9 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($pass)
         ]);
-        $user->profile->create(['company'=>$request->company]);
+        $user->profile()->update([
+            'company' => $request->company
+        ]);
 
         // Asignar el rol seleccionado
         $role = Role::find($request->role);
@@ -125,7 +127,7 @@ class UserController extends Controller
             'lastname' => $request->lastname,
             'email' => $request->email,
         ]);
-        $user->profile->create(['company'=>$request->company]);
+        $user->profile->create(['company' => $request->company]);
 
         // Retornar a la vista
         return redirect()->action('UserController@index');
