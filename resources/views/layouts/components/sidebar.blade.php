@@ -41,12 +41,12 @@
                             <span>Asignar Permisos</span>
                         </a>
                     </li>
-                    <li class="sidebar-item  ">
+                    {{--  <li class="sidebar-item  ">
                         <a href="{{ route('reporte_tickets') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Reporte de tickets</span>
                         </a>
-                    </li>
+                    </li>  --}}
                 @endrole
                 @role('seller')
                     <li class="sidebar-item  ">
@@ -66,7 +66,7 @@
                     <li class="sidebar-item  ">
                         <a href="{{ route('designer.inicio') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
-                            <span>Ver tickets</span>
+                            <span>Ver ticket</span>
                         </a>
                     </li>
                 @endrole
@@ -86,7 +86,7 @@
                     <li class="sidebar-item  ">
                         <a href="{{ route('design_manager.assign') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
-                            <span>Asignar tickets</span>
+                            <span>Editar asignación</span>
                         </a>
                     </li>
                 @endrole
@@ -110,14 +110,7 @@
                         </a>
                     </li>
                 @endrole
-                @role('designer')
-                    <li class="sidebar-item  ">
-                        <a href="{{ route('designer.inicio') }}" class='sidebar-link'>
-                            <i class="bi bi-grid-fill"></i>
-                            <span>Ver tickets</span>
-                        </a>
-                    </li>
-                @endrole
+
 
                 <!-- Authentication Links -->
                 @guest

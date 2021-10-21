@@ -31,7 +31,8 @@ Route::get('/designer/home', 'DesignerController@index')->name('designer.inicio'
 // Rutas del gerente de diseño
 Route::get('/design_manager/ver-tickets', 'DesignerManagerController@index')->name('design_manager.inicio');
 Route::get('/design_manager/mis-tickets', 'DesignerManagerController@verTickets')->name('design_manager.tickets');
-Route::get('/design_manager/assign-ticket', 'DesignerManagerController@ticketPropio')->name('design_manager.assign');
+Route::get('/design_manager/assign-ticket', 'DesignerManagerController@ticketAssign')->name('design_manager.assign');
+Route::get('/design_manager/edit-asign/{user}', 'TicketAssigmentController@edit')->name('design_manager.edit');
 
 // Gerente de Ventas
 Route::get('/sales_manager/all-tickets', 'SalesManagerController@allTickets')->name('sales_manager.all');

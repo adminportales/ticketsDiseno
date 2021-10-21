@@ -18,7 +18,7 @@
                     <th>Categoria de Ticket</th>
                     <th>Prioridad</th>
                     <th>Estatus</th>
-                    <th>Vendedor que lo asigno</th>
+                    <th>Vendedor que lo creo</th>
                     <th>Diseñador que lo tiene asignado</th>
                     <th>Hora</th>
                     <th>Acciones</th>
@@ -27,16 +27,17 @@
             <tbody>
                 @foreach ($tickets as $ticket)
                     <tr>
+
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $ticket->latestTicketInformation->title }}</td>
                         <td>{{ $ticket->typeTicket->type }}</td>
                         <td>{{ $ticket->priorityTicket->priority }}</td>
                         <td>{{ $ticket->latestTicketInformation->statusTicket->status }}</td>
-                        <td></td>
-                        <td></td>
+                        <td>{{$ticket ->seller_name}}</td>
+                        <td>{{$ticket->designer_name}}</td>
                         <td>{{ $ticket->latestTicketInformation->created_at }}
                             {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
-                        <td><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="btn btn-warning">Ver
+                        <td><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="btn btn-success">Ver
                                 ticket</a></td>
                     </tr>
                 @endforeach

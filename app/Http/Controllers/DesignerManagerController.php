@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use App\Ticket;
+use App\Type;
 use Illuminate\Http\Request;
 
 use function GuzzleHttp\Promise\all;
@@ -16,7 +18,7 @@ class DesignerManagerController extends Controller
 
     static function dashboard()
     {
-        $tickets = auth()->user()->assignedTickets;
+        $tickets = Ticket::all();
 
         $totalTickets = 0;
         $closedTickets = 0;
@@ -38,7 +40,8 @@ class DesignerManagerController extends Controller
     //Metodo para ver todos los tickets
     public function index()
     {
-        $tickets = Ticket::all();
+        $tickets = Ticket::all();$tickets = Ticket::all();
+
 
         $totalTickets = 0;
         $closedTickets = 0;
@@ -62,11 +65,14 @@ class DesignerManagerController extends Controller
         return view('design_manager.tickets')->with('tickets', $tickets);
     }
 
-    //Metodo para asignar mis tickets
-    public function ticketPropio()
+    //Metodo para asignar tickets
+    public function ticketAssign()
     {
-        $tickets = auth()->user()->assignedTickets;
+        $role= Role::find(3);
+        $users= $role->whatUsers;
 
-        return view('design_manager.assign')->with('tickets', $tickets);
+        return view('design_manager.assign', compact('users'));
     }
+
+
 }

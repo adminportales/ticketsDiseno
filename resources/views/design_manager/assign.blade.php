@@ -15,23 +15,25 @@
                     <th>ID</th>
                     <th>Nombre de Diseñador</th>
                     <th>Categoria de Ticket</th>
+                    <th>Acciones</th>
 
                 </tr>
             </thead>
             <tbody>
-                @foreach ($tickets as $ticket)
+                @foreach ($users as $user)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $ticket->latestTicketInformation->title }}</td>
-                        <td>{{ $ticket->typeTicket->type }}</td>
-                        <td>{{ $ticket->latestTicketInformation->statusTicket->status }}</td>
-                        <td>{{ $ticket->latestTicketInformation->created_at }}
-                            {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
-                        <td class="text-center"><a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
-                                class="btn btn-warning">Ver</a>
-                            <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
-                                class="btn btn-primary">Modificar</a>
+                        <td>{{ $user->name }}</td>
+
+                        <td>
+                            @foreach ($user->whatTypes as $type)
+                                {{ $type->type }}
+                            @endforeach
                         </td>
+
+                        <td><a href="{{ route('design_manager.edit', ['user' => $user->id]) }}"
+                                class="btn btn-primary">Editar asignación</a></td>
+
                     </tr>
                 @endforeach
             </tbody>

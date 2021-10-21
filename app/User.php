@@ -7,6 +7,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
 
+use function PHPSTORM_META\type;
+
 class User extends Authenticatable
 {
     use LaratrustUserTrait;
@@ -55,7 +57,7 @@ class User extends Authenticatable
         return $this->hasOne('App\Profile');
     }
 
-    //Funcion para saber que rol tengo
+    //Funcion para saber que roles tiene el usuario
     public function whatRoles()
     {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
@@ -66,9 +68,15 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Ticket', 'designer_id');
     }
-     //Funcion para obtener los tickets creados por el vendedor
-     public function ticketsCreated()
-     {
-         return $this->hasMany('App\Ticket', 'seller_id');
-     }
+    //Funcion para obtener los tickets creados por el vendedor
+    public function ticketsCreated()
+    {
+        return $this->hasMany('App\Ticket', 'seller_id');
+    }
+
+    //Funcion para saber que tickets tiene asigando cada diseñador
+    public function whatTypes()
+    {
+        return $this->belongsToMany(Type::class, 'ticket_assigments', 'designer_id', 'type_id');
+    }
 }

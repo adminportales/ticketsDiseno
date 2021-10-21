@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\TicketAssigment;
+use App\Type;
 use Illuminate\Http\Request;
 
 class TicketAssigmentController extends Controller
@@ -62,7 +63,9 @@ class TicketAssigmentController extends Controller
      */
     public function edit(TicketAssigment $ticketAssigment)
     {
-        //
+        $types = Type::all();
+
+        return view('design_manager.editAsign', compact('types'));
     }
 
     /**

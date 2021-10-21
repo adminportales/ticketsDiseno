@@ -111,8 +111,7 @@ class TicketController extends Controller
             'priority_id' => 1,
             'type_id' => $request->type
         ]);
-        dd($ticket);
-        return;
+
         // Registrar la informacion del ticket
         $ticketInformation = $ticket->ticketInformation()->create([
             'status_id' => 1,
