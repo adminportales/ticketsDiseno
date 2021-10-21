@@ -36,7 +36,7 @@ Route::get('/design_manager/assign-ticket', 'DesignerManagerController@ticketPro
 // Gerente de Ventas
 Route::get('/sales_manager/all-tickets', 'SalesManagerController@allTickets')->name('sales_manager.all');
 Route::get('/sales_manager/tickets', 'TicketController@index')->name('sales_manager.index');
-Route::get('/sales_manager/tickets/create', 'TicketController@index')->name('sales_manager.create');
+Route::get('/sales_manager/tickets/create', 'TicketController@create')->name('sales_manager.create');
 
 // Rutas del vendedor
 Route::resource('/tickets', 'TicketController');

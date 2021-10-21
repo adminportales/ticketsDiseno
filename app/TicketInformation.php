@@ -12,6 +12,8 @@ class TicketInformation extends Model
         'ticket_id',
         'status_id',
         'technique_id',
+        'modifier_id',
+        'modifier_name',
         'customer',
         'description',
         'title',

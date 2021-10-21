@@ -111,13 +111,16 @@ class TicketController extends Controller
             'priority_id' => 1,
             'type_id' => $request->type
         ]);
+        dd($ticket);
+        return;
         // Registrar la informacion del ticket
-        $ticketInformation = $ticket->latestTicketInformation()->update([
-            'ticket_id' => $ticket->id,
+        $ticketInformation = $ticket->ticketInformation()->create([
             'status_id' => 1,
             'technique_id' => $request->technique,
             'customer' => $request->customer,
             'description' => $request->description,
+            'modifier_name' => auth()->user()->name .' '.auth()->user()->lastname,
+            'modifier_id' => auth()->user()->id,
             'title' => $request->title,
             'logo' => $request->logo,
             'items' => $request->items,

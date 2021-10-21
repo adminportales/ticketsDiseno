@@ -16,17 +16,6 @@ class Ticket extends Model
         'type_id',
     ];
 
-
-    //Crear el primer registro de informacion de ticket al momento de crear el usuario
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::created(function ($ticket) {
-            $ticket->latestTicketInformation()->create();
-        });
-    }
-
     // Toda la informacion del ticket
     public function ticketInformation()
     {
