@@ -24,6 +24,7 @@ Vue.component('form-create-ticket', require('./components/FormCreateTicket.vue')
 Vue.component('select-rol', require('./components/SelectRol.vue').default);
 Vue.component('change-priority', require('./components/ChangePriority.vue').default);
 Vue.component('change-designer-assigment', require('./components/ChangeDesignerAssigment.vue').default);
+Vue.component('change-status-designer', require('./components/ChangeStatusDesigner.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

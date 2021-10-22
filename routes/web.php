@@ -34,6 +34,7 @@ Route::get('/design_manager/mis-tickets', 'DesignerManagerController@verTickets'
 Route::get('/design_manager/assign-ticket', 'DesignerManagerController@ticketAssign')->name('design_manager.assign');
 Route::get('/design_manager/edit-asign/{user}', 'TicketAssigmentController@edit')->name('ticketAssigment.edit');
 Route::put('/design_manager/edit-asign/{user}', 'TicketAssigmentController@update')->name('ticketAssigment.update');
+Route::put('/design-manager/update-availability/{user}', 'ProfileController@updateStatus')->name('profile.updateStatus');
 
 // Gerente de Ventas
 Route::get('/sales_manager/all-tickets', 'SalesManagerController@allTickets')->name('sales_manager.all');

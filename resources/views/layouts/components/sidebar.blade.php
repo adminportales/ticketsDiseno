@@ -41,12 +41,12 @@
                             <span>Asignar Permisos</span>
                         </a>
                     </li>
-                    {{--  <li class="sidebar-item  ">
+                    {{-- <li class="sidebar-item  ">
                         <a href="{{ route('reporte_tickets') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Reporte de tickets</span>
                         </a>
-                    </li>  --}}
+                    </li> --}}
                 @endrole
                 @role('seller')
                     <li class="sidebar-item  ">
@@ -86,7 +86,7 @@
                     <li class="sidebar-item  ">
                         <a href="{{ route('design_manager.assign') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
-                            <span>Editar asignación</span>
+                            <span>Mi equipo</span>
                         </a>
                     </li>
                 @endrole

@@ -9,7 +9,6 @@
         <h4 class="card-title">Modificar los tipos de ticktes que recibe {{ $user->name . ' ' . $user->lastname }} por
             defecto</h4>
     </div>
-
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
@@ -18,9 +17,16 @@
                     @csrf
                     <div class="d-flex justify-content-between">
                         @foreach ($types as $type)
+                            @php $check = false; @endphp
+                            @foreach ($userTypes as $userType)
+                                @if ($type->id == $userType->id)
+                                    @php $check = true; @endphp
+                                    @break
+                                @endif
+                            @endforeach
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="flexRadioDefault"
-                                    id="check" value="{{ $type->id }}">
+                                <input class="form-check-input" type="checkbox" name="types[]" id="check"
+                                    {{ $check ? 'checked' : '' }} value="{{ $type->id }}">
                                 <label class="form-check-label" for="check">
                                     {{ $type->type }}
                                 </label>
@@ -32,8 +38,6 @@
                 </form>
             </div>
         </div>
-
-
     </div>
 @endsection
 

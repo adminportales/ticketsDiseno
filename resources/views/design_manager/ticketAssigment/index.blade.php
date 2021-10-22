@@ -14,7 +14,8 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre de Diseñador</th>
-                    <th>Categoria de Ticket</th>
+                    <th>Tipos de Tickets</th>
+                    <th>Disponibilidad</th>
                     <th>Acciones</th>
 
                 </tr>
@@ -29,11 +30,14 @@
                             {{ $type->type }}
                         @endforeach
                     </td>
-
+                    <td>
+                        <change-status-designer :availability={{ auth()->user()->profile->availability }}
+                            :user={{ auth()->user()->id }}>
+                        </change-status-designer>
+                    </td>
                     <td><a href="{{ route('ticketAssigment.edit', ['user' => auth()->user()->id]) }}"
                             class="btn btn-primary">Editar
                             asignación</a></td>
-
                 </tr>
                 @foreach ($users as $user)
                     <tr>
@@ -44,6 +48,11 @@
                             @foreach ($user->whatTypes as $type)
                                 {{ $type->type }}
                             @endforeach
+                        </td>
+                        <td>
+                            <change-status-designer :availability={{ $user->profile->availability }}
+                                :user={{ $user->id }}>
+                            </change-status-designer>
                         </td>
 
                         <td><a href="{{ route('ticketAssigment.edit', ['user' => $user->id]) }}"

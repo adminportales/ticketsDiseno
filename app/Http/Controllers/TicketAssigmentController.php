@@ -66,8 +66,8 @@ class TicketAssigmentController extends Controller
     public function edit(User $user)
     {
         $types = Type::all();
-
-        return view('design_manager.ticketAssigment.edit', compact('types', 'user'));
+        $userTypes = $user->whatTypes;
+        return view('design_manager.ticketAssigment.edit', compact('types', 'user', 'userTypes'));
     }
 
     /**
@@ -79,7 +79,9 @@ class TicketAssigmentController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $user->whatTypes()->detach();
+        $user->whatTypes()->attach($request->types);
+        return redirect()->action('DesignerManagerController@ticketAssign');
     }
 
     /**

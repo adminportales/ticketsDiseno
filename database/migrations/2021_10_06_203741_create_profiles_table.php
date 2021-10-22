@@ -17,6 +17,7 @@ class CreateProfilesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->enum('company', ['BH', 'Promo Life'])->nullable();
+            $table->boolean('availability')->default(true);
             $table->timestamps();
         });
     }
