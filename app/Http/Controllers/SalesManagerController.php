@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Priority;
 use App\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -44,6 +45,8 @@ class SalesManagerController extends Controller
     }
     public function allTickets()
     {
+        $priorities = Priority::all();
+
         $tickets_id = DB::table('users')
             ->join('tickets', 'users.id', '=', 'tickets.seller_id')
             ->join('profiles', 'users.id', '=', 'profiles.user_id')
@@ -56,6 +59,6 @@ class SalesManagerController extends Controller
             array_push($tickets, Ticket::find($ticket_id->id));
         }
 
-        return view('sales_manager.allTickets', compact('tickets'));
+        return view('sales_manager.allTickets', compact('tickets', 'priorities'));
     }
 }

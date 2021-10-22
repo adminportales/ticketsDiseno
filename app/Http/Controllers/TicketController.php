@@ -28,7 +28,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //Validar quien esta en su qeuipo
+        //Validar quien esta en su equipo
 
         // Traer tickes que crearon los usuario que pertenecen a us qeuipo
 

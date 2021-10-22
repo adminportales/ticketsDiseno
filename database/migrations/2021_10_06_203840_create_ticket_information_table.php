@@ -20,13 +20,13 @@ class CreateTicketInformationTable extends Migration
             $table->foreignId('technique_id')->constrained();
             $table->foreignId('modifier_id')->references('id')->on('users');
             $table->string('modifier_name');
-            $table->string('customer');
-            $table->text('description');
-            $table->string('title');
-            $table->text('logo');
-            $table->text('items');
-            $table->text('product');
-            $table->string('pantone');
+            $table->string('customer')->nullable();
+            $table->string('title')->nullable();
+            $table->text('logo')->nullable();
+            $table->text('items')->nullable();
+            $table->text('product')->nullable();
+            $table->string('pantone')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

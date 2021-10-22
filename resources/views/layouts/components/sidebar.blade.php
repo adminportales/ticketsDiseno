@@ -110,8 +110,6 @@
                         </a>
                     </li>
                 @endrole
-
-
                 <!-- Authentication Links -->
                 @guest
                     <li class="sidebar-item">

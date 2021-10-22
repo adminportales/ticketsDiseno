@@ -23,6 +23,7 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('form-create-ticket', require('./components/FormCreateTicket.vue').default);
 Vue.component('select-rol', require('./components/SelectRol.vue').default);
+Vue.component('change-priority', require('./components/ChangePriority.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
