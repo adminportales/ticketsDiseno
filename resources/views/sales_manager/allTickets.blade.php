@@ -29,20 +29,9 @@
                         <td>{{ $ticket->typeTicket->type }}</td>
                         <td>{{ $ticket->latestTicketInformation->statusTicket->status }}</td>
                         <td class="text-center">
-                            @switch($ticket->priorityTicket->priority)
-                                @case('Alta')
-                                    <span class="badge bg-danger">Alta</span>
-                                @break
-                                @case('Normal')
-                                    <span class="badge bg-warning">Normal</span>
-                                @break
-                                @case('Baja')
-                                    <span class="badge bg-primery">Baja</span>
-                                @break
-                                @default
-
-                            @endswitch
-                            <change-priority :ticket={{ $ticket->id }} :priorities=@json($priorities) ></change-priority>
+                            <change-priority priority={{ $ticket->priorityTicket->priority }} :ticket={{ $ticket->id }}
+                                :priorities=@json($priorities)>
+                            </change-priority>
                         </td>
                         <td>{{ $ticket->latestTicketInformation->created_at }}
                             {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
@@ -53,7 +42,6 @@
                                 class="btn btn-primary">Modificar</a>
                         </td>
                     </tr>
-                    {!!$priorities!!}
                 @endforeach
             </tbody>
         </table>
@@ -77,7 +65,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('assets/vendors/jquery/jquery.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/vendors/jquery/jquery.min.js') }}"></script> --}}
     <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>

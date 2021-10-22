@@ -16,7 +16,7 @@ class PrioritySeeder extends Seeder
             'priority' => 'Alta'
         ]);
         Priority::create([
-            'priority' => 'Media'
+            'priority' => 'Normal'
         ]);
         Priority::create([
             'priority' => 'Baja'

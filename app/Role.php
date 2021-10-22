@@ -12,7 +12,6 @@ class Role extends LaratrustRole
     //Funcion para saber que usuarios tienen este role
     public function whatUsers()
     {
-
         return $this->belongsToMany(User::class, 'role_user', 'role_id', 'user_id');
     }
 }

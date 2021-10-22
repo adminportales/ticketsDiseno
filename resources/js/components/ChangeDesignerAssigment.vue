@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex">
-    <span class="badge" :class="color">{{ priorityCurrent }}</span>
+    <span class="badge" :class="color">{{ designerCurrent }}</span>
 
     <div class="dropdown">
       <button
@@ -14,9 +14,9 @@
         class="dropdown-menu dropdown-menu-dark"
         aria-labelledby="dropdownMenuButton"
       >
-        <li v-for="priority in priorities" :key="priority.id">
-          <a class="dropdown-item" @click="changePriority(priority.id)">
-            {{ priority.priority }}</a
+        <li v-for="designer in designers" :key="designer.id">
+          <a class="dropdown-item" @click="changeDesigner(designer.id)">
+            {{ designer.name }}</a
           >
         </li>
       </ul>
@@ -26,33 +26,31 @@
 
 <script>
 export default {
-  props: ["ticket", "priorities", "priority"],
+  props: ["ticket", "designers", "designer"],
   data() {
     return {
-      prioritiesData: this.priorities,
+      designersData: this.designers,
       color: "",
-      priorityCurrent: "",
+      designerCurrent: "",
     };
   },
   mounted() {
-    this.priorityCurrent = this.priority;
-    this.changeColor();
+    this.designerCurrent = this.designer;
   },
   methods: {
-    async changePriority(priority) {
+    async changeDesigner(designer) {
       try {
-        if (this.priorities.id == priority) {
+        if (this.designers.id == designer) {
           return;
         }
-        let params = { priority: priority, _method: "put" };
+        let params = { designer: designer, _method: "put" };
         let res = await axios.post(
-          `/sales-manager/update-priority/${this.ticket}`,
+          `/sales-manager/update-designer/${this.ticket}`,
           params
         );
         let data = res.data;
-        if (data != "equalPriority") {
-          this.priorityCurrent = data.priority;
-          this.changeColor();
+        if (data != "equaldesigner") {
+          this.designerCurrent = data.designer;
           Toastify({
             text: "La prioridad se cambio exitosamente",
             duration: 3000,
@@ -68,7 +66,7 @@ export default {
       }
     },
     changeColor() {
-      switch (this.priorityCurrent) {
+      switch (this.designerCurrent) {
         case "Alta":
           this.color = "bg-danger";
           break;

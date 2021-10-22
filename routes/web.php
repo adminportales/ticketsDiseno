@@ -29,15 +29,17 @@ route::get('/designer/ticketShow/{ticket}', 'DesignerController@show')->name('de
 Route::get('/designer/home', 'DesignerController@index')->name('designer.inicio');
 
 // Rutas del gerente de diseño
-Route::get('/design_manager/ver-tickets', 'DesignerManagerController@index')->name('design_manager.inicio');
+Route::get('/design_manager/all-tickets', 'DesignerManagerController@allTickets')->name('design_manager.all');
 Route::get('/design_manager/mis-tickets', 'DesignerManagerController@verTickets')->name('design_manager.tickets');
 Route::get('/design_manager/assign-ticket', 'DesignerManagerController@ticketAssign')->name('design_manager.assign');
-Route::get('/design_manager/edit-asign/{user}', 'TicketAssigmentController@edit')->name('design_manager.edit');
+Route::get('/design_manager/edit-asign/{user}', 'TicketAssigmentController@edit')->name('ticketAssigment.edit');
+Route::put('/design_manager/edit-asign/{user}', 'TicketAssigmentController@update')->name('ticketAssigment.update');
 
 // Gerente de Ventas
 Route::get('/sales_manager/all-tickets', 'SalesManagerController@allTickets')->name('sales_manager.all');
 Route::get('/sales_manager/tickets', 'TicketController@index')->name('sales_manager.index');
 Route::get('/sales_manager/tickets/create', 'TicketController@create')->name('sales_manager.create');
+Route::put('/sales-manager/update-priority/{ticket}', 'PriorityController@update');
 
 // Rutas del vendedor
 Route::resource('/tickets', 'TicketController');

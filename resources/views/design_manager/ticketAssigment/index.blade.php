@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('title')
-    <h3>Tickets asignados</h3>
+    <h3>Tickets por defecto</h3>
 @endsection
 
 @section('content')
     <div class="card-header">
-        <h4 class="card-title">Información general de tickets asignados</h4>
+        <h4 class="card-title">Tickets por defecto para cada diseñador</h4>
     </div>
     <div class="card-body">
         <table class="table" id="tableTickets">
@@ -20,9 +20,24 @@
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>{{ auth()->user()->name }}</td>
+
+                    <td>
+                        @foreach (auth()->user()->whatTypes as $type)
+                            {{ $type->type }}
+                        @endforeach
+                    </td>
+
+                    <td><a href="{{ route('ticketAssigment.edit', ['user' => auth()->user()->id]) }}"
+                            class="btn btn-primary">Editar
+                            asignación</a></td>
+
+                </tr>
                 @foreach ($users as $user)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $loop->iteration + 1 }}</td>
                         <td>{{ $user->name }}</td>
 
                         <td>
@@ -31,7 +46,7 @@
                             @endforeach
                         </td>
 
-                        <td><a href="{{ route('design_manager.edit', ['user' => $user->id]) }}"
+                        <td><a href="{{ route('ticketAssigment.edit', ['user' => $user->id]) }}"
                                 class="btn btn-primary">Editar asignación</a></td>
 
                     </tr>

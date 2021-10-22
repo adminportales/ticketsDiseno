@@ -72,7 +72,7 @@
                 @endrole
                 @role('design_manager')
                     <li class="sidebar-item  ">
-                        <a href="{{ route('design_manager.inicio') }}" class='sidebar-link'>
+                        <a href="{{ route('design_manager.all') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Ver tickets</span>
                         </a>

@@ -38,25 +38,12 @@ class DesignerManagerController extends Controller
     }
 
     //Metodo para ver todos los tickets
-    public function index()
+    public function allTickets()
     {
-        $tickets = Ticket::all();$tickets = Ticket::all();
-
-
-        $totalTickets = 0;
-        $closedTickets = 0;
-        $openTickets = 0;
-
-        foreach ($tickets as $ticket) {
-            $statusTicket = $ticket->latestTicketInformation->statusTicket->status;
-            if ($statusTicket == 'Finalizado') {
-                $closedTickets++;
-            } else {
-                $openTickets++;
-            }
-            $totalTickets++;
-        }
-        return view('design_manager.index', compact('totalTickets', 'tickets', 'openTickets', 'closedTickets'));
+        $role = Role::find(3);
+        $designers = $role->whatUsers;
+        $tickets = Ticket::all();
+        return view('design_manager.index', compact('tickets', 'designers'));
     }
     //Metodo para visualizar mis propios tickets
     public function verTickets()
@@ -68,11 +55,8 @@ class DesignerManagerController extends Controller
     //Metodo para asignar tickets
     public function ticketAssign()
     {
-        $role= Role::find(3);
-        $users= $role->whatUsers;
-
-        return view('design_manager.assign', compact('users'));
+        $role = Role::find(3);
+        $users = $role->whatUsers;
+        return view('design_manager.ticketAssigment.index', compact('users'));
     }
-
-
 }

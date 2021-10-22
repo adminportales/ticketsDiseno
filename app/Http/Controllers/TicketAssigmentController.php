@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\TicketAssigment;
 use App\Type;
+use App\User;
 use Illuminate\Http\Request;
 
 class TicketAssigmentController extends Controller
 {
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -61,11 +63,11 @@ class TicketAssigmentController extends Controller
      * @param  \App\TicketAssigment  $ticketAssigment
      * @return \Illuminate\Http\Response
      */
-    public function edit(TicketAssigment $ticketAssigment)
+    public function edit(User $user)
     {
         $types = Type::all();
 
-        return view('design_manager.editAsign', compact('types'));
+        return view('design_manager.ticketAssigment.edit', compact('types', 'user'));
     }
 
     /**
@@ -75,7 +77,7 @@ class TicketAssigmentController extends Controller
      * @param  \App\TicketAssigment  $ticketAssigment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TicketAssigment $ticketAssigment)
+    public function update(Request $request, User $user)
     {
         //
     }
