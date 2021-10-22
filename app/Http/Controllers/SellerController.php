@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Priority;
 use Illuminate\Http\Request;
 
 class SellerController extends Controller
