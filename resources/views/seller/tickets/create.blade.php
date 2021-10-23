@@ -122,17 +122,20 @@
     </div>
 @endsection
 
-@section('scripts')
+@section('scriptsBefore')
+    <script src="{{ asset('assets\vendors\jquery\jquery.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"
         integrity="sha512-oQq8uth41D+gIH/NJvSJvVB85MFk1eWpMK6glnkg6I7EdMqC1XVkW7RxLheXwmFdG03qScCM7gKS/Cx3FYt7Tg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('assets\vendors\sweetalert2\sweetalert2.all.min.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const message = document.querySelector('#message')
-            setTimeout(() => {
-                message.remove()
-            }, 5000);
+            if (document.querySelector('#message')) {
+                const message = document.querySelector('#message')
+                setTimeout(() => {
+                    message.remove()
+                }, 5000);
+            }
         })
     </script>
 @endsection

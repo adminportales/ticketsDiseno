@@ -128,7 +128,7 @@ if (document.querySelector('#dropzoneItems')) {
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Solo puedes agregar 1 imagen!',
-                  })
+                })
                 file.previewElement.parentNode.removeChild(file.previewElement)
             },
             removedfile: function (file, response) {
@@ -205,7 +205,7 @@ if (document.querySelector('#dropzoneItems')) {
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Solo puedes agregar 1 imagen!',
-                  })
+                })
                 file.previewElement.parentNode.removeChild(file.previewElement)
             },
             removedfile: function (file, response) {

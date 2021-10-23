@@ -10,18 +10,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('assets/vendors/toastify/toastify.css') }}">
+    @yield('styles')
 
     <link rel="stylesheet" href="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/bootstrap-icons/bootstrap-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.svg') }}" type="image/x-icon">
-    @yield('styles')
 </head>
 
 <body>
     <div id="app">
-
         @include('layouts.components.sidebar')
         <div id="main">
             {{-- Menu Hamburguesa --}}
@@ -50,12 +47,10 @@
             @include('layouts.components.footer')
         </div>
     </div>
-    </div>
     <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/vendors/toastify/toastify.js') }}"></script>
-    <script src="{{ asset('assets/js/extensions/toastify.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+    @yield('scriptsBefore')
+    <script src="{{ asset('js/app.js') }}" ></script>
     @yield('scripts')
     <script src="{{ asset('assets/js/mazer.js') }}"></script>
 </body>
