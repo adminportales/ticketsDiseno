@@ -21,7 +21,7 @@
             </div>
         @endif
 
-        <form action="{{ route('tickets.store') }}" method="post" enctype="multipart/form-data" class="mx-5">
+        <form action="{{ route('tickets.store') }}" method="post" class="mx-5">
             <div class="row">
                 @csrf
                 <div class="col-md-12">
@@ -122,11 +122,7 @@
     </div>
 @endsection
 
-@section('scriptsBefore')
-    <script src="{{ asset('assets\vendors\jquery\jquery.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"
-        integrity="sha512-oQq8uth41D+gIH/NJvSJvVB85MFk1eWpMK6glnkg6I7EdMqC1XVkW7RxLheXwmFdG03qScCM7gKS/Cx3FYt7Tg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+@section('scripts')
     <script src="{{ asset('assets\vendors\sweetalert2\sweetalert2.all.min.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {

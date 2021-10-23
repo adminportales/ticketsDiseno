@@ -9,7 +9,7 @@
         <h4 class="card-title">Tickets por defecto para cada diseñador</h4>
     </div>
     <div class="card-body">
-        <table class="table" id="tableTickets">
+        <table class="table" id="tableTeam">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -67,7 +67,8 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
-    {{-- <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets\vendors\toastify\toastify.css') }}">
     <style>
         table.dataTable td {
             padding: 15px 8px;
@@ -81,11 +82,13 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('assets/vendors/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>
-    {{-- <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script> --}}
+    <script src="{{ asset('assets\vendors\toastify\toastify.js') }}"></script>
+    <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
     <script>
         // Jquery Datatable
-        let jquery_datatable = $("#tableTickets").DataTable()
+        let jquery_datatable = $("#tableTeam").DataTable()
     </script>
 @endsection

@@ -84,7 +84,7 @@ class TicketController extends Controller
             'pantone' => 'required'
         ]);
 
-        // Obtener el id y el nombre del vendedor
+        // Obtener el id y el nombre del vendedor que esta editando
         $seller_id = auth()->user()->id;
         $seller_name = auth()->user()->name . ' ' . auth()->user()->lastname;
 
@@ -118,8 +118,8 @@ class TicketController extends Controller
             'technique_id' => $request->technique,
             'customer' => $request->customer,
             'description' => $request->description,
-            'modifier_name' => auth()->user()->name .' '.auth()->user()->lastname,
-            'modifier_id' => auth()->user()->id,
+            'modifier_name' => $seller_name,
+            'modifier_id' => $seller_id,
             'title' => $request->title,
             'logo' => $request->logo,
             'items' => $request->items,
@@ -153,7 +153,7 @@ class TicketController extends Controller
         $statuses = Status::all();
         $statusTicket = $ticket->latestTicketInformation->statusTicket->id;
 
-        $ticketHistories = $ticket->historyTicket()->orderByDesc('created_at')->get();
+        $ticketHistories = $ticket->historyTicket;
 
         return view(
             'seller.tickets.show',
@@ -170,8 +170,9 @@ class TicketController extends Controller
     public function edit(Ticket $ticket)
     {
         $types = Type::all();
+        $techniques = Technique::all();
         $ticketInformation = $ticket->latestTicketInformation;
-        return view('seller.tickets.edit', compact('ticket', 'types', 'ticketInformation'));
+        return view('seller.tickets.edit', compact('techniques', 'ticket', 'types', 'ticketInformation'));
     }
 
     /**
@@ -183,41 +184,47 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
+        // Validar los datos
         request()->validate([
+            'type' => 'required',
             'customer' => ['required', 'string', 'max:255'],
-            'technique' => ['required', 'string', 'max:255'],
+            'technique' => 'required',
             'description' => ['required', 'string'],
             'title' => ['required', 'string', 'max:255'],
-            'logo' => 'required|image',
-            'product' => 'required|image',
+            'logo' => 'required',
+            'product' => 'required',
+            'items' => 'required',
             'pantone' => 'required'
         ]);
 
-        // Guardar las imagenes y obtener las rutas
-        $ruta_imagen_producto = $request['product']->store('upload-tickets_producto', 'public');
-        $ruta_imagen_logo = $request['logo']->store('upload-tickets_logo', 'public');
+        // Obtener el id y el nombre del vendedor que esta editando
+        $seller_id = auth()->user()->id;
+        $seller_name = auth()->user()->name . ' ' . auth()->user()->lastname;
 
         // Registrar la informacion del ticket
-        $ticketInformation = TicketInformation::create(([
-            'ticket_id' => $ticket->id,
-            'status_id' =>  $ticket->latestTicketInformation->status_id,
+        $ticketInformation = $ticket->ticketInformation()->create([
+            'status_id' => $ticket->latestTicketInformation->status_id,
+            'technique_id' => $request->technique,
             'customer' => $request->customer,
-            'technique' => $request->technique,
             'description' => $request->description,
+            'modifier_name' => $seller_name,
+            'modifier_id' => $seller_id,
             'title' => $request->title,
-            'logo' => $ruta_imagen_logo,
-            'product' => $ruta_imagen_producto,
+            'logo' => $request->logo,
+            'items' => $request->items,
+            'product' => $request->product,
+            'items' => $request->items,
             'pantone' => $request->pantone,
-        ]));
+        ]);
 
-        TicketHistory::create([
+        $ticket->historyTicket()->create([
             'ticket_id' => $ticket->id,
             'reference_id' => $ticketInformation->id,
             'type' => 'info'
         ]);
 
         // Regresar a la vista de inicio
-        return redirect()->action('HomeController@index');
+        return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
     }
 
     public function uploadItems(Request $request)

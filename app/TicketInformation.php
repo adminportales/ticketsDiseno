@@ -28,4 +28,8 @@ class TicketInformation extends Model
     {
         return $this->belongsTo('App\Status', 'status_id');
     }
+    public function techniqueTicket()
+    {
+        return $this->belongsTo('App\Technique', 'technique_id');
+    }
 }

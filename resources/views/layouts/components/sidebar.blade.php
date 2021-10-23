@@ -49,16 +49,10 @@
                     </li> --}}
                 @endrole
                 @role('seller')
-                    <li class="sidebar-item  ">
+                    <li class="sidebar-item {{ request()->is('tickets*') ? 'active' : '' }}">
                         <a href="{{ route('tickets.index') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Ver Tickets</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item  ">
-                        <a href="{{ route('tickets.create') }}" class='sidebar-link'>
-                            <i class="bi bi-grid-fill"></i>
-                            <span>Crear ticket</span>
                         </a>
                     </li>
                 @endrole

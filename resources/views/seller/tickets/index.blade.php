@@ -6,7 +6,10 @@
 
 @section('content')
     <div class="card-header">
-        <h4 class="card-title">Información general acerca de las solicitudes</h4>
+        <div class="d-flex justify-content-between">
+            <h4 class="card-title">Información general acerca de las solicitudes</h4>
+            <a href="{{ route('tickets.create') }}" class="btn btn-success">Crear ticket</a>
+        </div>
     </div>
     <div class="card-body">
         <table class="table" id="tableTickets">
@@ -43,7 +46,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
-    {{-- <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}">
     <style>
         table.dataTable td {
             padding: 15px 8px;
@@ -57,9 +60,10 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('assets/vendors/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>
-    {{-- <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
     <script>
         // Jquery Datatable
         let jquery_datatable = $("#tableTickets").DataTable()

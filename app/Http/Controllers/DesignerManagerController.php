@@ -7,8 +7,6 @@ use App\Ticket;
 use App\Type;
 use Illuminate\Http\Request;
 
-use function GuzzleHttp\Promise\all;
-
 class DesignerManagerController extends Controller
 {
     public function __construct()

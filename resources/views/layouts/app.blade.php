@@ -49,8 +49,7 @@
     </div>
     <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-    @yield('scriptsBefore')
-    <script src="{{ asset('js/app.js') }}" ></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     @yield('scripts')
     <script src="{{ asset('assets/js/mazer.js') }}"></script>
 </body>
