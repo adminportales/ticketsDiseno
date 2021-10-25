@@ -154,10 +154,11 @@ class TicketController extends Controller
         $statusTicket = $ticket->latestTicketInformation->statusTicket->id;
 
         $ticketHistories = $ticket->historyTicket;
+        $ticketDeliveries = $ticket->deliveryTicket;
 
         return view(
             'seller.tickets.show',
-            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories')
+            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories', 'ticketDeliveries')
         );
     }
 

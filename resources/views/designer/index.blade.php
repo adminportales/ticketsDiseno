@@ -67,7 +67,6 @@
 @endsection
 
 @section('scripts')
-
     <script src="{{ asset('assets/vendors/chartjs/Chart.min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/ui-chartjs.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>

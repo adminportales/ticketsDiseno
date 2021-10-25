@@ -9,6 +9,8 @@ class TicketDelivery extends Model
     protected $fillable = [
         'ticket_id',
         'designer_id',
-        'is_accepted'
+        'designer_name',
+        'is_accepted',
+        'files'
     ];
 }

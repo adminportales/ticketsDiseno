@@ -51,4 +51,10 @@ class Ticket extends Model
     {
         return $this->hasMany('App\TicketHistory');
     }
+
+    // Funcion para consulatr las entregas del ticket
+    public function deliveryTicket()
+    {
+        return $this->hasMany('App\TicketDelivery');
+    }
 }

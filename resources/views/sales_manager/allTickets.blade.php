@@ -72,6 +72,5 @@
     <script>
         // Jquery Datatable
         let jquery_datatable = $("#tableTickets").DataTable()
-        let priority = @json($priorities);
     </script>
 @endsection

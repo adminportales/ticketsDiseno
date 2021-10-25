@@ -22,11 +22,11 @@ class DesignerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
+    //Resumen generarl del diseñador
     static function dashboard()
     {
         // Leemos los tickets que se asignaron al ususrio y obtenemos su estado
-        $tickets = auth()->user()->assignedTickets;
+        $tickets = auth()->user()->assignedTickets()->orderByDesc('created_at')->get();;
 
         $totalTickets = 0;
         $closedTickets = 0;
@@ -49,25 +49,9 @@ class DesignerController extends Controller
     public function index()
     {
         //Traer los tickets asignados
-        $tickets = auth()->user()->assignedTickets;
-
-        //Revisar el total de ticktes
-        $totalTickets = 0;
-        $closedTickets = 0;
-        $openTickets = 0;
-
-        foreach ($tickets as $ticket) {
-            $statusTicket = $ticket->latestTicketInformation->statusTicket->status;
-            if ($statusTicket == 'Finalizado') {
-                $closedTickets++;
-            } else {
-                $openTickets++;
-            }
-            $totalTickets++;
-        }
-
+        $tickets = auth()->user()->assignedTickets()->orderByDesc('created_at')->get();;
         //Mostrar la vista
-        return view('designer.index', compact('totalTickets', 'tickets', 'openTickets', 'closedTickets'));
+        return view('designer.index', compact('tickets'));
     }
 
     /**
@@ -83,11 +67,13 @@ class DesignerController extends Controller
         $messages = $ticket->messagesTicket()->orderByDesc('created_at')->get();
         $statuses = Status::all();
         $statusTicket = $ticket->latestTicketInformation->statusTicket->id;
-        $ticketHistories = $ticket->historyTicket()->orderByDesc('created_at')->get();
+
+        $ticketHistories = $ticket->historyTicket;
+        $ticketDeliveries = $ticket->deliveryTicket;
 
         return view(
             'designer.showTicket',
-            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories')
+            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories', 'ticketDeliveries')
         );
     }
 }
