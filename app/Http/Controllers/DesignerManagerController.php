@@ -17,7 +17,8 @@ class DesignerManagerController extends Controller
     static function dashboard()
     {
         $tickets = Ticket::all();
-
+        $role = Role::find(3);
+        $users = $role->whatUsers;
         $totalTickets = 0;
         $closedTickets = 0;
         $openTickets = 0;
@@ -32,7 +33,7 @@ class DesignerManagerController extends Controller
             $totalTickets++;
         }
 
-        return view('design_manager.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets'));
+        return view('design_manager.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets', 'users'));
     }
 
     //Metodo para ver todos los tickets

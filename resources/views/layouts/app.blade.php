@@ -38,6 +38,7 @@
                         </div>
                     </div>
                     <section class="section">
+                        @yield('dashboard')
                         <div class="card">
                             @yield('content')
                         </div>
