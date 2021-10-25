@@ -50,3 +50,6 @@ Route::post('/tickets/upload-product', 'TicketController@uploadProducts')->name(
 Route::post('/tickets/deleteProduct', 'TicketController@deleteProduct')->name('tickets.deleteProduct');
 Route::post('/tickets/upload-logo', 'TicketController@uploadLogos')->name('tickets.uploadLogos');
 Route::post('/tickets/deleteLogo', 'TicketController@deleteLogo')->name('tickets.deleteLogo');
+Route::post('/tickets/delivery', 'TicketController@uploadDeliveries')->name('tickets.uploadDeliveries');
+Route::post('/tickets/deleteDelivery', 'TicketController@deleteDelivery')->name('tickets.deleteDelivery');
+Route::post('tickets/delivery/{ticket}', 'TicketDeliveryCOntroller@store')->name('ticket.delivery');

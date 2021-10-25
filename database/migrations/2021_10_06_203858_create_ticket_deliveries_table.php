@@ -18,7 +18,7 @@ class CreateTicketDeliveriesTable extends Migration
             $table->foreignId('ticket_id')->constrained();
             $table->foreignId('designer_id')->references('id')->on('users');
             $table->string('designer_name');
-            $table->boolean('files');
+            $table->text('files');
             $table->boolean('is_accepted');
             $table->timestamps();
         });

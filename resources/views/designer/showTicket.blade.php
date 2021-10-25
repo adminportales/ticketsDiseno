@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-md-9">
                 <section class="border-0 row">
-                    <div class="col-md-9">
+                    <div class="col-md-8">
                         <p class="m-0"><strong>Titulo:
                             </strong>{{ $ticket->latestTicketInformation->title }}
                         </p>
@@ -46,7 +46,7 @@
                             </strong>{{ $ticket->latestTicketInformation->description }}
                         </p>
                     </div>
-                    <div class="col-md-3 overflow-auto" style="max-height: 200px;">
+                    <div class="col-md-4 overflow-auto" style="max-height: 200px;">
                         <a href="#" class="btn btn-sm btn-light w-100 d-flex justify-content-between">
                             Descargar todo
                             <span class="fa-fw select-all fas"></span>
@@ -219,7 +219,7 @@
                                     </div>
                                 </div>
                                 @php $latestInformation = $information; @endphp
-                            @else
+                            @elseif ($ticketHistory->type == 'message')
                                 @php $message = $ticketHistory->ticketMessage; @endphp
                                 <div
                                     class="border rounded px-3 py-2 my-1
@@ -229,6 +229,25 @@
                                         {{ $message->transmitter_id == auth()->user()->id ? 'Yo' : $message->transmitter_name }}
                                         {{ $message->created_at->diffForHumans() }}</p>
                                 </div>
+                            @else
+                                @php $delivery = $ticketHistory->ticketDelivery; @endphp
+
+                                <div
+                                    class="border rounded px-3 py-2 my-1
+                                {{ $delivery->designer_id == auth()->user()->id ? 'border-success' : 'border-warning' }}">
+                                    <p class="m-0 "><strong>Entrega de archivos</strong></p>
+
+                                    @foreach (explode(',', $delivery->files) as $item)
+                                        <a href="{{ asset('/storage/items/' . $item) }}"
+                                            class="btn btn-sm btn-light w-25 d-flex justify-content-between" download>
+                                            {{ Str::limit($item, 16) }}
+                                            <span class="fa-fw select-all fas"></span>
+                                        </a>
+                                    @endforeach
+                                    <p class="m-0 " style="font-size: .8rem">
+                                        {{ $delivery->designer_id == auth()->user()->id ? 'Yo' : $delivery->designer_name }}
+                                        {{ $delivery->created_at->diffForHumans() }}</p>
+                                </div>
                             @endif
                         @endforeach
                     </div>
@@ -236,22 +255,69 @@
             </div>
             <div class="col-md-3">
                 <h5>Entregas</h5>
+                <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Entregar <span class="fa-fw select-all fas"></span>
+                </button>
+                <hr>
                 @if (count($ticketDeliveries) <= 0)
                     No hay archivos disponibles
                 @endif
-                @foreach ($ticketDeliveries as $delivery)
-                    <a href="{{ asset('/storage/deliveries/' . $delivery->files) }}"
-                        class="btn btn-sm btn-light w-100 d-flex justify-content-between" download>
-                        {{ Str::limit($delivery->files, 16) }}
-                        <span class="fa-fw select-all fas"></span>
-                    </a>
-                @endforeach
+                <div class="border border-info rounded d-flex flex-column-reverse">
+                    @foreach ($ticketDeliveries as $delivery)
+                        <div class="item">
+                            @foreach (explode(',', $delivery->files) as $item)
+                                <a href="{{ asset('/storage/deliveries/' . $item) }}"
+                                    class="btn btn-sm btn-light w-100 d-flex justify-content-between" download>
+                                    {{ Str::limit($item, 16) }}
+                                    <span class="fa-fw select-all fas"></span>
+                                </a>
+                            @endforeach
+                            <p class="m-0 text-center" style="font-size: .7rem">
+                                <small>{{ $delivery->created_at->diffForHumans() }}</small>
+                            </p>
+                        </div>
+                    @endforeach
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Entrega de archivos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('ticket.delivery', ['ticket' => $ticket->id]) }}" method="POST">
+                    @csrf
+                    @method('POST')
+                    <div class="modal-body">
+                        <div id="dropzoneDelivery" class="dropzone form-control text-center"
+                            style="height: auto; width: auto">
+                        </div>
+                        <input type="hidden" name="delivery" id="delivery" value="{{ old('delivery') }}">
+                        @error('delivery')
+                            {{ $message }}
+                        @enderror
+                        <p id="error"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 @endsection
 
 @section('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css"
+        integrity="sha512-jU/7UFiaW5UBGODEopEqnbIAHOI8fO6T99m7Tsmqs2gkdujByJfkCbbfPSN4Wlqlb9TGnsuC0YgUgWkRBK7B9A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ asset('assets\vendors\sweetalert2\sweetalert2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}">
 
     <style>

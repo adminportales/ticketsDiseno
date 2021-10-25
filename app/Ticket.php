@@ -27,6 +27,11 @@ class Ticket extends Model
     {
         return $this->hasOne('App\TicketInformation')->latestOfMany();
     }
+    //Ultima entrega del ticket
+    public function latestTicketDelivery()
+    {
+        return $this->hasOne('App\TicketDelivery')->latestOfMany();
+    }
 
     //Traer el tipo de ticket
     public function typeTicket()

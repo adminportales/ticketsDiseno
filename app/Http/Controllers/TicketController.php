@@ -287,6 +287,25 @@ class TicketController extends Controller
             return response(['mensaje' => 'Imagen Eliminada', 'imagen' => $imagen], 200);
         }
     }
+    public function uploadDeliveries(Request $request)
+    {
+        $imagen = $request->file('file');
+        $nombreImagen = time() . rand(10, 100) . '.' . $imagen->extension();
+        $imagen->move(public_path('storage/deliveries'), $nombreImagen);
+        return response()->json(['correcto' => $nombreImagen]);
+    }
+
+    public function deleteDelivery(Request $request)
+    {
+        if ($request->ajax()) {
+            $imagen = $request->get('imagen');
+
+            if (File::exists('storage/deliveries/' . $imagen)) {
+                File::delete('storage/deliveries/' . $imagen);
+            }
+            return response(['mensaje' => 'Imagen Eliminada', 'imagen' => $imagen], 200);
+        }
+    }
 
     public function checkWorkload($designerAssigments)
     {

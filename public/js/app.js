@@ -47131,6 +47131,8 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./scripts/crearTicket */ "./resources/js/scripts/crearTicket.js");
 
+__webpack_require__(/*! ./scripts/entregarTicket */ "./resources/js/scripts/entregarTicket.js");
+
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /**
  * The following block of code may be used to automatically register your
@@ -47146,7 +47148,8 @@ Vue.component('form-create-ticket', __webpack_require__(/*! ./components/FormCre
 Vue.component('select-rol', __webpack_require__(/*! ./components/SelectRol.vue */ "./resources/js/components/SelectRol.vue")["default"]);
 Vue.component('change-priority', __webpack_require__(/*! ./components/ChangePriority.vue */ "./resources/js/components/ChangePriority.vue")["default"]);
 Vue.component('change-designer-assigment', __webpack_require__(/*! ./components/ChangeDesignerAssigment.vue */ "./resources/js/components/ChangeDesignerAssigment.vue")["default"]);
-Vue.component('change-status-designer', __webpack_require__(/*! ./components/ChangeStatusDesigner.vue */ "./resources/js/components/ChangeStatusDesigner.vue")["default"]);
+Vue.component('change-status-designer', __webpack_require__(/*! ./components/ChangeStatusDesigner.vue */ "./resources/js/components/ChangeStatusDesigner.vue")["default"]); // Vue.component('form-send-deliveries', require('./components/FormSendDeliveries.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -47837,6 +47840,106 @@ if (document.querySelector('#dropzoneItems')) {
           }
 
           console.log(logos);
+        });
+      }
+    });
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/scripts/entregarTicket.js":
+/*!************************************************!*\
+  !*** ./resources/js/scripts/entregarTicket.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+if (document.querySelector('#dropzoneDelivery')) {
+  var delivery = new Set();
+  Dropzone.autoDiscover = false;
+  document.addEventListener('DOMContentLoaded', function () {
+    // Dropzone
+    var dropzoneDelivery = new Dropzone('#dropzoneDelivery', {
+      url: "/tickets/delivery",
+      dictDefaultMessage: 'Arrastra aqui los archivos de entrega',
+      acceptedFiles: '.png,.jpg,.jpeg,.gif,.bmp',
+      addRemoveLinks: true,
+      dictRemoveFile: 'Borrar Archivo',
+      headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+      },
+      init: function init() {
+        var _this = this;
+
+        var itemsOld = document.querySelector('#delivery').value.split(',');
+
+        if (document.querySelector('#delivery').value.trim()) {
+          console.log(deliveryOld);
+          var imagenPublicada = [];
+          deliveryOld.forEach(function (itemOld, index) {
+            delivery.add(itemOld);
+            imagenPublicada[index] = {};
+            imagenPublicada[index].size = 1024;
+            imagenPublicada[index].name = itemOld;
+
+            _this.options.addedfile.call(_this, imagenPublicada[index]);
+
+            _this.options.thumbnail.call(_this, imagenPublicada[index], "/storage/deliveries/".concat(imagenPublicada[index].name));
+
+            imagenPublicada[index].previewElement.classList.add('dz-success');
+            imagenPublicada[index].nombreServidor = itemOld; //imagenPublicada[index].previewElement.classList.add('complete')
+
+            imagenPublicada[index].previewElement.children[2].classList.add('d-none');
+            imagenPublicada[index].previewElement.children[0].children[0].classList.add('w-100');
+          });
+        }
+      },
+      success: function success(file, response) {
+        console.log('imprimir ela rchivo');
+        console.log(file);
+        console.log(response);
+        document.querySelector('#error').textContent = '';
+        delivery.add(response.correcto);
+        console.log(delivery);
+        document.querySelector("#delivery").value = _toConsumableArray(delivery); // Add al objeto de archivo, el nombre de la imagen en el servidor
+
+        file.nombreServidor = response.correcto; // file.previewElement.parentNode.removeChild(file.previewElement)
+      },
+      error: function error(file, response) {
+        // console.log(response);
+        // console.log(file);
+        document.querySelector('#error').textContent = 'Formato no valido';
+      },
+      removedfile: function removedfile(file, response) {
+        file.previewElement.parentNode.removeChild(file.previewElement); // console.log(file);
+
+        console.log('El archivo borrado fue');
+        params = {
+          imagen: file.nombreServidor
+        }; // console.log(params);
+
+        axios.post('/tickets/deleteDelivery', params).then(function (response) {
+          console.log(response.data);
+
+          if (delivery.has(response.data.imagen)) {
+            delivery["delete"](response.data.imagen);
+            document.querySelector("#delivery").value = _toConsumableArray(delivery);
+          }
+
+          console.log(delivery);
         });
       }
     });
