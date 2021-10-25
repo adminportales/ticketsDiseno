@@ -23,6 +23,20 @@
                 </tr>
             </thead>
             <tbody>
+                @php
+                    $designersRefactory = [];
+                @endphp
+
+                @foreach ($designers as $item)
+                    @php
+                        $designer = [
+                            'name' => str_replace(' ', '#', $item->name),
+                            'lastname' => str_replace(' ', '#', $item->lastname),
+                            'id' => $item->id,
+                        ];
+                        array_push($designersRefactory, $designer);
+                    @endphp
+                @endforeach
                 @foreach ($tickets as $ticket)
                     @php
                         $ticketInformation = $ticket->latestTicketInformation;
@@ -38,7 +52,8 @@
                         </td>
                         <td>{{ $ticket->seller_name }}</td>
                         <td>
-                            {{ $ticket->designer_name }}
+                            <change-designer-assigment designer="{{ $ticket->designer_name }}" :ticket={{ $ticket->id }}
+                                :designers=@json($designersRefactory)></change-designer-assigment>
                         </td>
                         <td>
                             {{ $ticketInformation->created_at->diffForHumans() }}
@@ -49,7 +64,6 @@
                 @endforeach
             </tbody>
         </table>
-
     @endsection
 
     @section('styles')
@@ -57,6 +71,7 @@
             href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/vendors/chartjs/Chart.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets\vendors\toastify\toastify.css') }}">
         <style>
             table.dataTable td {
                 padding: 15px 8px;
@@ -71,14 +86,16 @@
 
     @section('scripts')
 
-        <script src="{{ asset('assets/vendors/chartjs/Chart.min.js') }}"></script>
-        <script src="{{ asset('assets/js/pages/ui-chartjs.js') }}"></script>
+        {{-- <script src="{{ asset('assets/vendors/chartjs/Chart.min.js') }}"></script> --}}
+        {{-- <script src="{{ asset('assets/js/pages/ui-chartjs.js') }}"></script> --}}
         <script src="{{ asset('assets/vendors/jquery/jquery.min.js') }}"></script>
         <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>
+        <script src="{{ asset('assets\vendors\toastify\toastify.js') }}"></script>
         <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
         <script>
             // Jquery Datatable
             let jquery_datatable = $("#tableTickets").DataTable()
+
         </script>
     @endsection

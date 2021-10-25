@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex">
-    <span class="badge" :class="color">{{ designerCurrent }}</span>
+    <span>{{ designerCurrent }}</span>
 
     <div class="dropdown">
       <button
@@ -15,8 +15,9 @@
         aria-labelledby="dropdownMenuButton"
       >
         <li v-for="designer in designers" :key="designer.id">
-          <a class="dropdown-item" @click="changeDesigner(designer.id)">
-            {{ designer.name }}</a
+          <a class="dropdown-item" @click="changeDesigner(designer)">
+            {{ designer.name.replace("#", " ") }}
+            {{ designer.lastname.replace("#", " ") }}</a
           >
         </li>
       </ul>
@@ -40,44 +41,36 @@ export default {
   methods: {
     async changeDesigner(designer) {
       try {
-        if (this.designers.id == designer) {
+        if (this.designers.id == designer.id) {
           return;
         }
-        let params = { designer: designer, _method: "put" };
+
+        let params = {
+          designer_id: designer.id,
+          designer_name: designer.name.replace("#", " ") + ' ' + designer.lastname.replace("#", " "),
+          _method: "put",
+        };
         let res = await axios.post(
-          `/sales-manager/update-designer/${this.ticket}`,
+          `/design-manager/update-assign/${this.ticket}`,
           params
         );
         let data = res.data;
-        if (data != "equaldesigner") {
+        if (data != "equalDesigner") {
           this.designerCurrent = data.designer;
           Toastify({
-            text: "La prioridad se cambio exitosamente",
+            text: `Se ha reasignado ha ${designer.name.replace("#", " ")}`,
             duration: 3000,
             backgroundColor: "#198754",
           }).showToast();
+           this.designerCurrent = data.name;
         }
       } catch (error) {
+          console.log(error);
         Toastify({
-          text: "Ops! No se pudo cambiar la propiedad :(",
+          text: "Ops! No se pudo reasignar el ticket :(",
           duration: 3000,
           backgroundColor: "#dc3545",
         }).showToast();
-      }
-    },
-    changeColor() {
-      switch (this.designerCurrent) {
-        case "Alta":
-          this.color = "bg-danger";
-          break;
-        case "Normal":
-          this.color = "bg-warning";
-          break;
-        case "Baja":
-          this.color = "bg-success";
-          break;
-        default:
-          break;
       }
     },
   },

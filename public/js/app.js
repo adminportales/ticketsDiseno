@@ -1954,6 +1954,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["ticket", "designers", "designer"],
   data: function data() {
@@ -1978,7 +1979,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.prev = 0;
 
-                if (!(_this.designers.id == designer)) {
+                if (!(_this.designers.id == designer.id)) {
                   _context.next = 3;
                   break;
                 }
@@ -1987,62 +1988,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
                 params = {
-                  designer: designer,
+                  designer_id: designer.id,
+                  designer_name: designer.name.replace("#", " ") + ' ' + designer.lastname.replace("#", " "),
                   _method: "put"
                 };
                 _context.next = 6;
-                return axios.post("/sales-manager/update-designer/".concat(_this.ticket), params);
+                return axios.post("/design-manager/update-assign/".concat(_this.ticket), params);
 
               case 6:
                 res = _context.sent;
                 data = res.data;
 
-                if (data != "equaldesigner") {
+                if (data != "equalDesigner") {
                   _this.designerCurrent = data.designer;
                   Toastify({
-                    text: "La prioridad se cambio exitosamente",
+                    text: "Se ha reasignado ha ".concat(designer.name.replace("#", " ")),
                     duration: 3000,
                     backgroundColor: "#198754"
                   }).showToast();
+                  _this.designerCurrent = data.name;
                 }
 
-                _context.next = 14;
+                _context.next = 15;
                 break;
 
               case 11:
                 _context.prev = 11;
                 _context.t0 = _context["catch"](0);
+                console.log(_context.t0);
                 Toastify({
-                  text: "Ops! No se pudo cambiar la propiedad :(",
+                  text: "Ops! No se pudo reasignar el ticket :(",
                   duration: 3000,
                   backgroundColor: "#dc3545"
                 }).showToast();
 
-              case 14:
+              case 15:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee, null, [[0, 11]]);
       }))();
-    },
-    changeColor: function changeColor() {
-      switch (this.designerCurrent) {
-        case "Alta":
-          this.color = "bg-danger";
-          break;
-
-        case "Normal":
-          this.color = "bg-warning";
-          break;
-
-        case "Baja":
-          this.color = "bg-success";
-          break;
-
-        default:
-          break;
-      }
     }
   }
 });
@@ -34610,9 +34596,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "d-flex" }, [
-    _c("span", { staticClass: "badge", class: _vm.color }, [
-      _vm._v(_vm._s(_vm.designerCurrent))
-    ]),
+    _c("span", [_vm._v(_vm._s(_vm.designerCurrent))]),
     _vm._v(" "),
     _c("div", { staticClass: "dropdown" }, [
       _c("button", {
@@ -34639,11 +34623,18 @@ var render = function() {
                 staticClass: "dropdown-item",
                 on: {
                   click: function($event) {
-                    return _vm.changeDesigner(designer.id)
+                    return _vm.changeDesigner(designer)
                   }
                 }
               },
-              [_vm._v("\n          " + _vm._s(designer.name))]
+              [
+                _vm._v(
+                  "\n          " +
+                    _vm._s(designer.name.replace("#", " ")) +
+                    "\n          " +
+                    _vm._s(designer.lastname.replace("#", " "))
+                )
+              ]
             )
           ])
         }),

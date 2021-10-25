@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Ticket;
 use App\TicketAssigment;
 use App\Type;
 use App\User;
@@ -14,49 +15,18 @@ class TicketAssigmentController extends Controller
     {
         $this->middleware('auth');
     }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function changeDesigner(Request $request, Ticket $ticket)
     {
-        //
+        // TODO:
+         if ($ticket->designer_id == $request->designer_id) {
+            return response()->json('equalDesigner');
+        }
+        $ticket->update([
+            'designer_id' => $request->designer_id,
+            'designer_name'=> $request->designer_name
+        ]);
+        return response()->json(['name'=>$request->designer_name]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\TicketAssigment  $ticketAssigment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(TicketAssigment $ticketAssigment)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -82,16 +52,5 @@ class TicketAssigmentController extends Controller
         $user->whatTypes()->detach();
         $user->whatTypes()->attach($request->types);
         return redirect()->action('DesignerManagerController@ticketAssign');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\TicketAssigment  $ticketAssigment
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(TicketAssigment $ticketAssigment)
-    {
-        //
     }
 }

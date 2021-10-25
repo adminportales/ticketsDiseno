@@ -35,12 +35,15 @@ Route::get('/design_manager/assign-ticket', 'DesignerManagerController@ticketAss
 Route::get('/design_manager/edit-asign/{user}', 'TicketAssigmentController@edit')->name('ticketAssigment.edit');
 Route::put('/design_manager/edit-asign/{user}', 'TicketAssigmentController@update')->name('ticketAssigment.update');
 Route::put('/design-manager/update-availability/{user}', 'ProfileController@updateStatus')->name('profile.updateStatus');
+// TODO: Crear una nueva ruta para el cambio de prioridad
+Route::put('/design-manager/update-assign/{ticket}', 'TicketAssigmentController@changeDesigner');
 
 // Gerente de Ventas
 Route::get('/sales_manager/all-tickets', 'SalesManagerController@allTickets')->name('sales_manager.all');
 Route::get('/sales_manager/tickets', 'TicketController@index')->name('sales_manager.index');
 Route::get('/sales_manager/tickets/create', 'TicketController@create')->name('sales_manager.create');
 Route::put('/sales-manager/update-priority/{ticket}', 'PriorityController@update');
+
 
 // Rutas del vendedor
 Route::resource('/tickets', 'TicketController');

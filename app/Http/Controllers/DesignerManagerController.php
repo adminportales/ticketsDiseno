@@ -39,7 +39,7 @@ class DesignerManagerController extends Controller
     public function allTickets()
     {
         $role = Role::find(3);
-        $designers = $role->whatUsers;
+        $designers = $role->whatUsers->makeHidden('pivot');;
         $tickets = Ticket::all();
         return view('design_manager.index', compact('tickets', 'designers'));
     }
