@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class SellerController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['auth','role:seller']);
+    }
+
     /**
      * Handle the incoming request.
      *

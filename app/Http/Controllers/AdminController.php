@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+    public function __construct() {
+        $this->middleware(['auth','role:admin']);
+    }
+
     static function dashboard()
     {
         // Traemos el total de los tickets

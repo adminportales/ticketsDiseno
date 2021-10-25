@@ -11,7 +11,7 @@ class DesignerManagerController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth','role:design_manager']);
     }
 
     static function dashboard()

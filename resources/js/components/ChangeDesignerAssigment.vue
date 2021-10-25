@@ -1,15 +1,17 @@
 <template>
   <div class="d-flex">
-    <span>{{ designerCurrent }}</span>
+    <span></span>
 
     <div class="dropdown">
       <button
-        class="btn btn-info btn-sm dropdown-toggle"
+        class="btn btn-primary btn-sm dropdown-toggle"
         type="button"
         id="dropdownMenuButton"
         data-bs-toggle="dropdown"
         aria-expanded="false"
-      ></button>
+      >
+        {{ designerCurrent }}
+      </button>
       <ul
         class="dropdown-menu dropdown-menu-dark"
         aria-labelledby="dropdownMenuButton"
@@ -47,7 +49,10 @@ export default {
 
         let params = {
           designer_id: designer.id,
-          designer_name: designer.name.replace("#", " ") + ' ' + designer.lastname.replace("#", " "),
+          designer_name:
+            designer.name.replace("#", " ") +
+            " " +
+            designer.lastname.replace("#", " "),
           _method: "put",
         };
         let res = await axios.post(
@@ -62,10 +67,10 @@ export default {
             duration: 3000,
             backgroundColor: "#198754",
           }).showToast();
-           this.designerCurrent = data.name;
+          this.designerCurrent = data.name;
         }
       } catch (error) {
-          console.log(error);
+        console.log(error);
         Toastify({
           text: "Ops! No se pudo reasignar el ticket :(",
           duration: 3000,

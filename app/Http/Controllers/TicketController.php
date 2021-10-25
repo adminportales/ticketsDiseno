@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Priority;
 use App\Status;
 use App\Technique;
 use App\Ticket;
@@ -35,20 +36,9 @@ class TicketController extends Controller
         // Traer sus proios tickets
 
         $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
+        $priorities = Priority::all();
 
-        $totalTickets = 0;
-        $closedTickets = 0;
-        $openTickets = 0;
-        foreach ($tickets as $ticket) {
-            $statusTicket = $ticket->latestTicketInformation->statusTicket->status;
-            if ($statusTicket == 'Finalizado') {
-                $closedTickets++;
-            } else {
-                $openTickets++;
-            }
-            $totalTickets++;
-        }
-        return view('seller.tickets.index', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets'));
+        return view('seller.tickets.index', compact('tickets', 'priorities'));
     }
 
     /**

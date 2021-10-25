@@ -17,8 +17,16 @@
                 <tr>
                     <th>#</th>
                     <th>Titulo</th>
-                    <th>Categoria de Ticket</th>
-                    <th>Estatus</th>
+                    <th>Info</th>
+                    @role('sales_manager|seller')
+                        <th>Asignado a</th>
+                    @endrole
+                    @role('design_manager|designer')
+                        <th>Creado por</th>
+                    @endrole
+                    @role('sales_manager')
+                        <th class="text-center">Prioridad</th>
+                    @endrole
                     <th>Hora de creación</th>
                     <th>Acciones</th>
                 </tr>
@@ -27,15 +35,32 @@
                 @foreach ($tickets as $ticket)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $ticket->latestTicketInformation->title }}</td>
-                        <td>{{ $ticket->typeTicket->type }}</td>
-                        <td>{{ $ticket->latestTicketInformation->statusTicket->status }}</td>
-                        <td>{{ $ticket->latestTicketInformation->created_at }}
+                        <td>{{ $ticket->latestTicketInformation->title }} <br>
+                            <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
+                        </td>
+                        <td><strong>Tecnica:</strong> {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
+                            <strong>Estado:</strong> {{ $ticket->latestTicketInformation->statusTicket->status }}
+                        </td>
+                        @role('sales_manager|seller')
+                            <td>{{ $ticket->designer_name }}</td>
+                        @endrole
+                        @role('design_manager|designer')
+                            <td>{{ $ticket->seller_name }}</td>
+                        @endrole
+                        @role('sales_manager')
+                            <td class="text-center">
+                                <change-priority priority={{ $ticket->priorityTicket->priority }} :ticket={{ $ticket->id }}
+                                    :priorities=@json($priorities)>
+                                </change-priority>
+                            </td>
+                        @endrole
+                        <td>{{ $ticket->latestTicketInformation->created_at }} <br>
                             {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
-                        <td class="text-center"><a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
-                                class="btn btn-warning">Ver</a>
+                        <td class="text-center">
+                            <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
+                                class="btn btn-warning btn-sm ">Ver</a>
                             <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
-                                class="btn btn-primary">Modificar</a>
+                                class="btn btn-primary btn-sm">Modificar</a>
                         </td>
                     </tr>
                 @endforeach

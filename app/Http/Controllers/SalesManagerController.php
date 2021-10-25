@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class SalesManagerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth','role:sales_manager']);
+    }
+
     static function dashboard()
     {
         // Obtenemos los tickets que pertenecen a los vendedores de la empresa BH o PL,

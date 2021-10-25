@@ -1,15 +1,15 @@
 <template>
   <div class="d-flex">
-    <span class="badge" :class="color">{{ priorityCurrent }}</span>
-
     <div class="dropdown">
       <button
-        class="btn btn-info btn-sm dropdown-toggle"
+        class="btn btn-sm dropdown-toggle" :class="color"
         type="button"
         id="dropdownMenuButton"
         data-bs-toggle="dropdown"
         aria-expanded="false"
-      ></button>
+      >
+        {{ priorityCurrent }}
+      </button>
       <ul
         class="dropdown-menu dropdown-menu-dark"
         aria-labelledby="dropdownMenuButton"
@@ -70,13 +70,13 @@ export default {
     changeColor() {
       switch (this.priorityCurrent) {
         case "Alta":
-          this.color = "bg-danger";
+          this.color = "btn-danger";
           break;
         case "Normal":
-          this.color = "bg-warning";
+          this.color = "btn-warning";
           break;
         case "Baja":
-          this.color = "bg-success";
+          this.color = "btn-success";
           break;
         default:
           break;

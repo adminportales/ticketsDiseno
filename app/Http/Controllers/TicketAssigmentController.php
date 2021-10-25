@@ -13,19 +13,19 @@ class TicketAssigmentController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'role:design_manager']);
     }
+
     public function changeDesigner(Request $request, Ticket $ticket)
     {
-        // TODO:
-         if ($ticket->designer_id == $request->designer_id) {
+        if ($ticket->designer_id == $request->designer_id) {
             return response()->json('equalDesigner');
         }
         $ticket->update([
             'designer_id' => $request->designer_id,
-            'designer_name'=> $request->designer_name
+            'designer_name' => $request->designer_name
         ]);
-        return response()->json(['name'=>$request->designer_name]);
+        return response()->json(['name' => $request->designer_name]);
     }
     /**
      * Show the form for editing the specified resource.

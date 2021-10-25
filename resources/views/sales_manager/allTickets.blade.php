@@ -14,9 +14,10 @@
                 <tr>
                     <th>#</th>
                     <th>Titulo</th>
-                    <th>Categoria de Ticket</th>
-                    <th>Estatus</th>
-                    <th>Prioridad</th>
+                    <th>Info</th>
+                    <th>Elaboro</th>
+                    <th>Asignado a</th>
+                    <th class="text-center">Prioridad</th>
                     <th>Hora de creación</th>
                     <th>Acciones</th>
                 </tr>
@@ -25,27 +26,31 @@
                 @foreach ($tickets as $ticket)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $ticket->latestTicketInformation->title }}</td>
-                        <td>{{ $ticket->typeTicket->type }}</td>
-                        <td>{{ $ticket->latestTicketInformation->statusTicket->status }}</td>
+                        <td>{{ $ticket->latestTicketInformation->title }} <br>
+                            <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
+                        </td>
+                        <td><strong>Tecnica:</strong> {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
+                            <strong>Estado:</strong> {{ $ticket->latestTicketInformation->statusTicket->status }}
+                        </td>
+                        <td>{{ $ticket->seller_id == auth()->user()->id ? 'Yo' : $ticket->seller_name }}</td>
+                        <td>{{ $ticket->designer_name }}</td>
                         <td class="text-center">
                             <change-priority priority={{ $ticket->priorityTicket->priority }} :ticket={{ $ticket->id }}
                                 :priorities=@json($priorities)>
                             </change-priority>
                         </td>
-                        <td>{{ $ticket->latestTicketInformation->created_at }}
+                        <td>{{ $ticket->latestTicketInformation->created_at }} <br>
                             {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
                         <td class="text-center">
                             <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
-                                class="btn btn-warning">Ver</a>
+                                class="btn btn-warning btn-sm ">Ver</a>
                             <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
-                                class="btn btn-primary">Modificar</a>
+                                class="btn btn-primary btn-sm">Modificar</a>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-        {{$priorities}}
     </div>
 @endsection
 
@@ -66,6 +71,7 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('assets/vendors/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>

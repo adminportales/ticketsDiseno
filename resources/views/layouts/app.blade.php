@@ -32,8 +32,9 @@
                 <div id="appVue">
                     <div class="page-title">
                         <div class="row">
-                            <div class="col-12 col-md-6 order-md-1 order-last">
+                            <div class="col-12 order-md-1 order-last d-flex justify-content-between">
                                 @yield('title')
+                                <p style="font-size: 1.3rem;font-weight: bold; color: #25396f;">{{auth()->user()->name}} {{auth()->user()->lastname}}</p>
                             </div>
                         </div>
                     </div>

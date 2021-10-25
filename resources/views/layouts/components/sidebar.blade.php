@@ -41,23 +41,23 @@
                             <span>Asignar Permisos</span>
                         </a>
                     </li>
-                    {{-- <li class="sidebar-item  ">
-                        <a href="{{ route('reporte_tickets') }}" class='sidebar-link'>
-                            <i class="bi bi-grid-fill"></i>
-                            <span>Reporte de tickets</span>
-                        </a>
-                    </li> --}}
                 @endrole
                 @role('seller')
-                    <li class="sidebar-item {{ request()->is('tickets*') ? 'active' : '' }}">
+                    <li class="sidebar-item {{ request()->is('tickets') ? 'active' : '' }}">
                         <a href="{{ route('tickets.index') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Ver Tickets</span>
                         </a>
                     </li>
+                    <li class="sidebar-item  {{ request()->is('tickets/create') ? 'active' : '' }} ">
+                        <a href="{{ route('tickets.create') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Crear ticket</span>
+                        </a>
+                    </li>
                 @endrole
                 @role('designer')
-                    <li class="sidebar-item  ">
+                    <li class="sidebar-item ">
                         <a href="{{ route('designer.inicio') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Ver ticket</span>
@@ -65,19 +65,19 @@
                     </li>
                 @endrole
                 @role('design_manager')
-                    <li class="sidebar-item  ">
-                        <a href="{{ route('design_manager.all') }}" class='sidebar-link'>
-                            <i class="bi bi-grid-fill"></i>
-                            <span>Ver tickets</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item  ">
+                    <li class="sidebar-item  {{ request()->is('design_manager/mis-tickets') ? 'active' : '' }}">
                         <a href="{{ route('design_manager.tickets') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Mis tickets</span>
                         </a>
                     </li>
-                    <li class="sidebar-item  ">
+                    <li class="sidebar-item  {{ request()->is('design_manager/all-tickets') ? 'active' : '' }}">
+                        <a href="{{ route('design_manager.all') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Ver tickets</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item  {{ request()->is('design_manager/assign-ticket') ? 'active' : '' }}">
                         <a href="{{ route('design_manager.assign') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Mi equipo</span>
@@ -85,19 +85,19 @@
                     </li>
                 @endrole
                 @role('sales_manager')
-                    <li class="sidebar-item  {{ request()->is('seller/tickets') ? 'active' : '' }}">
+                    <li class="sidebar-item  {{ request()->is('sales_manager/tickets') ? 'active' : '' }}">
                         <a href="{{ route('sales_manager.index') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Mis Tickets</span>
                         </a>
                     </li>
-                    <li class="sidebar-item  {{ request()->is('seller/tickets') ? 'active' : '' }}">
+                    <li class="sidebar-item  {{ request()->is('sales_manager/all-tickets') ? 'active' : '' }}">
                         <a href="{{ route('sales_manager.all') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Ver Tickets</span>
                         </a>
                     </li>
-                    <li class="sidebar-item  {{ request()->is('seller/tickets/create') ? 'active' : '' }} ">
+                    <li class="sidebar-item  {{ request()->is('sales_manager/tickets/create') ? 'active' : '' }} ">
                         <a href="{{ route('sales_manager.create') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Crear ticket</span>
