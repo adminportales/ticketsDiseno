@@ -11,6 +11,7 @@
                 <h4 class="card-title">Informacion acerca de tu solicitud</h4>
             </div>
             <div class="estado">
+
                 @foreach ($statuses as $status)
                     <small
                         class="{{ $statusTicket == $status->id ? 'text-success fw-bold' : '' }}">{{ $status->status }}</small>
@@ -23,12 +24,10 @@
             <div class="col-md-9">
                 <section class="border-0 row">
                     <div class="col-md-8">
-                        <p class="m-0"><strong>Titulo:
-                            </strong>{{ $ticket->latestTicketInformation->title }}
+                        <p class="m-0"><strong>Asignado a:
+                            </strong>{{ $ticket->designer_name }}
                         </p>
-                        <p class="m-0"><strong>Estado:
-                            </strong>{{ $ticket->latestTicketInformation->statusTicket->status }}
-                        </p>
+                        <hr>
                         <p class="m-0"><strong>Cliente:
                             </strong>{{ $ticket->latestTicketInformation->customer }}
                         </p>
@@ -47,7 +46,8 @@
                         </p>
                     </div>
                     <div class="col-md-4 overflow-auto" style="max-height: 200px;">
-                        <a href="#" class="btn btn-sm btn-light w-100 d-flex justify-content-between">
+                        <a href={{ route('descarga.archivosTicket', ['ticket' => $ticket->id]) }}
+                            class="btn btn-sm btn-light w-100 d-flex justify-content-between">
                             Descargar todo
                             <span class="fa-fw select-all fas"></span>
                         </a>
@@ -277,6 +277,21 @@
             </div>
         </div>
     </div>
+    <div class="d-none" id="message-initial">
+        <div class="px-4">
+            <p>Archivos enviados por {{ $ticket->latestTicketDelivery->designer_name }}</p>
+            @foreach (explode(',', $ticket->latestTicketDelivery->files) as $item)
+                <a href="{{ asset('/storage/deliveries/' . $item) }}"
+                    class="btn btn-sm btn-light w-100 d-flex justify-content-between" download>
+                    {{ Str::limit($item, 20) }}
+                    <span class="fa-fw select-all fas"></span>
+                </a>
+            @endforeach
+            <p class="m-0 text-center" style="font-size: .9rem">
+                <small>{{ $ticket->latestTicketDelivery->created_at->diffForHumans() }}</small>
+            </p>
+        </div>
+    </div>
 @endsection
 
 @section('styles')
@@ -308,4 +323,103 @@
 
 @section('scripts')
     <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/sweetalert2\sweetalert2.all.min.js') }}"></script>
+    <script>
+        let beforeUrl = '{{ url()->previous() }}'
+        let ticket_id = '{{ $ticket->id }}'
+        let status = '{{ $ticket->latestTicketInformation->status_id }}'
+        let messageInitial = document.querySelector("#message-initial")
+        document.addEventListener('DOMContentLoaded', () => {
+            if (status == 3) {
+                Swal.fire({
+                    title: '¿El contenido esta acorde a lo solicitado?',
+                    html: messageInitial.innerHTML,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, es correcto',
+                    cancelButtonText: 'No, deseo modificar algo',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        //changeStatus(2, ticket_id)
+                        finalizar()
+                    } else {
+                        solicitarCambios()
+                    }
+                })
+            }
+        })
+
+        function solicitarCambios() {
+            Swal.fire({
+                title: '¿Que modificicacion deseas?',
+                input: 'textarea',
+                showCancelButton: true,
+                confirmButtonText: 'Look up',
+                showLoaderOnConfirm: true,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Cambio de estado a solicitud de ajustes y enviar el mensaje
+                    alert('Enviar el mensaje y cambiar el estado')
+                } else {
+                    // Cambio de estado a solicitud de ajustes
+                    alert('Cambiar el estado unicamente')
+                }
+            })
+        }
+
+        function finalizar() {
+            Swal.fire({
+                title: 'Al continuar el ticket quedara finalizado',
+                text:'Estas seguro de continuar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, continuar',
+                cancelButtonText: 'No, deseo modificar algo',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Cambio de estado a finalizado
+                    alert('Ecambiar el estado a finalizado')
+                } else {
+                    solicitarCambios()
+                }
+            })
+        }
+
+        async function changeStatus(status, ticket) {
+
+            try {
+                let params = {
+                    status: status,
+                    _method: "put"
+                };
+                let res = await axios.post(
+                    `/design/update-status/${ticket}`,
+                    params
+                );
+                let data = res.data;
+                console.log(data);
+                if (data.message == 'OK') {
+                    Swal.fire(
+                        'Excelente!',
+                        'Esta solicitud ahora esta en proceso.',
+                        'success'
+                    );
+                }
+            } catch (error) {
+
+            }
+        }
+
+        //
+    </script>
 @endsection

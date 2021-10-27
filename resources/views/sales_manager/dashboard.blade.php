@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    <h3>Bienvenido {{ auth()->user()->name }}</h3>
+    <h3>Bienvenido {{ auth()->user()->name . ' ' . auth()->user()->lastname }}</h3>
 @endsection
 
 @section('content')

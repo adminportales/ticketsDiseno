@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Priority;
+use App\Role;
 use App\Status;
 use App\Technique;
 use App\Ticket;
 use App\TicketAssigment;
-use App\TicketHistory;
-use App\TicketInformation;
 use App\Type;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use ZipArchive;
 
 class TicketController extends Controller
 {
@@ -80,17 +81,8 @@ class TicketController extends Controller
 
         //Asignar el ticket de forma correcta
         $designerAssigments = TicketAssigment::where('type_id', '=', $request->type)->get();
-        $designerAssigment = '';
-        if (count($designerAssigments) <= 0) {
-            return back()->with('message', 'Aun no existen diseñadores que puedan atender tu solicitud! Contacta al gerente de diseño para solicitar una aclaracion!');
-        }
-
-        if (count($designerAssigments) == 1) {
-            $designerAssigment = User::find($designerAssigments[0]->designer_id);
-        } else {
-            //verificar la carga de trabajo
-            $designerAssigment = $this->checkWorkload($designerAssigments);
-        }
+        // Algoritmo para la asignacion de tickets
+        $designerAssigment = $this->checkWorkload($designerAssigments);
 
         // Registrar el ticket
         $ticket = Ticket::create([
@@ -221,7 +213,9 @@ class TicketController extends Controller
     public function uploadItems(Request $request)
     {
         $imagen = $request->file('file');
-        $nombreImagen = time() . rand(10, 100) . '.' . $imagen->extension();
+        $date = Carbon::now();
+        $date = $date->format('d-m-Y');
+        $nombreImagen = $date . ' ' . str_replace(',', ' ', $imagen->getClientOriginalName());
         $imagen->move(public_path('storage/items'), $nombreImagen);
         return response()->json(['correcto' => $nombreImagen]);
     }
@@ -241,7 +235,9 @@ class TicketController extends Controller
     public function uploadProducts(Request $request)
     {
         $imagen = $request->file('file');
-        $nombreImagen = time() . rand(10, 100) . '.' . $imagen->extension();
+        $date = Carbon::now();
+        $date = $date->format('d-m-Y');
+        $nombreImagen = $date . ' ' . str_replace(',', ' ', $imagen->getClientOriginalName());
         $imagen->move(public_path('storage/products'), $nombreImagen);
         return response()->json(['correcto' => $nombreImagen]);
     }
@@ -261,7 +257,9 @@ class TicketController extends Controller
     public function uploadLogos(Request $request)
     {
         $imagen = $request->file('file');
-        $nombreImagen = time() . rand(10, 100) . '.' . $imagen->extension();
+        $date = Carbon::now();
+        $date = $date->format('d-m-Y');
+        $nombreImagen = $date . ' ' . str_replace(',', ' ', $imagen->getClientOriginalName());
         $imagen->move(public_path('storage/logos'), $nombreImagen);
         return response()->json(['correcto' => $nombreImagen]);
     }
@@ -280,7 +278,9 @@ class TicketController extends Controller
     public function uploadDeliveries(Request $request)
     {
         $imagen = $request->file('file');
-        $nombreImagen = time() . rand(10, 100) . '.' . $imagen->extension();
+        $date = Carbon::now();
+        $date = $date->format('d-m-Y');
+        $nombreImagen = $date . ' ' . str_replace(',', ' ', $imagen->getClientOriginalName());
         $imagen->move(public_path('storage/deliveries'), $nombreImagen);
         return response()->json(['correcto' => $nombreImagen]);
     }
@@ -299,44 +299,96 @@ class TicketController extends Controller
 
     public function checkWorkload($designerAssigments)
     {
-        $data = [];
-        // Crear un arreglo para guardar el total de tickets que no estan finalizados
-        foreach ($designerAssigments as $key => $designerAssigment) {
-            $designer = User::find($designerAssigment->designer_id);
+        if (count($designerAssigments) <= 0) {
+            $designer = Role::find(5)->whatUsers;
+            return $designer[0];
+            //return back()->with('message', 'Aun no existen diseñadores que puedan atender tu solicitud! Contacta al gerente de diseño para solicitar una aclaracion!');
+        }
 
-            $totalTickets = 0;
-            $timeWait = 0;
+        if (count($designerAssigments) == 1) {
+            $designerAssigment = User::find($designerAssigments[0]->designer_id);
+            if ($designerAssigment->profile->availavility) {
+                return $designerAssigment;
+            } else {
+                $designer = Role::find(5)->whatUsers;
+                return $designer[0];
+            }
+        } else {
+            //verificar la carga de trabajo
+            //TODO: revisar disponibilidad
+            $data = [];
+            // Crear un arreglo para guardar el total de tickets que no estan finalizados
+            foreach ($designerAssigments as $key => $designerAssigment) {
+                $designer = User::find($designerAssigment->designer_id);
 
-            foreach ($designer->assignedTickets as $ticket) {
-                if ($ticket->latestTicketInformation->statusTicket->status != 'Finalizado') {
-                    $totalTickets++;
+                $totalTickets = 0;
+                $timeWait = 0;
+                if ($designer->profile->availability) {
+                    foreach ($designer->assignedTickets as $ticket) {
+                        if ($ticket->latestTicketInformation->statusTicket->status != 'Finalizado') {
+                            $totalTickets++;
+                        }
+                    }
+
+                    $data[$key] = [
+                        'designer' => $designer,
+                        'total' => $totalTickets,
+                        'time' => $timeWait,
+                    ];
                 }
             }
 
-            $data[$key] = [
-                'designer' => $designer,
-                'total' => $totalTickets,
-                'time' => $timeWait,
-            ];
-        }
+            //Verificar quien tiene el menor numero de tickets o si son iguales
 
-        //Verificar quien tiene el menor numero de tickets o si son iguales
-        $designerAssigment = $data[0];
-        $sameAmountOfVirtual = true;
-        foreach ($data as $key => $item) {
-            if ($item['total'] < $designerAssigment['total']) {
-                $designerAssigment = $item;
-                $sameAmountOfVirtual = false;
+            $data = array_values($data);
+            $designerAssigment = $data[0];
+            $sameAmountOfVirtual = true;
+            foreach ($data as $key => $item) {
+                if ($item['total'] < $designerAssigment['total']) {
+                    $designerAssigment = $item;
+                    $sameAmountOfVirtual = false;
+                }
+            }
+
+            //Si el numero de tickets es el mismo, asignalos aleatoreamemte
+            //Si no, regresa el que tenga el menor numero de tickets asignados
+
+            if (!$sameAmountOfVirtual) {
+                return $designerAssigment['designer'];
+            } else {
+                return $data[rand(0, count($data) - 1)]['designer'];
             }
         }
+    }
 
-        //Si el numero de tickets es el mismo, asignalos aleatoreamemte
-        //Si no, regresa el que tenga el menor numero de tickets asignados
+    //Comprimir archivos de ticket y descargarlos
+    public function descargarArchivos(Ticket $ticket)
+    {
+        $public_dir = public_path('storage/zip');
 
-        if (!$sameAmountOfVirtual) {
-            return $designerAssigment['designer'];
-        } else {
-            return $data[rand(0, count($data) - 1)]['designer'];
+        $zipFileName = $ticket->latestTicketInformation->title . '.zip';
+
+        $zip = new ZipArchive;
+        if ($zip->open($public_dir . '/' . $zipFileName, ZipArchive::CREATE) === TRUE) {
+
+            $zip->addFile(public_path('storage/products/' . $ticket->latestTicketInformation->product), $ticket->latestTicketInformation->product);
+            $zip->addFile(public_path('storage/logos/' . $ticket->latestTicketInformation->logo), $ticket->latestTicketInformation->logo);
+
+            foreach (explode(',', $ticket->latestTicketInformation->items) as $item) {
+                $zip->addFile(public_path('storage/items/' . $item), $item);
+            }
+
+            $zip->close();
+        }
+        // Set Header
+        $headers = array(
+            'Content-Type' => 'application/octet-stream',
+        );
+
+        $filetopath = $public_dir . '/' . $zipFileName;
+
+        if (file_exists($filetopath)) {
+            return response()->download($filetopath, $zipFileName, $headers);
         }
     }
 }

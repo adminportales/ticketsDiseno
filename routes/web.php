@@ -38,6 +38,8 @@ Route::put('/design-manager/update-availability/{user}', 'ProfileController@upda
 // TODO: Crear una nueva ruta para el cambio de prioridad
 Route::put('/design-manager/update-assign/{ticket}', 'TicketAssigmentController@changeDesigner');
 
+Route::put('/design/update-status/{ticket}', 'StatusController@update');
+
 // Gerente de Ventas
 Route::get('/sales_manager/all-tickets', 'SalesManagerController@allTickets')->name('sales_manager.all');
 Route::get('/sales_manager/tickets', 'TicketController@index')->name('sales_manager.index');
@@ -56,3 +58,6 @@ Route::post('/tickets/deleteLogo', 'TicketController@deleteLogo')->name('tickets
 Route::post('/tickets/delivery', 'TicketController@uploadDeliveries')->name('tickets.uploadDeliveries');
 Route::post('/tickets/deleteDelivery', 'TicketController@deleteDelivery')->name('tickets.deleteDelivery');
 Route::post('tickets/delivery/{ticket}', 'TicketDeliveryCOntroller@store')->name('ticket.delivery');
+
+//Ruta para descargar archivos comprimidos
+Route::get('/tickets/descargas/{ticket}', 'TicketController@descargarArchivos')->name('descarga.archivosTicket');

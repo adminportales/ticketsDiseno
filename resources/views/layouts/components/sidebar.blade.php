@@ -57,7 +57,7 @@
                     </li>
                 @endrole
                 @role('designer')
-                    <li class="sidebar-item ">
+                    <li class="sidebar-item {{ request()->is('designer/home') ? 'active' : '' }}">
                         <a href="{{ route('designer.inicio') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Ver ticket</span>

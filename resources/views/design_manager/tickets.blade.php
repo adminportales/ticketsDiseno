@@ -29,10 +29,8 @@
                         <td>{{ $ticket->latestTicketInformation->statusTicket->status }}</td>
                         <td>{{ $ticket->latestTicketInformation->created_at }}
                             {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
-                        <td class="text-center"><a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
+                        <td class="text-center"><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}"
                                 class="btn btn-warning">Ver</a>
-                            <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
-                                class="btn btn-primary">Modificar</a>
                         </td>
                     </tr>
                 @endforeach
@@ -57,6 +55,7 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('assets/vendors/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>
     {{-- <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script> --}}

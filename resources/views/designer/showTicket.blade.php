@@ -107,6 +107,7 @@
                                                         {{ $information->title }}
                                                     </p>
                                                 @endif
+
                                                 @if ($information->statusTicket->status != $latestInformation->statusTicket->status)
                                                     <p class="m-0"><strong>Estado:
                                                         </strong>{{ $latestInformation->statusTicket->status }} <span
@@ -158,10 +159,10 @@
                                                                 </strong>
                                                             </p>
                                                             <img src="{{ asset('/storage/logos/' . $latestInformation->logo) }}"
-                                                                alt="" class="img-thumbnail rounded img-history">
+                                                                alt="" class="img-thumbnail rounded img-history w-25">
                                                             <span class="fa-fw select-all fas"></span>
                                                             <img src="{{ asset('/storage/logos/' . $information->logo) }}"
-                                                                alt="" class="img-thumbnail rounded img-history">
+                                                                alt="" class="img-thumbnail rounded img-history w-25">
                                                         </div>
                                                     @endif
                                                     @if ($information->product != $latestInformation->product)
@@ -170,10 +171,10 @@
                                                                 </strong>
                                                             </p>
                                                             <img src="{{ asset('/storage/products/' . $latestInformation->product) }}"
-                                                                alt="" class="img-thumbnail rounded img-history">
+                                                                alt="" class="img-thumbnail rounded img-historyw-25">
                                                             <span class="fa-fw select-all fas"></span>
                                                             <img src="{{ asset('/storage/products/' . $information->product) }}"
-                                                                alt="" class="img-thumbnail rounded img-history">
+                                                                alt="" class="img-thumbnail rounded img-historyw-25">
                                                         </div>
                                                     @endif
                                                 </div>
@@ -188,7 +189,7 @@
                                                         @foreach (explode(',', $latestInformation->items) as $item)
                                                             <div class="img-items ">
                                                                 <img src="{{ asset('/storage/items/' . $item) }}" alt=""
-                                                                    class="img-thumbnail rounded">
+                                                                    class="img-thumbnail rounded w-25">
                                                             </div>
                                                         @endforeach
                                                     </div>
@@ -201,7 +202,7 @@
                                                         @foreach (explode(',', $information->items) as $item)
                                                             <div class="img-items ">
                                                                 <img src="{{ asset('/storage/items/' . $item) }}" alt=""
-                                                                    class="img-thumbnail rounded">
+                                                                    class="img-thumbnail rounded w-25">
                                                             </div>
                                                         @endforeach
                                                     </div>
@@ -311,6 +312,8 @@
             </div>
         </div>
     </div>
+
+
 @endsection
 
 @section('styles')
@@ -341,5 +344,66 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('assets/vendors/sweetalert2\sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
+    <script>
+        let beforeUrl = '{{ url()->previous() }}'
+        let ticket_id = '{{ $ticket->id }}'
+        let status = '{{ $ticket->latestTicketInformation->status_id }}'
+        document.addEventListener('DOMContentLoaded', () => {
+            if (status == 1) {
+                Swal.fire({
+                    title: 'Deseas iniciar con esta solicitud?',
+                    text: "De no ser asi, seras enviado a la pantalla anterior!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si',
+                    cancelButtonText: 'No',
+                    allowOutsideClick: false,
+                    position: 'top-end',
+                    allowEscapeKey:false,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        changeStatus(2, ticket_id)
+                        /* Swal.fire(
+                            'Excelente!',
+                            'Esta solicitud ahora esta en proceso.',
+                            'success'
+                        ); */
+                    } else {
+                        window.location = beforeUrl;
+                    }
+                })
+            }
+        })
+
+        async function changeStatus(status, ticket) {
+
+            try {
+                let params = {
+                    status: status,
+                    _method: "put"
+                };
+                let res = await axios.post(
+                    `/design/update-status/${ticket}`,
+                    params
+                );
+                let data = res.data;
+                console.log(data);
+                if (data.message == 'OK') {
+                    Swal.fire(
+                        'Excelente!',
+                        'Esta solicitud ahora esta en proceso.',
+                        'success'
+                    );
+                }
+            } catch (error) {
+
+            }
+        }
+
+        //
+    </script>
 @endsection
