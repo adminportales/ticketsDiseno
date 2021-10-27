@@ -43,4 +43,10 @@ Vue.component('apex', require('./components/Apex.vue').default);
 
 const app = new Vue({
     el: '#appVue',
+    mounted(){
+        window.Echo.channel('pizza-tracker')
+        .listen('OrderStatusChangeEvent',(e)=>{
+            console.log(':O RealTime');
+        })
+    }
 });

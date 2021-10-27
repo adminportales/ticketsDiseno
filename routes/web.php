@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\OrderStatusChangeEvent;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,7 @@ Auth::routes(['verify' => true]);
 Route::get('/', function () {
     return redirect('/home');
 });
+
 Route::post('/message', 'MessageController@store')->name('message.store');
 
 // Home de cada uno de los perfiles
@@ -46,7 +48,6 @@ Route::get('/sales_manager/tickets', 'TicketController@index')->name('sales_mana
 Route::get('/sales_manager/tickets/create', 'TicketController@create')->name('sales_manager.create');
 Route::put('/sales-manager/update-priority/{ticket}', 'PriorityController@update');
 
-
 // Rutas del vendedor
 Route::resource('/tickets', 'TicketController');
 Route::post('/tickets/items', 'TicketController@uploadItems')->name('tickets.uploadItems');
@@ -61,3 +62,9 @@ Route::post('tickets/delivery/{ticket}', 'TicketDeliveryCOntroller@store')->name
 
 //Ruta para descargar archivos comprimidos
 Route::get('/tickets/descargas/{ticket}', 'TicketController@descargarArchivos')->name('descarga.archivosTicket');
+
+
+Route::get('/fire', function () {
+    event(new OrderStatusChangeEvent);
+    return 'fired';
+});
