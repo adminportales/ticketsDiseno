@@ -47,7 +47,7 @@ class TicketDeliveryController extends Controller
         if ($ticket->latestStatusChangeTicket->status_id == 2) {
             $status = 3;
         } else if ($ticket->latestStatusChangeTicket->status_id == 5) {
-            $status = 6;
+            $status = 3;
         } else {
             $status = $ticket->latestStatusChangeTicket->status_id;
         }

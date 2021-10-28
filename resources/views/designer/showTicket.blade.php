@@ -10,11 +10,42 @@
             <div class="titulo">
                 <h4 class="card-title">Informacion acerca de tu solicitud</h4>
             </div>
-            <div class="estado">
-                @foreach ($statuses as $status)
-                    <small
-                        class="{{ $statusTicket == $status->id ? 'text-success fw-bold' : '' }}">{{ $status->status }}</small>
-                @endforeach
+            <div class="estado" style="width: 40%">
+                @php $width = 0; @endphp
+                @switch($statusTicket)
+                    @case(1)
+                        @php $width = 5; @endphp
+                    @break
+                    @case(2)
+                        @php $width = 25; @endphp
+                    @break
+                    @case(3)
+                        @php $width = 70; @endphp
+                    @break
+                    @case(6)
+                        @php $width = 100; @endphp
+                    @break
+                    @default
+                        @php $width = 50; @endphp
+
+
+                @endswitch
+                <div class="progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ $width }}%"
+                        aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="m-0">
+                        Creado</p>
+                    <p class="m-0">
+                        En proceso</p>
+                    <p class="m-0">
+                        Ajustes</p>
+                    <p class="m-0">
+                        Entregado</p>
+                    <p class="m-0">
+                        Finalizado</p>
+                </div>
             </div>
         </div>
     </div>
@@ -349,9 +380,12 @@
         let ticket_id = '{{ $ticket->id }}'
         let status = '{{ $ticket->latestStatusChangeTicket->status_id }}'
         document.addEventListener('DOMContentLoaded', () => {
-            if (status == 1) {
+            if (status == 1 || status == 4) {
+                let title = status == 1 ?
+                    'Deseas iniciar con esta solicitud?' :
+                    'Deseas realizar los ajustes de esta solicitud?'
                 Swal.fire({
-                    title: 'Deseas iniciar con esta solicitud?',
+                    title: title,
                     text: "De no ser asi, seras enviado a la pantalla anterior!",
                     icon: 'warning',
                     showCancelButton: true,
@@ -364,12 +398,8 @@
                     allowEscapeKey: false,
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        changeStatus(2, ticket_id)
-                        /* Swal.fire(
-                            'Excelente!',
-                            'Esta solicitud ahora esta en proceso.',
-                            'success'
-                        ); */
+                        let statusChange = status == 1 ? 2 : 5
+                        changeStatus(statusChange, ticket_id)
                     } else {
                         window.location = beforeUrl;
                     }
@@ -378,7 +408,6 @@
         })
 
         async function changeStatus(status, ticket) {
-
             try {
                 let params = {
                     status: status,
@@ -398,7 +427,11 @@
                     );
                 }
             } catch (error) {
-
+                Swal.fire(
+                    'Error!',
+                    'No se pudo cambiar el estado',
+                    'error'
+                );
             }
         }
 

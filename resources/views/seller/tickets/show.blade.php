@@ -10,11 +10,40 @@
             <div class="titulo">
                 <h4 class="card-title">Informacion acerca de tu solicitud</h4>
             </div>
-            <div class="estado">
-                @foreach ($statuses as $status)
-                    <small
-                        class="{{ $statusTicket == $status->id ? 'text-success fw-bold' : '' }}">{{ $status->status }}</small>
-                @endforeach
+            <div class="estado" style="width: 40%">
+                @php $width = 0; @endphp
+                @switch($statusTicket)
+                    @case(1)
+                        @php $width = 5; @endphp
+                    @break
+                    @case(2)
+                        @php $width = 25; @endphp
+                    @break
+                    @case(3)
+                        @php $width = 70; @endphp
+                    @break
+                    @case(6)
+                        @php $width = 100; @endphp
+                    @break
+                    @default
+                        @php $width = 50; @endphp
+                @endswitch
+                <div class="progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ $width }}%"
+                        aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p class="m-0">
+                        Creado</p>
+                    <p class="m-0">
+                        En proceso</p>
+                    <p class="m-0">
+                        Ajustes</p>
+                    <p class="m-0">
+                        Entregado</p>
+                    <p class="m-0">
+                        Finalizado</p>
+                </div>
             </div>
         </div>
     </div>
@@ -331,9 +360,9 @@
     <script>
         let beforeUrl = '{{ url()->previous() }}'
         let ticket_id = '{{ $ticket->id }}'
-
         let status = '{{ $ticket->latestStatusChangeTicket->status_id }}'
         let messageInitial = document.querySelector("#message-initial")
+
         document.addEventListener('DOMContentLoaded', () => {
             if (status == 3) {
                 Swal.fire({
@@ -349,7 +378,6 @@
                     allowEscapeKey: false,
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        //changeStatus(2, ticket_id)
                         finalizar()
                     } else {
                         solicitarCambios()
@@ -368,12 +396,10 @@
                 allowOutsideClick: false,
                 allowEscapeKey: false,
             }).then((result) => {
-                if (result.isConfirmed) {
-                    // Cambio de estado a solicitud de ajustes y enviar el mensaje
-                    alert('Enviar el mensaje y cambiar el estado')
+                if (result.value.trim() == '') {
+                    solicitarCambios()
                 } else {
-                    // Cambio de estado a solicitud de ajustes
-                    alert('Cambiar el estado unicamente')
+                    changeStatus(4, ticket_id, result.value)
                 }
             })
         }
@@ -392,19 +418,18 @@
                 allowEscapeKey: false,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Cambio de estado a finalizado
-                    alert('Ecambiar el estado a finalizado')
+                    changeStatus(6, ticket_id)
                 } else {
                     solicitarCambios()
                 }
             })
         }
 
-        async function changeStatus(status, ticket) {
-
+        async function changeStatus(status, ticket, message = '') {
             try {
                 let params = {
                     status: status,
+                    message: message,
                     _method: "put"
                 };
                 let res = await axios.post(
@@ -416,12 +441,16 @@
                 if (data.message == 'OK') {
                     Swal.fire(
                         'Excelente!',
-                        'Esta solicitud ahora esta en proceso.',
+                        `Esta solicitud ahora esta .`,
                         'success'
                     );
                 }
             } catch (error) {
-
+                Swal.fire(
+                    'Error!',
+                    'No se pudo cambiar el estado',
+                    'error'
+                );
             }
         }
 

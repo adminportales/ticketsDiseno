@@ -47,11 +47,11 @@ class DesignerManagerController extends Controller
     //Metodo para visualizar mis propios tickets
     public function verTickets()
     {
-        $tickets = auth()->user()->assignedTickets;
+        $tickets = auth()->user()->assignedTickets()->orderByDesc('created_at')->get();
         return view('design_manager.tickets')->with('tickets', $tickets);
     }
 
-    //Metodo para asignar tickets
+    //Metodo para asignar tickets por defecto
     public function ticketAssign()
     {
         $role = Role::find(3);
