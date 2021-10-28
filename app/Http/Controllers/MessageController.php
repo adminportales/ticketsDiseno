@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageSendEvent;
 use App\Message;
 use App\Ticket;
 use App\TicketHistory;
 use App\User;
 use Illuminate\Http\Request;
+
+use function Ramsey\Uuid\v1;
 
 class MessageController extends Controller
 {
@@ -40,9 +43,9 @@ class MessageController extends Controller
         $transmitter_name = auth()->user()->name . ' ' . auth()->user()->lastname;
         $userReceiver = '';
         if (auth()->user()->hasRole(['designer', 'design_manager'])) {
-            $userReceiver = User::find($ticket->designer_id);
-        } else if (auth()->user()->hasRole(['seller', 'sales_manager'])) {
             $userReceiver = User::find($ticket->seller_id);
+        } else if (auth()->user()->hasRole(['seller', 'sales_manager'])) {
+            $userReceiver = User::find($ticket->designer_id);
         }
         $receiver_id = $userReceiver->id;
         $receiver_name = $userReceiver->name . ' ' . $userReceiver->lastname;
@@ -65,6 +68,8 @@ class MessageController extends Controller
             'reference_id' => $message->id,
             'type' => 'message'
         ]);
+        //Mensaje
+        event(new MessageSendEvent($message->message, $receiver_id, $transmitter_name));
 
         // Regresar a la misma vista AtenderTicket (ticket.show)
         if (auth()->user()->hasRole(['designer', 'design_manager'])) {

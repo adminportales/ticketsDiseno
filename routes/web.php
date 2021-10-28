@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\MessageSendEvent;
 use App\Events\OrderStatusChangeEvent;
 use Illuminate\Support\Facades\Route;
 
@@ -62,9 +63,3 @@ Route::post('tickets/delivery/{ticket}', 'TicketDeliveryCOntroller@store')->name
 
 //Ruta para descargar archivos comprimidos
 Route::get('/tickets/descargas/{ticket}', 'TicketController@descargarArchivos')->name('descarga.archivosTicket');
-
-
-Route::get('/fire', function () {
-    event(new OrderStatusChangeEvent);
-    return 'fired';
-});

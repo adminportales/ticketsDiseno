@@ -20,6 +20,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\OrderStatusChangeEvent'=>[
             'App\Listeners\OrderStatusListener'
+        ],
+        'App\Events\MessageSendEvent'=>[
+            'App\Listeners\MessageSendListener'
         ]
     ];
 

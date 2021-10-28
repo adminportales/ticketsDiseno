@@ -39,7 +39,7 @@
                             <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
                         </td>
                         <td><strong>Tecnica:</strong> {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
-                            <strong>Estado:</strong> {{$ticket->latestStatusChangeTicket->status}}
+                            <strong>Estado:</strong> {{ $ticket->latestStatusChangeTicket->status }}
                         </td>
                         @role('sales_manager|seller')
                             <td>{{ $ticket->designer_name }}</td>

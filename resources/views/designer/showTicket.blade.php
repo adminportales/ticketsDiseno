@@ -54,8 +54,8 @@
             <div class="col-md-9">
                 <section class="border-0 row">
                     <div class="col-md-8">
-                        <p class="m-0"><strong>Asignado a:
-                            </strong>{{ $ticket->designer_name }}
+                        <p class="m-0"><strong>Creado por:
+                            </strong>{{ $ticket->seller_name }}
                         </p>
                         <hr>
                         <p class="m-0"><strong>Cliente:

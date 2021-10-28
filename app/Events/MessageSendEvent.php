@@ -2,13 +2,12 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderStatusChangeEvent implements ShouldBroadcast
+class MessageSendEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -17,9 +16,14 @@ class OrderStatusChangeEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct()
+    public $message;
+    public $receptor;
+    public $emisor;
+    public function __construct($message, $receptor, $emisor)
     {
-        //
+        $this->message  = $message;
+        $this->receptor  = $receptor;
+        $this->emisor  = $emisor;
     }
 
     /**
@@ -29,6 +33,6 @@ class OrderStatusChangeEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['pizza-tracker'];
+        return ['notification'];
     }
 }

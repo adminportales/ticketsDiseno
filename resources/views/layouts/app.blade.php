@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('assets\vendors\toastify\toastify.css') }}">
     @yield('styles')
 
     <link rel="stylesheet" href="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.css') }}">
@@ -30,11 +30,13 @@
 
             <div class="page-heading ">
                 <div id="appVue">
+                    <notify :user={{ auth()->user()->id }}></notify>
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 order-md-1 order-last d-flex justify-content-between">
                                 @yield('title')
-                                <p style="font-size: 1.3rem;font-weight: bold; color: #25396f;">{{auth()->user()->name}} {{auth()->user()->lastname}}</p>
+                                <p style="font-size: 1.3rem;font-weight: bold; color: #25396f;">
+                                    {{ auth()->user()->name }} {{ auth()->user()->lastname }}</p>
                             </div>
                         </div>
                     </div>
@@ -53,6 +55,7 @@
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('scripts')
+    <script src="{{ asset('assets\vendors\toastify\toastify.js') }}"></script>
     <script src="{{ asset('assets/js/mazer.js') }}"></script>
 </body>
 

@@ -27,8 +27,7 @@ Vue.use(VueApexCharts)
 
 Vue.component('apexchart', VueApexCharts)
 
-Vue.component('form-create-ticket', require('./components/FormCreateTicket.vue').default);
-Vue.component('select-rol', require('./components/SelectRol.vue').default);
+Vue.component('notify', require('./components/Notify.vue').default);
 Vue.component('change-priority', require('./components/ChangePriority.vue').default);
 Vue.component('change-designer-assigment', require('./components/ChangeDesignerAssigment.vue').default);
 Vue.component('change-status-designer', require('./components/ChangeStatusDesigner.vue').default);
@@ -43,10 +42,4 @@ Vue.component('apex', require('./components/Apex.vue').default);
 
 const app = new Vue({
     el: '#appVue',
-    mounted(){
-        window.Echo.channel('pizza-tracker')
-        .listen('OrderStatusChangeEvent',(e)=>{
-            console.log(':O RealTime');
-        })
-    }
 });

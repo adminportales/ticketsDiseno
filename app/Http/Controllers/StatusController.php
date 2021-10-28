@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageSendEvent;
 use App\Message;
 use App\Status;
 use App\Ticket;
@@ -37,6 +38,7 @@ class StatusController extends Controller
                 'reference_id' => $statusChange->id,
                 'type' => 'status'
             ]);
+            event(new MessageSendEvent('Ticket '.$status->status,$ticket->seller_id,$ticket->designer_name));
             if ($request->message != '') {
                 // Obtener el id y nombre del vendedor y diseñador asignados al ticket
                 // El diseñador transmite el mensaje y el vendedor recibe
