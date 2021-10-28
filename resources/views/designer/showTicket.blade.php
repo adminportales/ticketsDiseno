@@ -23,12 +23,10 @@
             <div class="col-md-9">
                 <section class="border-0 row">
                     <div class="col-md-8">
-                        <p class="m-0"><strong>Titulo:
-                            </strong>{{ $ticket->latestTicketInformation->title }}
+                        <p class="m-0"><strong>Asignado a:
+                            </strong>{{ $ticket->designer_name }}
                         </p>
-                        <p class="m-0"><strong>Estado:
-                            </strong>{{ $ticket->latestTicketInformation->statusTicket->status }}
-                        </p>
+                        <hr>
                         <p class="m-0"><strong>Cliente:
                             </strong>{{ $ticket->latestTicketInformation->customer }}
                         </p>
@@ -105,14 +103,6 @@
                                                         </strong>{{ $latestInformation->title }}
                                                         <span class="fa-fw select-all fas"></span>
                                                         {{ $information->title }}
-                                                    </p>
-                                                @endif
-
-                                                @if ($information->statusTicket->status != $latestInformation->statusTicket->status)
-                                                    <p class="m-0"><strong>Estado:
-                                                        </strong>{{ $latestInformation->statusTicket->status }} <span
-                                                            class="fa-fw select-all fas"></span>
-                                                        {{ $information->statusTicket->status }}
                                                     </p>
                                                 @endif
                                                 @if ($information->customer != $latestInformation->customer)
@@ -230,7 +220,7 @@
                                         {{ $message->transmitter_id == auth()->user()->id ? 'Yo' : $message->transmitter_name }}
                                         {{ $message->created_at->diffForHumans() }}</p>
                                 </div>
-                            @else
+                            @elseif($ticketHistory->type == 'delivery')
                                 @php $delivery = $ticketHistory->ticketDelivery; @endphp
 
                                 <div
@@ -249,6 +239,14 @@
                                         {{ $delivery->designer_id == auth()->user()->id ? 'Yo' : $delivery->designer_name }}
                                         {{ $delivery->created_at->diffForHumans() }}</p>
                                 </div>
+                            @elseif($ticketHistory->type == 'status')
+                                @php $status = $ticketHistory->ticketStatusChange; @endphp
+                                <div class="border rounded px-3 py-2 my-1 border-success">
+                                    <p class="m-0 "><strong>Estado: </strong>{{ $status->status }}
+                                    </p>
+                                    <p class="m-0 " style="font-size: .8rem">
+                                        {{ $status->created_at->diffForHumans() }}</p>
+                                </div>
                             @endif
                         @endforeach
                     </div>
@@ -260,26 +258,26 @@
                     Entregar <span class="fa-fw select-all fas"></span>
                 </button>
                 <hr>
-                @if (count($ticketDeliveries) <= 0)
+                @if (count($ticketDeliveries) > 0)
+                    <div class="border border-info rounded d-flex flex-column-reverse">
+                        @foreach ($ticketDeliveries as $delivery)
+                            <div class="item">
+                                @foreach (explode(',', $delivery->files) as $item)
+                                    <a href="{{ asset('/storage/deliveries/' . $item) }}"
+                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between" download>
+                                        {{ Str::limit($item, 16) }}
+                                        <span class="fa-fw select-all fas"></span>
+                                    </a>
+                                @endforeach
+                                <p class="m-0 text-center" style="font-size: .7rem">
+                                    <small>{{ $delivery->created_at->diffForHumans() }}</small>
+                                </p>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
                     No hay archivos disponibles
                 @endif
-                <div class="border border-info rounded d-flex flex-column-reverse">
-                    @foreach ($ticketDeliveries as $delivery)
-                        <div class="item">
-                            @foreach (explode(',', $delivery->files) as $item)
-                                <a href="{{ asset('/storage/deliveries/' . $item) }}"
-                                    class="btn btn-sm btn-light w-100 d-flex justify-content-between" download>
-                                    {{ Str::limit($item, 16) }}
-                                    <span class="fa-fw select-all fas"></span>
-                                </a>
-                            @endforeach
-                            <p class="m-0 text-center" style="font-size: .7rem">
-                                <small>{{ $delivery->created_at->diffForHumans() }}</small>
-                            </p>
-                        </div>
-                    @endforeach
-
-                </div>
             </div>
         </div>
     </div>
@@ -349,7 +347,7 @@
     <script>
         let beforeUrl = '{{ url()->previous() }}'
         let ticket_id = '{{ $ticket->id }}'
-        let status = '{{ $ticket->latestTicketInformation->status_id }}'
+        let status = '{{ $ticket->latestStatusChangeTicket->status_id }}'
         document.addEventListener('DOMContentLoaded', () => {
             if (status == 1) {
                 Swal.fire({
@@ -363,7 +361,7 @@
                     cancelButtonText: 'No',
                     allowOutsideClick: false,
                     position: 'top-end',
-                    allowEscapeKey:false,
+                    allowEscapeKey: false,
                 }).then((result) => {
                     if (result.isConfirmed) {
                         changeStatus(2, ticket_id)

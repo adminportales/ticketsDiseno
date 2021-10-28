@@ -10,7 +10,6 @@ class TicketInformation extends Model
 
     protected $fillable = [
         'ticket_id',
-        'status_id',
         'technique_id',
         'modifier_id',
         'modifier_name',
@@ -23,11 +22,6 @@ class TicketInformation extends Model
         'pantone',
     ];
 
-    //Traer el status de ticket
-    public function statusTicket()
-    {
-        return $this->belongsTo('App\Status', 'status_id');
-    }
     public function techniqueTicket()
     {
         return $this->belongsTo('App\Technique', 'technique_id');

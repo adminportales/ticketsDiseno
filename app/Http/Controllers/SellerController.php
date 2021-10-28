@@ -29,7 +29,7 @@ class SellerController extends Controller
         $openTickets = 0;
 
         foreach ($tickets as $ticket) {
-            $statusTicket = $ticket->latestTicketInformation->statusTicket->status;
+            $statusTicket = $ticket->latestStatusChangeTicket->status;
             if ($statusTicket == 'Finalizado') {
                 $closedTickets++;
             } else {

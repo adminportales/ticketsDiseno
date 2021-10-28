@@ -11,7 +11,6 @@
                 <h4 class="card-title">Informacion acerca de tu solicitud</h4>
             </div>
             <div class="estado">
-
                 @foreach ($statuses as $status)
                     <small
                         class="{{ $statusTicket == $status->id ? 'text-success fw-bold' : '' }}">{{ $status->status }}</small>
@@ -105,13 +104,6 @@
                                                         </strong>{{ $latestInformation->title }}
                                                         <span class="fa-fw select-all fas"></span>
                                                         {{ $information->title }}
-                                                    </p>
-                                                @endif
-                                                @if ($information->statusTicket->status != $latestInformation->statusTicket->status)
-                                                    <p class="m-0"><strong>Estado:
-                                                        </strong>{{ $latestInformation->statusTicket->status }} <span
-                                                            class="fa-fw select-all fas"></span>
-                                                        {{ $information->statusTicket->status }}
                                                     </p>
                                                 @endif
                                                 @if ($information->customer != $latestInformation->customer)
@@ -229,7 +221,7 @@
                                         {{ $message->transmitter_id == auth()->user()->id ? 'Yo' : $message->transmitter_name }}
                                         {{ $message->created_at->diffForHumans() }}</p>
                                 </div>
-                            @else
+                            @elseif($ticketHistory->type == 'delivery')
                                 @php $delivery = $ticketHistory->ticketDelivery; @endphp
 
                                 <div
@@ -248,6 +240,14 @@
                                         {{ $delivery->designer_id == auth()->user()->id ? 'Yo' : $delivery->designer_name }}
                                         {{ $delivery->created_at->diffForHumans() }}</p>
                                 </div>
+                            @elseif($ticketHistory->type == 'status')
+                                @php $status = $ticketHistory->ticketStatusChange; @endphp
+                                <div class="border rounded px-3 py-2 my-1 border-success">
+                                    <p class="m-0 "><strong>Estado: </strong>{{ $status->status }}
+                                    </p>
+                                    <p class="m-0 " style="font-size: .8rem">
+                                        {{ $status->created_at->diffForHumans() }}</p>
+                                </div>
                             @endif
                         @endforeach
                     </div>
@@ -255,43 +255,47 @@
             </div>
             <div class="col-md-3">
                 <h5>Entregas</h5>
-                @if (count($ticketDeliveries) <= 0)
+                @if (count($ticketDeliveries) > 0)
+                    <div class="border border-info rounded d-flex flex-column-reverse">
+
+                        @foreach ($ticketDeliveries as $delivery)
+                            <div class="item">
+                                @foreach (explode(',', $delivery->files) as $item)
+                                    <a href="{{ asset('/storage/deliveries/' . $item) }}"
+                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between" download>
+                                        {{ Str::limit($item, 16) }}
+                                        <span class="fa-fw select-all fas"></span>
+                                    </a>
+                                @endforeach
+                                <p class="m-0 text-center" style="font-size: .7rem">
+                                    <small>{{ $delivery->created_at->diffForHumans() }}</small>
+                                </p>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
                     No hay archivos disponibles
                 @endif
-                <div class="border border-info rounded d-flex flex-column-reverse">
-                    @foreach ($ticketDeliveries as $delivery)
-                        <div class="item">
-                            @foreach (explode(',', $delivery->files) as $item)
-                                <a href="{{ asset('/storage/deliveries/' . $item) }}"
-                                    class="btn btn-sm btn-light w-100 d-flex justify-content-between" download>
-                                    {{ Str::limit($item, 16) }}
-                                    <span class="fa-fw select-all fas"></span>
-                                </a>
-                            @endforeach
-                            <p class="m-0 text-center" style="font-size: .7rem">
-                                <small>{{ $delivery->created_at->diffForHumans() }}</small>
-                            </p>
-                        </div>
-                    @endforeach
-                </div>
             </div>
         </div>
     </div>
-    <div class="d-none" id="message-initial">
-        <div class="px-4">
-            <p>Archivos enviados por {{ $ticket->latestTicketDelivery->designer_name }}</p>
-            @foreach (explode(',', $ticket->latestTicketDelivery->files) as $item)
-                <a href="{{ asset('/storage/deliveries/' . $item) }}"
-                    class="btn btn-sm btn-light w-100 d-flex justify-content-between" download>
-                    {{ Str::limit($item, 20) }}
-                    <span class="fa-fw select-all fas"></span>
-                </a>
-            @endforeach
-            <p class="m-0 text-center" style="font-size: .9rem">
-                <small>{{ $ticket->latestTicketDelivery->created_at->diffForHumans() }}</small>
-            </p>
+    @if ($ticket->latestTicketDelivery)
+        <div class="d-none" id="message-initial">
+            <div class="px-4">
+                <p>Archivos enviados por {{ $ticket->latestTicketDelivery->designer_name }}</p>
+                @foreach (explode(',', $ticket->latestTicketDelivery->files) as $item)
+                    <a href="{{ asset('/storage/deliveries/' . $item) }}"
+                        class="btn btn-sm btn-light w-100 d-flex justify-content-between" download>
+                        {{ Str::limit($item, 20) }}
+                        <span class="fa-fw select-all fas"></span>
+                    </a>
+                @endforeach
+                <p class="m-0 text-center" style="font-size: .9rem">
+                    <small>{{ $ticket->latestTicketDelivery->created_at->diffForHumans() }}</small>
+                </p>
+            </div>
         </div>
-    </div>
+    @endif
 @endsection
 
 @section('styles')
@@ -327,7 +331,8 @@
     <script>
         let beforeUrl = '{{ url()->previous() }}'
         let ticket_id = '{{ $ticket->id }}'
-        let status = '{{ $ticket->latestTicketInformation->status_id }}'
+
+        let status = '{{ $ticket->latestStatusChangeTicket->status_id }}'
         let messageInitial = document.querySelector("#message-initial")
         document.addEventListener('DOMContentLoaded', () => {
             if (status == 3) {
@@ -376,7 +381,7 @@
         function finalizar() {
             Swal.fire({
                 title: 'Al continuar el ticket quedara finalizado',
-                text:'Estas seguro de continuar?',
+                text: 'Estas seguro de continuar?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

@@ -26,7 +26,7 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $ticket->latestTicketInformation->title }}</td>
                         <td>{{ $ticket->typeTicket->type }}</td>
-                        <td>{{ $ticket->latestTicketInformation->statusTicket->status }}</td>
+                        <td>{{$ticket->latestStatusChangeTicket->status }}</td>
                         <td>{{ $ticket->latestTicketInformation->created_at }}
                             {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
                         <td class="text-center"><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}"

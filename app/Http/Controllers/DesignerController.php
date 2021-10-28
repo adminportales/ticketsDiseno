@@ -33,7 +33,7 @@ class DesignerController extends Controller
         $openTickets = 0;
 
         foreach ($tickets as $ticket) {
-            $statusTicket = $ticket->latestTicketInformation->statusTicket->status;
+            $statusTicket = $ticket->latestStatusChangeTicket->status;
             if ($statusTicket == 'Finalizado') {
                 $closedTickets++;
             } else {
@@ -66,7 +66,7 @@ class DesignerController extends Controller
         $ticketInformation = $ticket->ticketInformation()->orderByDesc('created_at')->get();
         $messages = $ticket->messagesTicket()->orderByDesc('created_at')->get();
         $statuses = Status::all();
-        $statusTicket = $ticket->latestTicketInformation->statusTicket->id;
+        $statusTicket = $ticket->latestStatusChangeTicket->status_id;
 
         $ticketHistories = $ticket->historyTicket;
         $ticketDeliveries = $ticket->deliveryTicket;

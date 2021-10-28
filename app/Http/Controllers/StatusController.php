@@ -24,26 +24,15 @@ class StatusController extends Controller
     public function update(Request $request, Ticket $ticket)
     {
         if ($request->status) {
-            $statusChange = $ticket->latestTicketInformation;
-
-            $ticketInformation = $ticket->ticketInformation()->create([
-                'status_id' => 2,
-                'technique_id' => $statusChange->technique_id,
-                'customer' => $statusChange->customer,
-                'description' => $statusChange->description,
-                'modifier_name' => $statusChange->modifier_name,
-                'modifier_id' => $statusChange->modifier_id,
-                'title' => $statusChange->title,
-                'logo' => $statusChange->logo,
-                'items' => $statusChange->items,
-                'product' => $statusChange->product,
-                'items' => $statusChange->items,
-                'pantone' => $statusChange->pantone,
+            $status = Status::find($request->status);
+            $statusChange = $ticket->statusChangeTicket()->create([
+                'status_id' => $status->id,
+                'status' => $status->status
             ]);
             $ticket->historyTicket()->create([
                 'ticket_id' => $ticket->id,
-                'reference_id' => $ticketInformation->id,
-                'type' => 'info'
+                'reference_id' => $statusChange->id,
+                'type' => 'status'
             ]);
             return response()->json(['message' => 'OK'], 200);
         }

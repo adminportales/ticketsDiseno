@@ -63,4 +63,15 @@ class Ticket extends Model
     {
         return $this->hasMany('App\TicketDelivery');
     }
+
+    //Traer el status de ticket
+    public function statusChangeTicket()
+    {
+        return $this->hasMany('App\TicketStatusChange');
+    }
+    //Traer el status de ticket
+    public function latestStatusChangeTicket()
+    {
+        return $this->hasOne('App\TicketStatusChange')->latestOfMany();
+    }
 }

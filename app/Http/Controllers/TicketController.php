@@ -93,10 +93,15 @@ class TicketController extends Controller
             'priority_id' => 1,
             'type_id' => $request->type
         ]);
+        // Creacion del estado
+        $status = Status::find(1);
+        $statusChange = $ticket->statusChangeTicket()->create([
+            'status_id' => $status->id,
+            'status' => $status->status
+        ]);
 
         // Registrar la informacion del ticket
         $ticketInformation = $ticket->ticketInformation()->create([
-            'status_id' => 1,
             'technique_id' => $request->technique,
             'customer' => $request->customer,
             'description' => $request->description,
@@ -114,6 +119,11 @@ class TicketController extends Controller
             'ticket_id' => $ticket->id,
             'reference_id' => $ticketInformation->id,
             'type' => 'info'
+        ]);
+        $ticket->historyTicket()->create([
+            'ticket_id' => $ticket->id,
+            'reference_id' => $statusChange->id,
+            'type' => 'status'
         ]);
 
         // TODO: Crear notificacion para avisar al diseñador
@@ -133,7 +143,7 @@ class TicketController extends Controller
         $ticketInformation = $ticket->ticketInformation()->orderByDesc('created_at')->get();
         $messages = $ticket->messagesTicket()->orderByDesc('created_at')->get();
         $statuses = Status::all();
-        $statusTicket = $ticket->latestTicketInformation->statusTicket->id;
+        $statusTicket = $ticket->latestStatusChangeTicket->status_id;
 
         $ticketHistories = $ticket->historyTicket;
         $ticketDeliveries = $ticket->deliveryTicket;
@@ -186,7 +196,6 @@ class TicketController extends Controller
 
         // Registrar la informacion del ticket
         $ticketInformation = $ticket->ticketInformation()->create([
-            'status_id' => $ticket->latestTicketInformation->status_id,
             'technique_id' => $request->technique,
             'customer' => $request->customer,
             'description' => $request->description,
@@ -325,7 +334,7 @@ class TicketController extends Controller
                 $timeWait = 0;
                 if ($designer->profile->availability) {
                     foreach ($designer->assignedTickets as $ticket) {
-                        if ($ticket->latestTicketInformation->statusTicket->status != 'Finalizado') {
+                        if ($ticket->latestStatusChangeTicket->status != 'Finalizado') {
                             $totalTickets++;
                         }
                     }

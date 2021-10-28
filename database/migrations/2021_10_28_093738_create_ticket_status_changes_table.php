@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTicketHistoriesTable extends Migration
+class CreateTicketStatusChangesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateTicketHistoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ticket_histories', function (Blueprint $table) {
+        Schema::create('ticket_status_changes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ticket_id')->constrained();
-            $table->integer('reference_id');
-            $table->enum('type', ['message', 'info', 'delivery','status']);
+            $table->foreignId('status_id')->constrained();
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateTicketHistoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ticket_histories');
+        Schema::dropIfExists('ticket_status_changes');
     }
 }

@@ -30,7 +30,7 @@
                             <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
                         </td>
                         <td><strong>Tecnica:</strong> {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
-                            <strong>Estado:</strong> {{ $ticket->latestTicketInformation->statusTicket->status }}
+                            <strong>Estado:</strong> {{ $ticket->latestStatusChangeTicket->status }}
                         </td>
                         <td>{{ $ticket->seller_name }}</td>
                         <td>{{ $ticket->priorityTicket->priority }}</td>

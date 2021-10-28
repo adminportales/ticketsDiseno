@@ -35,7 +35,7 @@
                         <td>{{ $ticket->latestTicketInformation->title }}</td>
                         <td>{{ $ticket->typeTicket->type }}</td>
                         <td>{{ $ticket->priorityTicket->priority }}</td>
-                        <td>{{ $ticket->latestTicketInformation->statusTicket->status }}</td>
+                        <td>{{$ticket->latestStatusChangeTicket->status}}</td>
                         <td>{{ $ticket->latestTicketInformation->created_at }}
                             {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
                         <td>

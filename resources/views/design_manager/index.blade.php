@@ -48,7 +48,7 @@
                         <td>
                             Tipo: {{ $ticket->typeTicket->type }}<br>
                             Prioridad: {{ $ticket->priorityTicket->priority }}<br>
-                            Estado: {{ $ticketInformation->statusTicket->status }}
+                            Estado: {{ $ticket->latestStatusChangeTicket->status }}
                         </td>
                         <td>{{ $ticket->seller_name }}</td>
                         <td>

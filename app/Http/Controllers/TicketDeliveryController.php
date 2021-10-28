@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Status;
 use App\Ticket;
 use App\TicketDelivery;
 use App\TicketHistory;
@@ -41,35 +42,26 @@ class TicketDeliveryController extends Controller
         ]);
 
 
-        $statusChange = $ticket->latestTicketInformation;
         $status = 0;
 
-        if ($ticket->latestTicketInformation->status_id == 2) {
+        if ($ticket->latestStatusChangeTicket->status_id == 2) {
             $status = 3;
-        } else if ($ticket->latestTicketInformation->status_id == 5) {
+        } else if ($ticket->latestStatusChangeTicket->status_id == 5) {
             $status = 6;
         } else {
-            $status = $statusChange->status_id;
+            $status = $ticket->latestStatusChangeTicket->status_id;
         }
-        if ($status != $statusChange->status_id) {
-            $ticketInformation = $ticket->ticketInformation()->create([
-                'status_id' => $status,
-                'technique_id' => $statusChange->technique_id,
-                'customer' => $statusChange->customer,
-                'description' => $statusChange->description,
-                'modifier_name' => $statusChange->modifier_name,
-                'modifier_id' => $statusChange->modifier_id,
-                'title' => $statusChange->title,
-                'logo' => $statusChange->logo,
-                'items' => $statusChange->items,
-                'product' => $statusChange->product,
-                'items' => $statusChange->items,
-                'pantone' => $statusChange->pantone,
+
+        if ($status != $ticket->latestStatusChangeTicket->status_id) {
+            $newStatus = Status::find($status);
+            $status = $ticket->statusChangeTicket()->create([
+                'status_id' => $newStatus->id,
+                'status' => $newStatus->status,
             ]);
             $ticket->historyTicket()->create([
                 'ticket_id' => $ticket->id,
-                'reference_id' => $ticketInformation->id,
-                'type' => 'info'
+                'reference_id' => $status->id,
+                'type' => 'status'
             ]);
         }
 
