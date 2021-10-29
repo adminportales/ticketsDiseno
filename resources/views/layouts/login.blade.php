@@ -9,26 +9,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
-
     <link rel="stylesheet" href="{{ asset('assets/vendors/bootstrap-icons/bootstrap-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/pages/auth.css') }}">
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.svg') }}" type="image/x-icon">
     @yield('styles')
 </head>
 
 <body>
-    <div id="app">
-        <div id="auth">
-
-            <div class="row h-100">
-                <div class="col-lg-6 col-12">
-                    <div id="auth-left">
-                        @yield('content')
-                    </div>
-                </div>
+    <div class="container" style="height: 100vh">
+        <div class="d-flex justify-content-center h-100 align-items-center">
+            <div style="min-width: 35%">
+                @yield('content')
             </div>
-
         </div>
     </div>
     @yield('scripts')

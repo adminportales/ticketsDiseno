@@ -1,0 +1,47 @@
+body {
+    font-family: $font-family;
+    background-color: $white-light;
+}
+.sidebar-wrapper {
+    background-color: $primary-dark;
+    .menu {
+        .sidebar-title {
+            color: $white-light;
+        }
+        .sidebar-link {
+            color: $white-light;
+            &:hover {
+                color: $black;
+            }
+        }
+        .sidebar-item {
+            a {
+                color: $white-light;
+            }
+            &:hover {
+                color: $black;
+            }
+        }
+        .submenu {
+            .submenu-item {
+                a {
+                    color: $white-light;
+                    &:hover {
+                        color: $black;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.page-title {
+    h3 {
+        margin: 0;
+        padding: 0;
+        font-size: 1.5rem;
+    }
+}
+#main .section {
+    margin-top: 1rem;
+}

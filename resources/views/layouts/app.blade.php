@@ -15,12 +15,13 @@
     <link rel="stylesheet" href="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/bootstrap-icons/bootstrap-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 
 <body>
     <div id="app">
         @include('layouts.components.sidebar')
-        <div id="main">
+        <div id="main" class="py-3">
             {{-- Menu Hamburguesa --}}
             <header class="mb-3 d-xl-none">
                 <a href="#" class="burger-btn d-block">

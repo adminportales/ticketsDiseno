@@ -1,16 +1,21 @@
 <div id="sidebar" class="active">
     <div class="sidebar-wrapper active">
-        <div class="sidebar-header">
-            <div class="d-flex justify-content-between">
-                <div class="logo">
-                    <a href="{{ route('home') }}">
-                        <img src="{{ asset('assets/images/logo/BH.jpg') }}" alt="Logo" srcset="">
-                        <img src="{{ asset('assets/images/logo/PL.jpg') }}" alt="Logo" srcset="">
-                    </a>
-                </div>
-                <div class="toggler">
-                    <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
-                </div>
+        <div class="toggler">
+            <a href="#" class="sidebar-hide d-xl-none d-flex justify-content-end px-5" style="font-size: 2rem"><i
+                    class="bi bi-x bi-middle"></i></a>
+        </div>
+        <div class="sidebar-header px-5">
+            <div class="pt-3">
+                <a href="{{ route('home') }}" class="d-flex justify-content-between align-items-center">
+                    <div class="logo w-100 text-center">
+                        <img class="img-thumbnail h-auto" style="width: 90%" src="{{ asset('assets/images/logo/BH.jpg') }}" alt="Logo"
+                            srcset="">
+                    </div>
+                    <div class="logo w-100 text-center">
+                        <img class="img-thumbnail h-auto" style="width: 80%" src="{{ asset('assets/images/logo/PL.jpg') }}" alt="Logo"
+                            srcset="">
+                    </div>
+                </a>
             </div>
         </div>
         <div class="sidebar-menu">
@@ -23,19 +28,19 @@
                     </a>
                 </li>
                 @role('admin')
-                    <li class="sidebar-item  ">
+                    <li class="sidebar-item  {{ request()->is('users') ? 'active' : '' }}">
                         <a href="{{ route('users.index') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Ver Usuarios</span>
                         </a>
                     </li>
-                    <li class="sidebar-item  ">
+                    <li class="sidebar-item  {{ request()->is('users/create') ? 'active' : '' }}">
                         <a href="{{ route('users.create') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Crear nuevo usuario</span>
                         </a>
                     </li>
-                    <li class="sidebar-item  ">
+                    <li class="sidebar-item">
                         <a href="{{ Request::root() . '/roles_assignment' }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Asignar Permisos</span>
