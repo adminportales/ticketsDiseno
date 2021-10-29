@@ -66,7 +66,7 @@ class DesignerController extends Controller
         $ticketInformation = $ticket->ticketInformation()->orderByDesc('created_at')->get();
         $messages = $ticket->messagesTicket()->orderByDesc('created_at')->get();
         $statuses = Status::all();
-        $statusTicket = $ticket->latestStatusChangeTicket->status_id;
+        $statusTicket = $ticket->latestStatusChangeTicket->status;
 
         $ticketHistories = $ticket->historyTicket;
         $ticketDeliveries = $ticket->deliveryTicket;

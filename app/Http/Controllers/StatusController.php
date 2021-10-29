@@ -38,23 +38,19 @@ class StatusController extends Controller
                 'reference_id' => $statusChange->id,
                 'type' => 'status'
             ]);
-            event(new MessageSendEvent('Ticket '.$status->status,$ticket->seller_id,$ticket->designer_name));
-            if ($request->message != '') {
-                // Obtener el id y nombre del vendedor y diseñador asignados al ticket
-                // El diseñador transmite el mensaje y el vendedor recibe
-                $transmitter_id = auth()->user()->id;
-                $transmitter_name = auth()->user()->name . ' ' . auth()->user()->lastname;
-                $userReceiver = '';
-                if (auth()->user()->hasRole(['designer', 'design_manager'])) {
-                    $userReceiver = User::find($ticket->designer_id);
-                } else if (auth()->user()->hasRole(['seller', 'sales_manager'])) {
-                    $userReceiver = User::find($ticket->seller_id);
-                }
-                $receiver_id = $userReceiver->id;
-                $receiver_name = $userReceiver->name . ' ' . $userReceiver->lastname;
-                // Guardar el mensaje con los sigioetes datos
 
-                // Creamos el mensaje y lo guardamos en la base de datos
+            $transmitter_id = auth()->user()->id;
+            $transmitter_name = auth()->user()->name . ' ' . auth()->user()->lastname;
+            $userReceiver = '';
+            if (auth()->user()->hasRole(['designer', 'design_manager'])) {
+                $userReceiver = User::find($ticket->seller_id);
+            } else if (auth()->user()->hasRole(['seller', 'sales_manager'])) {
+                $userReceiver = User::find($ticket->designer_id);
+            }
+            $receiver_id = $userReceiver->id;
+            $receiver_name = $userReceiver->name . ' ' . $userReceiver->lastname;
+            event(new MessageSendEvent('Ticket ' . $status->status, $receiver_id, $transmitter_name));
+            if ($request->message != '') {
                 $message = Message::create([
                     "transmitter_id" => $transmitter_id,
                     "transmitter_name" => $transmitter_name,
@@ -71,11 +67,10 @@ class StatusController extends Controller
                     'reference_id' => $message->id,
                     'type' => 'message'
                 ]);
+                event(new MessageSendEvent($request->message, $receiver_id, $transmitter_name));
             }
             return response()->json(['message' => 'OK'], 200);
         }
-
-
         return response()->json(['message' => 'Deny'], 400);
     }
 }

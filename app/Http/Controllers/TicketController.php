@@ -144,7 +144,7 @@ class TicketController extends Controller
         $ticketInformation = $ticket->ticketInformation()->orderByDesc('created_at')->get();
         $messages = $ticket->messagesTicket()->orderByDesc('created_at')->get();
         $statuses = Status::all();
-        $statusTicket = $ticket->latestStatusChangeTicket->status_id;
+        $statusTicket = $ticket->latestStatusChangeTicket->status;
 
         $ticketHistories = $ticket->historyTicket;
         $ticketDeliveries = $ticket->deliveryTicket;
@@ -310,23 +310,31 @@ class TicketController extends Controller
 
     public function checkWorkload($designerAssigments)
     {
+        /*
+           Revisar si hay cero diseñadores que pueden recibir este tipo de ticket
+           En este caso asignarlo al gerente de diseño y que el lo reasigne si desea
+        */
         if (count($designerAssigments) <= 0) {
             $designer = Role::find(5)->whatUsers;
             return $designer[0];
-            //return back()->with('message', 'Aun no existen diseñadores que puedan atender tu solicitud! Contacta al gerente de diseño para solicitar una aclaracion!');
         }
-
+        /*
+            Si solo hay un diseñador que recibe ese ticket, asignar el ticket a ese diseñador
+            Si no esta disponible por que falto o algo, asignarselo al gerente de diseño
+        */
         if (count($designerAssigments) == 1) {
             $designerAssigment = User::find($designerAssigments[0]->designer_id);
-            if ($designerAssigment->profile->availavility) {
+            if ($designerAssigment->profile->availability) {
                 return $designerAssigment;
             } else {
                 $designer = Role::find(5)->whatUsers;
                 return $designer[0];
             }
         } else {
-            //verificar la carga de trabajo
-            //TODO: revisar disponibilidad
+            /*
+                Si hay mas de un diseñador que pueda atender este ticket
+                Revisamos las disponibilidad
+            */
             $data = [];
             // Crear un arreglo para guardar el total de tickets que no estan finalizados
             foreach ($designerAssigments as $key => $designerAssigment) {
@@ -334,13 +342,13 @@ class TicketController extends Controller
 
                 $totalTickets = 0;
                 $timeWait = 0;
+                // Vamos a considerar al diseñador siempre y cuando este disponible
                 if ($designer->profile->availability) {
                     foreach ($designer->assignedTickets as $ticket) {
                         if ($ticket->latestStatusChangeTicket->status != 'Finalizado') {
                             $totalTickets++;
                         }
                     }
-
                     $data[$key] = [
                         'designer' => $designer,
                         'total' => $totalTickets,
@@ -349,8 +357,13 @@ class TicketController extends Controller
                 }
             }
 
-            //Verificar quien tiene el menor numero de tickets o si son iguales
+            // Si no hay diseñadores disponibles, se asignan al gerente de diseño
+            if (count($data) <= 0) {
+                $designer = Role::find(5)->whatUsers;
+                return $designer[0];
+            }
 
+            //Verificar quien tiene el menor numero de tickets o si son iguales
             $data = array_values($data);
             $designerAssigment = $data[0];
             $sameAmountOfVirtual = true;
@@ -363,7 +376,6 @@ class TicketController extends Controller
 
             //Si el numero de tickets es el mismo, asignalos aleatoreamemte
             //Si no, regresa el que tenga el menor numero de tickets asignados
-
             if (!$sameAmountOfVirtual) {
                 return $designerAssigment['designer'];
             } else {

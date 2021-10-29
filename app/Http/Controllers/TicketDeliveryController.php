@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageSendEvent;
 use App\Status;
 use App\Ticket;
-use App\TicketDelivery;
-use App\TicketHistory;
 use Illuminate\Http\Request;
 
 class TicketDeliveryController extends Controller
@@ -40,7 +39,7 @@ class TicketDeliveryController extends Controller
             'reference_id' => $ticketDelivery->id,
             'type' => 'delivery'
         ]);
-
+        event(new MessageSendEvent('Entrega realizada', $ticket->seller_id, $ticket->designer_name));
 
         $status = 0;
 
@@ -63,8 +62,8 @@ class TicketDeliveryController extends Controller
                 'reference_id' => $status->id,
                 'type' => 'status'
             ]);
+            event(new MessageSendEvent('Estado entregado', $ticket->seller_id, $ticket->designer_name));
         }
-
         return redirect()->action('DesignerController@show', ['ticket' => $ticket->id]);
     }
 }

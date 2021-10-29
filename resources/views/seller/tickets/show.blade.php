@@ -10,40 +10,8 @@
             <div class="titulo">
                 <h4 class="card-title">Informacion acerca de tu solicitud</h4>
             </div>
-            <div class="estado" style="width: 40%">
-                @php $width = 0; @endphp
-                @switch($statusTicket)
-                    @case(1)
-                        @php $width = 5; @endphp
-                    @break
-                    @case(2)
-                        @php $width = 25; @endphp
-                    @break
-                    @case(3)
-                        @php $width = 70; @endphp
-                    @break
-                    @case(6)
-                        @php $width = 100; @endphp
-                    @break
-                    @default
-                        @php $width = 50; @endphp
-                @endswitch
-                <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ $width }}%"
-                        aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <p class="m-0">
-                        Creado</p>
-                    <p class="m-0">
-                        En proceso</p>
-                    <p class="m-0">
-                        Ajustes</p>
-                    <p class="m-0">
-                        Entregado</p>
-                    <p class="m-0">
-                        Finalizado</p>
-                </div>
+            <div class="d-flex flex-row-reverse" style="width: 40%">
+                <p class="m-0" style="font-size: 1.2rem">{{$statusTicket}}</p>
             </div>
         </div>
     </div>
@@ -373,7 +341,7 @@
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Si, es correcto',
-                    cancelButtonText: 'No, deseo modificar algo',
+                    cancelButtonText: 'No, deseo solicitar algo mas!',
                     allowOutsideClick: false,
                     allowEscapeKey: false,
                 }).then((result) => {
@@ -453,7 +421,5 @@
                 );
             }
         }
-
-        //
     </script>
 @endsection
