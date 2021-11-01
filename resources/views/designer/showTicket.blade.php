@@ -81,7 +81,7 @@
                                 <input type="text" class="form-control" placeholder="Agrega una nota adicional"
                                     name="message">
                             </div>
-                            <input type="submit" class="btn btn-sm btn-info mx-1" value="Enviar">
+                            <input type="submit" class="boton-enviar" value="Enviar">
                         </div>
                     </form>
                     <div class="d-flex flex-column-reverse">
@@ -251,7 +251,7 @@
             </div>
             <div class="col-md-3">
                 <h5>Entregas</h5>
-                <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" class="boton-entregar-archivos" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Entregar <span class="fa-fw select-all fas"></span>
                 </button>
                 <hr>

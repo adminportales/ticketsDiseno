@@ -36,7 +36,7 @@
                         </change-status-designer>
                     </td>
                     <td><a href="{{ route('ticketAssigment.edit', ['user' => auth()->user()->id]) }}"
-                            class="btn btn-primary">Editar
+                            class="boton">Editar
                             asignación</a></td>
                 </tr>
                 @foreach ($users as $user)
@@ -56,7 +56,7 @@
                         </td>
 
                         <td><a href="{{ route('ticketAssigment.edit', ['user' => $user->id]) }}"
-                                class="btn btn-primary">Editar asignación</a></td>
+                                class="boton">Editar asignación</a></td>
 
                     </tr>
                 @endforeach

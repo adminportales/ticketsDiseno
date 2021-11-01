@@ -45,3 +45,66 @@ body {
 #main .section {
     margin-top: 1rem;
 }
+
+.boton {
+    font-size: 15px;
+    color: $white;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: $primary;
+    border-radius: 5px;
+    border: none;
+    &:hover {
+       background-color: $primary-dark;
+       color: $white;
+    }
+}
+
+.boton-enviar {
+    font-size: 15px;
+    color: $white;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: $primary;
+    border-radius: 5px;
+    border: none;
+    &:hover {
+       background-color: $primary-dark;
+       color: $white;
+    }
+}
+
+.boton-ver {
+    font-size: 15px;
+    color: $white;
+    padding-top: 9px;
+    padding-bottom: 11px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: $primary;
+    border-radius: 5px;
+    border: none;
+    &:hover {
+       background-color: $primary-dark;
+       color: $white;
+    }
+}
+.boton-entregar-archivos {
+    font-size: 15px;
+    color: $white;
+    padding-top: 9px;
+    padding-bottom: 11px;
+    padding-left: 90px;
+    padding-right: 90px;
+    background-color: $primary;
+    border-radius: 5px;
+    border: none;
+    &:hover {
+       background-color: $primary-dark;
+       color: $white;
+    }
+}

@@ -8,7 +8,7 @@
     <div class="card-header">
         <div class="d-flex justify-content-between">
             <h4 class="card-title">Información general acerca de las solicitudes</h4>
-            <a href="{{ route('tickets.create') }}" class="btn btn-success">Crear ticket</a>
+            <a href="{{ route('tickets.create') }}" class="boton">Crear ticket</a>
         </div>
     </div>
     <div class="card-body">
@@ -58,9 +58,9 @@
                             {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
                         <td class="text-center">
                             <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
-                                class="btn btn-warning btn-sm ">Ver</a>
+                                class="boton-ver ">Ver</a>
                             <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
-                                class="btn btn-primary btn-sm">Modificar</a>
+                                class="btn btn-danger">Modificar</a>
                         </td>
                     </tr>
                 @endforeach

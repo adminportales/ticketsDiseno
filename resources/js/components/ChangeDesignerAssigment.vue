@@ -4,7 +4,7 @@
 
     <div class="dropdown">
       <button
-        class="btn btn-primary btn-sm dropdown-toggle"
+        class="boton btn-sm dropdown-toggle"
         type="button"
         id="dropdownMenuButton"
         data-bs-toggle="dropdown"

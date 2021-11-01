@@ -123,7 +123,7 @@
                     </div>
                 </div>
             </div>
-            <input type="submit" value="Editar Ticket" class="btn btn-warning">
+            <input type="submit" value="Editar Ticket" class="boton">
         </form>
     </div>
 @endsection

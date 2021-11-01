@@ -36,7 +36,7 @@
                         <td>{{ $ticket->priorityTicket->priority }}</td>
                         <td>{{ $ticket->latestTicketInformation->created_at }}
                             {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
-                        <td><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="btn btn-warning">Ver
+                        <td><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="boton">Ver
                                 ticket</a></td>
                     </tr>
                 @endforeach
