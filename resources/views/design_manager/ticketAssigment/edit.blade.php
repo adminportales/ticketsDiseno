@@ -34,7 +34,7 @@
                         @endforeach
                     </div>
                     <br>
-                    <input type="submit" value="Guardar cambios" class="btn btn-success">
+                    <input type="submit" value="Guardar cambios" class="boton">
                 </form>
             </div>
         </div>

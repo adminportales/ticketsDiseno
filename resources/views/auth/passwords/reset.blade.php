@@ -47,7 +47,7 @@
 
                 <div class="form-group mb-0">
 
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="boton">
                         {{ __('Reset Password') }}
                     </button>
                 </div>

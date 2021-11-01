@@ -43,9 +43,9 @@
                             {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
                         <td class="text-center">
                             <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
-                                class="btn btn-warning btn-sm ">Ver</a>
+                                class="boton-ver ">Ver</a>
                             <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
-                                class="btn btn-primary btn-sm">Modificar</a>
+                                class="btn btn-danger">Modificar</a>
                         </td>
                     </tr>
                 @endforeach

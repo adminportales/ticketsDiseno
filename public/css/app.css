@@ -1,1 +1,115 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto);body{font-family:Roboto,sans-serif;background-color:#f4f4f4}.sidebar-wrapper{background-color:#032a3d}.sidebar-wrapper .menu .sidebar-link,.sidebar-wrapper .menu .sidebar-title{color:#f4f4f4}.sidebar-wrapper .menu .sidebar-link:hover{color:#232323}.sidebar-wrapper .menu .sidebar-item a{color:#f4f4f4}.sidebar-wrapper .menu .sidebar-item:hover{color:#232323}.sidebar-wrapper .menu .submenu .submenu-item a{color:#f4f4f4}.sidebar-wrapper .menu .submenu .submenu-item a:hover{color:#232323}.page-title h3{margin:0;padding:0;font-size:1.5rem}#main .section{margin-top:1rem}
+@import url(https://fonts.googleapis.com/css?family=Roboto);body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f4f4f4;
+}
+
+.sidebar-wrapper {
+  background-color: #032a3d;
+}
+
+.sidebar-wrapper .menu .sidebar-title {
+  color: #f4f4f4;
+}
+
+.sidebar-wrapper .menu .sidebar-link {
+  color: #f4f4f4;
+}
+
+.sidebar-wrapper .menu .sidebar-link:hover {
+  color: #232323;
+}
+
+.sidebar-wrapper .menu .sidebar-item a {
+  color: #f4f4f4;
+}
+
+.sidebar-wrapper .menu .sidebar-item:hover {
+  color: #232323;
+}
+
+.sidebar-wrapper .menu .submenu .submenu-item a {
+  color: #f4f4f4;
+}
+
+.sidebar-wrapper .menu .submenu .submenu-item a:hover {
+  color: #232323;
+}
+
+.page-title h3 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.5rem;
+}
+
+#main .section {
+  margin-top: 1rem;
+}
+
+.boton {
+  font-size: 15px;
+  color: #ffffff;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: #1a346b;
+  border-radius: 5px;
+  border: none;
+}
+
+.boton:hover {
+  background-color: #032a3d;
+  color: #ffffff;
+}
+
+.boton-enviar {
+  font-size: 15px;
+  color: #ffffff;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: #1a346b;
+  border-radius: 5px;
+  border: none;
+}
+
+.boton-enviar:hover {
+  background-color: #032a3d;
+  color: #ffffff;
+}
+
+.boton-ver {
+  font-size: 15px;
+  color: #ffffff;
+  padding-top: 9px;
+  padding-bottom: 11px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: #1a346b;
+  border-radius: 5px;
+  border: none;
+}
+
+.boton-ver:hover {
+  background-color: #032a3d;
+  color: #ffffff;
+}
+
+.boton-entregar-archivos {
+  font-size: 15px;
+  color: #ffffff;
+  padding-top: 9px;
+  padding-bottom: 11px;
+  padding-left: 90px;
+  padding-right: 90px;
+  background-color: #1a346b;
+  border-radius: 5px;
+  border: none;
+}
+
+.boton-entregar-archivos:hover {
+  background-color: #032a3d;
+  color: #ffffff;
+}
+

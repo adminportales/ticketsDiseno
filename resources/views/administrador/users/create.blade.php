@@ -75,8 +75,8 @@
                     </div>
                 </div>
                 <p>
-                    <input type="submit" id="boton_crear" class="btn btn-success" value="Crear nuevo usuario">
-                    <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancelar</a>
+                    <input type="submit" id="boton_crear" class="boton" value="Crear nuevo usuario">
+                    <a href="{{ route('users.index') }}" class="btn btn-danger">Cancelar</a>
                 </p>
             </div>
         </form>

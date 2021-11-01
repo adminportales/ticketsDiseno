@@ -117,7 +117,7 @@
                     </div>
                 </div>
             </div>
-            <input type="submit" value="Crear Ticket" class="btn btn-success">
+            <input type="submit" value="Crear Ticket" class="boton">
         </form>
     </div>
 @endsection
