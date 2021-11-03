@@ -26,7 +26,9 @@ Route::get('/home/inactive', 'HomeController@userActive')->name('user.active');
 
 // Rutas del administrador
 Route::resource('/users', 'UserController')->except('show');
-
+// Importar usuarios
+Route::get('/users/import', 'UserController@sample')->name('user.import.create');
+Route::post('/users/import', 'UserController@import')->name('user.import');
 // Rutas del diseñador
 route::get('/designer/ticketShow/{ticket}', 'DesignerController@show')->name('designer.show');
 Route::get('/designer/home', 'DesignerController@index')->name('designer.inicio');

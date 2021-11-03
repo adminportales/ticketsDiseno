@@ -8,6 +8,9 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
+
 
 class UserController extends Controller
 {
@@ -145,5 +148,29 @@ class UserController extends Controller
     {
         $user->update(['status' => false]);
         return redirect()->action('UserController@index');
+    }
+
+    public function import(Request $request)
+    {
+        $excel = $request->file('excel');
+        $rutaArchivo = public_path('storage/excel/') . $excel->getClientOriginalName();
+        $excel->move(public_path('storage/excel'), $excel->getClientOriginalName());
+        echo $rutaArchivo;
+        $documento = IOFactory::load($rutaArchivo);
+
+
+        // Proceso de importacion
+        $documento = IOFactory::load($rutaArchivo);
+
+        //obtener conteo e iterar
+        $totalDeHojas = $documento->getSheetCount();
+        //Eliminarr ese archivo
+
+        //return redirect()->action('UserController@index');
+
+    }
+    public function sample(User $user)
+    {
+        return view('administrador.import');
     }
 }

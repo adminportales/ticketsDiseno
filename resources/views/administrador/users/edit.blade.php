@@ -56,7 +56,7 @@
                     @enderror
                 </div>
                 <p>
-                    <input type="submit" id="boton_crear" class="btn btn-success" value="Editar usuario">
+                    <input type="submit" id="boton_crear" class="boton-enviar" value="Editar usuario">
                     <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancelar</a>
                 </p>
             </div>

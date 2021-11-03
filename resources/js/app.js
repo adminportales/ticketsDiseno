@@ -6,6 +6,7 @@
 
 require('./bootstrap');
 require('./scripts/crearTicket');
+require('./scripts/crearTicketForm');
 require('./scripts/entregarTicket');
 
 

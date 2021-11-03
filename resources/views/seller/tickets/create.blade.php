@@ -21,7 +21,7 @@
             </div>
         @endif
 
-        <form action="{{ route('tickets.store') }}" method="post" class="mx-5">
+        <form action="{{ route('tickets.store') }}" method="post" class="mx-5" id="formCreate">
             <div class="row">
                 @csrf
                 <div class="col-md-12">
@@ -36,7 +36,7 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="type">Tipo</label>
-                        <select name="type" class="form-control">
+                        <select name="type" class="form-control" id="type">
                             <option value="">Seleccione...</option>
                             @foreach ($types as $type)
                                 <option value="{{ $type->id }}" {{ $type->id == old('type') ? 'selected' : '' }}>
@@ -68,7 +68,7 @@
                             {{ $message }}
                         @enderror
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="pantone">
                         <label for="pantone">Pantone</label>
                         <input type="color" class="form-control" name="pantone" value="{{ old('pantone') }}" />
                     </div>
@@ -84,7 +84,7 @@
 
                 <div class="col-md-7">
                     <div class="d-flex">
-                        <div class="form-group w-50">
+                        <div class="form-group w-50" id="logoElement">
                             <label for="logo">Logo</label>
                             <div id="dropzoneLogo" class="dropzone form-control text-center"
                                 style="height: auto; width: auto"></div>
@@ -94,7 +94,7 @@
                             @enderror
                         </div>
 
-                        <div class="form-group w-50">
+                        <div class="form-group w-50" id="productElement">
                             <label for="product">Producto</label>
                             <div id="dropzoneProduct" class="dropzone form-control text-center"
                                 style="height: auto; width: auto"></div>
@@ -104,7 +104,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="itemsElement">
                         <label for="imagen">
                             Items del Producto:
                         </label>
@@ -124,14 +124,4 @@
 
 @section('scripts')
     <script src="{{ asset('assets\vendors\sweetalert2\sweetalert2.all.min.js') }}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (document.querySelector('#message')) {
-                const message = document.querySelector('#message')
-                setTimeout(() => {
-                    message.remove()
-                }, 5000);
-            }
-        })
-    </script>
 @endsection

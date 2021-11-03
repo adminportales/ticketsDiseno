@@ -8,12 +8,12 @@
             <div class="pt-3">
                 <a href="{{ route('home') }}" class="d-flex justify-content-between align-items-center">
                     <div class="logo w-100 text-center">
-                        <img class="img-thumbnail h-auto" style="width: 90%" src="{{ asset('assets/images/logo/BH.jpg') }}" alt="Logo"
-                            srcset="">
+                        <img class="img-thumbnail h-auto" style="width: 90%"
+                            src="{{ asset('assets/images/logo/BH.jpg') }}" alt="Logo" srcset="">
                     </div>
                     <div class="logo w-100 text-center">
-                        <img class="img-thumbnail h-auto" style="width: 80%" src="{{ asset('assets/images/logo/PL.jpg') }}" alt="Logo"
-                            srcset="">
+                        <img class="img-thumbnail h-auto" style="width: 80%"
+                            src="{{ asset('assets/images/logo/PL.jpg') }}" alt="Logo" srcset="">
                     </div>
                 </a>
             </div>
@@ -44,6 +44,12 @@
                         <a href="{{ Request::root() . '/roles_assignment' }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Asignar Permisos</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item  {{ request()->is('users/import') ? 'active' : '' }}">
+                        <a href="{{ route('user.import') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Importar usuarios</span>
                         </a>
                     </li>
                 @endrole

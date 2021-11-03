@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             'display_name' => 'Administrador', // optional
             'description' => '', // optional
         ]);
-        $user->profile()->create(['company' => 'Promo Life']);
+        $user->profile()->update(['company' => 'Promo Life']);
         $user->attachRole($admin);
 
         $seller = User::create([
@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
             'display_name' => 'Vendedor', // optional
             'description' => '', // optional
         ]);
-        $seller->profile()->create(['company' => 'Promo Life']);
+        $seller->profile()->update(['company' => 'Promo Life']);
         $seller->attachRole($seller_role);
 
         $designer = User::create([
@@ -55,7 +55,7 @@ class UserSeeder extends Seeder
             'display_name' => 'Diseñador', // optional
             'description' => '', // optional
         ]);
-        $designer->profile()->create(['company' => 'Promo Life']);
+        $designer->profile()->update(['company' => 'Promo Life']);
         $designer->attachRole($designer_role);
 
         $sales_manager = User::create([
@@ -71,7 +71,7 @@ class UserSeeder extends Seeder
             'display_name' => 'Gerente de Ventas', // optional
             'description' => '', // optional
         ]);
-        $sales_manager->profile()->create(['company' => 'Promo Life']);
+        $sales_manager->profile()->update(['company' => 'Promo Life']);
         $sales_manager->attachRole($sales_manager_role);
 
         $design_manager = User::create([
@@ -86,7 +86,7 @@ class UserSeeder extends Seeder
             'display_name' => 'Gerente de Diseño', // optional
             'description' => '', // optional
         ]);
-        $design_manager->profile()->create(['company' => 'Promo Life']);
+        $design_manager->profile()->update(['company' => 'Promo Life']);
         $design_manager->attachRole($design_manager_role);
     }
 }
