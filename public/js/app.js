@@ -2399,7 +2399,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.dropdown-menu[data-v-4a6949b2] {\n  min-width: 1rem !important;\n}\n", ""]);
+exports.push([module.i, "\n.dropdown-menu[data-v-4a6949b2] {\r\n  min-width: 1rem !important;\n}\r\n", ""]);
 
 // exports
 
@@ -53501,6 +53501,8 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./scripts/crearTicket */ "./resources/js/scripts/crearTicket.js");
 
+__webpack_require__(/*! ./scripts/crearTicketForm */ "./resources/js/scripts/crearTicketForm.js");
+
 __webpack_require__(/*! ./scripts/entregarTicket */ "./resources/js/scripts/entregarTicket.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
@@ -54218,6 +54220,50 @@ if (document.querySelector('#dropzoneItems')) {
 
           console.log(logos);
         });
+      }
+    });
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/scripts/crearTicketForm.js":
+/*!*************************************************!*\
+  !*** ./resources/js/scripts/crearTicketForm.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+if (document.querySelector('#formCreate')) {
+  var selectType = document.querySelector('#type');
+  var logoElement = document.querySelector('#logoElement');
+  var itemsElement = document.querySelector('#itemsElement');
+  var productElement = document.querySelector('#productElement');
+  var pantoneElement = document.querySelector('#pantone');
+  var tecnicaElement = document.querySelector('#tecnica');
+  document.addEventListener('DOMContentLoaded', function () {
+    if (document.querySelector('#message')) {
+      var message = document.querySelector('#message');
+      setTimeout(function () {
+        message.remove();
+      }, 5000);
+    }
+
+    alert(logoElement);
+    selectType.addEventListener('change', function () {
+      switch (selectType.value) {
+        case 1:
+          itemsElement.classList.add('d-none');
+          break;
+
+        case 2:
+          break;
+
+        case 3:
+          break;
+
+        default:
+          break;
       }
     });
   });
