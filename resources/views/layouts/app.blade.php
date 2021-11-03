@@ -34,10 +34,30 @@
                     <notify :user={{ auth()->user()->id }}></notify>
                     <div class="page-title">
                         <div class="row">
-                            <div class="col-12 order-md-1 order-last d-flex justify-content-between">
+                            <div class="col-12 order-md-1 order-last d-flex justify-content-between align-items-center">
                                 @yield('title')
-                                <p style="font-size: 1.3rem;font-weight: bold; color: #25396f;">
-                                    {{ auth()->user()->name }} {{ auth()->user()->lastname }}</p>
+                                <div class="card m-0 p-1">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar avatar-xl">
+                                            @if (auth()->user()->profile->photo)
+                                                <img src="{{ asset('storage\profiles') . '/' . auth()->user()->profile->photo }}"
+                                                    alt="">
+                                            @else
+                                                <p class="rounded-circle border border-primary m-0 d-flex justify-content-center align-items-center"
+                                                    style="width: 60px;height: 60px;">
+                                                    <span>{{ substr(auth()->user()->name, 0, 1) . substr(auth()->user()->lastname, 0, 1) }}</span>
+                                                </p>
+                                            @endif
+                                        </div>
+                                        <div class="ms-3 name">
+                                            <h5 class="font-bold">
+                                                {{ auth()->user()->name . ' ' . auth()->user()->lastname }}
+                                                </h6>
+                                                <p class="text-muted mb-0">
+                                                    {{ auth()->user()->whatRoles[0]->display_name }}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

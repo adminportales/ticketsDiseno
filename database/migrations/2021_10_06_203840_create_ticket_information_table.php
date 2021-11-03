@@ -16,7 +16,7 @@ class CreateTicketInformationTable extends Migration
         Schema::create('ticket_informations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ticket_id')->constrained();
-            $table->foreignId('technique_id')->constrained();
+            $table->foreignId('technique_id')->nullable()->constrained();
             $table->foreignId('modifier_id')->references('id')->on('users');
             $table->string('modifier_name');
             $table->string('customer')->nullable();
@@ -26,6 +26,8 @@ class CreateTicketInformationTable extends Migration
             $table->text('product')->nullable();
             $table->string('pantone')->nullable();
             $table->text('description')->nullable();
+            $table->string('position')->nullable();
+            $table->text('companies')->nullable();
             $table->timestamps();
         });
     }

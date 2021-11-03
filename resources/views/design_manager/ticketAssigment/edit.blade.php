@@ -21,16 +21,16 @@
                             @foreach ($userTypes as $userType)
                                 @if ($type->id == $userType->id)
                                     @php $check = true; @endphp
-                                @break
-                            @endif
-                        @endforeach
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="types[]" id="check"
-                                {{ $check ? 'checked' : '' }} value="{{ $type->id }}">
-                            <label class="form-check-label" for="check">
-                                {{ $type->type }}
-                            </label>
-                        </div>
+                                    @break
+                                @endif
+                            @endforeach
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="types[]" id="check"
+                                    {{ $check ? 'checked' : '' }} value="{{ $type->id }}">
+                                <label class="form-check-label" for="check">
+                                    {{ $type->type }}
+                                </label>
+                            </div>
                         @endforeach
                     </div>
                     <br>

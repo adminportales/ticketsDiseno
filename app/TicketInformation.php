@@ -20,6 +20,8 @@ class TicketInformation extends Model
         'logo',
         'product',
         'pantone',
+        'position',
+        'companies'
     ];
 
     public function techniqueTicket()

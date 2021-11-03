@@ -53501,8 +53501,6 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./scripts/crearTicket */ "./resources/js/scripts/crearTicket.js");
 
-__webpack_require__(/*! ./scripts/crearTicketForm */ "./resources/js/scripts/crearTicketForm.js");
-
 __webpack_require__(/*! ./scripts/entregarTicket */ "./resources/js/scripts/entregarTicket.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
@@ -53523,8 +53521,7 @@ Vue.component('notify', __webpack_require__(/*! ./components/Notify.vue */ "./re
 Vue.component('change-priority', __webpack_require__(/*! ./components/ChangePriority.vue */ "./resources/js/components/ChangePriority.vue")["default"]);
 Vue.component('change-designer-assigment', __webpack_require__(/*! ./components/ChangeDesignerAssigment.vue */ "./resources/js/components/ChangeDesignerAssigment.vue")["default"]);
 Vue.component('change-status-designer', __webpack_require__(/*! ./components/ChangeStatusDesigner.vue */ "./resources/js/components/ChangeStatusDesigner.vue")["default"]);
-Vue.component('apex', __webpack_require__(/*! ./components/Apex.vue */ "./resources/js/components/Apex.vue")["default"]); // Vue.component('form-send-deliveries', require('./components/FormSendDeliveries.vue').default);
-
+Vue.component('apex', __webpack_require__(/*! ./components/Apex.vue */ "./resources/js/components/Apex.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -54220,50 +54217,6 @@ if (document.querySelector('#dropzoneItems')) {
 
           console.log(logos);
         });
-      }
-    });
-  });
-}
-
-/***/ }),
-
-/***/ "./resources/js/scripts/crearTicketForm.js":
-/*!*************************************************!*\
-  !*** ./resources/js/scripts/crearTicketForm.js ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-if (document.querySelector('#formCreate')) {
-  var selectType = document.querySelector('#type');
-  var logoElement = document.querySelector('#logoElement');
-  var itemsElement = document.querySelector('#itemsElement');
-  var productElement = document.querySelector('#productElement');
-  var pantoneElement = document.querySelector('#pantone');
-  var tecnicaElement = document.querySelector('#tecnica');
-  document.addEventListener('DOMContentLoaded', function () {
-    if (document.querySelector('#message')) {
-      var message = document.querySelector('#message');
-      setTimeout(function () {
-        message.remove();
-      }, 5000);
-    }
-
-    alert(logoElement);
-    selectType.addEventListener('change', function () {
-      switch (selectType.value) {
-        case 1:
-          itemsElement.classList.add('d-none');
-          break;
-
-        case 2:
-          break;
-
-        case 3:
-          break;
-
-        default:
-          break;
       }
     });
   });
