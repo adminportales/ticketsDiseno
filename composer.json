@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
         "laraveles/spanish": "^1.5",
+        "phpoffice/phpspreadsheet": "^1.19",
         "pusher/pusher-php-server": "^7.0",
         "santigarcor/laratrust": "^6.3"
     },

@@ -2399,7 +2399,15 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
+<<<<<<< HEAD
 exports.push([module.i, "\n.dropdown-menu[data-v-4a6949b2] {\r\n  min-width: 1rem !important;\n}\r\n", ""]);
+=======
+<<<<<<< HEAD
+exports.push([module.i, "\n.dropdown-menu[data-v-4a6949b2] {\n  min-width: 1rem !important;\n}\n", ""]);
+=======
+exports.push([module.i, "\n.dropdown-menu[data-v-4a6949b2] {\r\n  min-width: 1rem !important;\n}\r\n", ""]);
+>>>>>>> 3ec2cfe723388beccbb4c299387275714af14031
+>>>>>>> d775dcba7b82742cff5ed082bc6fbf23d5ac559e
 
 // exports
 
@@ -53501,8 +53509,16 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./scripts/crearTicket */ "./resources/js/scripts/crearTicket.js");
 
+<<<<<<< HEAD
 __webpack_require__(/*! ./scripts/crearTicketForm */ "./resources/js/scripts/crearTicketForm.js");
 
+=======
+<<<<<<< HEAD
+=======
+__webpack_require__(/*! ./scripts/crearTicketForm */ "./resources/js/scripts/crearTicketForm.js");
+
+>>>>>>> 3ec2cfe723388beccbb4c299387275714af14031
+>>>>>>> d775dcba7b82742cff5ed082bc6fbf23d5ac559e
 __webpack_require__(/*! ./scripts/entregarTicket */ "./resources/js/scripts/entregarTicket.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
@@ -54227,6 +54243,11 @@ if (document.querySelector('#dropzoneItems')) {
 
 /***/ }),
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> d775dcba7b82742cff5ed082bc6fbf23d5ac559e
 /***/ "./resources/js/scripts/crearTicketForm.js":
 /*!*************************************************!*\
   !*** ./resources/js/scripts/crearTicketForm.js ***!
@@ -54271,6 +54292,10 @@ if (document.querySelector('#formCreate')) {
 
 /***/ }),
 
+<<<<<<< HEAD
+=======
+>>>>>>> 3ec2cfe723388beccbb4c299387275714af14031
+>>>>>>> d775dcba7b82742cff5ed082bc6fbf23d5ac559e
 /***/ "./resources/js/scripts/entregarTicket.js":
 /*!************************************************!*\
   !*** ./resources/js/scripts/entregarTicket.js ***!
