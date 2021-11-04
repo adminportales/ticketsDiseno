@@ -27,6 +27,7 @@ Vue.use(VueApexCharts)
 
 Vue.component('apexchart', VueApexCharts)
 
+Vue.component('change-photo', require('./components/ChangePhoto.vue').default);
 Vue.component('notify', require('./components/Notify.vue').default);
 Vue.component('change-priority', require('./components/ChangePriority.vue').default);
 Vue.component('change-designer-assigment', require('./components/ChangeDesignerAssigment.vue').default);

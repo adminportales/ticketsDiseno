@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\OrderStatusChangeEvent;
+use App\Events\ChangePrioritySendEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class OrderStatusListener
+class ChangePrioritySendListener
 {
     /**
      * Create the event listener.
@@ -21,10 +21,10 @@ class OrderStatusListener
     /**
      * Handle the event.
      *
-     * @param  OrderStatusChangeEvent  $event
+     * @param  ChangePrioritySendEvent  $event
      * @return void
      */
-    public function handle(OrderStatusChangeEvent $event)
+    public function handle(ChangePrioritySendEvent $event)
     {
         //
     }

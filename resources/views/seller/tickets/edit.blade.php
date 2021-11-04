@@ -98,7 +98,7 @@
                     </div>
                     <div class="form-group" id="position">
                         <label for="pantone">Posicion del logo en el virtual</label>
-                        <input type="input" class="form-control" name="position" value="{{ old('position') }}" />
+                        <input type="input" class="form-control" name="position" value="{{ $ticketInformation->position }}" />
                     </div>
                     <div class="form-group" id="pantone">
                         <label for="pantone">Pantone o color principal aproximado</label>

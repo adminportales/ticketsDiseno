@@ -30,6 +30,16 @@
                     {{ $ticket->latestTicketInformation->pantone }} </small>
             </p>
         @endif
+        @if ($ticket->latestTicketInformation->position)
+            <p class="m-0"><strong>Posicion:
+                </strong>{{ $ticket->latestTicketInformation->position }}
+            </p>
+        @endif
+        @if ($ticket->latestTicketInformation->companies)
+            <p class="m-0"><strong>Solicitado para:
+                </strong>{{ $ticket->latestTicketInformation->companies }}
+            </p>
+        @endif
         <p class="m-0"><strong>Descripción:
             </strong>{{ $ticket->latestTicketInformation->description }}
         </p>
@@ -110,6 +120,15 @@
                                         </p>
                                     @endif
                                 @endif
+                                @if ($information->position)
+                                    @if ($information->position != $latestInformation->position)
+                                        <p class="m-0"><strong>Posicion del logo:
+                                            </strong>{{ $latestInformation->position }} <span
+                                                class="fa-fw select-all fas"></span>
+                                            {{ $information->position }}
+                                        </p>
+                                    @endif
+                                @endif
                                 @if ($information->techniqueTicket)
                                     @if ($information->techniqueTicket->name != $latestInformation->techniqueTicket->name)
                                         <p class="m-0"><strong>Tecnica:
@@ -119,21 +138,23 @@
                                         </p>
                                     @endif
                                 @endif
-                                @if ($information->pantone != $latestInformation->pantone)
-                                    <p class="m-0">
-                                        <strong>Color aproximado:</strong>
-                                        <small class="m-0 pantone"
-                                            style="height: 10px; background-color: {{ $latestInformation->pantone }}; color: {{ $latestInformation->pantone }}">.</small>
-                                        <small style="display: inline-block">
-                                            {{ $latestInformation->pantone }} </small> <span
-                                            class="fa-fw select-all fas"></span>
-                                        <small class="m-0 pantone"
-                                            style="height: 10px; background-color: {{ $information->pantone }}; color: {{ $information->pantone }}">.</small>
-                                        <small style="display: inline-block"> {{ $information->pantone }}
-                                        </small>
-                                    </p>
+                                @if ($information->pantone)
+                                    @if ($information->pantone != $latestInformation->pantone)
+                                        <p class="m-0">
+                                            <strong>Color aproximado:</strong>
+                                            <small class="m-0 pantone"
+                                                style="height: 10px; background-color: {{ $latestInformation->pantone }}; color: {{ $latestInformation->pantone }}">.</small>
+                                            <small style="display: inline-block">
+                                                {{ $latestInformation->pantone }} </small> <span
+                                                class="fa-fw select-all fas"></span>
+                                            <small class="m-0 pantone"
+                                                style="height: 10px; background-color: {{ $information->pantone }}; color: {{ $information->pantone }}">.</small>
+                                            <small style="display: inline-block"> {{ $information->pantone }}
+                                            </small>
+                                        </p>
+                                    @endif
                                 @endif
-                                @if ($latestInformation && $information->description != $latestInformation->description)
+                                @if ($information->description != $latestInformation->description)
                                     <p class="m-0"><strong>Descripción:
                                         </strong>{{ $latestInformation->description }} <span
                                             class="fa-fw select-all fas"></span>
@@ -143,60 +164,66 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="row">
-                                    @if ($information->logo != $latestInformation->logo)
-                                        <div class="col-md-12 col-sm-12">
-                                            <p class="m-0"><strong>Logo:
-                                                </strong>
-                                            </p>
-                                            <img src="{{ asset('/storage/logos/' . $latestInformation->logo) }}"
-                                                alt="" class="img-thumbnail rounded img-history">
-                                            <span class="fa-fw select-all fas"></span>
-                                            <img src="{{ asset('/storage/logos/' . $information->logo) }}" alt=""
-                                                class="img-thumbnail rounded img-history">
-                                        </div>
+                                    @if ($information->logo)
+                                        @if ($information->logo != $latestInformation->logo)
+                                            <div class="col-md-12 col-sm-12">
+                                                <p class="m-0"><strong>Logo:
+                                                    </strong>
+                                                </p>
+                                                <img src="{{ asset('/storage/logos/' . $latestInformation->logo) }}"
+                                                    alt="" class="img-thumbnail rounded img-history">
+                                                <span class="fa-fw select-all fas"></span>
+                                                <img src="{{ asset('/storage/logos/' . $information->logo) }}" alt=""
+                                                    class="img-thumbnail rounded img-history">
+                                            </div>
+                                        @endif
                                     @endif
-                                    @if ($information->product != $latestInformation->product)
-                                        <div class="col-md-12 col-sm-12">
-                                            <p class="m-0"><strong>Producto:
-                                                </strong>
-                                            </p>
-                                            <img src="{{ asset('/storage/products/' . $latestInformation->product) }}"
-                                                alt="" class="img-thumbnail rounded img-history">
-                                            <span class="fa-fw select-all fas"></span>
-                                            <img src="{{ asset('/storage/products/' . $information->product) }}"
-                                                alt="" class="img-thumbnail rounded img-history">
-                                        </div>
+                                    @if ($information->product)
+                                        @if ($information->product != $latestInformation->product)
+                                            <div class="col-md-12 col-sm-12">
+                                                <p class="m-0"><strong>Producto:
+                                                    </strong>
+                                                </p>
+                                                <img src="{{ asset('/storage/products/' . $latestInformation->product) }}"
+                                                    alt="" class="img-thumbnail rounded img-history">
+                                                <span class="fa-fw select-all fas"></span>
+                                                <img src="{{ asset('/storage/products/' . $information->product) }}"
+                                                    alt="" class="img-thumbnail rounded img-history">
+                                            </div>
+                                        @endif
                                     @endif
                                 </div>
                             </div>
-                            @php
-                                $diferencias = array_diff(explode(',', $information->items), explode(',', $latestInformation->items));
-                            @endphp
-                            @if (!empty($diferencias))
-                                <p class="m-0"><strong>Items: </strong></p>
-                                <div class="col-md-5">
-                                    <div class="items">
-                                        @foreach (explode(',', $latestInformation->items) as $item)
-                                            <div class="img-items ">
-                                                <img src="{{ asset('/storage/items/' . $item) }}" alt=""
-                                                    class="img-thumbnail rounded">
-                                            </div>
-                                        @endforeach
+                            @if ($information->items)
+                                @php
+                                    $diferencias = array_diff(explode(',', $information->items), explode(',', $latestInformation->items));
+                                @endphp
+                                @if (!empty($diferencias))
+                                    <p class="m-0"><strong>Items: </strong></p>
+                                    <div class="col-md-5">
+                                        <div class="items">
+                                            @foreach (explode(',', $latestInformation->items) as $item)
+                                                <div class="img-items ">
+                                                    <img src="{{ asset('/storage/items/' . $item) }}" alt=""
+                                                        class="img-thumbnail rounded">
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <span class="fa-fw select-all fas"></span>
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="items">
-                                        @foreach (explode(',', $information->items) as $item)
-                                            <div class="img-items ">
-                                                <img src="{{ asset('/storage/items/' . $item) }}" alt=""
-                                                    class="img-thumbnail rounded">
-                                            </div>
-                                        @endforeach
+                                    <div class="col-md-2">
+                                        <span class="fa-fw select-all fas"></span>
                                     </div>
-                                </div>
+                                    <div class="col-md-5">
+                                        <div class="items">
+                                            @foreach (explode(',', $information->items) as $item)
+                                                <div class="img-items ">
+                                                    <img src="{{ asset('/storage/items/' . $item) }}" alt=""
+                                                        class="img-thumbnail rounded">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
                             @endif
                         @elseif (!$latestInformation && $loop->index == 0)
                             <p class="m-0">

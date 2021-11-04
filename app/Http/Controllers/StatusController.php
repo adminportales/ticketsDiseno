@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ChangeStatusSendEvent;
 use App\Events\MessageSendEvent;
 use App\Message;
 use App\Status;
@@ -49,7 +50,7 @@ class StatusController extends Controller
             }
             $receiver_id = $userReceiver->id;
             $receiver_name = $userReceiver->name . ' ' . $userReceiver->lastname;
-            event(new MessageSendEvent('Ticket ' . $status->status, $receiver_id, $transmitter_name));
+            event(new ChangeStatusSendEvent($ticket->latestTicketInformation->title, $status->status, $receiver_id, $transmitter_name));
             if ($request->message != '') {
                 $message = Message::create([
                     "transmitter_id" => $transmitter_id,

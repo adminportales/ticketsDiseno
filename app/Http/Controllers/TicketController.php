@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ChangeStatusSendEvent;
+use App\Events\ChangeTicketSendEvent;
 use App\Events\MessageSendEvent;
+use App\Events\TicketCreateSendEvent;
 use App\Priority;
 use App\Role;
 use App\Status;
@@ -78,6 +81,7 @@ class TicketController extends Controller
                     'description' => ['required', 'string'],
                     'logo' => 'required',
                     'product' => 'required',
+                    'position' => 'required',
                 ]);
                 break;
             case 2:
@@ -101,6 +105,31 @@ class TicketController extends Controller
                 break;
         }
 
+        switch ($request->type) {
+            case 1:
+                $request->items = null;
+                $request->companies = null;
+                $request->customer = null;
+                break;
+            case 2:
+                $request->product = null;
+                $request->pantone = null;
+                $request->technique = null;
+                $request->position = null;
+                break;
+            case 3:
+                $request->product = null;
+                $request->pantone = null;
+                $request->technique = null;
+                $request->position = null;
+                $request->logo = null;
+                $request->customer = null;
+                $request->companies = null;
+                break;
+            default:
+                # code...
+                break;
+        }
         // Obtener el id y el nombre del vendedor que esta editando
         $seller_id = auth()->user()->id;
         $seller_name = auth()->user()->name . ' ' . auth()->user()->lastname;
@@ -127,31 +156,6 @@ class TicketController extends Controller
         ]);
 
         // Registrar la informacion del ticket
-        switch ($request->type) {
-            case 1:
-                $request->items = null;
-                $request->companies = null;
-                $request->customer = null;
-                break;
-            case 2:
-                $request->product = null;
-                $request->pantone = null;
-                $request->technique = null;
-                $request->position = null;
-                break;
-            case 3:
-                $request->product = null;
-                $request->pantone = null;
-                $request->technique = null;
-                $request->position = null;
-                $request->logo = null;
-                $request->customer = null;
-                $request->companies = null;
-                break;
-            default:
-                # code...
-                break;
-        }
 
         if ($request->companies) {
             $request->companies = implode(',', $request->companies);
@@ -183,7 +187,7 @@ class TicketController extends Controller
         ]);
 
         // Notificacion para avisar al diseñador
-        event(new MessageSendEvent('Creo el ticket', $designerAssigment->id, $seller_name));
+        event(new TicketCreateSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->seller_name));
 
         // Regresar a la vista de inicio
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
@@ -268,11 +272,40 @@ class TicketController extends Controller
                 break;
         }
 
+        switch ($ticket->typeTicket->type_id) {
+            case 1:
+                $request->items = null;
+                $request->companies = null;
+                $request->customer = null;
+                break;
+            case 2:
+                $request->product = null;
+                $request->pantone = null;
+                $request->technique = null;
+                $request->position = null;
+                break;
+            case 3:
+                $request->product = null;
+                $request->pantone = null;
+                $request->technique = null;
+                $request->position = null;
+                $request->logo = null;
+                $request->customer = null;
+                $request->companies = null;
+                break;
+            default:
+                # code...
+                break;
+        }
+
         // Obtener el id y el nombre del vendedor que esta editando
         $seller_id = auth()->user()->id;
         $seller_name = auth()->user()->name . ' ' . auth()->user()->lastname;
 
         // Registrar la informacion del ticket
+        if ($request->companies) {
+            $request->companies = implode(',', $request->companies);
+        }
         $ticketInformation = $ticket->ticketInformation()->create([
             'technique_id' => $request->technique,
             'customer' => $request->customer,
@@ -285,6 +318,8 @@ class TicketController extends Controller
             'product' => $request->product,
             'items' => $request->items,
             'pantone' => $request->pantone,
+            'position' => $request->position,
+            'companies' => $request->companies,
         ]);
 
         $ticket->historyTicket()->create([
@@ -293,7 +328,7 @@ class TicketController extends Controller
             'type' => 'info'
         ]);
 
-        event(new MessageSendEvent('Modifico el ticket', $ticket->designer_id, $seller_name));
+        event(new ChangeTicketSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $seller_name));
         // Regresar a la vista de inicio
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
     }
