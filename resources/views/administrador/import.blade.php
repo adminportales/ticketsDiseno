@@ -14,14 +14,16 @@
         <form action="{{ route('user.import') }}" method="post" enctype="multipart/form-data">
             @csrf
 
-            <p>
-                Sube un archivo:
+            <div class="form-group">
 
-                <input type="file" class="boton" name="excel">
-                <br><br>
-                <input type="submit" class="boton" value="Enviar datos">
+                <label for="">Sube un archivo:</label>
+                <br> <br>
+                <input type="file" class="" name="excel">
+            </div>
+            <br>
+            <input type="submit" class="boton" value="Enviar datos">
 
-            </p>
+
         </form>
     </div>
 

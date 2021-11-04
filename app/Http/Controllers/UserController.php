@@ -6,6 +6,7 @@ use App\Notifications\RegisteredUser;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -155,19 +156,68 @@ class UserController extends Controller
         $excel = $request->file('excel');
         $rutaArchivo = public_path('storage/excel/') . $excel->getClientOriginalName();
         $excel->move(public_path('storage/excel'), $excel->getClientOriginalName());
-        echo $rutaArchivo;
         $documento = IOFactory::load($rutaArchivo);
 
 
-        // Proceso de importacion
+        // TODO: Proceso de importacion
         $documento = IOFactory::load($rutaArchivo);
 
-        //obtener conteo e iterar
-        $totalDeHojas = $documento->getSheetCount();
-        //Eliminarr ese archivo
+        #Obtener hoja en el indice que valla del ciclo
+        $hojaActual = $documento->getSheet(0);
 
-        //return redirect()->action('UserController@index');
+        # Calcular el máximo valor de la fila como entero, es decir, el
+        # límite de nuestro ciclo
+        $numeroMayorDeFila = $hojaActual->getHighestRow(); // Numérico
+        $letraMayorDeColumna = $hojaActual->getHighestColumn(); // Letra
+        # Convertir la letra al número de columna correspondiente
+        $numeroMayorDeColumna = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($letraMayorDeColumna);
 
+
+        # Iterar filas con ciclo for e índices
+        for ($indiceFila = 2; $indiceFila <= $numeroMayorDeFila; $indiceFila++) {
+
+            $celda = $hojaActual->getCellByColumnAndRow(1, $indiceFila);
+            $user['nombre'] = $celda->getValue();
+            $celda = $hojaActual->getCellByColumnAndRow(2, $indiceFila);
+            $user['apellido'] = $celda->getValue();
+            $celda = $hojaActual->getCellByColumnAndRow(3, $indiceFila);
+            $user['email'] = $celda->getValue();
+            $celda = $hojaActual->getCellByColumnAndRow(4, $indiceFila);
+            $user['empresa'] = $celda->getValue();
+            $celda = $hojaActual->getCellByColumnAndRow(5, $indiceFila);
+            $user['rol'] = $celda->getValue();
+
+            echo "<br>";
+            echo "<br>";
+
+            $pass = Str::random(8);
+
+            // Registrar el usuario
+            $user = User::create([
+                'name' => $user['nombre'],
+                'lastname' => $user['apellido'],
+                'email' => $user['email'],
+                'password' => Hash::make($pass)
+            ]);
+            $user->profile()->update([
+                'company' => $user['empresa']
+            ]);
+
+            // Asignar el rol seleccionado
+            $role = Role::find($user['rol']);
+            $user->attachRole($role);
+
+
+            // Enviar notificacion de registro
+            /*             $dataNotification = [
+                'name' => $request->name . ' ' . $request->lastname,
+                'email' => $request->email,
+                'password' => $pass,
+                'role' => $role->display_name
+            ];
+            $user->notify(new RegisteredUser($dataNotification)); */
+        }
+        return redirect()->action('UserController@index');
     }
     public function sample(User $user)
     {

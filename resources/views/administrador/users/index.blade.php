@@ -6,9 +6,20 @@
 
 @section('content')
     <div class="card-header">
-        <h4 class="card-title">Información general de cada usuario</h4>
+        <div class="d-flex justify-content-between">
+            <h4 class="card-title">Información general de cada usuario</h4>
+            <div class="btn-group" style="text-align:left">
+                <a href="{{ route('users.create') }}" class="boton" aria-current="page">Crear</a>
+                <a href="{{ Request::root() . '/roles_assignment' }}" class="boton">Asignar permisos</a>
+                <a href="{{ route('user.import') }}" class="boton">Importar</a>
+            </div>
+        </div>
+
     </div>
+
+
     <div class="card-body">
+
         <table class="table table-responsive" id="tableUsers">
             <thead>
                 <tr>

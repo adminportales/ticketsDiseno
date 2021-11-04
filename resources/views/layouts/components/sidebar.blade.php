@@ -34,24 +34,7 @@
                             <span>Ver Usuarios</span>
                         </a>
                     </li>
-                    <li class="sidebar-item  {{ request()->is('users/create') ? 'active' : '' }}">
-                        <a href="{{ route('users.create') }}" class='sidebar-link'>
-                            <i class="bi bi-grid-fill"></i>
-                            <span>Crear nuevo usuario</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="{{ Request::root() . '/roles_assignment' }}" class='sidebar-link'>
-                            <i class="bi bi-grid-fill"></i>
-                            <span>Asignar Permisos</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item  {{ request()->is('users/import') ? 'active' : '' }}">
-                        <a href="{{ route('user.import') }}" class='sidebar-link'>
-                            <i class="bi bi-grid-fill"></i>
-                            <span>Importar usuarios</span>
-                        </a>
-                    </li>
+
                 @endrole
                 @role('seller')
                     <li class="sidebar-item {{ request()->is('tickets') ? 'active' : '' }}">
