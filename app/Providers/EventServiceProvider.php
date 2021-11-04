@@ -32,6 +32,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ChangeStatusSendEvent' => [
             'App\Listeners\ChangeStatusSendListener'
         ],
+        'App\Events\TicketCreateSendEvent' => [
+            'App\Listeners\TicketCreateSendListener'
+        ],
     ];
 
     /**

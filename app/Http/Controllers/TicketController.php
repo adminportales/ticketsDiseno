@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ChangeStatusSendEvent;
+use App\Events\ChangeTicketSendEvent;
 use App\Events\MessageSendEvent;
+use App\Events\TicketCreateSendEvent;
 use App\Priority;
 use App\Role;
 use App\Status;
@@ -184,7 +187,7 @@ class TicketController extends Controller
         ]);
 
         // Notificacion para avisar al diseñador
-        event(new MessageSendEvent('Creo el ticket', $designerAssigment->id, $seller_name));
+        event(new TicketCreateSendEvent($ticket->title, $ticket->seller_id, $ticket->designer_name));
 
         // Regresar a la vista de inicio
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
@@ -325,7 +328,7 @@ class TicketController extends Controller
             'type' => 'info'
         ]);
 
-        event(new MessageSendEvent('Modifico el ticket', $ticket->designer_id, $seller_name));
+        event(new ChangeTicketSendEvent($ticket->title, $ticket->designer_id, $seller_name));
         // Regresar a la vista de inicio
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
     }

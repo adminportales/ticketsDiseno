@@ -2408,6 +2408,61 @@ __webpack_require__.r(__webpack_exports__);
         }).showToast();
       }
     });
+    window.Echo.channel("delivery").listen("TicketDeliverySendEvent", function (e) {
+      console.log(e);
+
+      if (_this.user == e.receptor) {
+        Toastify({
+          text: "".concat(e.emisor, "\n ").concat(e.message),
+          duration: 3000,
+          backgroundColor: "#435ebe"
+        }).showToast();
+      }
+    });
+    window.Echo.channel("priority").listen("ChangePrioritySendEvent", function (e) {
+      console.log(e);
+
+      if (_this.user == e.receptor) {
+        Toastify({
+          text: "".concat(e.emisor, "\n ").concat(e.message),
+          duration: 3000,
+          backgroundColor: "#435ebe"
+        }).showToast();
+      }
+    });
+    window.Echo.channel("status").listen("ChangeStatusSendEvent", function (e) {
+      console.log(e);
+
+      if (_this.user == e.receptor) {
+        Toastify({
+          text: "".concat(e.emisor, "\n ").concat(e.message),
+          duration: 3000,
+          backgroundColor: "#435ebe"
+        }).showToast();
+      }
+    });
+    window.Echo.channel("change").listen("ChangeTicketSendEvent", function (e) {
+      console.log(e);
+
+      if (_this.user == e.receptor) {
+        Toastify({
+          text: "".concat(e.emisor, "\n ").concat(e.message),
+          duration: 3000,
+          backgroundColor: "#435ebe"
+        }).showToast();
+      }
+    });
+    window.Echo.channel("creado").listen("TicketCreateSendEvent", function (e) {
+      console.log(e);
+
+      if (_this.user == e.receptor) {
+        Toastify({
+          text: "".concat(e.emisor, "\n ").concat(e.message),
+          duration: 3000,
+          backgroundColor: "#435ebe"
+        }).showToast();
+      }
+    });
   },
   data: function data() {
     return {

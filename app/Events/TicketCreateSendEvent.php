@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ChangeTicketSendEvent implements ShouldBroadcast
+class TicketCreateSendEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -34,9 +34,8 @@ class ChangeTicketSendEvent implements ShouldBroadcast
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-
     public function broadcastOn()
     {
-        return new PrivateChannel('change');
+        return new PrivateChannel('creado');
     }
 }

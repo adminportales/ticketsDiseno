@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ChangeStatusSendEvent
+class ChangeStatusSendEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,9 +19,17 @@ class ChangeStatusSendEvent
      *
      * @return void
      */
-    public function __construct()
+    public $ticket;
+    public $status;
+    public $receptor;
+    public $emisor;
+
+    public function __construct($ticket, $status, $receptor, $emisor)
     {
-        //
+        $this->status  = $status;
+        $this->ticket  = $ticket;
+        $this->receptor  = $receptor;
+        $this->emisor  = $emisor;
     }
 
     /**
@@ -31,6 +39,6 @@ class ChangeStatusSendEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new PrivateChannel('status');
     }
 }

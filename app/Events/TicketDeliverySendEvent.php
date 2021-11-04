@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TicketDeliverySendEvent
+class TicketDeliverySendEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,9 +19,14 @@ class TicketDeliverySendEvent
      *
      * @return void
      */
-    public function __construct()
+    public $ticket;
+    public $receptor;
+    public $emisor;
+    public function __construct($ticket, $receptor, $emisor)
     {
-        //
+        $this->ticket  = $ticket;
+        $this->receptor  = $receptor;
+        $this->emisor  = $emisor;
     }
 
     /**
@@ -31,6 +36,6 @@ class TicketDeliverySendEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new PrivateChannel('delivery');
     }
 }
