@@ -37,6 +37,6 @@ class ChangeTicketSendEvent implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new PrivateChannel('change');
+        return ['change'];
     }
 }

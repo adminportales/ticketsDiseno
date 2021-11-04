@@ -36,6 +36,6 @@ class TicketCreateSendEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('creado');
+        return ['creado'];
     }
 }

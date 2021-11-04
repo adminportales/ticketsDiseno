@@ -20,11 +20,13 @@ class ChangePrioritySendEvent implements ShouldBroadcast
      * @return void
      */
     public $prioridad;
+    public $ticket;
     public $receptor;
     public $emisor;
 
-    public function __construct($prioridad, $receptor, $emisor)
+    public function __construct($prioridad, $ticket, $receptor, $emisor)
     {
+        $this->ticket  = $ticket;
         $this->prioridad  = $prioridad;
         $this->receptor  = $receptor;
         $this->emisor  = $emisor;
@@ -37,6 +39,6 @@ class ChangePrioritySendEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('priority');
+        return ['priority'];
     }
 }

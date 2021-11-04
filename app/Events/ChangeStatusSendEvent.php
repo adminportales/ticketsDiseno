@@ -39,6 +39,6 @@ class ChangeStatusSendEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('status');
+        return ['status'];
     }
 }

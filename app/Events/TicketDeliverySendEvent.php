@@ -36,6 +36,6 @@ class TicketDeliverySendEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('delivery');
+        return ['delivery'];
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Events\ChangePrioritySendEvent;
-use App\Events\MessageSendEvent;
 use App\Priority;
 use App\Ticket;
 use Illuminate\Http\Request;
@@ -33,7 +32,7 @@ class PriorityController extends Controller
         ]);
 
         $priority = Priority::find($request->priority);
-        event(new ChangePrioritySendEvent($priority->priority, $ticket->designer_id, $ticket->designer_name));
+        event(new ChangePrioritySendEvent($priority->priority, $ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->seller_name));
         return response()->json($priority);
     }
 }
