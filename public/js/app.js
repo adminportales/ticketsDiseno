@@ -41040,7 +41040,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
+var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -41052,9 +41052,9 @@ var render = function() {
           width: "500",
           type: "bar",
           options: _vm.chartOptions,
-          series: _vm.series
-        }
-      })
+          series: _vm.series,
+        },
+      }),
     ],
     1
   )
@@ -41077,7 +41077,7 @@ render._withStripped = true
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
+var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -41093,8 +41093,8 @@ var render = function() {
             type: "button",
             id: "dropdownMenuButton",
             "data-bs-toggle": "dropdown",
-            "aria-expanded": "false"
-          }
+            "aria-expanded": "false",
+          },
         },
         [_vm._v("\n      " + _vm._s(_vm.designerCurrent) + "\n    ")]
       ),
@@ -41103,19 +41103,19 @@ var render = function() {
         "ul",
         {
           staticClass: "dropdown-menu dropdown-menu-dark",
-          attrs: { "aria-labelledby": "dropdownMenuButton" }
+          attrs: { "aria-labelledby": "dropdownMenuButton" },
         },
-        _vm._l(_vm.designers, function(designer) {
+        _vm._l(_vm.designers, function (designer) {
           return _c("li", { key: designer.id }, [
             _c(
               "a",
               {
                 staticClass: "dropdown-item",
                 on: {
-                  click: function($event) {
+                  click: function ($event) {
                     return _vm.changeDesigner(designer)
-                  }
-                }
+                  },
+                },
               },
               [
                 _vm._v(
@@ -41123,14 +41123,14 @@ var render = function() {
                     _vm._s(designer.name.replace("#", " ")) +
                     "\n          " +
                     _vm._s(designer.lastname.replace("#", " "))
-                )
+                ),
               ]
-            )
+            ),
           ])
         }),
         0
-      )
-    ])
+      ),
+    ]),
   ])
 }
 var staticRenderFns = []
@@ -41151,7 +41151,7 @@ render._withStripped = true
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
+var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -41166,8 +41166,8 @@ var render = function() {
             type: "button",
             id: "dropdownMenuButton",
             "data-bs-toggle": "dropdown",
-            "aria-expanded": "false"
-          }
+            "aria-expanded": "false",
+          },
         },
         [_vm._v("\n      " + _vm._s(_vm.priorityCurrent) + "\n    ")]
       ),
@@ -41176,27 +41176,27 @@ var render = function() {
         "ul",
         {
           staticClass: "dropdown-menu dropdown-menu-dark",
-          attrs: { "aria-labelledby": "dropdownMenuButton" }
+          attrs: { "aria-labelledby": "dropdownMenuButton" },
         },
-        _vm._l(_vm.priorities, function(priority) {
+        _vm._l(_vm.priorities, function (priority) {
           return _c("li", { key: priority.id }, [
             _c(
               "a",
               {
                 staticClass: "dropdown-item",
                 on: {
-                  click: function($event) {
+                  click: function ($event) {
                     return _vm.changePriority(priority.id)
-                  }
-                }
+                  },
+                },
               },
               [_vm._v("\n          " + _vm._s(priority.priority))]
-            )
+            ),
           ])
         }),
         0
-      )
-    ])
+      ),
+    ]),
   ])
 }
 var staticRenderFns = []
@@ -41217,7 +41217,7 @@ render._withStripped = true
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
+var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
@@ -41226,17 +41226,17 @@ var render = function() {
       staticClass: "form-check-input",
       attrs: { type: "checkbox", id: "flexSwitchCheckDefault" },
       domProps: { checked: _vm.currentAvailability },
-      on: { click: _vm.change }
+      on: { click: _vm.change },
     }),
     _vm._v(" "),
     _c(
       "label",
       {
         staticClass: "form-check-label",
-        attrs: { for: "flexSwitchCheckDefault" }
+        attrs: { for: "flexSwitchCheckDefault" },
       },
       [_vm._v(_vm._s(_vm.message))]
-    )
+    ),
   ])
 }
 var staticRenderFns = []
@@ -41257,7 +41257,7 @@ render._withStripped = true
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
+var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
