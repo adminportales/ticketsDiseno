@@ -57,8 +57,8 @@ body {
     border-radius: 5px;
     border: none;
     &:hover {
-       background-color: $primary-dark;
-       color: $white;
+        background-color: $primary-dark;
+        color: $white;
     }
 }
 
@@ -73,8 +73,8 @@ body {
     border-radius: 5px;
     border: none;
     &:hover {
-       background-color: $primary-dark;
-       color: $white;
+        background-color: $primary-dark;
+        color: $white;
     }
 }
 
@@ -89,8 +89,8 @@ body {
     border-radius: 5px;
     border: none;
     &:hover {
-       background-color: $primary-dark;
-       color: $white;
+        background-color: $primary-dark;
+        color: $white;
     }
 }
 .boton-entregar-archivos {
@@ -104,7 +104,27 @@ body {
     border-radius: 5px;
     border: none;
     &:hover {
-       background-color: $primary-dark;
-       color: $white;
+        background-color: $primary-dark;
+        color: $white;
     }
+}
+.card-photo {
+    position: relative;
+    overflow: hidden;
+    &:hover .change-icon {
+        top: 0px;
+        transform: all 0.2s ease-in-out;
+        cursor: pointer;
+    }
+}
+.change-icon {
+    display: flex;
+    top: 60px;
+    border-radius: 50%;
+    position: absolute;
+    background-color: rgba($color: #a59d9d, $alpha: 0.1);
+}
+.width-icon {
+    width: 60px;
+    height: 60px;
 }

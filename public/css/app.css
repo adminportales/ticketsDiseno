@@ -113,3 +113,27 @@
   color: #ffffff;
 }
 
+.card-photo {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-photo:hover .change-icon {
+  top: 0px;
+  transform: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.change-icon {
+  display: flex;
+  top: 60px;
+  border-radius: 50%;
+  position: absolute;
+  background-color: rgba(165, 157, 157, 0.1);
+}
+
+.width-icon {
+  width: 60px;
+  height: 60px;
+}
+
