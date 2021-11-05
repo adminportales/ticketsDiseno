@@ -4,8 +4,9 @@
     <h3>Bienvenido {{ auth()->user()->name }}</h3>
 @endsection
 
-@section('content')
-    <div class="card-header">
+@section('dashboard')
+<h3>Pendiente</h3>
+    {{-- <div class="card-header">
         <h4 class="card-title">Información general acerca de las solicitudes</h4>
     </div>
 
@@ -43,7 +44,7 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
+    </div> --}}
 @endsection
 
 @section('styles')

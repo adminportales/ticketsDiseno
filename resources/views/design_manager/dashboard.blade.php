@@ -8,7 +8,8 @@
 @endsection
 
 @section('dashboard')
-    <section class="row">
+    <h3>Pendiente</h3>
+    {{-- <section class="row">
         <div class="col-12 col-lg-8">
             <div class="d-flex justify-content-between">
                 <div class="card">
@@ -93,7 +94,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 @endsection
 
 @section('styles')

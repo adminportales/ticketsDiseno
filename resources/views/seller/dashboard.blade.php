@@ -5,7 +5,8 @@
 @endsection
 
 @section('content')
-    <div class="card-header">
+    <h3>Pendiente</h3>
+    {{-- <div class="card-header">
         <h4 class="card-title">Información general acerca de las solicitudes</h4>
     </div>
 
@@ -35,7 +36,7 @@
                         <td>{{ $ticket->latestTicketInformation->title }}</td>
                         <td>{{ $ticket->typeTicket->type }}</td>
                         <td>{{ $ticket->priorityTicket->priority }}</td>
-                        <td>{{$ticket->latestStatusChangeTicket->status}}</td>
+                        <td>{{ $ticket->latestStatusChangeTicket->status }}</td>
                         <td>{{ $ticket->latestTicketInformation->created_at }}
                             {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
                         <td>
@@ -46,31 +47,31 @@
                 @endforeach
             </tbody>
         </table>
-    @endsection
+    </div> --}}
+@endsection
 
-    @section('styles')
-        <link rel="stylesheet"
-            href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}">
-        <style>
-            table.dataTable td {
-                padding: 15px 8px;
-            }
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}">
+    <style>
+        table.dataTable td {
+            padding: 15px 8px;
+        }
 
-            .fontawesome-icons .the-icon svg {
-                font-size: 24px;
-            }
+        .fontawesome-icons .the-icon svg {
+            font-size: 24px;
+        }
 
-        </style>
-    @endsection
+    </style>
+@endsection
 
-    @section('scripts')
-        <script src="{{ asset('assets/vendors/jquery/jquery.min.js') }}"></script>
-        <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
-        <script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>
-        <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
-        <script defer>
-            // Jquery Datatable
-            let jquery_datatable = $("#tableTickets").DataTable()
-        </script>
-    @endsection
+@section('scripts')
+    <script src="{{ asset('assets/vendors/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
+    <script defer>
+        // Jquery Datatable
+        let jquery_datatable = $("#tableTickets").DataTable()
+    </script>
+@endsection

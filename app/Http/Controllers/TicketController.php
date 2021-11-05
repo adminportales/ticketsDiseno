@@ -6,6 +6,7 @@ use App\Events\ChangeStatusSendEvent;
 use App\Events\ChangeTicketSendEvent;
 use App\Events\MessageSendEvent;
 use App\Events\TicketCreateSendEvent;
+use App\Notifications\TicketCreateNotification;
 use App\Priority;
 use App\Role;
 use App\Status;
@@ -188,6 +189,7 @@ class TicketController extends Controller
 
         // Notificacion para avisar al diseñador
         event(new TicketCreateSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->seller_name));
+        $designerAssigment->notify(new TicketCreateNotification($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->seller_name));
 
         // Regresar a la vista de inicio
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
