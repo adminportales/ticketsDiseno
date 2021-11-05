@@ -1,11 +1,11 @@
-if (document.querySelector('#dropzoneItems')) {
+if (document.querySelector('#dropzoneItemsEdit')) {
     let items = new Set()
     let products = new Set()
     let logos = new Set()
     Dropzone.autoDiscover = false;
     document.addEventListener('DOMContentLoaded', () => {
         // Dropzone
-        const dropzoneItem = new Dropzone('#dropzoneItems', {
+        const dropzoneItem = new Dropzone('#dropzoneItemsEdit', {
             url: "/tickets/items",
             dictDefaultMessage: 'Arrastra aqui los items',
             acceptedFiles: '.png,.jpg,.jpeg,.gif,.bmp',
@@ -17,7 +17,7 @@ if (document.querySelector('#dropzoneItems')) {
             init: function () {
                 const itemsOld = document.querySelector('#items').value.split(',')
                 if (document.querySelector('#items').value.trim()) {
-                    console.log(itemsOld);
+                    // console.log(itemsOld);
                     let imagenPublicada = []
                     itemsOld.forEach((itemOld, index) => {
                         items.add(itemOld)
@@ -39,11 +39,11 @@ if (document.querySelector('#dropzoneItems')) {
                 }
             },
             success: function (file, response) {
-                console.log(file);
-                console.log(response);
+                // console.log(file);
+                // console.log(response);
                 document.querySelector('#error').textContent = ''
                 items.add(response.correcto)
-                console.log(items);
+                // console.log(items);
                 document.querySelector("#items").value = [...items];
                 // Add al objeto de archivo, el nombre de la imagen en el servidor
                 file.nombreServidor = response.correcto
@@ -57,19 +57,19 @@ if (document.querySelector('#dropzoneItems')) {
             removedfile: function (file, response) {
                 file.previewElement.parentNode.removeChild(file.previewElement)
                 // console.log(file);
-                console.log('El archivo borrado fue');
+                // console.log('El archivo borrado fue');
                 params = {
                     imagen: file.nombreServidor
                 }
                 // console.log(params);
                 axios.post('/tickets/deleteItem', params)
                     .then(response => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         if (items.has(response.data.imagen)) {
                             items.delete(response.data.imagen)
                             document.querySelector("#items").value = [...items];
                         }
-                        console.log(items);
+                        // console.log(items);
                     })
             }
         });
@@ -86,7 +86,7 @@ if (document.querySelector('#dropzoneItems')) {
             init: function () {
                 const productsOld = document.querySelector('#product').value.split(',')
                 if (document.querySelector('#product').value.trim()) {
-                    console.log(productsOld);
+                    // console.log(productsOld);
                     let imagenPublicada = []
                     productsOld.forEach((itemOld, index) => {
                         products.add(itemOld)
@@ -108,11 +108,11 @@ if (document.querySelector('#dropzoneItems')) {
                 }
             },
             success: function (file, response) {
-                console.log(file);
-                console.log(response);
+                // console.log(file);
+                // console.log(response);
                 document.querySelector('#error').textContent = ''
                 products.add(response.correcto)
-                console.log(products);
+                // console.log(products);
                 document.querySelector('#product').value = [...products];
                 // Add al objeto de archivo, el nombre de la imagen en el servidor
                 file.nombreServidor = response.correcto
@@ -134,19 +134,19 @@ if (document.querySelector('#dropzoneItems')) {
             removedfile: function (file, response) {
                 file.previewElement.parentNode.removeChild(file.previewElement)
                 // console.log(file);
-                console.log('El archivo borrado fue');
+                // console.log('El archivo borrado fue');
                 params = {
                     imagen: file.nombreServidor
                 }
                 axios.post('/tickets/deleteProduct', params)
                     .then(response => {
-                        console.log('datos de elimia');
-                        console.log(response.data);
+                        // console.log('datos de elimia');
+                        // console.log(response.data);
                         if (products.has(response.data.imagen)) {
                             products.delete(response.data.imagen)
                             document.querySelector('#product').value = [...products];
                         }
-                        console.log(products);
+                        // console.log(products);
                     })
             }
         });
@@ -163,7 +163,7 @@ if (document.querySelector('#dropzoneItems')) {
             init: function () {
                 const logosOld = document.querySelector('#logo').value.split(',')
                 if (document.querySelector('#logo').value.trim()) {
-                    console.log(logosOld);
+                    // console.log(logosOld);
                     let imagenPublicada = []
                     logosOld.forEach((itemOld, index) => {
                         logos.add(itemOld)
@@ -185,11 +185,11 @@ if (document.querySelector('#dropzoneItems')) {
                 }
             },
             success: function (file, response) {
-                console.log(file);
-                console.log(response);
+                // console.log(file);
+                // console.log(response);
                 document.querySelector('#error').textContent = ''
                 logos.add(response.correcto)
-                console.log(logos);
+                // console.log(logos);
                 document.querySelector('#logo').value = [...logos];
                 // Add al objeto de archivo, el nombre de la imagen en el servidor
                 file.nombreServidor = response.correcto
@@ -211,19 +211,19 @@ if (document.querySelector('#dropzoneItems')) {
             removedfile: function (file, response) {
                 file.previewElement.parentNode.removeChild(file.previewElement)
                 // console.log(file);
-                console.log('El archivo borrado fue');
+                // console.log('El archivo borrado fue');
                 params = {
                     imagen: file.nombreServidor
                 }
                 axios.post('/tickets/deleteLogo', params)
                     .then(response => {
-                        console.log('datos de elimia');
-                        console.log(response.data);
+                        // console.log('datos de elimia');
+                        // console.log(response.data);
                         if (logos.has(response.data.imagen)) {
                             logos.delete(response.data.imagen)
                             document.querySelector('#logo').value = [...logos];
                         }
-                        console.log(logos);
+                        // console.log(logos);
                     })
             }
         });

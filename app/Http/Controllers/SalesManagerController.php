@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Priority;
 use App\Ticket;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -11,11 +12,12 @@ class SalesManagerController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth','role:sales_manager']);
+        $this->middleware(['auth', 'role:sales_manager']);
     }
 
     static function dashboard()
     {
+        $user = User::find(auth()->user()->id);
         // Obtenemos los tickets que pertenecen a los vendedores de la empresa BH o PL,
         // Dependiendo de que gerente de ventas inicio sesion
         $tickets_id = DB::table('users')
@@ -44,9 +46,9 @@ class SalesManagerController extends Controller
             }
             $totalTickets++;
         }
-
+        $notifications = $user->unreadNotifications;
         //Retornar la vista
-        return view('sales_manager.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets'));
+        return view('sales_manager.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets','notifications'));
     }
     public function allTickets()
     {

@@ -70,7 +70,7 @@ export default {
           this.designerCurrent = data.name;
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         Toastify({
           text: "Ops! No se pudo reasignar el ticket :(",
           duration: 3000,

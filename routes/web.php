@@ -53,12 +53,13 @@ Route::put('/sales-manager/update-priority/{ticket}', 'PriorityController@update
 
 // Rutas del vendedor
 Route::resource('/tickets', 'TicketController');
-Route::post('/tickets/items', 'TicketController@uploadItems')->name('tickets.uploadItems');
-Route::post('/tickets/deleteItem', 'TicketController@deleteItem')->name('tickets.deleteItem');
-Route::post('/tickets/upload-product', 'TicketController@uploadProducts')->name('tickets.uploadProducts');
-Route::post('/tickets/deleteProduct', 'TicketController@deleteProduct')->name('tickets.deleteProduct');
-Route::post('/tickets/upload-logo', 'TicketController@uploadLogos')->name('tickets.uploadLogos');
-Route::post('/tickets/deleteLogo', 'TicketController@deleteLogo')->name('tickets.deleteLogo');
+Route::post('/tickets/items', 'TicketUploadController@uploadItems')->name('tickets.uploadItems');
+Route::post('/tickets/deleteItem', 'TicketUploadController@deleteItem')->name('tickets.deleteItem');
+Route::post('/tickets/upload-product', 'TicketUploadController@uploadProducts')->name('tickets.uploadProducts');
+Route::post('/tickets/deleteProduct', 'TicketUploadController@deleteProduct')->name('tickets.deleteProduct');
+Route::post('/tickets/upload-logo', 'TicketUploadController@uploadLogos')->name('tickets.uploadLogos');
+Route::post('/tickets/deleteLogo', 'TicketUploadController@deleteLogo')->name('tickets.deleteLogo');
+
 Route::post('/tickets/delivery', 'TicketController@uploadDeliveries')->name('tickets.uploadDeliveries');
 Route::post('/tickets/deleteDelivery', 'TicketController@deleteDelivery')->name('tickets.deleteDelivery');
 Route::post('tickets/delivery/{ticket}', 'TicketDeliveryController@store')->name('ticket.delivery');

@@ -139,7 +139,7 @@
                         <label for="imagen">
                             Items del Producto:
                         </label>
-                        <div id="dropzoneItems" class="dropzone form-control text-center" style="height: auto;"></div>
+                        <div id="dropzoneItemsEdit" class="dropzone form-control text-center" style="height: auto;"></div>
                         <input type="hidden" name="items" id="items" value="{{ $ticketInformation->items }}">
                         @error('items')
                             <span class="block">{{ $message }}</span>

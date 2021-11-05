@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ChangeStatusSendEvent;
 use App\Events\ChangeTicketSendEvent;
-use App\Events\MessageSendEvent;
 use App\Events\TicketCreateSendEvent;
 use App\Notifications\TicketCreateNotification;
 use App\Priority;
@@ -15,7 +13,6 @@ use App\Ticket;
 use App\TicketAssigment;
 use App\Type;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use ZipArchive;
@@ -35,12 +32,6 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //Validar quien esta en su equipo
-
-        // Traer tickes que crearon los usuario que pertenecen a us qeuipo
-
-        // Traer sus proios tickets
-
         $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
         $priorities = Priority::all();
 
@@ -181,11 +172,14 @@ class TicketController extends Controller
             'reference_id' => $ticketInformation->id,
             'type' => 'info'
         ]);
+
         $ticket->historyTicket()->create([
             'ticket_id' => $ticket->id,
             'reference_id' => $statusChange->id,
             'type' => 'status'
         ]);
+
+
 
         // Notificacion para avisar al diseñador
         event(new TicketCreateSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->seller_name));
@@ -335,78 +329,10 @@ class TicketController extends Controller
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
     }
 
-    public function uploadItems(Request $request)
-    {
-        $imagen = $request->file('file');
-        $date = Carbon::now();
-        $date = $date->format('d-m-Y');
-        $nombreImagen = $date . ' ' . str_replace(',', ' ', $imagen->getClientOriginalName());
-        $imagen->move(public_path('storage/items'), $nombreImagen);
-        return response()->json(['correcto' => $nombreImagen]);
-    }
-
-    public function deleteItem(Request $request)
-    {
-        if ($request->ajax()) {
-            $imagen = $request->get('imagen');
-
-            if (File::exists('storage/items/' . $imagen)) {
-                File::delete('storage/items/' . $imagen);
-            }
-            return response(['mensaje' => 'Imagen Eliminada', 'imagen' => $imagen], 200);
-        }
-    }
-
-    public function uploadProducts(Request $request)
-    {
-        $imagen = $request->file('file');
-        $date = Carbon::now();
-        $date = $date->format('d-m-Y');
-        $nombreImagen = $date . ' ' . str_replace(',', ' ', $imagen->getClientOriginalName());
-        $imagen->move(public_path('storage/products'), $nombreImagen);
-        return response()->json(['correcto' => $nombreImagen]);
-    }
-
-    public function deleteProduct(Request $request)
-    {
-        if ($request->ajax()) {
-            $imagen = $request->get('imagen');
-
-            if (File::exists('storage/products/' . $imagen)) {
-                File::delete('storage/products/' . $imagen);
-            }
-            return response(['mensaje' => 'Imagen Eliminada', 'imagen' => $imagen], 200);
-        }
-    }
-
-    public function uploadLogos(Request $request)
-    {
-        $imagen = $request->file('file');
-        $date = Carbon::now();
-        $date = $date->format('d-m-Y');
-        $nombreImagen = $date . ' ' . str_replace(',', ' ', $imagen->getClientOriginalName());
-        $imagen->move(public_path('storage/logos'), $nombreImagen);
-        return response()->json(['correcto' => $nombreImagen]);
-    }
-
-    public function deleteLogo(Request $request)
-    {
-        if ($request->ajax()) {
-            $imagen = $request->get('imagen');
-
-            if (File::exists('storage/logos/' . $imagen)) {
-                File::delete('storage/logos/' . $imagen);
-            }
-            return response(['mensaje' => 'Imagen Eliminada', 'imagen' => $imagen], 200);
-        }
-    }
-
     public function uploadDeliveries(Request $request)
     {
         $imagen = $request->file('file');
-        $date = Carbon::now();
-        $date = $date->format('d-m-Y');
-        $nombreImagen = $date . ' ' . str_replace(',', ' ', $imagen->getClientOriginalName());
+        $nombreImagen = time() . ' ' . str_replace(',', ' ', $imagen->getClientOriginalName());
         $imagen->move(public_path('storage/deliveries'), $nombreImagen);
         return response()->json(['correcto' => $nombreImagen]);
     }
@@ -503,12 +429,10 @@ class TicketController extends Controller
     public function descargarArchivos(Ticket $ticket)
     {
         $public_dir = public_path('storage/zip');
-
         $zipFileName = $ticket->latestTicketInformation->title . '.zip';
-
         $zip = new ZipArchive;
-        if ($zip->open($public_dir . '/' . $zipFileName, ZipArchive::CREATE) === TRUE) {
 
+        if ($zip->open($public_dir . '/' . $zipFileName, ZipArchive::CREATE) === TRUE) {
             if ($ticket->latestTicketInformation->product) {
                 $zip->addFile(public_path('storage/products/' . $ticket->latestTicketInformation->product), $ticket->latestTicketInformation->product);
             }
@@ -520,16 +444,14 @@ class TicketController extends Controller
                     $zip->addFile(public_path('storage/items/' . $item), $item);
                 }
             }
-
             $zip->close();
         }
+
         // Set Header
         $headers = array(
             'Content-Type' => 'application/octet-stream',
         );
-
         $filetopath = $public_dir . '/' . $zipFileName;
-
         if (file_exists($filetopath)) {
             return response()->download($filetopath, $zipFileName, $headers);
         }
