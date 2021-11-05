@@ -14,9 +14,9 @@ class UserSeeder extends Seeder
     public function run()
     {
         $user = User::create([
-            'name' => 'Admin',
-            'lastname' => 'Admin',
-            'email' => 'correo@correo.com',
+            'name' => 'Antonio',
+            'lastname' => 'Tomas',
+            'email' => 'adminportales@promolife.com.mx',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         ]);
@@ -88,5 +88,21 @@ class UserSeeder extends Seeder
         ]);
         $design_manager->profile()->update(['company' => 'Promo Life']);
         $design_manager->attachRole($design_manager_role);
+
+        $sales_assistant = User::create([
+            'name' => 'Leon',
+            'lastname' => 'Mancera',
+            'email' => 'leon@promolife.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        ]);
+        $sales_assistant_role = Role::create([
+            'name' => 'sales_assistant',
+            'display_name' => 'Asistente de Ventas', // optional
+            'description' => '', // optional
+        ]);
+
+        $sales_assistant->profile()->update(['company' => 'Promo Life']);
+        $sales_assistant->attachRole($sales_assistant_role);
     }
 }

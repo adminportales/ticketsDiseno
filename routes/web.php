@@ -61,7 +61,7 @@ Route::post('/tickets/upload-logo', 'TicketController@uploadLogos')->name('ticke
 Route::post('/tickets/deleteLogo', 'TicketController@deleteLogo')->name('tickets.deleteLogo');
 Route::post('/tickets/delivery', 'TicketController@uploadDeliveries')->name('tickets.uploadDeliveries');
 Route::post('/tickets/deleteDelivery', 'TicketController@deleteDelivery')->name('tickets.deleteDelivery');
-Route::post('tickets/delivery/{ticket}', 'TicketDeliveryCOntroller@store')->name('ticket.delivery');
+Route::post('tickets/delivery/{ticket}', 'TicketDeliveryController@store')->name('ticket.delivery');
 
 //Ruta para descargar archivos comprimidos
 Route::get('/tickets/descargas/{ticket}', 'TicketController@descargarArchivos')->name('descarga.archivosTicket');
