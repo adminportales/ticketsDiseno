@@ -23,8 +23,6 @@
 
         <form action="{{ route('tickets.update', ['ticket' => $ticket->id]) }}" method="post" class="mx-5">
             <div class="row">
-
-
                 @csrf
                 @method('PUT')
                 <div class="col-md-12">
@@ -177,13 +175,6 @@
         function formDynamic(type) {
             switch (type) {
                 case '1':
-                    /*
-                        Logo
-                        Tecnica
-                        Pantone
-                        Producto
-                        Posicion
-                    */
                     companiesElement.classList.add('d-none')
                     logoElement.classList.remove('d-none')
                     clientElement.classList.add('d-none')
@@ -194,12 +185,6 @@
                     positionElement.classList.remove('d-none')
                     break;
                 case '2':
-                    /*
-                        Cliente
-                        Items
-                        Logo
-                        Empresas
-                    */
                     companiesElement.classList.remove('d-none')
                     positionElement.classList.add('d-none')
                     tecnicaElement.classList.add('d-none')
