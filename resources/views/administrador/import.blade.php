@@ -7,7 +7,7 @@
 @section('content')
 
     <div class="card-header">
-        <h4 class="card-title">Lista de Usuarios</h4>
+        <h4 class="card-title">Importar Usuarios</h4>
     </div>
 
     <div class="card-body">

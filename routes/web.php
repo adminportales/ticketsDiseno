@@ -66,3 +66,5 @@ Route::post('tickets/delivery/{ticket}', 'TicketDeliveryController@store')->name
 
 //Ruta para descargar archivos comprimidos
 Route::get('/tickets/descargas/{ticket}', 'TicketController@descargarArchivos')->name('descarga.archivosTicket');
+
+route::get('/asistente', 'AssistentController@index')->name('assitent');

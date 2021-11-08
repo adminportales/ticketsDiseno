@@ -4,50 +4,166 @@
     <h3>Bienvenido {{ auth()->user()->name . ' ' . auth()->user()->lastname }}</h3>
 @endsection
 
-@section('content')
-    <h3>Pendiente</h3>
-    {{-- <div class="card-header">
-        <h4 class="card-title">Información general acerca de las solicitudes</h4>
-    </div>
+@section('dashboard')
+    <section class="row">
+        <div class="col-12 col-lg-8">
+            <div class="row">
+                <div class="col-6 col-lg-4 col-md-6">
+                    <div class="card">
+                        <div class="card-body px-3 py-4-5">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="stats-icon purple">
+                                        <i class="iconly-boldShow"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <h6 class="text-muted font-semibold">Tickets creados por mi</h6>
+                                    <h6 class="font-extrabold mb-0">{{ $totalTickets }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-4 col-md-6">
+                    <div class="card">
+                        <div class="card-body px-3 py-4-5">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="stats-icon blue">
+                                        <i class="iconly-boldProfile"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <h6 class="text-muted font-semibold">Tickets creados por asistente</h6>
+                                    <h6 class="font-extrabold mb-0">13</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="d-flex justify-content-between p-3">
-        <div class="m-3"> Total de tickets:<b>{{ $totalTickets }}</b> </div>
-        <div class="m-3"> Total de tickets abiertos:<b>{{ $openTickets }}</b></div>
-        <div class="m-3"> Total de tickets cerrados:<b>{{ $closedTickets }}</b></div>
-    </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Mis ultimos 5 tickets</h4>
+                        </div>
+                        <div class="card-body">
+                            <div id="chart-profile-visit"></div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Titulo</th>
+                                        <th>Info</th>
+                                        <th>Elaboro</th>
+                                        <th>Asignado a</th>
+                                        <th class="text-center">Prioridad</th>
+                                        <th>Hora de creación</th>
 
-    <div class="card-body">
-        <table class="table" id="tableTickets">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Titulo</th>
-                    <th>Categoria de Ticket</th>
-                    <th>Prioridad</th>
-                    <th>Estatus</th>
-                    <th>Hora</th>
-                    <th>Ver</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($tickets as $ticket)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $ticket->latestTicketInformation->title }}</td>
-                        <td>{{ $ticket->typeTicket->type }}</td>
-                        <td>{{ $ticket->priorityTicket->priority }}</td>
-                        <td>{{ $ticket->latestStatusChangeTicket->status }}</td>
-                        <td>{{ $ticket->latestTicketInformation->created_at }}
-                            {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
-                        <td>
-                            <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}" class="boton">Ver
-                                ticket</a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div> --}}
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td>1</td>
+                                        <td> <br>
+                                            <strong>Tipo: Virtual</strong> <br>
+                                        </td>
+                                        <td>
+
+                                            <strong>Tecnica: Bordado Laser</strong>
+                                            <br>
+
+                                            <strong>Estado: Entregado</strong>
+                                        </td>
+                                        <td>Jaime Gonzalez</td>
+                                        <td>Ived </td>
+                                        <td>Alta</td>
+                                        <td>2021-11-03 08:52:24 <br>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td> <br>
+                                            <strong>Tipo: Presentación</strong> <br>
+                                        </td>
+                                        <td>
+
+                                            <strong>Tecnica: Serigrafia</strong>
+                                            <br>
+
+                                            <strong>Estado: En proceso</strong>
+                                        </td>
+                                        <td>Jaime Gonzalez</td>
+                                        <td>Aide </td>
+                                        <td>Baja</td>
+                                        <td>2021-11-03 08:52:24 <br>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td> <br>
+                                            <strong>Tipo: Diseño especial</strong> <br>
+                                        </td>
+                                        <td>
+
+                                            <strong>Tecnica: Tampografia</strong>
+                                            <br>
+
+                                            <strong>Estado: Creado</strong>
+                                        </td>
+                                        <td>Jaime Gonzalez</td>
+                                        <td>Fernanda </td>
+                                        <td>Media</td>
+                                        <td>2021-11-03 08:52:24 <br>
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4">
+            <div class="card">
+                <div class="card-header my-0 py-3">
+                    <h4>Notificaciones Recientes</h4>
+                </div>
+                <div class="card-body">
+                    <div class="">
+                        <div class="border rounded p-1 my-1">
+                            <h6 class="mb-1">Titulo</h6>
+                            <p class="m-0">Nombre</p>
+                            <p class="m-0"><strong>Mensaje:</strong>Lorem, ipsum dolor sit amet consectetur
+                                adipisicing </p>
+                            <div class="d-flex justify-content-around">
+                                <a href="">Marcar como leido</a>
+                                <a href="">Ver</a>
+                            </div>
+                        </div>
+                        <div class="border rounded p-1 my-1">
+                            <h6 class="mb-1">Titulo</h6>
+                            <p class="m-0">Nombre</p>
+                            <p class="m-0"><strong>Mensaje:</strong>Lorem, ipsum dolor sit amet consectetur
+                                adipisicing </p>
+                            <div class="d-flex justify-content-around">
+                                <a href="">Marcar como leido</a>
+                                <a href="">Ver</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection
 
 @section('styles')
