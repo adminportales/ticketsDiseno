@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Events\ChangeStatusSendEvent;
 use App\Events\MessageSendEvent;
 use App\Message;
+use App\Notifications\ChangeStatusNotification;
+use App\Notifications\MessageNotification;
 use App\Status;
 use App\Ticket;
 use App\TicketHistory;
@@ -51,6 +53,7 @@ class StatusController extends Controller
             $receiver_id = $userReceiver->id;
             $receiver_name = $userReceiver->name . ' ' . $userReceiver->lastname;
             event(new ChangeStatusSendEvent($ticket->latestTicketInformation->title, $status->status, $receiver_id, $transmitter_name));
+            $userReceiver->notify(new ChangeStatusNotification($ticket->latestTicketInformation->title, $ticket->seller_name, $status->status));
             if ($request->message != '') {
                 $message = Message::create([
                     "transmitter_id" => $transmitter_id,
@@ -69,6 +72,7 @@ class StatusController extends Controller
                     'type' => 'message'
                 ]);
                 event(new MessageSendEvent($request->message, $receiver_id, $transmitter_name));
+                $userReceiver->notify(new MessageNotification($ticket->latestTicketInformation->title, $ticket->seller_name, $message->message));
             }
             return response()->json(['message' => 'OK'], 200);
         }

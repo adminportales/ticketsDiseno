@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Events\ChangeStatusSendEvent;
 use App\Events\MessageSendEvent;
 use App\Events\TicketDeliverySendEvent;
+use App\Notifications\ChangeStatusNotification;
+use App\Notifications\TicketDeliveryNotification;
 use App\Status;
 use App\Ticket;
+use App\User;
 use Illuminate\Http\Request;
 
 class TicketDeliveryController extends Controller
@@ -41,7 +44,9 @@ class TicketDeliveryController extends Controller
             'reference_id' => $ticketDelivery->id,
             'type' => 'delivery'
         ]);
+        $userReceiver = User::find($ticket->seller_id);
         event(new TicketDeliverySendEvent($ticket->latestTicketInformation->title, $ticket->seller_id, $ticket->designer_name));
+        $userReceiver->notify(new TicketDeliveryNotification($ticket->latestTicketInformation->title, $ticket->seller_name));
 
         $status = 0;
 
@@ -64,7 +69,9 @@ class TicketDeliveryController extends Controller
                 'reference_id' => $status->id,
                 'type' => 'status'
             ]);
+            $userReceiver = User::find($$ticket->seller_id);
             event(new ChangeStatusSendEvent($ticket->latestTicketInformation->title, $newStatus->status, $ticket->seller_id, $ticket->designer_name));
+            $userReceiver->notify(new ChangeStatusNotification($ticket->latestTicketInformation->title, $ticket->seller_name, $newStatus->status));
         }
         return redirect()->action('DesignerController@show', ['ticket' => $ticket->id]);
     }

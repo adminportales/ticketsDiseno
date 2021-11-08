@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TicketCreateNotification extends Notification
+class TicketDeliveryNotification extends Notification
 {
     use Queueable;
 
@@ -23,6 +23,7 @@ class TicketCreateNotification extends Notification
         $this->ticket  = $ticket;
         $this->emisor  = $emisor;
     }
+
 
     /**
      * Get the notification's delivery channels.

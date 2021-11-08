@@ -84,10 +84,6 @@
     @endsection
 
     @section('scripts')
-
-        {{-- <script src="{{ asset('assets/vendors/chartjs/Chart.min.js') }}"></script> --}}
-        {{-- <script src="{{ asset('assets/js/pages/ui-chartjs.js') }}"></script> --}}
-        <script src="{{ asset('assets/vendors/jquery/jquery.min.js') }}"></script>
         <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>
         <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>

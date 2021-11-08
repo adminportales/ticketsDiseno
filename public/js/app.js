@@ -2127,8 +2127,7 @@ __webpack_require__.r(__webpack_exports__);
     return {};
   },
   methods: {
-    change: function change() {
-      alert("cambiar foto");
+    change: function change() {//   alert("cambiar foto");
     }
   }
 });
@@ -64978,9 +64977,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-__webpack_require__(/*! ./scripts/crearTicket */ "./resources/js/scripts/crearTicket.js"); //require('./scripts/editTicket');
-// require('./scripts/entregarTicket');
-
+__webpack_require__(/*! ./scripts/crearTicket */ "./resources/js/scripts/crearTicket.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /**
