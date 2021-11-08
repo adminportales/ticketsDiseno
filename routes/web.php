@@ -29,6 +29,10 @@ Route::resource('/users', 'UserController')->except('show');
 // Importar usuarios
 Route::get('/users/import', 'UserController@sample')->name('user.import.create');
 Route::post('/users/import', 'UserController@import')->name('user.import');
+Route::get('/users/all', 'UserController@allUsers');
+// Ruta de los equipos
+Route::resource('/teams', 'TeamController');
+
 // Rutas del diseñador
 route::get('/designer/ticketShow/{ticket}', 'DesignerController@show')->name('designer.show');
 Route::get('/designer/home', 'DesignerController@index')->name('designer.inicio');
@@ -40,9 +44,9 @@ Route::get('/design_manager/assign-ticket', 'DesignerManagerController@ticketAss
 Route::get('/design_manager/edit-asign/{user}', 'TicketAssigmentController@edit')->name('ticketAssigment.edit');
 Route::put('/design_manager/edit-asign/{user}', 'TicketAssigmentController@update')->name('ticketAssigment.update');
 Route::put('/design-manager/update-availability/{user}', 'ProfileController@updateStatus')->name('profile.updateStatus');
-// TODO: Crear una nueva ruta para el cambio de prioridad
 Route::put('/design-manager/update-assign/{ticket}', 'TicketAssigmentController@changeDesigner');
 
+// Cambio de estado
 Route::put('/design/update-status/{ticket}', 'StatusController@update');
 
 // Gerente de Ventas
@@ -60,6 +64,7 @@ Route::post('/tickets/deleteProduct', 'TicketUploadController@deleteProduct')->n
 Route::post('/tickets/upload-logo', 'TicketUploadController@uploadLogos')->name('tickets.uploadLogos');
 Route::post('/tickets/deleteLogo', 'TicketUploadController@deleteLogo')->name('tickets.deleteLogo');
 
+//Entregas de parte de diseño
 Route::post('/tickets/delivery', 'TicketController@uploadDeliveries')->name('tickets.uploadDeliveries');
 Route::post('/tickets/deleteDelivery', 'TicketController@deleteDelivery')->name('tickets.deleteDelivery');
 Route::post('tickets/delivery/{ticket}', 'TicketDeliveryController@store')->name('ticket.delivery');
