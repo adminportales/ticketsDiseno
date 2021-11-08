@@ -16,17 +16,17 @@ class TicketUploadController extends Controller
     {
         $imagen = $request->file('file');
         $nombreImagen = time() . ' ' . str_replace(',', ' ', $imagen->getClientOriginalName());
-        $imagen->move(public_path('storage/temp/items'), $nombreImagen);
+        $imagen->move(public_path('storage/items'), $nombreImagen);
         return response()->json(['correcto' => $nombreImagen]);
     }
 
     public function deleteItem(Request $request)
-    {
-        if ($request->ajax()) {
-            $imagen = $request->get('imagen');
+    {if ($request->ajax()) {
 
-            if (File::exists('storage/temp/items/' . $imagen)) {
-                File::delete('storage/temp/items/' . $imagen);
+           $imagen = $request->get('imagen');
+
+            if (File::exists('storage/items/' . $imagen)) {
+                File::delete('storage/items/' . $imagen);
             }
             return response(['mensaje' => 'Imagen Eliminada', 'imagen' => $imagen], 200);
         }
@@ -36,7 +36,7 @@ class TicketUploadController extends Controller
     {
         $imagen = $request->file('file');
         $nombreImagen = time() . ' ' . str_replace(',', ' ', $imagen->getClientOriginalName());
-        $imagen->move(public_path('storage/temp/products'), $nombreImagen);
+        $imagen->move(public_path('storage/products'), $nombreImagen);
         return response()->json(['correcto' => $nombreImagen]);
     }
 
@@ -45,8 +45,8 @@ class TicketUploadController extends Controller
         if ($request->ajax()) {
             $imagen = $request->get('imagen');
 
-            if (File::exists('storage/temp/products/' . $imagen)) {
-                File::delete('storage/temp/products/' . $imagen);
+            if (File::exists('storage/products/' . $imagen)) {
+                File::delete('storage/products/' . $imagen);
             }
             return response(['mensaje' => 'Imagen Eliminada', 'imagen' => $imagen], 200);
         }
@@ -56,7 +56,7 @@ class TicketUploadController extends Controller
     {
         $imagen = $request->file('file');
         $nombreImagen = time() . ' ' . str_replace(',', ' ', $imagen->getClientOriginalName());
-        $imagen->move(public_path('storage/temp/logos'), $nombreImagen);
+        $imagen->move(public_path('storage/logos'), $nombreImagen);
         return response()->json(['correcto' => $nombreImagen]);
     }
 
@@ -65,8 +65,8 @@ class TicketUploadController extends Controller
         if ($request->ajax()) {
             $imagen = $request->get('imagen');
 
-            if (File::exists('storage/temp/logos/' . $imagen)) {
-                File::delete('storage/temp/logos/' . $imagen);
+            if (File::exists('storage/logos/' . $imagen)) {
+                File::delete('storage/logos/' . $imagen);
             }
             return response(['mensaje' => 'Imagen Eliminada', 'imagen' => $imagen], 200);
         }
