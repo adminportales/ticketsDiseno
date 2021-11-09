@@ -49,7 +49,10 @@
                                                         <span>{{ substr(auth()->user()->name, 0, 1) . substr(auth()->user()->lastname, 0, 1) }}</span>
                                                     </p>
                                                 @endif
-                                                <change-photo></change-photo>
+                                                <div class="m-0 justify-content-center align-items-end width-icon change-icon">
+
+                                                    <span class="fa-fw select-all fas"></span>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="ms-3 name">

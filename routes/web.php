@@ -72,4 +72,10 @@ Route::post('tickets/delivery/{ticket}', 'TicketDeliveryController@store')->name
 //Ruta para descargar archivos comprimidos
 Route::get('/tickets/descargas/{ticket}', 'TicketController@descargarArchivos')->name('descarga.archivosTicket');
 
+//Ruta de asistente
 route::get('/asistente', 'AssistentController@index')->name('assitent');
+
+
+//ruta para subir foto de perfil
+Route::get('/profile', 'ProfileController@profile')->name('administrador.users.profile');
+Route::patch('/profile', 'ProfileController@update_profile')->name('');

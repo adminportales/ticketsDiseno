@@ -8,6 +8,7 @@ class Profile extends Model
 {
     protected $fillable=[
         'company',
-        'availability'
+        'availability',
+        'photo'
     ];
 }
