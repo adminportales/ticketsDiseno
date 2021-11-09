@@ -2569,7 +2569,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.dropdown-menu[data-v-4a6949b2] {\r\n  min-width: 1rem !important;\n}\r\n", ""]);
+exports.push([module.i, "\n.dropdown-menu[data-v-4a6949b2] {\n  min-width: 1rem !important;\n}\n", ""]);
 
 // exports
 

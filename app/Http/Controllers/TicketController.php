@@ -32,8 +32,22 @@ class TicketController extends Controller
      */
     public function index()
     {
+        $user = User::find(auth()->user()->id);
         // Obtener los tickets del vendedor y de su asistente
+        // Si es vendedor, quien es my asistente y si es asistente, a quien asiste
+        // $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
+        $ticketsAll = '';
         $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
+        if ($user->hasRole('sales_assistant')) {
+            $members = $user->team->members;
+            foreach ($members as $member) {
+                dd($member->ticketsCreated);
+                $ticketsAll = $member->ticketsCreated->union($tickets);
+            }
+        } else {
+        }
+        dd($ticketsAll);
+        return;
         $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
         // Obtener los ticktes del asistente y se sus ejecutivos
 
