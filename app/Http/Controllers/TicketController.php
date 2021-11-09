@@ -32,6 +32,11 @@ class TicketController extends Controller
      */
     public function index()
     {
+        // Obtener los tickets del vendedor y de su asistente
+        $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
+        $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
+        // Obtener los ticktes del asistente y se sus ejecutivos
+
         $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
         $priorities = Priority::all();
 
@@ -58,6 +63,10 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
+        // Obtener el id y el nombre del vendedor o asistente que esta editando
+        $userCreator = User::find(auth()->user()->id);
+        $creator_id = $userCreator->id;
+        $creator_name = $userCreator->name . ' ' . $userCreator->lastname;
         request()->validate([
             'type' => 'required',
             'title' => ['required', 'string', 'max:255'],
@@ -110,9 +119,23 @@ class TicketController extends Controller
             default:
                 break;
         }
-        // Obtener el id y el nombre del vendedor que esta editando
-        $seller_id = auth()->user()->id;
-        $seller_name = auth()->user()->name . ' ' . auth()->user()->lastname;
+
+        // Si es un asistente, validacion extra y obtener el ejecutivo, y si no
+        // El ejecutivo es el creador
+        $seller_id = '';
+        $seller_name = '';
+        if ($userCreator->hasRole('sales_assistant')) {
+            request()->validate([
+                'executive' => 'required',
+            ]);
+            $seller = User::find($request->executive);
+            $seller_id = $seller->id;
+            $seller_name = $seller->name . ' ' . $seller->lastname;
+        } else {
+            $seller_id = $userCreator->id;
+            $seller_name = $userCreator->name . ' ' . $userCreator->lastname;
+        }
+
 
         //Asignar el ticket de forma correcta
         $designerAssigments = TicketAssigment::where('type_id', '=', $request->type)->get();
@@ -121,6 +144,8 @@ class TicketController extends Controller
 
         // Registrar el ticket
         $ticket = Ticket::create([
+            'creator_id' => $creator_id,
+            'creator_name' =>  $creator_name,
             'seller_id' => $seller_id,
             'seller_name' =>  $seller_name,
             'designer_id' => $designerAssigment->id,
@@ -136,7 +161,6 @@ class TicketController extends Controller
         ]);
 
         // Registrar la informacion del ticket
-
         if ($request->companies) {
             $request->companies = implode(',', $request->companies);
         }
@@ -144,8 +168,8 @@ class TicketController extends Controller
             'technique_id' => $request->technique,
             'customer' => $request->customer,
             'description' => $request->description,
-            'modifier_name' => $seller_name,
-            'modifier_id' => $seller_id,
+            'modifier_name' => $creator_name,
+            'modifier_id' => $creator_id,
             'title' => $request->title,
             'logo' => $request->logo,
             'items' => $request->items,
@@ -166,8 +190,6 @@ class TicketController extends Controller
             'reference_id' => $statusChange->id,
             'type' => 'status'
         ]);
-
-
 
         // Notificacion para avisar al diseñador
         event(new TicketCreateSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->seller_name));
@@ -222,6 +244,11 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
+        // Obtener el id y el nombre del vendedor o asistente que esta editando
+        $userCreator = User::find(auth()->user()->id);
+        $creator_id = $userCreator->id;
+        $creator_name = $userCreator->name . ' ' . $userCreator->lastname;
+
         request()->validate([
             'title' => ['required', 'string', 'max:255'],
         ]);
@@ -269,10 +296,6 @@ class TicketController extends Controller
                 break;
         }
 
-        // Obtener el id y el nombre del vendedor que esta editando
-        $seller_id = auth()->user()->id;
-        $seller_name = auth()->user()->name . ' ' . auth()->user()->lastname;
-
         // Registrar la informacion del ticket
         if ($request->companies) {
             $request->companies = implode(',', $request->companies);
@@ -281,8 +304,8 @@ class TicketController extends Controller
             'technique_id' => $request->technique,
             'customer' => $request->customer,
             'description' => $request->description,
-            'modifier_name' => $seller_name,
-            'modifier_id' => $seller_id,
+            'modifier_name' => $creator_name,
+            'modifier_id' => $creator_id,
             'title' => $request->title,
             'logo' => $request->logo,
             'items' => $request->items,

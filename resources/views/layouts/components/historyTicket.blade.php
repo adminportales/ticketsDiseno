@@ -1,13 +1,28 @@
 <section class="border-0 row">
     <div class="col-md-8">
         @role('designer|design_manager')
-            <p class="m-0"><strong>Creado por:
-                </strong>{{ $ticket->seller_name }}
-            </p>
+            @if ($ticket->seller_id == $ticket->creator_id)
+                <p class="m-0"><strong>Creado por:
+                    </strong>{{ $ticket->seller_name }}
+                </p>
+            @else
+                <p class="m-0">
+                    <strong>Creado por: </strong> {{ $ticket->creator_name }}
+                </p>
+                <p class="m-0">
+                    <strong>Ejecutivo: </strong> {{ $ticket->seller_name }}
+                </p>
+            @endif
         @endrole
-        @role('seller|sales_manager')
+        @role('seller|sales_manager|sales_assistant')
             <p class="m-0"><strong>Asignado a:
                 </strong>{{ $ticket->designer_name }}
+            </p>
+        @endrole
+        @role('sales_assistant')
+            <p class="m-0">
+                <strong>Ejecutivo:
+                </strong>{{ $ticket->seller_name }}
             </p>
         @endrole
         <hr>

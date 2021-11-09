@@ -6,7 +6,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet"
         href="{{ asset('assets\vendors\sweetalert2\sweetalert2.min.css
-                                                                                                                                                                                                                                                    ') }}">
+                                                                                                                                                                                                                                                                            ') }}">
 @endsection
 @section('title')
     <h3>Crear Ticket</h3>
@@ -28,13 +28,29 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="title">Titulo</label>
-                        <input type="text" class="form-control" placeholder="Nombre unico para tu solicitud" name="title" value="{{ old('title') }}" />
+                        <input type="text" class="form-control" placeholder="Nombre unico para tu solicitud" name="title"
+                            value="{{ old('title') }}" />
                         @error('title')
                             {{ $message }}
                         @enderror
                     </div>
                 </div>
                 <div class="col-md-5">
+                    @role('sales_assistant')
+                        <div class="form-group">
+                            <label for="type">Ejecutivo:</label>
+                            <select name="executive" class="form-control">
+                                <option value="">Seleccione a quien corresponde la solicitud...</option>
+                                @foreach (auth()->user()->team->members as $user)
+                                    <option value="{{ $user->id }}" {{ $user->id == old('executive') ? 'selected' : '' }}>
+                                        {{ $user->name . ' ' . $user->lastname }}</option>
+                                @endforeach
+                            </select>
+                            @error('executive')
+                                {{ $message }}
+                            @enderror
+                        </div>
+                    @endrole
                     <div class="form-group">
                         <label for="type">Tipo</label>
                         <select name="type" class="form-control" id="type">
@@ -50,7 +66,8 @@
                     </div>
                     <div class="form-group" id="customer">
                         <label for="customer">Cliente</label>
-                        <input type="text" class="form-control" placeholder="Nombre del cliente" name="customer" value="{{ old('customer') }}" />
+                        <input type="text" class="form-control" placeholder="Nombre del cliente" name="customer"
+                            value="{{ old('customer') }}" />
                         @error('customer')
                             {{ $message }}
                         @enderror
@@ -94,16 +111,18 @@
                     </div>
                     <div class="form-group" id="position">
                         <label for="pantone">Posicion del logo en el virtual</label>
-                        <input type="input" class="form-control" placeholder="Ubicacion del logo en el producto" name="position" value="{{ old('position') }}" />
+                        <input type="input" class="form-control" placeholder="Ubicacion del logo en el producto"
+                            name="position" value="{{ old('position') }}" />
                     </div>
                     <div class="form-group" id="pantone">
                         <label for="pantone">Pantone</label>
-                        <input type="text" class="form-control" name="pantone" placeholder="Pantones separados por comas" value="{{ old('pantone') }}" />
+                        <input type="text" class="form-control" name="pantone" placeholder="Pantones separados por comas"
+                            value="{{ old('pantone') }}" />
                     </div>
                     <div class="form-group">
                         <label for="descripcion">Descripcion</label>
                         <textarea rows="" cols="" class="form-control w-100"
-                        placeholder="Una breve descripcion de tu solicitud, detalles o links"
+                            placeholder="Una breve descripcion de tu solicitud, detalles o links"
                             name="description">{{ old('description') }}</textarea>
                         @error('description')
                             {{ $message }}

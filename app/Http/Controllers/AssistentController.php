@@ -11,10 +11,12 @@ class AssistentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    static function dashboard()
+    {
+        return view('assistent.dashboard');
+    }
     public function index()
     {
-        //
-        return view('assistent.dashboard');
     }
 
     /**

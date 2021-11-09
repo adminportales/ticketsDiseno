@@ -14,8 +14,9 @@
                 <tr>
                     <th>#</th>
                     <th>Titulo</th>
-                    <th>Categoria de Ticket</th>
-                    <th>Estatus</th>
+                    <th>Info</th>
+                    <th>Solicitado por</th>
+                    <th>Prioridad</th>
                     <th>Hora de creación</th>
                     <th>Acciones</th>
                 </tr>
@@ -24,14 +25,29 @@
                 @foreach ($tickets as $ticket)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $ticket->latestTicketInformation->title }}</td>
-                        <td>{{ $ticket->typeTicket->type }}</td>
-                        <td>{{$ticket->latestStatusChangeTicket->status }}</td>
+                        <td>{{ $ticket->latestTicketInformation->title }} <br>
+                            <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
+                        </td>
+                        <td>
+                            @if ($ticket->latestTicketInformation->techniqueTicket)
+                                <strong>Tecnica:</strong>
+                                {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
+                            @endif
+                            <strong>Estado:</strong> {{ $ticket->latestStatusChangeTicket->status }}
+                        </td>
+                        <td>
+                            @if ($ticket->seller_id == $ticket->creator_id)
+                                {{ $ticket->seller_name }}
+                            @else
+                                {{ $ticket->creator_name }} <br>
+                                <strong>Ejecutivo:</strong>{{ $ticket->seller_name }}
+                            @endif
+                        </td>
+                        <td>{{ $ticket->priorityTicket->priority }}</td>
                         <td>{{ $ticket->latestTicketInformation->created_at }}
                             {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
-                        <td class="text-center"><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}"
-                                class="boton">Ver</a>
-                        </td>
+                        <td><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="boton">Ver
+                                ticket</a></td>
                     </tr>
                 @endforeach
             </tbody>

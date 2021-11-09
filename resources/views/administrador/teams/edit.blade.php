@@ -1,23 +1,23 @@
 @extends('layouts.app')
 
 @section('title')
-    <h3>Lista de Equipos</h3>
+    <h3>Editar Equipo</h3>
 @endsection
 
 @section('content')
     <div class="card-header">
-        <h4 class="card-title">Ingresa la información para crear un nuevo equipo</h4>
+        <h4 class="card-title">Edita la información de este equipo</h4>
     </div>
     <div class="card-body">
 
-        <form action="{{ route('teams.store') }}" method="POST" autocomplete="off">
+        <form action="{{ route('teams.update', ['team' => $team->id]) }}" method="POST" autocomplete="off">
             <div class="row">
                 @csrf
-                @method('POST')
+                @method('PUT')
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="name">Nombre del equipo</label>
-                        <input class="form-control" type="text" name="name" value="{{ old('name') }}">
+                        <input class="form-control" type="text" name="name" value="{{ $team->name }}">
                         @error('name')
                             {{ $message }}
                         @enderror
@@ -26,7 +26,8 @@
                         <label for="email">Encargado</label>
                         <select name="user" class="form-control" id="userEncargado">
                             @foreach ($users as $item)
-                                <option value="{{ $item->id }}">{{ $item->name . ' ' . $item->lastname }}
+                                <option value="{{ $item->id }}" {{ $team->user_id == $item->id ? 'selected' : '' }}>
+                                    {{ $item->name . ' ' . $item->lastname }}
                             @endforeach
                         </select>
                         @error('user')
@@ -37,7 +38,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="members">Participantes del equipo</label>
-                        <members-team></members-team>
+                        <members-team members='{{ $membersId }}'></members-team>
                         @error('team')
                             {{ $message }}
                         @enderror

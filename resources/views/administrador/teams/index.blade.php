@@ -23,25 +23,25 @@
                     <th>#</th>
                     <th>Nombre</th>
                     <th>Encargado</th>
+                    <th>Equipo</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
+
             <tbody>
                 @foreach ($teams as $team)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $team->name }}</td>
-                        <td>{{ $team->user_id }}</td>
-                        <td>{{ $team->created_at->diffForHumans() }}</td>
-
+                        <td>{{ $team->user->name . ' ' . $team->user->lastname }}</td>
+                        <td>
+                            @foreach ($team->members as $user)
+                                {{ $user->name . ' ' . $user->lastname }} <br>
+                            @endforeach
+                        </td>
                         <td class="text-center">
                             <a href="{{ route('teams.edit', ['team' => $team->id]) }}"
                                 class="btn btn-warning btn-sm">Editar</a>
-                            <form action="{{ route('teams.destroy', ['team' => $team->id]) }}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                            </form>
                         </td>
                     </tr>
                 @endforeach

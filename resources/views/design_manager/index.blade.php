@@ -50,7 +50,14 @@
                             Prioridad: {{ $ticket->priorityTicket->priority }}<br>
                             Estado: {{ $ticket->latestStatusChangeTicket->status }}
                         </td>
-                        <td>{{ $ticket->seller_name }}</td>
+                        <td>
+                            @if ($ticket->seller_id == $ticket->creator_id)
+                                {{ $ticket->seller_name }}
+                            @else
+                                {{ $ticket->creator_name }} <br>
+                                <strong>Ejecutivo:</strong>{{ $ticket->seller_name }}
+                            @endif
+                        </td>
                         <td>
                             <change-designer-assigment designer="{{ $ticket->designer_name }}" :ticket={{ $ticket->id }}
                                 :designers=@json($designersRefactory)></change-designer-assigment>
@@ -90,6 +97,5 @@
         <script>
             // Jquery Datatable
             let jquery_datatable = $("#tableTickets").DataTable()
-
         </script>
     @endsection

@@ -9,6 +9,8 @@ class Ticket extends Model
 {
     protected $fillable = [
         'seller_id',
+        'creator_name',
+        'creator_id',
         'seller_name',
         'designer_id',
         'designer_name',

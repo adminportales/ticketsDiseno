@@ -21,7 +21,7 @@ class SalesManagerController extends Controller
         // Obtenemos los tickets que pertenecen a los vendedores de la empresa BH o PL,
         // Dependiendo de que gerente de ventas inicio sesion
         $tickets_id = DB::table('users')
-            ->join('tickets', 'users.id', '=', 'tickets.seller_id')
+            ->join('tickets', 'users.id', '=', 'tickets.creator_id')
             ->join('profiles', 'users.id', '=', 'profiles.user_id')
             ->where('profiles.company', '=', auth()->user()->profile->company)
             ->select('tickets.id')
@@ -55,7 +55,7 @@ class SalesManagerController extends Controller
         $priorities = Priority::all();
 
         $tickets_id = DB::table('users')
-            ->join('tickets', 'users.id', '=', 'tickets.seller_id')
+            ->join('tickets', 'users.id', '=', 'tickets.creator_id')
             ->join('profiles', 'users.id', '=', 'profiles.user_id')
             ->where('profiles.company', '=', auth()->user()->profile->company)
             ->select('tickets.id')
