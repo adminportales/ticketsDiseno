@@ -1,20 +1,17 @@
 @extends('layouts.app')
 
 @section('title')
-    <h3>Lista de Usuarios</h3>
+    <h3>Lista de Equipos</h3>
 @endsection
 
 @section('content')
     <div class="card-header">
         <div class="d-flex justify-content-between">
-            <h4 class="card-title">Información general de cada usuario</h4>
+            <h4 class="card-title">Información general de cada equipo</h4>
             <div class="btn-group" style="text-align:left">
-                <a href="{{ route('users.create') }}" class="boton" aria-current="page">Crear</a>
-                <a href="{{ Request::root() . '/roles_assignment' }}" class="boton">Asignar permisos</a>
-                <a href="{{ route('user.import') }}" class="boton">Importar</a>
+                <a href="{{ route('teams.create') }}" class="boton" aria-current="page">Crear</a>
             </div>
         </div>
-
     </div>
 
 
@@ -25,35 +22,22 @@
                 <tr>
                     <th>#</th>
                     <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Perfil</th>
-                    <th>Registro</th>
-                    <th>Estatus</th>
+                    <th>Encargado</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($users as $user)
+                @foreach ($teams as $team)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>
+                        <td>{{ $team->name }}</td>
+                        <td>{{ $team->user_id }}</td>
+                        <td>{{ $team->created_at->diffForHumans() }}</td>
 
-                            @foreach ($user->whatRoles as $role)
-                                {{ $loop->iteration . '. ' . $role->display_name }}
-                            @endforeach
-
-                        </td>
-                        <td>{{ $user->created_at->diffForHumans() }}</td>
-                        <td>
-                            <span class="badge bg-{{ $user->status ? 'light-success' : 'light-danger' }}">
-                                {{ $user->status ? 'Activo' : 'Inactivo' }}</span>
-                        </td>
                         <td class="text-center">
-                            <a href="{{ route('users.edit', ['user' => $user->id]) }}"
+                            <a href="{{ route('teams.edit', ['team' => $team->id]) }}"
                                 class="btn btn-warning btn-sm">Editar</a>
-                            <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="post">
+                            <form action="{{ route('teams.destroy', ['team' => $team->id]) }}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>

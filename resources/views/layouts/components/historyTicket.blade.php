@@ -171,10 +171,10 @@
                                                     </strong>
                                                 </p>
                                                 <img src="{{ asset('/storage/logos/' . $latestInformation->logo) }}"
-                                                    alt="" class="img-thumbnail rounded img-history">
+                                                    alt="" width="90" class="img-thumbnail rounded img-history">
                                                 <span class="fa-fw select-all fas"></span>
                                                 <img src="{{ asset('/storage/logos/' . $information->logo) }}" alt=""
-                                                    class="img-thumbnail rounded img-history">
+                                                    width="90" class="img-thumbnail rounded img-history">
                                             </div>
                                         @endif
                                     @endif
@@ -185,10 +185,10 @@
                                                     </strong>
                                                 </p>
                                                 <img src="{{ asset('/storage/products/' . $latestInformation->product) }}"
-                                                    alt="" class="img-thumbnail rounded img-history">
+                                                    alt="" width="90" class="img-thumbnail rounded img-history">
                                                 <span class="fa-fw select-all fas"></span>
                                                 <img src="{{ asset('/storage/products/' . $information->product) }}"
-                                                    alt="" class="img-thumbnail rounded img-history">
+                                                    alt="" width="90" class="img-thumbnail rounded img-history">
                                             </div>
                                         @endif
                                     @endif
@@ -201,11 +201,11 @@
                                 @if (!empty($diferencias))
                                     <p class="m-0"><strong>Items: </strong></p>
                                     <div class="col-md-5">
-                                        <div class="items">
+                                        <div class="d-flex flex-wrap">
                                             @foreach (explode(',', $latestInformation->items) as $item)
-                                                <div class="img-items ">
+                                                <div class="img-item mx-1">
                                                     <img src="{{ asset('/storage/items/' . $item) }}" alt=""
-                                                        class="img-thumbnail rounded">
+                                                        width="90" class="img-thumbnail rounded">
                                                 </div>
                                             @endforeach
                                         </div>
@@ -214,11 +214,11 @@
                                         <span class="fa-fw select-all fas"></span>
                                     </div>
                                     <div class="col-md-5">
-                                        <div class="items">
+                                        <div class="d-flex flex-wrap">
                                             @foreach (explode(',', $information->items) as $item)
-                                                <div class="img-items ">
+                                                <div class="img-item mx-1">
                                                     <img src="{{ asset('/storage/items/' . $item) }}" alt=""
-                                                        class="img-thumbnail rounded">
+                                                        width="90" class="img-thumbnail rounded">
                                                 </div>
                                             @endforeach
                                         </div>

@@ -75,6 +75,9 @@ class TicketController extends Controller
                     'product' => 'required',
                     'position' => 'required',
                 ]);
+                $request->items = null;
+                $request->companies = null;
+                $request->customer = null;
                 break;
             case 2:
                 request()->validate([
@@ -85,6 +88,10 @@ class TicketController extends Controller
                     'logo' => 'required',
                     'items' => 'required',
                 ]);
+                $request->product = null;
+                $request->pantone = null;
+                $request->technique = null;
+                $request->position = null;
                 break;
             case 3:
                 request()->validate([
@@ -92,24 +99,6 @@ class TicketController extends Controller
                     'description' => ['required', 'string'],
                     'items' => 'required',
                 ]);
-                break;
-            default:
-                break;
-        }
-
-        switch ($request->type) {
-            case 1:
-                $request->items = null;
-                $request->companies = null;
-                $request->customer = null;
-                break;
-            case 2:
-                $request->product = null;
-                $request->pantone = null;
-                $request->technique = null;
-                $request->position = null;
-                break;
-            case 3:
                 $request->product = null;
                 $request->pantone = null;
                 $request->technique = null;
@@ -119,7 +108,6 @@ class TicketController extends Controller
                 $request->companies = null;
                 break;
             default:
-                # code...
                 break;
         }
         // Obtener el id y el nombre del vendedor que esta editando
@@ -183,7 +171,7 @@ class TicketController extends Controller
 
         // Notificacion para avisar al diseñador
         event(new TicketCreateSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->seller_name));
-        $designerAssigment->notify(new TicketCreateNotification($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->seller_name));
+        $designerAssigment->notify(new TicketCreateNotification($ticket->latestTicketInformation->title, $ticket->seller_name));
 
         // Regresar a la vista de inicio
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
@@ -237,50 +225,38 @@ class TicketController extends Controller
         request()->validate([
             'title' => ['required', 'string', 'max:255'],
         ]);
-
-        switch ($ticket->typeTicket->type_id) {
+        switch ($ticket->typeTicket->id) {
             case 1:
                 request()->validate([
                     'technique' => 'required',
                     'position' => 'required',
                     'pantone' => 'required',
                     'description' => ['required', 'string'],
-                    'logo' => 'required',
-                    'product' => 'required',
                 ]);
+                $request->logo = $request->logo == null ?  $ticket->latestTicketInformation->logo : $request->logo;
+                $request->product = $request->product == null ? $ticket->latestTicketInformation->product : $request->product;
+                $request->items = null;
+                $request->companies = null;
+                $request->customer = null;
                 break;
             case 2:
                 request()->validate([
                     'customer' => ['required', 'string', 'max:255'],
                     'companies' => 'required',
                     'description' => ['required', 'string'],
-                    'logo' => 'required',
-                    'items' => 'required',
                 ]);
-                break;
-            case 3:
-                request()->validate([
-                    'description' => ['required', 'string'],
-                    'items' => 'required',
-                ]);
-                break;
-            default:
-                break;
-        }
-
-        switch ($ticket->typeTicket->type_id) {
-            case 1:
-                $request->items = null;
-                $request->companies = null;
-                $request->customer = null;
-                break;
-            case 2:
+                $request->logo = $request->logo == null ?  $ticket->latestTicketInformation->logo : $request->logo;
+                $request->items = $request->items == null ?  $ticket->latestTicketInformation->items : $request->items;
                 $request->product = null;
                 $request->pantone = null;
                 $request->technique = null;
                 $request->position = null;
                 break;
             case 3:
+                request()->validate([
+                    'description' => ['required', 'string'],
+                ]);
+                $request->items = $request->items == null ?  $ticket->latestTicketInformation->items : $request->items;
                 $request->product = null;
                 $request->pantone = null;
                 $request->technique = null;
@@ -290,7 +266,6 @@ class TicketController extends Controller
                 $request->companies = null;
                 break;
             default:
-                # code...
                 break;
         }
 
@@ -323,8 +298,9 @@ class TicketController extends Controller
             'reference_id' => $ticketInformation->id,
             'type' => 'info'
         ]);
-
+        $receiver = User::find($ticket->designer_id);
         event(new ChangeTicketSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $seller_name));
+        $receiver->notify(new TicketCreateNotification($ticket->latestTicketInformation->title, $ticket->seller_name));
         // Regresar a la vista de inicio
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
     }

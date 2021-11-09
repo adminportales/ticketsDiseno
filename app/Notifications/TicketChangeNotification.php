@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TicketCreateNotification extends Notification
+class TicketChangeNotification extends Notification
 {
     use Queueable;
 
@@ -45,7 +45,7 @@ class TicketCreateNotification extends Notification
     {
         return [
             'ticket' => $this->ticket,
-            'emisor' => $this->emisor,
+            'emisor' => $this->emisor
         ];
     }
 }

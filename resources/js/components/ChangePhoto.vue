@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     change() {
-      alert("cambiar foto");
+      //   alert("cambiar foto");
     },
   },
 };

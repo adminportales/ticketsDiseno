@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TicketCreateNotification extends Notification
+class ChangeStatusNotification extends Notification
 {
     use Queueable;
 
@@ -18,11 +18,14 @@ class TicketCreateNotification extends Notification
      */
     public $ticket;
     public $emisor;
-    public function __construct($ticket, $emisor)
+    public $status;
+    public function __construct($ticket, $emisor,$status)
     {
         $this->ticket  = $ticket;
         $this->emisor  = $emisor;
+        $this->status  = $status;
     }
+
 
     /**
      * Get the notification's delivery channels.
@@ -46,6 +49,7 @@ class TicketCreateNotification extends Notification
         return [
             'ticket' => $this->ticket,
             'emisor' => $this->emisor,
+            'status' => $this->status,
         ];
     }
 }

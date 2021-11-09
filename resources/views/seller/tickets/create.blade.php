@@ -28,7 +28,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="title">Titulo</label>
-                        <input type="text" class="form-control" name="title" value="{{ old('title') }}" />
+                        <input type="text" class="form-control" placeholder="Nombre unico para tu solicitud" name="title" value="{{ old('title') }}" />
                         @error('title')
                             {{ $message }}
                         @enderror
@@ -50,7 +50,7 @@
                     </div>
                     <div class="form-group" id="customer">
                         <label for="customer">Cliente</label>
-                        <input type="text" class="form-control" name="customer" value="{{ old('customer') }}" />
+                        <input type="text" class="form-control" placeholder="Nombre del cliente" name="customer" value="{{ old('customer') }}" />
                         @error('customer')
                             {{ $message }}
                         @enderror
@@ -94,15 +94,16 @@
                     </div>
                     <div class="form-group" id="position">
                         <label for="pantone">Posicion del logo en el virtual</label>
-                        <input type="input" class="form-control" name="position" value="{{ old('position') }}" />
+                        <input type="input" class="form-control" placeholder="Ubicacion del logo en el producto" name="position" value="{{ old('position') }}" />
                     </div>
                     <div class="form-group" id="pantone">
-                        <label for="pantone">Pantone o color principal aproximado</label>
-                        <input type="color" class="form-control" name="pantone" value="{{ old('pantone') }}" />
+                        <label for="pantone">Pantone</label>
+                        <input type="text" class="form-control" name="pantone" placeholder="Pantones separados por comas" value="{{ old('pantone') }}" />
                     </div>
                     <div class="form-group">
                         <label for="descripcion">Descripcion</label>
                         <textarea rows="" cols="" class="form-control w-100"
+                        placeholder="Una breve descripcion de tu solicitud, detalles o links"
                             name="description">{{ old('description') }}</textarea>
                         @error('description')
                             {{ $message }}

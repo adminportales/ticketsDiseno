@@ -27,6 +27,12 @@ class UserController extends Controller
         return view('administrador.users.index', compact('users'));
     }
 
+    public function allUsers()
+    {
+        $users = User::where('status', '=', '1')->get();
+        return response()->json($users);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

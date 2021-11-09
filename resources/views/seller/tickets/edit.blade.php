@@ -113,13 +113,14 @@
                     </div>
                 </div>
                 <div class="col-md-7">
+                    <p class="text-center text-danger">Las imagenes colocadas anterirormente no se pueden modificar</p>
                     <div class="d-flex">
                         <div class="form-group w-100" id="logoElement">
                             <label for="logo">Logo</label>
                             <div id="dropzoneLogo" class="dropzone form-control text-center"
                                 style="height: auto; width: auto">
                             </div>
-                            <input type="hidden" name="logo" id="logo" value="{{ $ticketInformation->logo }}">
+                            <input type="hidden" name="logo" id="logo" value="">
                             @error('logo')
                                 {{ $message }}
                             @enderror
@@ -129,7 +130,7 @@
                             <label for="product">Producto</label>
                             <div id="dropzoneProduct" class="dropzone form-control text-center"
                                 style="height: auto; width: auto"></div>
-                            <input type="hidden" name="product" id="product" value="{{ $ticketInformation->product }}">
+                            <input type="hidden" name="product" id="product" value="">
                             @error('product')
                                 {{ $message }}
                             @enderror
@@ -139,8 +140,8 @@
                         <label for="imagen">
                             Items del Producto:
                         </label>
-                        <div id="dropzoneItemsEdit" class="dropzone form-control text-center" style="height: auto;"></div>
-                        <input type="hidden" name="items" id="items" value="{{ $ticketInformation->items }}">
+                        <div id="dropzoneItems" class="dropzone form-control text-center" style="height: auto;"></div>
+                        <input type="hidden" name="items" id="items" value="">
                         @error('items')
                             <span class="block">{{ $message }}</span>
                         @enderror
