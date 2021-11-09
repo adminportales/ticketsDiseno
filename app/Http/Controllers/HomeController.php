@@ -43,6 +43,9 @@ class HomeController extends Controller
             case 'design_manager':
                 return DesignerManagerController::dashboard();
                 break;
+            case 'sales_assistant':
+                return AssistentController::dashboard();
+                break;
             default:
                 return view('home');
                 break;

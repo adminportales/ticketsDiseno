@@ -17,6 +17,8 @@ class CreateTicketsTable extends Migration
             $table->id();
             $table->foreignId('seller_id')->references('id')->on('users');
             $table->string('seller_name');
+            $table->foreignId('creator_id')->references('id')->on('users');
+            $table->string('creator_name');
             $table->foreignId('designer_id')->references('id')->on('users');
             $table->string('designer_name');
             $table->foreignId('priority_id')->constrained();

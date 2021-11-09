@@ -68,15 +68,26 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Ticket', 'designer_id');
     }
-    //Funcion para obtener los tickets creados por el vendedor
+    //Funcion para obtener los tickets creados por el vendedor o asistente
     public function ticketsCreated()
     {
-        return $this->hasMany('App\Ticket', 'seller_id');
+        return $this->hasMany('App\Ticket', 'creator_id');
+    }
+
+    //Funcion para obtener los tickets creados por el vendedor y su asistente
+    public function ticketsCreatedBySellerAndAssistant()
+    {
+        return $this->hasMany('App\Ticket', 'creator_id');
     }
 
     //Funcion para saber que tickets tiene asigando cada diseñador
     public function whatTypes()
     {
         return $this->belongsToMany(Type::class, 'ticket_assigments', 'designer_id', 'type_id');
+    }
+
+    public function team()
+    {
+        return $this->hasOne('App\Team');
     }
 }

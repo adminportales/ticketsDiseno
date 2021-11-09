@@ -44,7 +44,7 @@ class MessageController extends Controller
         $transmitter_name = auth()->user()->name . ' ' . auth()->user()->lastname;
         $userReceiver = '';
         if (auth()->user()->hasRole(['designer', 'design_manager'])) {
-            $userReceiver = User::find($ticket->seller_id);
+            $userReceiver = User::find($ticket->creator_id);
         } else if (auth()->user()->hasRole(['seller', 'sales_manager'])) {
             $userReceiver = User::find($ticket->designer_id);
         }

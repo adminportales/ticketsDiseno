@@ -27,7 +27,7 @@
       v-model="userSearch"
       @keyup="search"
     />
-    <input type="hidden" v-model="idsUsers" name="team"/>
+    <input type="hidden" v-model="idsUsers" name="team" />
     <div class="list-group" v-if="this.userSearch">
       <li
         v-for="userSearch in usersSearch"

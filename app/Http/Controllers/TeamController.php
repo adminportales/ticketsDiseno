@@ -70,7 +70,13 @@ class TeamController extends Controller
      */
     public function edit(Team $team)
     {
-        //
+        $membersId = [];
+        foreach ($team->members as $member) {
+            array_push($membersId, $member->id);
+        }
+        $membersId = implode(",", $membersId);
+        $users = User::where('status', '=', '1')->get();
+        return view('administrador.teams.edit', compact('users', 'team', 'membersId'));
     }
 
     /**

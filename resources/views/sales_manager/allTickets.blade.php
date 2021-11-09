@@ -17,7 +17,7 @@
                     <th>Info</th>
                     <th>Elaboro</th>
                     <th>Asignado a</th>
-                    <th class="text-center">Prioridad</th>
+                    <th>Prioridad</th>
                     <th>Hora de creación</th>
                     <th>Acciones</th>
                 </tr>
@@ -36,7 +36,14 @@
                             @endif
                             <strong>Estado:</strong> {{ $ticket->latestStatusChangeTicket->status }}
                         </td>
-                        <td>{{ $ticket->seller_id == auth()->user()->id ? 'Yo' : $ticket->seller_name }}</td>
+                        <td>
+                            @if ($ticket->seller_id == $ticket->creator_id)
+                                {{ $ticket->creator_id == auth()->user()->id ? 'Yo' : $ticket->seller_name }}
+                            @else
+                                {{ $ticket->creator_name }} <br>
+                                <strong>Ejecutivo:</strong>{{ $ticket->seller_name }}
+                            @endif
+                        </td>
                         <td>{{ $ticket->designer_name }}</td>
                         <td class="text-center">
                             <change-priority priority={{ $ticket->priorityTicket->priority }} :ticket={{ $ticket->id }}

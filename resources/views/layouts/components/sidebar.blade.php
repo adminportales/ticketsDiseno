@@ -41,7 +41,7 @@
                         </a>
                     </li>
                 @endrole
-                @role('seller')
+                @role('seller|sales_assistant')
                     <li class="sidebar-item {{ request()->is('tickets*') ? 'active' : '' }}">
                         <a href="{{ route('tickets.index') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
