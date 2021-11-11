@@ -42,3 +42,4 @@ class SellerController extends Controller
         return view('seller.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets'));
     }
 }
+

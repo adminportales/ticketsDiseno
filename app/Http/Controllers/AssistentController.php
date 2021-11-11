@@ -13,6 +13,22 @@ class AssistentController extends Controller
      */
     static function dashboard()
     {
+        // traemos los tickets que el vendedor creo, traemos su estado
+        $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
+
+        $totalTickets = 0;
+        $closedTickets = 0;
+        $openTickets = 0;
+
+        foreach ($tickets as $ticket) {
+            $statusTicket = $ticket->latestStatusChangeTicket->status;
+            if ($statusTicket == 'Finalizado') {
+                $closedTickets++;
+            } else {
+                $openTickets++;
+            }
+            $totalTickets++;
+        }
         return view('assistent.dashboard');
     }
     public function index()

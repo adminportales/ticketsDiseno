@@ -32,7 +32,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $user = User::find(auth()->user()->id);
+/*         $user = User::find(auth()->user()->id);
         // Obtener los tickets del vendedor y de su asistente
         // Si es vendedor, quien es my asistente y si es asistente, a quien asiste
         // $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
@@ -47,7 +47,7 @@ class TicketController extends Controller
         } else {
         }
         dd($ticketsAll);
-        return;
+        return; */
         $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
         // Obtener los ticktes del asistente y se sus ejecutivos
 

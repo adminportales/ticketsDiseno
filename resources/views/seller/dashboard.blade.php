@@ -57,7 +57,6 @@
                                         <th>#</th>
                                         <th>Titulo</th>
                                         <th>Info</th>
-                                        <th>Elaboro</th>
                                         <th>Asignado a</th>
                                         <th class="text-center">Prioridad</th>
                                         <th>Hora de creación</th>
@@ -65,65 +64,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    <tr>
-                                        <td>1</td>
-                                        <td> <br>
-                                            <strong>Tipo: Virtual</strong> <br>
-                                        </td>
-                                        <td>
-
-                                            <strong>Tecnica: Bordado Laser</strong>
-                                            <br>
-
-                                            <strong>Estado: Entregado</strong>
-                                        </td>
-                                        <td>Jaime Gonzalez</td>
-                                        <td>Ived </td>
-                                        <td>Alta</td>
-                                        <td>2021-11-03 08:52:24 <br>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td> <br>
-                                            <strong>Tipo: Presentación</strong> <br>
-                                        </td>
-                                        <td>
-
-                                            <strong>Tecnica: Serigrafia</strong>
-                                            <br>
-
-                                            <strong>Estado: En proceso</strong>
-                                        </td>
-                                        <td>Jaime Gonzalez</td>
-                                        <td>Aide </td>
-                                        <td>Baja</td>
-                                        <td>2021-11-03 08:52:24 <br>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td> <br>
-                                            <strong>Tipo: Diseño especial</strong> <br>
-                                        </td>
-                                        <td>
-
-                                            <strong>Tecnica: Tampografia</strong>
-                                            <br>
-
-                                            <strong>Estado: Creado</strong>
-                                        </td>
-                                        <td>Jaime Gonzalez</td>
-                                        <td>Fernanda </td>
-                                        <td>Media</td>
-                                        <td>2021-11-03 08:52:24 <br>
-                                        </td>
-
-                                    </tr>
-
+                                    @foreach ($tickets as $ticket)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $ticket->latestTicketInformation->title }} <br>
+                                                <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
+                                            </td>
+                                            <td>
+                                                @if ($ticket->latestTicketInformation->techniqueTicket)
+                                                    <strong>Tecnica:</strong>
+                                                    {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
+                                                @endif
+                                                <strong>Estado:</strong> {{ $ticket->latestStatusChangeTicket->status }}
+                                            </td>
+                                            <td>{{ $ticket->designer_name }}</td>
+                                            <td class="text-center"> {{ $ticket->priorityTicket->priority }} </td>
+                                            <td>{{ $ticket->latestTicketInformation->created_at }} <br>
+                                                {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

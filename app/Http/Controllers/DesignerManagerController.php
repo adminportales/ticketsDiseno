@@ -17,7 +17,9 @@ class DesignerManagerController extends Controller
     static function dashboard()
     {
         $tickets = Ticket::all();
+        $ticketsPropios = auth()->user()->assignedTickets()->orderByDesc('created_at')->get();
         $role = Role::find(3);
+        $designers = $role->whatUsers->makeHidden('pivot');
         $users = $role->whatUsers;
         $totalTickets = 0;
         $closedTickets = 0;
@@ -33,14 +35,14 @@ class DesignerManagerController extends Controller
             $totalTickets++;
         }
 
-        return view('design_manager.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets', 'users'));
+        return view('design_manager.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets', 'users', 'designers', 'ticketsPropios'));
     }
 
     //Metodo para ver todos los tickets
     public function allTickets()
     {
         $role = Role::find(3);
-        $designers = $role->whatUsers->makeHidden('pivot');;
+        $designers = $role->whatUsers->makeHidden('pivot');
         $tickets = Ticket::all();
         return view('design_manager.index', compact('tickets', 'designers'));
     }
