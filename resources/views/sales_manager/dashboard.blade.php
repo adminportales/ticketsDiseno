@@ -53,7 +53,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <h6 class="text-muted font-semibold">Asistentes</h6>
-                                    <h6 class="font-extrabold mb-0">{{count($userAssitent)}}</h6>
+                                    <h6 class="font-extrabold mb-0">{{ count($userAssitent) }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Mis tickets</h4>
+                            <h4>Mis ultimos tickets creados</h4>
                         </div>
                         <div class="card-body">
                             <div id="chart-profile-visit"></div>
@@ -81,7 +81,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($tickets as $ticket)
+                                    @foreach ($myTickets as $ticket)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $ticket->latestTicketInformation->title }} <br>
@@ -100,8 +100,57 @@
                                                     :ticket={{ $ticket->id }} :priorities=@json($priorities)>
                                                 </change-priority>
                                             </td>
-                                            <td>{{ $ticket->latestTicketInformation->created_at }} <br>
-                                                {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
+                                            <td>{{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Ultimos tickets creados por mi equipo</h4>
+                        </div>
+                        <div class="card-body">
+                            <div id="chart-profile-visit"></div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Titulo</th>
+                                        <th>Info</th>
+                                        <th>Creado por</th>
+                                        <th>Asignado a</th>
+                                        <th class="text-center">Prioridad</th>
+                                        <th>Hora de creación</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($tickets as $ticket)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $ticket->latestTicketInformation->title }} <br>
+                                                <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
+                                            </td>
+                                            <td>
+                                                <strong>Estado:</strong> {{ $ticket->latestStatusChangeTicket->status }}
+                                            </td>
+                                            <td>
+                                                @if ($ticket->seller_id == $ticket->creator_id)
+                                                    {{ $ticket->creator_id == auth()->user()->id ? 'Yo' : $ticket->seller_name }}
+                                                @else
+                                                    {{ $ticket->creator_name }} <br>
+                                                    <strong>Ejecutivo:</strong>{{ $ticket->seller_name }}
+                                                @endif
+                                            </td>
+                                            <td>{{ $ticket->designer_name }}</td>
+                                            <td class="text-center">
+                                                <change-priority priority={{ $ticket->priorityTicket->priority }}
+                                                    :ticket={{ $ticket->id }} :priorities=@json($priorities)>
+                                                </change-priority>
+                                            </td>
+                                            <td> {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -118,32 +167,10 @@
                     <h4>Notificaciones Recientes</h4>
                 </div>
                 <div class="card-body">
-                    <div class="">
-                        <div class="border rounded p-1 my-1">
-                            <h6 class="mb-1">Titulo</h6>
-                            <p class="m-0">Nombre</p>
-                            <p class="m-0"><strong>Mensaje:</strong>Lorem, ipsum dolor sit amet consectetur
-                                adipisicing </p>
-                            <div class="d-flex justify-content-around">
-                                <a href="">Marcar como leido</a>
-                                <a href="">Ver</a>
-                            </div>
-                        </div>
-                        <div class="border rounded p-1 my-1">
-                            <h6 class="mb-1">Titulo</h6>
-                            <p class="m-0">Nombre</p>
-                            <p class="m-0"><strong>Mensaje:</strong>Lorem, ipsum dolor sit amet consectetur
-                                adipisicing </p>
-                            <div class="d-flex justify-content-around">
-                                <a href="">Marcar como leido</a>
-                                <a href="">Ver</a>
-                            </div>
-                        </div>
-                    </div>
+                    @include('layouts.components.notifies')
                 </div>
             </div>
         </div>
-
     </section>
 
 @endsection

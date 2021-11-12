@@ -71,7 +71,7 @@ class MessageController extends Controller
         ]);
         //Mensaje
         event(new MessageSendEvent($message->message, $receiver_id, $transmitter_name));
-        $userReceiver->notify(new MessageNotification($ticket->latestTicketInformation->title, $ticket->seller_name, $message->message));
+        $userReceiver->notify(new MessageNotification($ticket->latestTicketInformation->title, $transmitter_name, $message->message));
         // Regresar a la misma vista AtenderTicket (ticket.show)
         if (auth()->user()->hasRole(['designer', 'design_manager'])) {
             return redirect()->action('DesignerController@show', ['ticket' => $ticket->id]);

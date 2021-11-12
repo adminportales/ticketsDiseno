@@ -32,14 +32,25 @@ class SalesManagerController extends Controller
 
         // Obtenemos los tickets que pertenecen a los vendedores de la empresa BH o PL,
         // Dependiendo de que gerente de ventas inicio sesion
-        $tickets_id = DB::table('users')
+        $allTickets_id = DB::table('users')
             ->join('tickets', 'users.id', '=', 'tickets.creator_id')
             ->join('profiles', 'users.id', '=', 'profiles.user_id')
             ->where('profiles.company', '=', auth()->user()->profile->company)
             ->select('tickets.id')
             ->paginate(5);
+        $allTickets = [];
+        $tickets_id = DB::table('users')
+            ->join('tickets', 'users.id', '=', 'tickets.creator_id')
+            ->join('profiles', 'users.id', '=', 'profiles.user_id')
+            ->where('profiles.company', '=', auth()->user()->profile->company)
+            ->where('tickets.creator_id', '!=', auth()->user()->id)
+            ->select('tickets.id')
+            ->paginate(5);
         $tickets = [];
 
+        foreach ($allTickets_id as $ticket_id) {
+            array_push($allTickets, Ticket::find($ticket_id->id));
+        }
         foreach ($tickets_id as $ticket_id) {
             array_push($tickets, Ticket::find($ticket_id->id));
         }
@@ -49,7 +60,7 @@ class SalesManagerController extends Controller
         $closedTickets = 0;
         $openTickets = 0;
 
-        foreach ($tickets as $ticket) {
+        foreach ($allTickets as $ticket) {
             $statusTicket = $ticket->latestStatusChangeTicket->status;
             if ($statusTicket == 'Finalizado') {
                 $closedTickets++;
@@ -58,9 +69,10 @@ class SalesManagerController extends Controller
             }
             $totalTickets++;
         }
-        $notifications = $user->unreadNotifications;
+
+        $myTickets = $user->ticketsCreated;
         //Retornar la vista
-        return view('sales_manager.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets', 'notifications', 'userSeller', 'userAssitent','priorities'));
+        return view('sales_manager.dashboard', compact('tickets', 'myTickets', 'totalTickets', 'closedTickets', 'openTickets', 'userSeller', 'userAssitent', 'priorities'));
     }
     public function allTickets()
     {

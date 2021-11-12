@@ -164,7 +164,7 @@ class TicketController extends Controller
             'seller_name' =>  $seller_name,
             'designer_id' => $designerAssigment->id,
             'designer_name' => $designerAssigment->name . ' ' . $designerAssigment->lastname,
-            'priority_id' => 1,
+            'priority_id' => 2,
             'type_id' => $request->type
         ]);
         // Creacion del estado
