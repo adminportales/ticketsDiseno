@@ -9,28 +9,10 @@
     <section class="row">
         <div class="col-12 col-lg-8">
             <div class="row">
-                <div class="col-6 col-lg-4 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon blue">
-                                        <i class="iconly-boldProfile"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Tickets asignados</h6>
-                                    <h6 class="font-extrabold mb-0">{{ $totalTickets }}</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-12">
                     <div class="card">
-
                         <div class="card-header">
-                            <h4>Resumen de tickets</h4>
+                            <h4>Mis Ultimos 5 Tickets Pendientes</h4>
                         </div>
                         <div class="card-body">
                             <div id="chart-profile-visit"></div>
@@ -89,28 +71,7 @@
                     <h4>Notificaciones Recientes</h4>
                 </div>
                 <div class="card-body">
-                    <div class="">
-                        <div class="border rounded p-1 my-1">
-                            <h6 class="mb-1">Titulo</h6>
-                            <p class="m-0">Nombre</p>
-                            <p class="m-0"><strong>Mensaje:</strong>Lorem, ipsum dolor sit amet consectetur
-                                adipisicing </p>
-                            <div class="d-flex justify-content-around">
-                                <a href="">Marcar como leido</a>
-                                <a href="">Ver</a>
-                            </div>
-                        </div>
-                        <div class="border rounded p-1 my-1">
-                            <h6 class="mb-1">Titulo</h6>
-                            <p class="m-0">Nombre</p>
-                            <p class="m-0"><strong>Mensaje:</strong>Lorem, ipsum dolor sit amet consectetur
-                                adipisicing </p>
-                            <div class="d-flex justify-content-around">
-                                <a href="">Marcar como leido</a>
-                                <a href="">Ver</a>
-                            </div>
-                        </div>
-                    </div>
+                    @include('layouts.components.notifies')
                 </div>
             </div>
         </div>

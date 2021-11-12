@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <h6 class="text-muted font-semibold">Tickets creados por asistente</h6>
-                                    <h6 class="font-extrabold mb-0">13</h6>
+                                    <h6 class="font-extrabold mb-0">{{ count($ticketAssistant) }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                                         <th>Asignado a</th>
                                         <th class="text-center">Prioridad</th>
                                         <th>Hora de creación</th>
-
+                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -79,8 +79,55 @@
                                             </td>
                                             <td>{{ $ticket->designer_name }}</td>
                                             <td class="text-center"> {{ $ticket->priorityTicket->priority }} </td>
-                                            <td>{{ $ticket->latestTicketInformation->created_at }} <br>
-                                                {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
+                                            <td> {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
+                                            <td><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}"
+                                                    class="boton">Ver
+                                                    ticket</a></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Ultimos 5 Tickets Pendientes Creados por {{ $assistant->name . ' ' . $assistant->lastname }}
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div id="chart-profile-visit"></div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Titulo</th>
+                                        <th>Info</th>
+                                        <th>Asignado a</th>
+                                        <th>Prioridad</th>
+                                        <th>Hora de creación</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($ticketAssistant as $ticket)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $ticket->latestTicketInformation->title }} <br>
+                                                <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
+                                            </td>
+                                            <td>
+                                                @if ($ticket->latestTicketInformation->techniqueTicket)
+                                                    <strong>Tecnica:</strong>
+                                                    {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
+                                                @endif
+                                                <strong>Estado:</strong> {{ $ticket->latestStatusChangeTicket->status }}
+                                            </td>
+                                            <td>{{ $ticket->designer_name }}</td>
+                                            <td>{{ $ticket->priorityTicket->priority }}</td>
+                                            <td>{{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
+                                            <td><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}"
+                                                    class="boton">Ver
+                                                    ticket</a></td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -96,28 +143,7 @@
                     <h4>Notificaciones Recientes</h4>
                 </div>
                 <div class="card-body">
-                    <div class="">
-                        <div class="border rounded p-1 my-1">
-                            <h6 class="mb-1">Titulo</h6>
-                            <p class="m-0">Nombre</p>
-                            <p class="m-0"><strong>Mensaje:</strong>Lorem, ipsum dolor sit amet consectetur
-                                adipisicing </p>
-                            <div class="d-flex justify-content-around">
-                                <a href="">Marcar como leido</a>
-                                <a href="">Ver</a>
-                            </div>
-                        </div>
-                        <div class="border rounded p-1 my-1">
-                            <h6 class="mb-1">Titulo</h6>
-                            <p class="m-0">Nombre</p>
-                            <p class="m-0"><strong>Mensaje:</strong>Lorem, ipsum dolor sit amet consectetur
-                                adipisicing </p>
-                            <div class="d-flex justify-content-around">
-                                <a href="">Marcar como leido</a>
-                                <a href="">Ver</a>
-                            </div>
-                        </div>
-                    </div>
+                    @include('layouts.components.notifies')
                 </div>
             </div>
         </div>

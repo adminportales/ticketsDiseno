@@ -90,4 +90,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Team');
     }
+
+    public function teamMember()
+    {
+        return $this->belongsToMany(Team::class, 'team_user', 'user_id', 'team_id');
+    }
 }

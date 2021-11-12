@@ -16,6 +16,9 @@
                 @case('App\Notifications\MessageNotification')
                     <p class="m-0">{{ $notification->data['message'] }}</p>
                 @break
+                @case('App\Notifications\ChangePriorityNotification')
+                    <p class="m-0"><strong>Cambio de prioridad:</strong> {{ $notification->data['priority'] }}</p>
+                @break
                 @default
             @endswitch
         </div>

@@ -10,7 +10,7 @@ class SellerController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['auth','role:seller']);
+        $this->middleware(['auth', 'role:seller']);
     }
 
     /**
@@ -23,7 +23,8 @@ class SellerController extends Controller
     {
         // traemos los tickets que el vendedor creo, traemos su estado
         $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
-
+        $assistant = auth()->user()->teamMember[0]->user;
+        $ticketAssistant = $assistant->ticketsCreated;
         $totalTickets = 0;
         $closedTickets = 0;
         $openTickets = 0;
@@ -39,7 +40,6 @@ class SellerController extends Controller
         }
 
         // Retornamos la vista
-        return view('seller.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets'));
+        return view('seller.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets', 'ticketAssistant', 'assistant'));
     }
 }
-
