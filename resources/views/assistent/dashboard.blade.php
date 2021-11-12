@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    <h3>Bienvenido </h3>
+    <h3>Bienvenido {{ auth()->user()->name }}</h3>
 @endsection
 
 @section('dashboard')
@@ -133,31 +133,24 @@
         <div class="col-12 col-lg-4">
             <div class="card">
                 <div class="card-header my-0 py-3">
+                    <h4>Mis Ejecutivos</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        @foreach (auth()->user()->team->members as $user)
+                            <li class="list-group-item">
+                                {{ $user->name . ' ' . $user->lastname }}
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header my-0 py-3">
                     <h4>Notificaciones Recientes</h4>
                 </div>
                 <div class="card-body">
-                    <div class="">
-                        <div class="border rounded p-1 my-1">
-                            <h6 class="mb-1">Titulo</h6>
-                            <p class="m-0">Nombre</p>
-                            <p class="m-0"><strong>Mensaje:</strong>Lorem, ipsum dolor sit amet consectetur
-                                adipisicing </p>
-                            <div class="d-flex justify-content-around">
-                                <a href="">Marcar como leido</a>
-                                <a href="">Ver</a>
-                            </div>
-                        </div>
-                        <div class="border rounded p-1 my-1">
-                            <h6 class="mb-1">Titulo</h6>
-                            <p class="m-0">Nombre</p>
-                            <p class="m-0"><strong>Mensaje:</strong>Lorem, ipsum dolor sit amet consectetur
-                                adipisicing </p>
-                            <div class="d-flex justify-content-around">
-                                <a href="">Marcar como leido</a>
-                                <a href="">Ver</a>
-                            </div>
-                        </div>
-                    </div>
+                    @include('layouts.components.notifies')
                 </div>
             </div>
         </div>

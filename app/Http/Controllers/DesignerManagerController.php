@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Role;
 use App\Ticket;
 use App\Type;
+use App\User;
 use Illuminate\Http\Request;
 
 class DesignerManagerController extends Controller
@@ -16,11 +17,10 @@ class DesignerManagerController extends Controller
 
     static function dashboard()
     {
-        $tickets = Ticket::all();
-        $ticketsPropios = auth()->user()->assignedTickets()->orderByDesc('created_at')->get();
+        $tickets = Ticket::where('designer_id','!=', auth()->user()->id)->paginate(5);
+        $ticketsPropios = auth()->user()->assignedTickets()->orderByDesc('created_at')->paginate(5);
         $role = Role::find(3);
-        $designers = $role->whatUsers->makeHidden('pivot');
-        $users = $role->whatUsers;
+        $designers = $role->whatUsers;
         $totalTickets = 0;
         $closedTickets = 0;
         $openTickets = 0;
@@ -35,7 +35,7 @@ class DesignerManagerController extends Controller
             $totalTickets++;
         }
 
-        return view('design_manager.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets', 'users', 'designers', 'ticketsPropios'));
+        return view('design_manager.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets', 'designers', 'ticketsPropios'));
     }
 
     //Metodo para ver todos los tickets

@@ -28,6 +28,8 @@ class SalesManagerController extends Controller
         $role = Role::find(6);
         $userAssitent = $role->whatUsers;
 
+        $priorities = Priority::all();
+
         // Obtenemos los tickets que pertenecen a los vendedores de la empresa BH o PL,
         // Dependiendo de que gerente de ventas inicio sesion
         $tickets_id = DB::table('users')
@@ -58,7 +60,7 @@ class SalesManagerController extends Controller
         }
         $notifications = $user->unreadNotifications;
         //Retornar la vista
-        return view('sales_manager.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets', 'notifications', 'userSeller', 'userAssitent'));
+        return view('sales_manager.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets', 'notifications', 'userSeller', 'userAssitent','priorities'));
     }
     public function allTickets()
     {
