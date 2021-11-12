@@ -129,7 +129,7 @@
                 title: '¿Que modificicacion deseas?',
                 input: 'textarea',
                 showCancelButton: true,
-                confirmButtonText: 'Look up',
+                confirmButtonText: 'Enviar',
                 showLoaderOnConfirm: true,
                 allowOutsideClick: false,
                 allowEscapeKey: false,
@@ -179,7 +179,7 @@
                 if (data.message == 'OK') {
                     Swal.fire(
                         'Excelente!',
-                        `Esta solicitud ahora esta .`,
+                        `Esta solicitud ahora esta en proceso.`,
                         'success'
                     );
                 }

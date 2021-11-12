@@ -16,20 +16,17 @@ class AssistentController extends Controller
         // traemos los tickets que el vendedor creo, traemos su estado
         $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
 
-        $totalTickets = 0;
-        $closedTickets = 0;
-        $openTickets = 0;
-
-        foreach ($tickets as $ticket) {
-            $statusTicket = $ticket->latestStatusChangeTicket->status;
-            if ($statusTicket == 'Finalizado') {
-                $closedTickets++;
-            } else {
-                $openTickets++;
-            }
-            $totalTickets++;
+        $members = auth()->user()->team->members;
+        $ticketsSellers=[];
+        foreach ($members as $member ) {
+            $ticketsMember = [
+                'seller' => $member,
+                'tickets' => $member->ticketsCreated()->paginate(5)
+            ];
+            array_push($ticketsSellers,$ticketsMember);
         }
-        return view('assistent.dashboard');
+
+        return view('assistent.dashboard',compact('tickets', 'ticketsSellers'));
     }
     public function index()
     {
