@@ -100,7 +100,7 @@
                     </div>
                     <div class="form-group" id="pantone">
                         <label for="pantone">Pantone o color principal aproximado</label>
-                        <input type="color" class="form-control" name="pantone"
+                        <input type="text" class="form-control" name="pantone"
                             value="{{ $ticketInformation->pantone }}" />
                     </div>
                     <div class="form-group">

@@ -8,7 +8,7 @@ if (document.querySelector('#dropzoneItems')) {
         const dropzoneItem = new Dropzone('#dropzoneItems', {
             url: "/tickets/items",
             dictDefaultMessage: 'Arrastra aqui los archivos para tu solicitud, imagenes, PDF`s, etc.',
-            acceptedFiles: '.pdf,.png,.jpg,.jpeg,.gif,.bmp',
+            //acceptedFiles: '.pdf,.png,.jpg,.jpeg,.gif,.bmp',
             addRemoveLinks: true,
             dictRemoveFile: 'Borrar Archivo',
             headers: {
@@ -76,7 +76,7 @@ if (document.querySelector('#dropzoneItems')) {
         const dropzoneProduct = new Dropzone('#dropzoneProduct', {
             url: "/tickets/upload-product",
             dictDefaultMessage: 'Selecciona o arrastra la imagen de tu producto',
-            acceptedFiles: '.pdf,.png,.jpg,.jpeg,.gif,.bmp',
+            //acceptedFiles: '.pdf,.png,.jpg,.jpeg,.gif,.bmp',
             addRemoveLinks: true,
             dictRemoveFile: 'Borrar Archivo',
             maxFiles: 1,
@@ -153,7 +153,7 @@ if (document.querySelector('#dropzoneItems')) {
         const dropzoneLogo = new Dropzone('#dropzoneLogo', {
             url: "/tickets/upload-logo",
             dictDefaultMessage: 'Selecciona o arrastra tu logo, para una respuesta mas rapida, es indispensable que el logo este en curvas',
-            acceptedFiles: '.pdf,.jpg,.jpeg,.gif,.bmp',
+            //acceptedFiles: '.pdf,.jpg,.jpeg,.gif,.bmp',
             addRemoveLinks: true,
             dictRemoveFile: 'Borrar Archivo',
             maxFiles: 1,

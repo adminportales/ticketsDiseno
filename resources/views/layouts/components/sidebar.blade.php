@@ -90,12 +90,6 @@
                             <span>Ver Tickets</span>
                         </a>
                     </li>
-                    <li class="sidebar-item  {{ request()->is('sales_manager/tickets/create') ? 'active' : '' }} ">
-                        <a href="{{ route('sales_manager.create') }}" class='sidebar-link'>
-                            <i class="bi bi-grid-fill"></i>
-                            <span>Crear ticket</span>
-                        </a>
-                    </li>
                 @endrole
                 <!-- Authentication Links -->
                 @guest

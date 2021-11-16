@@ -6,7 +6,7 @@ if (document.querySelector('#dropzoneDelivery')) {
         const dropzoneDelivery = new Dropzone('#dropzoneDelivery', {
             url: "/tickets/delivery",
             dictDefaultMessage: 'Arrastra aqui los archivos de entrega',
-            acceptedFiles: '.png,.jpg,.jpeg,.gif,.bmp',
+            //acceptedFiles: '.png,.jpg,.jpeg,.gif,.bmp',
             addRemoveLinks: true,
             dictRemoveFile: 'Borrar Archivo',
             headers: {
