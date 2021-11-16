@@ -271,7 +271,7 @@
                     <p class="m-0 "><strong>Entrega de archivos</strong></p>
 
                     @foreach (explode(',', $delivery->files) as $item)
-                        <a href="{{ asset('/storage/items/' . $item) }}"
+                        <a href="{{ asset('/storage/deliveries/' . $item) }}"
                             class="btn btn-sm btn-light w-25 d-flex justify-content-between" download>
                             {{ Str::limit($item, 16) }}
                             <span class="fa-fw select-all fas"></span>
