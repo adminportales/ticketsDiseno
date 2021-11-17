@@ -80,7 +80,7 @@
                                             <td>{{ $ticket->designer_name }}</td>
                                             <td class="text-center"> {{ $ticket->priorityTicket->priority }} </td>
                                             <td> {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
-                                            <td><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}"
+                                            <td><a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
                                                     class="boton">Ver
                                                     ticket</a></td>
                                         </tr>
