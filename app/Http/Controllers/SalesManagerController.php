@@ -83,7 +83,7 @@ class SalesManagerController extends Controller
             ->join('profiles', 'users.id', '=', 'profiles.user_id')
             ->where('profiles.company', '=', auth()->user()->profile->company)
             ->select('tickets.id')
-            ->paginate(5);
+            ->get();
         $tickets = [];
 
         foreach ($tickets_id as $ticket_id) {
