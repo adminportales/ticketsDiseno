@@ -14,7 +14,7 @@ class AssistentController extends Controller
     static function dashboard()
     {
         // traemos los tickets que el vendedor creo, traemos su estado
-        $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
+        $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->paginate(5);
 
         $members = auth()->user()->team->members;
         $ticketsSellers=[];

@@ -57,6 +57,7 @@ class SalesManagerController extends Controller
             ->select('tickets.id')
             ->paginate(5);
         $tickets = [];
+        $totalTickets = 0;
 
         foreach ($allTickets_id as $ticket_id) {
             array_push($allTickets, Ticket::find($ticket_id->id));
@@ -80,7 +81,7 @@ class SalesManagerController extends Controller
             $totalTickets++;
         }
 
-        $myTickets = $user->ticketsCreated;
+        $myTickets = $user->ticketsCreated()->paginate(5);
         //Retornar la vista
         return view('sales_manager.dashboard', compact('tickets', 'myTickets', 'totalTickets', 'closedTickets', 'openTickets', 'userSeller', 'userAssitent', 'priorities'));
     }
