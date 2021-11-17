@@ -22,11 +22,21 @@ class SalesManagerController extends Controller
 
         //Traer el numero de vendedores (ejecutivos)
         $role = Role::find(2);
-        $userSeller = $role->whatUsers;
+        $userSeller = 0;
+        foreach ($role->whatUsers as $userSelected) {
+            if ($userSelected->profile->company == $user->profile->company) {
+                $userSeller++;
+            }
+        }
 
         //Traer el numero de asistentes
         $role = Role::find(6);
-        $userAssitent = $role->whatUsers;
+        $userAssitent = 0;
+        foreach ($role->whatUsers as $userSelected) {
+            if ($userSelected->profile->company == $user->profile->company) {
+                $userAssitent++;
+            }
+        }
 
         $priorities = Priority::all();
 

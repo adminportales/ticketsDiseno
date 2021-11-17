@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <h6 class="text-muted font-semibold">Ejecutivos</h6>
-                                    <h6 class="font-extrabold mb-0">{{ count($userSeller) }}</h6>
+                                    <h6 class="font-extrabold mb-0">{{ $userSeller }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <h6 class="text-muted font-semibold">Asistentes</h6>
-                                    <h6 class="font-extrabold mb-0">{{ count($userAssitent) }}</h6>
+                                    <h6 class="font-extrabold mb-0">{{ $userAssitent }}</h6>
                                 </div>
                             </div>
                         </div>
