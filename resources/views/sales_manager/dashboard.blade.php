@@ -6,7 +6,7 @@
 
 @section('dashboard')
     <section class="row">
-        <div class="col-12 col-lg-8">
+        <div class="col-12 col-lg-12">
             <div class="row">
                 <div class="col-6 col-lg-4 col-md-6">
                     <div class="card">
@@ -161,16 +161,6 @@
             </div>
 
         </div>
-        <div class="col-12 col-lg-4">
-            <div class="card">
-                <div class="card-header my-0 py-3">
-                    <h4>Notificaciones Recientes</h4>
-                </div>
-                <div class="card-body">
-                    @include('layouts.components.notifies')
-                </div>
-            </div>
-        </div>
     </section>
 
 @endsection
@@ -179,7 +169,6 @@
     <link rel="stylesheet" href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/iconly/bold.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendors/bootstrap-icons/bootstrap-icons.css') }}">
     <style>
         table.dataTable td {
             padding: 15px 8px;

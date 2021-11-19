@@ -9,8 +9,7 @@ use App\Ticket;
 use App\TicketHistory;
 use App\User;
 use Illuminate\Http\Request;
-
-use function Ramsey\Uuid\v1;
+use Illuminate\Notifications\DatabaseNotification;
 
 class MessageController extends Controller
 {
@@ -78,5 +77,11 @@ class MessageController extends Controller
         } else if (auth()->user()->hasRole(['seller', 'sales_manager'])) {
             return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
         }
+    }
+
+    public function markAsRead(DatabaseNotification $notification)
+    {
+        $notification->markAsRead();
+        return back();
     }
 }

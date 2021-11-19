@@ -6,7 +6,7 @@
 
 @section('dashboard')
     <section class="row">
-        <div class="col-12 col-lg-8">
+        <div class="col-12 col-lg-12">
             <div class="row">
                 <div class="col-6 col-lg-4 col-md-6">
                     <div class="card">
@@ -134,16 +134,6 @@
                             </table>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-lg-4">
-            <div class="card">
-                <div class="card-header my-0 py-3">
-                    <h4>Notificaciones Recientes</h4>
-                </div>
-                <div class="card-body">
-                    @include('layouts.components.notifies')
                 </div>
             </div>
         </div>

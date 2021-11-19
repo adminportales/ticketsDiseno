@@ -134,7 +134,7 @@
                 allowOutsideClick: false,
                 allowEscapeKey: false,
             }).then((result) => {
-                if (result.value.trim() == '') {
+                if (result.value == undefined) {
                     solicitarCambios()
                 } else {
                     changeStatus(4, ticket_id, result.value)

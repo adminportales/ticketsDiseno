@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('assets\vendors\toastify\toastify.css') }}">
     @yield('styles')
-
     <link rel="stylesheet" href="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/bootstrap-icons/bootstrap-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
@@ -38,6 +37,21 @@
                                 @yield('title')
                                 <div class="card m-0 p-1">
                                     <div class="d-flex align-items-center">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <svg class="bi bell" fill="currentColor">
+                                                <use
+                                                    xlink:href="{{ asset('assets/vendors/bootstrap-icons/bootstrap-icons.svg#bell-fill') }}" />
+                                            </svg>
+                                            <span
+                                                class="badge-number position-absolute translate-middle badge rounded-pill bg-danger"
+                                                style="font-size: 0.7rem">
+                                                {{ count(auth()->user()->unreadNotifications) }}
+                                            </span>
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                            @include('layouts.components.notifies')
+                                        </ul>
                                         <div class="avatar avatar-xl">
                                             <div class="card-photo">
                                                 @if (auth()->user()->profile->photo)
@@ -49,8 +63,8 @@
                                                         <span>{{ substr(auth()->user()->name, 0, 1) . substr(auth()->user()->lastname, 0, 1) }}</span>
                                                     </p>
                                                 @endif
-                                                <div class="m-0 justify-content-center align-items-end width-icon change-icon">
-
+                                                <div
+                                                    class="m-0 justify-content-center align-items-end width-icon change-icon">
                                                     <span class="fa-fw select-all fas"></span>
                                                 </div>
                                             </div>

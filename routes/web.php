@@ -19,6 +19,7 @@ Route::get('/', function () {
 });
 
 Route::post('/message', 'MessageController@store')->name('message.store');
+Route::get('/markNotification/{notification}', 'MessageController@markAsRead')->name('message.markAsRead');
 
 // Home de cada uno de los perfiles
 Route::get('/home', 'HomeController@index')->middleware('user.active')->name('home');
@@ -79,3 +80,4 @@ route::get('/asistente', 'AssistentController@index')->name('assitent');
 //ruta para subir foto de perfil
 Route::get('/profile', 'ProfileController@profile')->name('administrador.users.profile');
 Route::patch('/profile', 'ProfileController@update_profile')->name('');
+

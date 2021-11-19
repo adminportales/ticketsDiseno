@@ -33,11 +33,8 @@
                     <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
                 </td>
                 <td>
-                    @if ($ticket->latestTicketInformation->techniqueTicket)
-                        <strong>Tecnica:</strong>
-                        {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
-                    @endif
-                    <strong>Estado:</strong> {{ $ticket->latestStatusChangeTicket->status }}
+                    <strong>Estado:</strong> {{ $ticket->latestStatusChangeTicket->status }} <br>
+                    <strong>Prioridad:</strong> {{ $ticket->priorityTicket->priority }}
                 </td>
                 @role('sales_manager|seller')
                     <td>{{ $ticket->designer_name }}</td>
