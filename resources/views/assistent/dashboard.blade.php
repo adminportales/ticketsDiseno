@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <h6 class="text-muted font-semibold">Tickets creados por mi</h6>
-                                    <h6 class="font-extrabold mb-0">13</h6>
+                                    <h6 class="font-extrabold mb-0">{{$totalTickets}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <h6 class="text-muted font-semibold">Tickets creados por ejecutivo</h6>
-                                    <h6 class="font-extrabold mb-0">10</h6>
+                                    <h6 class="font-extrabold mb-0">{{$tickets}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -166,6 +166,7 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/iconly/bold.css') }}">
     <style>
         table.dataTable td {
             padding: 15px 8px;

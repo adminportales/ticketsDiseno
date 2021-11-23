@@ -179,7 +179,7 @@
                 if (data.message == 'OK') {
                     Swal.fire(
                         'Excelente!',
-                        `Esta solicitud ahora esta en proceso.`,
+                        `Esta solicitud ahora esta finalizada.`,
                         'success'
                     );
                 }

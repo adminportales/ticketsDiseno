@@ -14,10 +14,23 @@ class AssistentController extends Controller
     static function dashboard()
     {
         // traemos los tickets que el vendedor creo, traemos su estado
-        $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->paginate(5);
-
         $members = auth()->user()->team->members;
+        $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->paginate(5);
+        $totalTickets = 0;
+        $closedTickets = 0;
+        $openTickets = 0;
         $ticketsSellers=[];
+
+        foreach ($tickets as $ticket) {
+            $statusTicket = $ticket->latestStatusChangeTicket->status;
+            if ($statusTicket == 'Finalizado') {
+                $closedTickets++;
+            } else {
+                $openTickets++;
+            }
+            $totalTickets++;
+        }
+
         foreach ($members as $member ) {
             $ticketsMember = [
                 'seller' => $member,
@@ -26,7 +39,7 @@ class AssistentController extends Controller
             array_push($ticketsSellers,$ticketsMember);
         }
 
-        return view('assistent.dashboard',compact('tickets', 'ticketsSellers'));
+        return view('assistent.dashboard',compact('tickets', 'ticketsSellers', 'totalTickets', 'closedTickets', 'openTickets'));
     }
     public function index()
     {

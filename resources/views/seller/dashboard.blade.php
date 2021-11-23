@@ -91,7 +91,8 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            <h4>Ultimos 5 Tickets Pendientes Creados por {{ $assistant->name . ' ' . $assistant->lastname }}
+                            <h4>Ultimos 5 Tickets Pendientes Creados por
+                                {{ $assistant->name . ' ' . $assistant->lastname }}
                             </h4>
                         </div>
                         <div class="card-body">
@@ -143,6 +144,7 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/iconly/bold.css') }}">
     <style>
         table.dataTable td {
             padding: 15px 8px;
