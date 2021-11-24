@@ -27,9 +27,11 @@
                     @endswitch
                 </a>
                 <p class="m-0"><a
-                        href="{{ route('message.markAsRead', ['notification' => $notification->id]) }}">Marcar como
+                        href="{{ route('message.markAsRead', ['notification' => $notification->id]) }}">Marcar
+                        como
                         leido</a></p>
             </div>
+
         </li>
     @endforeach
 @endif

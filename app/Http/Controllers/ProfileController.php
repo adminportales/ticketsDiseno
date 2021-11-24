@@ -17,25 +17,24 @@ class ProfileController extends Controller
         return response()->json($user);
     }
 
-    public function profile() {
-        $user = Auth::user();
-        return view('profile', ['user' => $user]);
-        dd($user);
-        return view('administrador.users.profile');
+    public function __construct()
+    {
+        $this->middleware('auth');
     }
 
-    public function update_profile(Request $request) {
+    public function update_profile(Request $request)
+    {
         $this->validate($request, [
-          'photo' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'photo' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
         ]);
 
-        $filename = Auth::id().'_'.time().'.'.$request->photo->getClientOriginalExtension();
-        $request->photo->move(public_path('uploads/photos'), $filename);
+        $filename = Auth::id() . '_' . time() . '.' . $request->photo->getClientOriginalExtension();
+        $request->photo->move(public_path('storage/photos'), $filename);
 
         $user = User::find(auth()->user()->id);
-        $user->photo = $filename;
+        $user->profile->photo = $filename;
         $user->save();
 
-        return redirect()->route('');
+       # return redirect()->route('user.profile');
     }
 }
