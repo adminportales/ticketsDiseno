@@ -6,6 +6,8 @@ use App\Profile;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -24,17 +26,21 @@ class ProfileController extends Controller
 
     public function update_profile(Request $request)
     {
-        $this->validate($request, [
-            'photo' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
-        ]);
 
-        $filename = Auth::id() . '_' . time() . '.' . $request->photo->getClientOriginalExtension();
-        $request->photo->move(public_path('storage/photos'), $filename);
+        //$photo=request()->all();
 
-        $user = User::find(auth()->user()->id);
-        $user->profile->photo = $filename;
-        $user->save();
 
-       # return redirect()->route('user.profile');
+        $file = $request->file('photo');
+        $imageName ='photos/'. $file->getClientOriginalName();
+
+        try {
+            Storage::disk('local')->put('public/'. $imageName, File::get($file));
+        } catch (\Exception $exception) {
+            return response('error', 400);
+        }
+
+        auth()->user()->profile->update(['photo'=>$imageName]);
+        return redirect()->back();
+
     }
 }

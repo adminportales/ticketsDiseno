@@ -78,6 +78,5 @@ route::get('/asistente', 'AssistentController@index')->name('assitent');
 
 
 //ruta para subir foto de perfil
-Route::get('/profile', 'ProfileController@profile')->name('user.profile');
 Route::patch('/profile', 'ProfileController@update_profile')->name('user.profile.update');
 

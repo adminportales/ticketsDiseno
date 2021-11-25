@@ -55,7 +55,8 @@
                                         <div class="avatar avatar-xl">
                                             <div class="card-photo">
                                                 @if (auth()->user()->profile->photo)
-                                                    <img src="{{ asset('storage\profiles') . '/' . auth()->user()->profile->photo }}"
+
+                                                    <img src="{{ asset('storage') . '/' . auth()->user()->profile->photo }}"
                                                         class="width-icon" alt="">
                                                 @else
                                                     <p
