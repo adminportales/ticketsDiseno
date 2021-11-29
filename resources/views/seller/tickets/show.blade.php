@@ -73,14 +73,6 @@
     <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}">
 
     <style>
-        .pantone {
-            border-radius: 50px;
-            text-align: center;
-            width: 50px;
-            padding: 0 35px;
-            margin-right: 100px;
-        }
-
         .items {
             display: grid;
             grid-template-columns: repeat(4, 1fr);

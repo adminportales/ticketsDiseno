@@ -50,6 +50,11 @@
                 </strong>{{ $ticket->latestTicketInformation->position }}
             </p>
         @endif
+        @if ($ticket->latestTicketInformation->link)
+            <p class="m-0"><strong>Links:
+                </strong>{{ $ticket->latestTicketInformation->link }}
+            </p>
+        @endif
         @if ($ticket->latestTicketInformation->companies)
             <p class="m-0"><strong>Solicitado para:
                 </strong>{{ $ticket->latestTicketInformation->companies }}
@@ -389,16 +394,25 @@
                                             @if ($information->pantone)
                                                 @if ($information->pantone != $latestInformation->pantone)
                                                     <p class="m-0">
-                                                        <strong>Color aproximado:</strong>
-                                                        <small class="m-0 pantone"
-                                                            style="height: 10px; background-color: {{ $latestInformation->pantone }}; color: {{ $latestInformation->pantone }}">.</small>
+                                                        <strong>Pantone:</strong>
                                                         <small style="display: inline-block">
-                                                            {{ $latestInformation->pantone }} </small> <span
-                                                            class="fa-fw select-all fas"></span>
-                                                        <small class="m-0 pantone"
-                                                            style="height: 10px; background-color: {{ $information->pantone }}; color: {{ $information->pantone }}">.</small>
+                                                            {{ $latestInformation->pantone }} </small>
+                                                        <span class="fa-fw select-all fas"></span>
                                                         <small style="display: inline-block">
                                                             {{ $information->pantone }}
+                                                        </small>
+                                                    </p>
+                                                @endif
+                                            @endif
+                                            @if ($information->link)
+                                                @if ($information->link != $latestInformation->link)
+                                                    <p class="m-0">
+                                                        <strong>Link:</strong>
+                                                        <small style="display: inline-block">
+                                                            {{ $latestInformation->link }} </small>
+                                                        <span class="fa-fw select-all fas"></span>
+                                                        <small style="display: inline-block">
+                                                            {{ $information->link }}
                                                         </small>
                                                     </p>
                                                 @endif

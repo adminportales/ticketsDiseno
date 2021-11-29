@@ -22,12 +22,12 @@ class SellerController extends Controller
     static function dashboard()
     {
         // traemos los tickets que el vendedor creo, traemos su estado
-        $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->paginate(5);
+        $tickets = auth()->user()->ticketsCreated()->where('status_id', '!=', 6)->orderByDesc('created_at')->paginate(5);
         $assistant = [];
         $ticketAssistant = [];
         if (count(auth()->user()->teamMember) > 0) {
             $assistant = auth()->user()->teamMember[0]->user;
-            $ticketAssistant = $assistant->ticketsCreated()->where('seller_id', '=', auth()->user()->id)->paginate(5);
+            $ticketAssistant = $assistant->ticketsCreated()->where('seller_id', '=', auth()->user()->id)->where('status_id', '!=', 6)->paginate(5);
         }
         $totalTickets = 0;
         $closedTickets = 0;

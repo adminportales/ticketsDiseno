@@ -57,7 +57,7 @@
                                             <div class="card-photo">
                                                 @if (auth()->user()->profile->photo)
                                                     <img src="{{ asset(auth()->user()->profile->photo) }}"
-                                                        class="width-icon" alt="">
+                                                        class="width-icon rounded-circle border border-primary" alt="">
                                                 @else
                                                     <p
                                                         class="rounded-circle border border-primary m-0 d-flex justify-content-center align-items-center width-icon">
@@ -65,15 +65,15 @@
                                                     </p>
                                                 @endif
                                                 <div class="m-0 justify-content-center align-items-end width-icon change-icon"
-                                                    data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                    data-bs-toggle="modal" data-bs-target="#modalPhoto">
                                                     <span class="fa-fw select-all fas"></span>
                                                     <!-- Modal -->
-                                                    <div class="modal fade" id="exampleModal" tabindex="-1"
-                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal fade" id="modalPhoto" tabindex="-1"
+                                                        aria-labelledby="modalPhotoLabel" aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">
+                                                                    <h5 class="modal-title" id="modalPhotoLabel">
                                                                         Seleccionar foto de perfil</h5>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal"

@@ -21,13 +21,13 @@ class AssistentController extends Controller
             foreach ($members as $member) {
                 $ticketsMember = [
                     'seller' => $member,
-                    'tickets' => $member->ticketsCreated()->paginate(5)
+                    'tickets' => $member->ticketsCreated()->where('status_id', '!=', 6)->paginate(5)
                 ];
                 array_push($ticketsSellers, $ticketsMember);
             }
         }
 
-        $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->paginate(5);
+        $tickets = auth()->user()->ticketsCreated()->where('status_id', '!=', 6)->orderByDesc('created_at')->paginate(5);
         $totalTickets = 0;
         $closedTickets = 0;
         $openTickets = 0;

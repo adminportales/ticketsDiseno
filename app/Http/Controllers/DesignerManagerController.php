@@ -18,7 +18,7 @@ class DesignerManagerController extends Controller
     static function dashboard()
     {
         $tickets = Ticket::where('designer_id','!=', auth()->user()->id)->paginate(5);
-        $ticketsPropios = auth()->user()->assignedTickets()->orderByDesc('created_at')->paginate(5);
+        $ticketsPropios = auth()->user()->assignedTickets()->where('status_id', '!=', 6)->orderByDesc('created_at')->paginate(5);
         $role = Role::find(3);
         $designers = $role->whatUsers;
         $totalTickets = 0;

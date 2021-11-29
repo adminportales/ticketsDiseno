@@ -45,20 +45,20 @@ class SalesManagerController extends Controller
         $allTickets_id = DB::table('tickets')
             ->join('users', 'users.id',  '=', 'tickets.creator_id')
             ->join('profiles', 'users.id', '=', 'profiles.user_id')
-            ->join('ticket_status_changes', 'ticket_status_changes.ticket_id', '=', 'tickets.id')
-
-            // ->orderBy('tickets.priority_id', 'ASC')
-            // ->orderBy('tickets.created_at', 'ASC')
-            ->orderBy('ticket_status_changes.status_id', 'DESC')
-            ->where('ticket_status_changes.status_id', '<', '6')
+            ->orderBy('tickets.priority_id', 'ASC')
+            ->orderBy('tickets.created_at', 'ASC')
+            ->where('tickets.creator_id', '!=', auth()->user()->id)
+            ->where('profiles.company', '=', auth()->user()->profile->company)
+            ->where('tickets.status_id', '<', '6')
             ->select('tickets.id')
             ->get();
 
         $tickets_id = DB::table('users')
             ->join('tickets', 'users.id', '=', 'tickets.creator_id')
-            ->join('profiles', 'users.id', '=', 'profiles.user_id')
-            ->where('profiles.company', '=', auth()->user()->profile->company)
-            ->where('tickets.creator_id', '!=', auth()->user()->id)
+            ->where('tickets.creator_id', '=', auth()->user()->id)
+            ->orderBy('tickets.priority_id', 'ASC')
+            ->orderBy('tickets.created_at', 'ASC')
+            ->where('tickets.status_id', '<', '6')
             ->select('tickets.id')
             ->paginate(5);
 
@@ -98,6 +98,7 @@ class SalesManagerController extends Controller
             'priorities'
         ));
     }
+
     public function allTickets()
     {
         $priorities = Priority::all();

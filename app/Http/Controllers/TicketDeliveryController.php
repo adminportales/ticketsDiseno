@@ -64,6 +64,8 @@ class TicketDeliveryController extends Controller
                 'status_id' => $newStatus->id,
                 'status' => $newStatus->status,
             ]);
+            $ticket->status_id = $newStatus->id;
+            $ticket->save();
             $ticket->historyTicket()->create([
                 'ticket_id' => $ticket->id,
                 'reference_id' => $status->id,

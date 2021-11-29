@@ -41,6 +41,8 @@ class StatusController extends Controller
                 'reference_id' => $statusChange->id,
                 'type' => 'status'
             ]);
+            $ticket->status_id = $statusChange->status_id;
+            $ticket->save();
 
             $transmitter_id = auth()->user()->id;
             $transmitter_name = auth()->user()->name . ' ' . auth()->user()->lastname;
