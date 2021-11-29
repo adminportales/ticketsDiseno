@@ -42,8 +42,8 @@ class RegisteredUser extends Notification
     {
         return (new MailMessage)
             ->markdown('mail.registered.user', ['url' => url('/'), 'data' => $this->data])
-            ->subject('Usuario Registrado al sistema T-Desing PL - BH')
-            ->from('tickets@diseno.com', 'T-Desing');
+            ->subject('Usuario Registrado al sistema T-Design PL - BH')
+            ->from('tickets@diseno.com', 'T-Design');
     }
 
     /**

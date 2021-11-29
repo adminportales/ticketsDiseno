@@ -3,7 +3,7 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3 class="auth-title">T-Desing</h3>
+            <h3 class="auth-title">T-Design</h3>
             <p> {{ __('Reset Password') }}</p>
         </div>
 
