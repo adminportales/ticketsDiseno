@@ -49,14 +49,14 @@
                                                 {{ count(auth()->user()->unreadNotifications) }}
                                             </span>
                                         </a>
-                                        <ul class="dropdown-menu" style="height: 500px; overflow-y: scroll;" aria-labelledby="navbarDropdownMenuLink">
+                                        <ul class="dropdown-menu" style="height: 500px; overflow-y: scroll;"
+                                            aria-labelledby="navbarDropdownMenuLink">
                                             @include('layouts.components.notifies')
                                         </ul>
                                         <div class="avatar avatar-xl">
                                             <div class="card-photo">
                                                 @if (auth()->user()->profile->photo)
-
-                                                    <img src="{{ asset('storage') . '/' . auth()->user()->profile->photo }}"
+                                                    <img src="{{ asset(auth()->user()->profile->photo) }}"
                                                         class="width-icon" alt="">
                                                 @else
                                                     <p
@@ -68,23 +68,32 @@
                                                     data-bs-toggle="modal" data-bs-target="#exampleModal">
                                                     <span class="fa-fw select-all fas"></span>
                                                     <!-- Modal -->
-                                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Seleccionar foto de perfil</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    <h5 class="modal-title" id="exampleModalLabel">
+                                                                        Seleccionar foto de perfil</h5>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <form action="{{ route('user.profile.update') }}"  method="POST" enctype="multipart/form-data">
+                                                                    <form action="{{ route('user.profile.update') }}"
+                                                                        method="POST" enctype="multipart/form-data">
                                                                         @csrf
                                                                         @method('PATCH')
                                                                         <input type="file" name="photo">
 
                                                                         <div class="modal-footer">
 
-                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                                                            <button type="button"
+                                                                                class="btn btn-secondary"
+                                                                                data-bs-dismiss="modal">Cancelar</button>
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary">Guardar
+                                                                                cambios</button>
                                                                         </div>
                                                                     </form>
                                                                 </div>

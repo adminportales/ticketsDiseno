@@ -16,6 +16,7 @@ class Ticket extends Model
         'designer_name',
         'priority_id',
         'type_id',
+        'status_id',
     ];
 
     // Toda la informacion del ticket

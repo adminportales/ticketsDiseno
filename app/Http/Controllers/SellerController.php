@@ -23,8 +23,12 @@ class SellerController extends Controller
     {
         // traemos los tickets que el vendedor creo, traemos su estado
         $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->paginate(5);
-        $assistant = auth()->user()->teamMember[0]->user;
-        $ticketAssistant = $assistant->ticketsCreated()->where('seller_id', '=', auth()->user()->id)->paginate(5);
+        $assistant = [];
+        $ticketAssistant = [];
+        if (count(auth()->user()->teamMember) > 0) {
+            $assistant = auth()->user()->teamMember[0]->user;
+            $ticketAssistant = $assistant->ticketsCreated()->where('seller_id', '=', auth()->user()->id)->paginate(5);
+        }
         $totalTickets = 0;
         $closedTickets = 0;
         $openTickets = 0;

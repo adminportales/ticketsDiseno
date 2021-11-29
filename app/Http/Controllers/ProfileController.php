@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Profile;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -26,10 +25,6 @@ class ProfileController extends Controller
 
     public function update_profile(Request $request)
     {
-
-        //$photo=request()->all();
-
-
         $file = $request->file('photo');
         $imageName ='photos/'. $file->getClientOriginalName();
 

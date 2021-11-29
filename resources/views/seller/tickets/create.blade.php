@@ -119,6 +119,11 @@
                         <input type="text" class="form-control" name="pantone" placeholder="Pantones separados por comas"
                             value="{{ old('pantone') }}" />
                     </div>
+                    <div class="form-group" id="link">
+                        <label for="link">Links de productos</label>
+                        <input type="text" class="form-control" name="link" placeholder="Links separados por comas"
+                            value="{{ old('link') }}" />
+                    </div>
                     <div class="form-group">
                         <label for="descripcion">Descripcion</label>
                         <textarea rows="" cols="" class="form-control w-100"

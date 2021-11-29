@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <h6 class="text-muted font-semibold">Tickets creados por mi</h6>
-                                    <h6 class="font-extrabold mb-0">{{$totalTickets}}</h6>
+                                    <h6 class="font-extrabold mb-0">{{ $totalTickets }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -35,8 +35,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Tickets creados por ejecutivo</h6>
-                                    <h6 class="font-extrabold mb-0">{{$tickets}}</h6>
+                                    <h6 class="text-muted font-semibold">Tickets creados por mis ejecutivos</h6>
+                                    <h6 class="font-extrabold mb-0">{{ $tickets }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -86,62 +86,67 @@
                             </table>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Ultimos 5 tickets de mis ejecutivos</h4>
-                        </div>
-                        <div class="card-body">
-                            @foreach ($ticketsSellers as $ticketsSeller)
-                                <h5>{{ $ticketsSeller['seller']->name . ' ' . $ticketsSeller['seller']->lastname }}</h5>
-                                @if (count($ticketsSeller['tickets']))
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Titulo</th>
-                                                <th>Info</th>
-                                                <th>Asignado a</th>
-                                                <th class="text-center">Prioridad</th>
-                                                <th>Hora de creación</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($ticketsSeller['tickets'] as $ticket)
+                    @if (auth()->user()->team)
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Ultimos 5 tickets de mis ejecutivos</h4>
+                            </div>
+                            <div class="card-body">
+                                @foreach ($ticketsSellers as $ticketsSeller)
+                                    <h5>{{ $ticketsSeller['seller']->name . ' ' . $ticketsSeller['seller']->lastname }}
+                                    </h5>
+                                    @if (count($ticketsSeller['tickets']))
+                                        <table class="table">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $ticket->latestTicketInformation->title }} <br>
-                                                        <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
-                                                    </td>
-                                                    <td>
-                                                        @if ($ticket->latestTicketInformation->techniqueTicket)
-                                                            <strong>Tecnica:</strong>
-                                                            {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
-                                                        @endif
-                                                        <strong>Estado:</strong>
-                                                        {{ $ticket->latestStatusChangeTicket->status }}
-                                                    </td>
-                                                    <td>{{ $ticket->designer_name }}</td>
-                                                    <td class="text-center"> {{ $ticket->priorityTicket->priority }}
-                                                    </td>
-                                                    <td> {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}
-                                                    </td>
-                                                    <td><a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
-                                                            class="boton">Ver ticket</a></td>
+                                                    <th>#</th>
+                                                    <th>Titulo</th>
+                                                    <th>Info</th>
+                                                    <th>Asignado a</th>
+                                                    <th class="text-center">Prioridad</th>
+                                                    <th>Hora de creación</th>
+                                                    <th>Acciones</th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                @else
-                                    <div class="text-center">
-                                        <h6>No hay solicitudes realizadas</h6>
-                                    </div>
-                                @endif
-                                <hr> <br>
-                            @endforeach
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($ticketsSeller['tickets'] as $ticket)
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $ticket->latestTicketInformation->title }} <br>
+                                                            <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
+                                                        </td>
+                                                        <td>
+                                                            @if ($ticket->latestTicketInformation->techniqueTicket)
+                                                                <strong>Tecnica:</strong>
+                                                                {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
+                                                            @endif
+                                                            <strong>Estado:</strong>
+                                                            {{ $ticket->latestStatusChangeTicket->status }}
+                                                        </td>
+                                                        <td>{{ $ticket->designer_name }}</td>
+                                                        <td class="text-center">
+                                                            {{ $ticket->priorityTicket->priority }}
+                                                        </td>
+                                                        <td> {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}
+                                                        </td>
+                                                        <td><a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
+                                                                class="boton">Ver ticket</a></td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    @else
+                                        <div class="text-center">
+                                            <h6>No hay solicitudes realizadas</h6>
+                                        </div>
+                                    @endif
+                                    <hr> <br>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
+
             </div>
         </div>
         <div class="col-12 col-lg-4">
@@ -151,11 +156,17 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
-                        @foreach (auth()->user()->team->members as $user)
+                        @if (auth()->user()->team)
+                            @foreach (auth()->user()->team->members as $user)
+                                <li class="list-group-item">
+                                    {{ $user->name . ' ' . $user->lastname }}
+                                </li>
+                            @endforeach
+                        @else
                             <li class="list-group-item">
-                                {{ $user->name . ' ' . $user->lastname }}
+                                No tienes ejecutivos que atender
                             </li>
-                        @endforeach
+                        @endif
                     </ul>
                 </div>
             </div>

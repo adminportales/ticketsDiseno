@@ -81,7 +81,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($myTickets as $ticket)
+                                    @foreach ($tickets as $ticket)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $ticket->latestTicketInformation->title }} <br>
@@ -127,7 +127,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($tickets as $ticket)
+                                    @foreach ($allTickets as $ticket)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $ticket->latestTicketInformation->title }} <br>

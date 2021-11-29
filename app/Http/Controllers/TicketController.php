@@ -84,6 +84,7 @@ class TicketController extends Controller
         request()->validate([
             'type' => 'required',
             'title' => ['required', 'string', 'max:255'],
+            'link' => 'required',
         ]);
 
         switch ($request->type) {
@@ -165,7 +166,8 @@ class TicketController extends Controller
             'designer_id' => $designerAssigment->id,
             'designer_name' => $designerAssigment->name . ' ' . $designerAssigment->lastname,
             'priority_id' => 2,
-            'type_id' => $request->type
+            'type_id' => $request->type,
+            'status_id' => 1
         ]);
         // Creacion del estado
         $status = Status::find(1);
@@ -191,6 +193,7 @@ class TicketController extends Controller
             'pantone' => $request->pantone,
             'position' => $request->position,
             'companies' => $request->companies,
+            'link' => $request->link,
         ]);
 
         $ticket->historyTicket()->create([

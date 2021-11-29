@@ -26,6 +26,7 @@ class CreateTicketInformationTable extends Migration
             $table->text('product')->nullable();
             $table->string('pantone')->nullable();
             $table->text('description')->nullable();
+            $table->text('link')->nullable();
             $table->string('position')->nullable();
             $table->text('companies')->nullable();
             $table->timestamps();

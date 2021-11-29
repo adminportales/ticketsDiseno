@@ -21,10 +21,9 @@ class TicketUploadController extends Controller
     }
 
     public function deleteItem(Request $request)
-    {if ($request->ajax()) {
-
-           $imagen = $request->get('imagen');
-
+    {
+        if ($request->ajax()) {
+            $imagen = $request->get('imagen');
             if (File::exists('storage/items/' . $imagen)) {
                 File::delete('storage/items/' . $imagen);
             }
