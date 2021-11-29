@@ -44,7 +44,7 @@ class MessageController extends Controller
         $userReceiver = '';
         if (auth()->user()->hasRole(['designer', 'design_manager'])) {
             $userReceiver = User::find($ticket->creator_id);
-        } else if (auth()->user()->hasRole(['seller', 'sales_manager'])) {
+        } else if (auth()->user()->hasRole(['seller', 'sales_manager','sales_assistant'])) {
             $userReceiver = User::find($ticket->designer_id);
         }
         $receiver_id = $userReceiver->id;
@@ -74,7 +74,7 @@ class MessageController extends Controller
         // Regresar a la misma vista AtenderTicket (ticket.show)
         if (auth()->user()->hasRole(['designer', 'design_manager'])) {
             return redirect()->action('DesignerController@show', ['ticket' => $ticket->id]);
-        } else if (auth()->user()->hasRole(['seller', 'sales_manager'])) {
+        } else if (auth()->user()->hasRole(['seller', 'sales_manager','sales_assistant'])) {
             return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
         }
     }

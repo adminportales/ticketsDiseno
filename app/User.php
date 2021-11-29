@@ -7,8 +7,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
 
-use function PHPSTORM_META\type;
-
 class User extends Authenticatable
 {
     use LaratrustUserTrait;
