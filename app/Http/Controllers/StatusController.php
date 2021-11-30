@@ -49,7 +49,7 @@ class StatusController extends Controller
             $userReceiver = '';
             if (auth()->user()->hasRole(['designer', 'design_manager'])) {
                 $userReceiver = User::find($ticket->seller_id);
-            } else if (auth()->user()->hasRole(['seller', 'sales_manager'])) {
+            } else if (auth()->user()->hasRole(['seller', 'sales_manager','sales_assistant'])) {
                 $userReceiver = User::find($ticket->designer_id);
             }
             $receiver_id = $userReceiver->id;
