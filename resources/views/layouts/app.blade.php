@@ -49,7 +49,7 @@
                                                 {{ count(auth()->user()->unreadNotifications) }}
                                             </span>
                                         </a>
-                                        <ul class="dropdown-menu" style="height: 500px; overflow-y: scroll;"
+                                        <ul class="dropdown-menu" style="max-height: 500px; overflow-y: scroll;"
                                             aria-labelledby="navbarDropdownMenuLink">
                                             @include('layouts.components.notifies')
                                         </ul>

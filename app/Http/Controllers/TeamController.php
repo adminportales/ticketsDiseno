@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Team;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TeamController extends Controller
 {
@@ -99,6 +100,9 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
-        //
+
+        DB::table('team_user')->where('team_id', '=', $team->id)->delete();
+        $team->delete();
+        return redirect()->action('TeamController@index');
     }
 }
