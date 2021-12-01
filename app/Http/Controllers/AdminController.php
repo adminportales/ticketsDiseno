@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Ticket;
+use App\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -13,6 +14,7 @@ class AdminController extends Controller
 
     static function dashboard()
     {
+        $user = User::all();
         // Traemos el total de los tickets
         $tickets = Ticket::all();
 
@@ -32,6 +34,6 @@ class AdminController extends Controller
         }
 
         // R4egresamos la vista
-        return view('administrador.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets'));
+        return view('administrador.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets', 'user'));
     }
 }
