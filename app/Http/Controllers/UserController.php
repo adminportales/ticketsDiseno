@@ -127,7 +127,7 @@ class UserController extends Controller
         request()->validate([
             'name' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255'],
             'company' => ['required', 'string', 'max:255'],
         ]);
 
@@ -136,9 +136,8 @@ class UserController extends Controller
             'name' => $request->name,
             'lastname' => $request->lastname,
             'email' => $request->email,
-            'company' => $request->company
         ]);
-        $user->profile->create(['company' => $request->company]);
+        $user->profile->update(['company' => $request->company]);
 
         // Retornar a la vista
         return redirect()->action('UserController@index');

@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <p>
-                    <input type="submit" id="boton_crear" class="boton" value="Crear nuevo usuario">
+                    <input type="submit" id="boton_crear" class="boton" value="Crear nuevo equipo"> <br>
                     <a href="{{ route('users.index') }}" class="btn btn-danger">Cancelar</a>
                 </p>
             </div>
