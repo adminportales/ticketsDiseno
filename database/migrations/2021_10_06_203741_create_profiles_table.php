@@ -16,7 +16,7 @@ class CreateProfilesTable extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->enum('company', ['BH', 'Promo Life'])->nullable();
+            $table->string('company')->nullable();
             $table->boolean('availability')->default(true);
             $table->text('photo')->nullable();
             $table->timestamps();
