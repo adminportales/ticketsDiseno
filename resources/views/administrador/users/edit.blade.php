@@ -16,52 +16,56 @@
             <div class="row">
                 @csrf
                 @method('PUT')
-                <div class="form-group">
-                    <label for="name">Nombre</label>
-                    <input class="form-control" type="text" name="name" required value="{{ $user->name }}">
-                    @error('name')
-                        {{ $message }}
-                    @enderror
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="name">Nombre</label>
+                        <input class="form-control" type="text" name="name" required value="{{ $user->name }}">
+                        @error('name')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname">Apellidos</label>
+                        <input class="form-control" type="text" name="lastname" required value="{{ $user->lastname }}">
+                        @error('lastname')
+                            {{ $message }}
+                        @enderror
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="lastname">Apellidos</label>
-                    <input class="form-control" type="text" name="lastname" required value="{{ $user->lastname }}">
-                    @error('lastname')
-                        {{ $message }}
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input class="form-control" type="email" name="email" required value="{{ $user->email }}">
-                    @error('email')
-                        {{ $message }}
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label for="company">La empresa a la que pertenece</label>
-                    <select name="company" class="form-control">
-                        <option value="">Seleccione</option>
-                        @php
-                            $companies = ['BH', 'Promo Life'];
-                        @endphp
-                        @foreach ($companies as $company)
-                            <option {{ $company == $user->profile->email ? 'selected' : '' }} value="{{ $company }}">
-                                {{ $company }}</option>
-                            <br>
-                        @endforeach
-                    </select>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input class="form-control" type="email" name="email" required value="{{ $user->email }}">
+                        @error('email')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="company">La empresa a la que pertenece</label>
+                        <select name="company" class="form-control">
+                            <option value="">Seleccione</option>
+                            @php
+                                $companies = ['BH', 'Promo Life'];
+                            @endphp
+                            @foreach ($companies as $company)
+                                <option {{ $company == $user->profile->company ? 'selected' : '' }}
+                                    value="{{ $company }}">
+                                    {{ $company }}</option>
+                                <br>
+                            @endforeach
+                        </select>
 
-                    @error('company')
-                        {{ $message }}
-                    @enderror
+                        @error('company')
+                            {{ $message }}
+                        @enderror
+                    </div>
                 </div>
                 <p>
-                    <input type="submit" id="boton_crear" class="boton-enviar" value="Editar usuario">
-                    <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancelar</a>
+                    <input type="submit" id="boton_crear" class="boton" value="Editar usuario"> <br>
+                    <a href="{{ route('users.index') }}" class="btn btn-danger">Cancelar</a>
                 </p>
             </div>
         </form>
     </div>
-
 
 @endsection
