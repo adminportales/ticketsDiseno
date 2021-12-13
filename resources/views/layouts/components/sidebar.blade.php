@@ -78,16 +78,16 @@
                     </li>
                 @endrole
                 @role('sales_manager')
-                    <li class="sidebar-item  {{ request()->is('sales_manager/tickets') ? 'active' : '' }}">
+                    {{-- <li class="sidebar-item  {{ request()->is('sales_manager/tickets') ? 'active' : '' }}">
                         <a href="{{ route('sales_manager.index') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Mis Tickets</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="sidebar-item  {{ request()->is('sales_manager/all-tickets') ? 'active' : '' }}">
                         <a href="{{ route('sales_manager.all') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
-                            <span>Ver Tickets</span>
+                            <span>Todos los Tickets</span>
                         </a>
                     </li>
                 @endrole

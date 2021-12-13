@@ -139,7 +139,7 @@ class TicketController extends Controller
         // El ejecutivo es el creador
         $seller_id = '';
         $seller_name = '';
-        if ($userCreator->isAbleTo('sales_assistant')) {
+        if ($userCreator->hasRole('sales_assistant')) {
             request()->validate([
                 'executive' => 'required',
             ]);

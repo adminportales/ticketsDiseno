@@ -79,6 +79,9 @@ class UserController extends Controller
         $role = Role::find($request->role);
         $user->attachRole($role);
 
+        foreach ($role->permissions as $permission) {
+            $user->attachPermission($permission);
+        }
         // Enviar notificacion de registro
         $dataNotification = [
             'name' => $request->name . ' ' . $request->lastname,

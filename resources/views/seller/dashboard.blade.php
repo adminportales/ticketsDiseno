@@ -132,14 +132,15 @@
                                                 <td>{{ $ticket->latestTicketInformation->created_at->diffForHumans() }}
                                                 </td>
                                                 <td><a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
-                                                        class="boton">Ver
-                                                        ticket</a></td>
+                                                        class="boton">Ver ticket</a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+                        op
                     @endif
                     @if (!empty($ticketsSellers))
                         <div class="card">
