@@ -23,6 +23,7 @@
                     <th>#</th>
                     <th>Nombre</th>
                     <th>Encargado</th>
+                    <th>Rol de encargado</th>
                     <th>Equipo</th>
                     <th>Acciones</th>
                 </tr>
@@ -35,6 +36,13 @@
                         <td>{{ $team->name }}</td>
                         <td>{{ $team->user->name . ' ' . $team->user->lastname }}</td>
                         <td>
+                            @if ($team->role==1)
+                            Gerente
+                            @elseif ($team->role==0)
+                            Asistente
+                            @endif
+                        </td>
+                            <td>
                             @foreach ($team->members as $user)
                                 {{ $user->name . ' ' . $user->lastname }} <br>
                             @endforeach
