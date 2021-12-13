@@ -140,7 +140,7 @@
                                 </table>
                             </div>
                         </div>
-                        op
+
                     @endif
                     @if (!empty($ticketsSellers))
                         <div class="card">
