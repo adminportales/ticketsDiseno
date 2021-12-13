@@ -214,16 +214,18 @@ class UserController extends Controller
             // Asignar el rol seleccionado
             $role = Role::find($user['rol']);
             $user->attachRole($role);
-
+            foreach ($role->permissions as $permission) {
+                $user->attachPermission($permission);
+            }
 
             // Enviar notificacion de registro
-            /*             $dataNotification = [
+            $dataNotification = [
                 'name' => $request->name . ' ' . $request->lastname,
                 'email' => $request->email,
                 'password' => $pass,
                 'role' => $role->display_name
             ];
-            $user->notify(new RegisteredUser($dataNotification)); */
+            // $user->notify(new RegisteredUser($dataNotification));
         }
         return redirect()->action('UserController@index');
     }
