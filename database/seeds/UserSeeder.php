@@ -73,63 +73,63 @@ class UserSeeder extends Seeder
         $user->profile()->update(['company' => 'Promo Life']);
         $user->attachRole($admin);
 
-        $seller = User::create([
-            'name' => 'Ived',
-            'lastname' => 'Ramos',
-            'email' => 'ived@promolife.com',
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        ]);
-        $seller->profile()->update(['company' => 'Promo Life']);
-        $seller->attachRole($seller_role);
-        $seller->attachPermission($permissionCreate);
+        // $seller = User::create([
+        //     'name' => 'Ived',
+        //     'lastname' => 'Ramos',
+        //     'email' => 'ived@promolife.com',
+        //     'email_verified_at' => now(),
+        //     'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        // ]);
+        // $seller->profile()->update(['company' => 'Promo Life']);
+        // $seller->attachRole($seller_role);
+        // $seller->attachPermission($permissionCreate);
 
-        $designer = User::create([
-            'name' => 'Aide',
-            'lastname' => 'Aguila',
-            'email' => 'aide@promolife.com',
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        ]);
+        // $designer = User::create([
+        //     'name' => 'Aide',
+        //     'lastname' => 'Aguila',
+        //     'email' => 'aide@promolife.com',
+        //     'email_verified_at' => now(),
+        //     'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        // ]);
 
-        $designer->profile()->update(['company' => 'Promo Life']);
-        $designer->attachRole($designer_role);
-        $designer->attachPermission($permissionAttend);
+        // $designer->profile()->update(['company' => 'Promo Life']);
+        // $designer->attachRole($designer_role);
+        // $designer->attachPermission($permissionAttend);
 
-        $sales_manager = User::create([
-            'name' => 'Jaime',
-            'lastname' => 'Gonzalez',
-            'email' => 'jaime@promolife.com',
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        ]);
+        // $sales_manager = User::create([
+        //     'name' => 'Jaime',
+        //     'lastname' => 'Gonzalez',
+        //     'email' => 'jaime@promolife.com',
+        //     'email_verified_at' => now(),
+        //     'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        // ]);
 
-        $sales_manager->profile()->update(['company' => 'Promo Life']);
-        $sales_manager->attachRole($sales_manager_role);
-        $sales_manager->attachPermission($permissionCreate);
+        // $sales_manager->profile()->update(['company' => 'Promo Life']);
+        // $sales_manager->attachRole($sales_manager_role);
+        // $sales_manager->attachPermission($permissionCreate);
 
-        $design_manager = User::create([
-            'name' => 'Raul',
-            'lastname' => 'Torres',
-            'email' => 'raul@promolife.com',
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        ]);
+        // $design_manager = User::create([
+        //     'name' => 'Raul',
+        //     'lastname' => 'Torres',
+        //     'email' => 'raul@promolife.com',
+        //     'email_verified_at' => now(),
+        //     'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        // ]);
 
-        $design_manager->profile()->update(['company' => 'Promo Life']);
-        $design_manager->attachRole($design_manager_role);
-        $design_manager->attachPermission($permissionAttend);
+        // $design_manager->profile()->update(['company' => 'Promo Life']);
+        // $design_manager->attachRole($design_manager_role);
+        // $design_manager->attachPermission($permissionAttend);
 
-        $sales_assistant = User::create([
-            'name' => 'Leon',
-            'lastname' => 'Mancera',
-            'email' => 'leon@promolife.com',
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        ]);
+        // $sales_assistant = User::create([
+        //     'name' => 'Leon',
+        //     'lastname' => 'Mancera',
+        //     'email' => 'leon@promolife.com',
+        //     'email_verified_at' => now(),
+        //     'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        // ]);
 
-        $sales_assistant->profile()->update(['company' => 'Promo Life']);
-        $sales_assistant->attachRole($sales_assistant_role);
-        $sales_assistant->attachPermission($permissionCreate);
+        // $sales_assistant->profile()->update(['company' => 'Promo Life']);
+        // $sales_assistant->attachRole($sales_assistant_role);
+        // $sales_assistant->attachPermission($permissionCreate);
     }
 }
