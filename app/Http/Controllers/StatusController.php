@@ -47,9 +47,9 @@ class StatusController extends Controller
             $transmitter_id = auth()->user()->id;
             $transmitter_name = auth()->user()->name . ' ' . auth()->user()->lastname;
             $userReceiver = '';
-            if (auth()->user()->hasRole(['designer', 'design_manager'])) {
+            if (auth()->user()->isAbleTo(['attend-ticket'])) {
                 $userReceiver = User::find($ticket->seller_id);
-            } else if (auth()->user()->hasRole(['seller', 'sales_manager','sales_assistant'])) {
+            } else if (auth()->user()->isAbleTo(['create-ticket'])) {
                 $userReceiver = User::find($ticket->designer_id);
             }
             $receiver_id = $userReceiver->id;

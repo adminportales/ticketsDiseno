@@ -1,6 +1,6 @@
 <section class="border-0 row">
     <div class="col-md-8">
-        @role('designer|design_manager')
+        @permission('attend-ticket')
             @if ($ticket->seller_id == $ticket->creator_id)
                 <p class="m-0"><strong>Creado por:
                     </strong>{{ $ticket->seller_name }}
@@ -13,12 +13,12 @@
                     <strong>Ejecutivo: </strong> {{ $ticket->seller_name }}
                 </p>
             @endif
-        @endrole
-        @role('seller|sales_manager|sales_assistant')
+        @endpermission
+        @permission('create-ticket')
             <p class="m-0"><strong>Asignado a:
                 </strong>{{ $ticket->designer_name }}
             </p>
-        @endrole
+        @endpermission
         @role('sales_assistant')
             <p class="m-0">
                 <strong>Ejecutivo:
@@ -516,10 +516,8 @@
                             </li>
                         @elseif($ticketHistory->type == 'delivery')
                             @php $delivery = $ticketHistory->ticketDelivery; @endphp
-
                             <li class="list-group-item">
                                 <p class="m-0 "><strong>Entrega de archivos</strong></p>
-
                                 @foreach (explode(',', $delivery->files) as $item)
                                     <a href="{{ asset('/storage/deliveries/' . $item) }}"
                                         class="btn btn-sm btn-light w-25 d-flex justify-content-between" download>

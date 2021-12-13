@@ -41,14 +41,14 @@
                         </a>
                     </li>
                 @endrole
-                @role('seller|sales_assistant')
+                @permission('create-ticket')
                     <li class="sidebar-item {{ request()->is('tickets*') ? 'active' : '' }}">
                         <a href="{{ route('tickets.index') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Ver Tickets</span>
                         </a>
                     </li>
-                @endrole
+                @endpermission
                 @role('designer')
                     <li class="sidebar-item {{ request()->is('designer/home') ? 'active' : '' }}">
                         <a href="{{ route('designer.inicio') }}" class='sidebar-link'>
@@ -78,16 +78,16 @@
                     </li>
                 @endrole
                 @role('sales_manager')
-                    <li class="sidebar-item  {{ request()->is('sales_manager/tickets') ? 'active' : '' }}">
+                    {{-- <li class="sidebar-item  {{ request()->is('sales_manager/tickets') ? 'active' : '' }}">
                         <a href="{{ route('sales_manager.index') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Mis Tickets</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="sidebar-item  {{ request()->is('sales_manager/all-tickets') ? 'active' : '' }}">
                         <a href="{{ route('sales_manager.all') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
-                            <span>Ver Tickets</span>
+                            <span>Todos los Tickets</span>
                         </a>
                     </li>
                 @endrole

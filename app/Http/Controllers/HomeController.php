@@ -47,7 +47,7 @@ class HomeController extends Controller
                 return AssistentController::dashboard();
                 break;
             default:
-                return view('home');
+                return SellerController::dashboard();
                 break;
         }
     }

@@ -43,10 +43,12 @@ class TeamController extends Controller
             'name' => 'required',
             'user' => ['required', 'string', 'max:255'],
             'team' => 'required',
+            'role'=> 'required',
         ]);
         $team = Team::create([
             'name' => $request->name,
             'user_id' => $request->user,
+            'role'=>$request->role,
         ]);
         $team->members()->attach(explode(',', $request->team));
         return redirect()->action('TeamController@index');
@@ -100,7 +102,6 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
-
         DB::table('team_user')->where('team_id', '=', $team->id)->delete();
         $team->delete();
         return redirect()->action('TeamController@index');

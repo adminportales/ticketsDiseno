@@ -25,18 +25,11 @@ class SellerController extends Controller
         $tickets = auth()->user()->ticketsCreated()->where('status_id', '!=', 6)->orderByDesc('created_at')->paginate(5);
         $assistant = [];
         $ticketAssistant = [];
-        $ticketsSellers = [];
-        if (count(auth()->user()->teamMember) > 0) {
-            $assistant = auth()->user()->teamMember[0]->user;
-            $ticketAssistant = $assistant->ticketsCreated()->where('seller_id', '=', auth()->user()->id)->where('status_id', '!=', 6)->paginate(5);
-        } else if (auth()->user()->team) {
-            $members = auth()->user()->team->members ?  auth()->user()->team->members : 0;
-            foreach ($members as $member) {
-                $ticketsMember = [
-                    'seller' => $member,
-                    'tickets' => $member->ticketsCreated()->where('status_id', '!=', 6)->paginate(5)
-                ];
-                array_push($ticketsSellers, $ticketsMember);
+        $teams = auth()->user()->teamMember->where('role', '=', 0);
+        if (count($teams) > 0) {
+            foreach ($teams as $team) {
+                $assistant = $team->user;
+                $ticketAssistant = $assistant->ticketsCreated()->where('seller_id', '=', auth()->user()->id)->where('status_id', '!=', 6)->paginate(5);
             }
         }
         $totalTickets = 0;
@@ -54,6 +47,6 @@ class SellerController extends Controller
         }
 
         // Retornamos la vista
-        return view('seller.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets', 'ticketAssistant', 'assistant', 'ticketsSellers'));
+        return view('seller.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets', 'ticketAssistant', 'assistant'));
     }
 }
