@@ -42,9 +42,9 @@ class MessageController extends Controller
         $transmitter_id = auth()->user()->id;
         $transmitter_name = auth()->user()->name . ' ' . auth()->user()->lastname;
         $userReceiver = '';
-        if (auth()->user()->hasRole(['designer', 'design_manager'])) {
+        if (auth()->user()->isAbleTo(['attend-ticket'])) {
             $userReceiver = User::find($ticket->creator_id);
-        } else if (auth()->user()->hasRole(['seller', 'sales_manager','sales_assistant'])) {
+        } else if (auth()->user()->isAbleTo(['create-ticket'])) {
             $userReceiver = User::find($ticket->designer_id);
         }
         $receiver_id = $userReceiver->id;
@@ -72,9 +72,9 @@ class MessageController extends Controller
         event(new MessageSendEvent($message->message, $receiver_id, $transmitter_name));
         $userReceiver->notify(new MessageNotification($ticket->latestTicketInformation->title, $transmitter_name, $message->message));
         // Regresar a la misma vista AtenderTicket (ticket.show)
-        if (auth()->user()->hasRole(['designer', 'design_manager'])) {
+        if (auth()->user()->isAbleTo(['attend-ticket'])) {
             return redirect()->action('DesignerController@show', ['ticket' => $ticket->id]);
-        } else if (auth()->user()->hasRole(['seller', 'sales_manager','sales_assistant'])) {
+        } else if (auth()->user()->isAbleTo(['create-ticket'])) {
             return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
         }
     }

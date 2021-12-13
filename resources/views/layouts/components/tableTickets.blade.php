@@ -7,12 +7,12 @@
             @endrole
             <th>Titulo</th>
             <th>Info</th>
-            @role('sales_manager|seller')
+            @permission('sales_manager|seller')
                 <th>Asignado a</th>
-            @endrole
-            @role('design_manager|designer')
+            @endpermission
+            @permission('design_manager|designer')
                 <th>Creado por</th>
-            @endrole
+            @endpermission
             @role('sales_manager')
                 <th class="text-center">Prioridad</th>
             @endrole
@@ -36,12 +36,12 @@
                     <strong>Estado:</strong> {{ $ticket->latestStatusChangeTicket->status }} <br>
                     <strong>Prioridad:</strong> {{ $ticket->priorityTicket->priority }}
                 </td>
-                @role('sales_manager|seller')
+                @permission('create-ticket')
                     <td>{{ $ticket->designer_name }}</td>
-                @endrole
-                @role('design_manager|designer')
+                @endpermission
+                @permission('attend-ticket')
                     <td>{{ $ticket->seller_name }}</td>
-                @endrole
+                @endpermission
                 @role('sales_manager')
                     <td class="text-center">
                         <change-priority priority={{ $ticket->priorityTicket->priority }} :ticket={{ $ticket->id }}

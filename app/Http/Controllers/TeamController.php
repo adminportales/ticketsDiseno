@@ -100,7 +100,6 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
-
         DB::table('team_user')->where('team_id', '=', $team->id)->delete();
         $team->delete();
         return redirect()->action('TeamController@index');
