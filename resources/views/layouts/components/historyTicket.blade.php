@@ -13,6 +13,10 @@
                     <strong>Ejecutivo: </strong> {{ $ticket->seller_name }}
                 </p>
             @endif
+            <p class="m-0">
+                <strong>Empresa:
+                </strong>{{ $ticket->ticketCreator->profile->company}}
+            </p>
         @endpermission
         @permission('create-ticket')
             <p class="m-0"><strong>Asignado a:

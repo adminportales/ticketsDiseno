@@ -18,6 +18,12 @@ class Ticket extends Model
         'type_id',
         'status_id',
     ];
+    
+    // Empleado creador del ticket
+    public function ticketCreator()
+    {
+        return $this->belongsTo('App\User', 'creator_id');
+    }
 
     // Toda la informacion del ticket
     public function ticketInformation()

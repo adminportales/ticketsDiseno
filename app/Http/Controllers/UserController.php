@@ -195,8 +195,7 @@ class UserController extends Controller
             $celda = $hojaActual->getCellByColumnAndRow(5, $indiceFila);
             $user['rol'] = $celda->getValue();
 
-            echo "<br>";
-            echo "<br>";
+            $role_id =  $user['rol'];
 
             $pass = Str::random(8);
 
@@ -212,7 +211,7 @@ class UserController extends Controller
             ]);
 
             // Asignar el rol seleccionado
-            $role = Role::find($user['rol']);
+            $role = Role::find($role_id);
             $user->attachRole($role);
             foreach ($role->permissions as $permission) {
                 $user->attachPermission($permission);
@@ -220,12 +219,12 @@ class UserController extends Controller
 
             // Enviar notificacion de registro
             $dataNotification = [
-                'name' => $request->name . ' ' . $request->lastname,
-                'email' => $request->email,
+                'name' => $user->name . ' ' . $user->lastname,
+                'email' => $user->email,
                 'password' => $pass,
                 'role' => $role->display_name
             ];
-            // $user->notify(new RegisteredUser($dataNotification));
+            $user->notify(new RegisteredUser($dataNotification));
         }
         return redirect()->action('UserController@index');
     }
