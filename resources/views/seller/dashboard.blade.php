@@ -142,7 +142,7 @@
                         </div>
 
                     @endif
-                    @if (!empty($ticketsSellers))
+                    {{-- @if (!empty($ticketsSellers))
                         <div class="card">
                             <div class="card-header">
                                 <h4>Ultimos 5 tickets de mi equipo</h4>
@@ -202,7 +202,7 @@
                                 @endforeach
                             </div>
                         </div>
-                    @endif
+                    @endif --}}
                 </div>
             </div>
         </div>

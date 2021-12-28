@@ -107,6 +107,57 @@
                             </table>
                         </div>
                     </div>
+                    @if (!empty($assistant))
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Ultimos 5 Tickets Pendientes Creados por
+                                    {{ $assistant->name . ' ' . $assistant->lastname }}
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="chart-profile-visit"></div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Titulo</th>
+                                            <th>Info</th>
+                                            <th>Asignado a</th>
+                                            <th>Prioridad</th>
+                                            <th>Hora de creación</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($ticketAssistant as $ticket)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $ticket->latestTicketInformation->title }} <br>
+                                                    <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
+                                                </td>
+                                                <td>
+                                                    @if ($ticket->latestTicketInformation->techniqueTicket)
+                                                        <strong>Tecnica:</strong>
+                                                        {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
+                                                    @endif
+                                                    <strong>Estado:</strong>
+                                                    {{ $ticket->latestStatusChangeTicket->status }}
+                                                </td>
+                                                <td>{{ $ticket->designer_name }}</td>
+                                                <td>{{ $ticket->priorityTicket->priority }}</td>
+                                                <td>{{ $ticket->latestTicketInformation->created_at->diffForHumans() }}
+                                                </td>
+                                                <td><a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
+                                                        class="boton">Ver ticket</a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    @endif
                     <div class="card">
                         <div class="card-header">
                             <h4>Ultimos tickets creados por mi equipo</h4>

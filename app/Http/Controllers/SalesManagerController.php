@@ -24,16 +24,18 @@ class SalesManagerController extends Controller
         $userSeller = 0;
         $userAssitent = 0;
         $allTickets = [];
-        foreach ($user->team->members as $userSelected) {
-            $tickets = $userSelected->ticketsCreated()->where('status_id', '<', 6)->paginate(5);
-            foreach ($tickets as $ticket) {
-                array_push($allTickets, $ticket);
-            }
-            if ($userSelected->whatRoles[0]->name == 'seller') {
-                $userSeller++;
-            }
-            if ($userSelected->whatRoles[0]->name == 'sales_assistant') {
-                $userAssitent++;
+        if ($user->team) {
+            foreach ($user->team->members as $userSelected) {
+                $tickets = $userSelected->ticketsCreated()->where('status_id', '<', 6)->paginate(5);
+                foreach ($tickets as $ticket) {
+                    array_push($allTickets, $ticket);
+                }
+                if ($userSelected->whatRoles[0]->name == 'seller') {
+                    $userSeller++;
+                }
+                if ($userSelected->whatRoles[0]->name == 'sales_assistant') {
+                    $userAssitent++;
+                }
             }
         }
         $priorities = Priority::all();
@@ -54,6 +56,16 @@ class SalesManagerController extends Controller
             $totalTickets++;
         }
 
+        $assistant = [];
+        $ticketAssistant = [];
+        $teams = auth()->user()->teamMember->where('role', '=', 0);
+        if (count($teams) > 0) {
+            foreach ($teams as $team) {
+                $assistant = $team->user;
+                $ticketAssistant = $assistant->ticketsCreated()->where('seller_id', '=', auth()->user()->id)->where('status_id', '!=', 6)->paginate(5);
+            }
+        }
+
         $tickets = $user->ticketsCreated()->where('status_id', '<', 6)->orderBy('priority_id', 'ASC')->orderBy('updated_at', 'ASC')->paginate(5);
         //Retornar la vista
         return view('sales_manager.dashboard', compact(
@@ -63,7 +75,9 @@ class SalesManagerController extends Controller
             'openTickets',
             'userSeller',
             'userAssitent',
-            'priorities'
+            'priorities',
+            'assistant',
+            'ticketAssistant'
         ));
     }
 

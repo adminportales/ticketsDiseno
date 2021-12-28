@@ -6,7 +6,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet"
         href="{{ asset('assets\vendors\sweetalert2\sweetalert2.min.css
-                                                                                                                                                                                                                                                                            ') }}">
+                                                                                                                                                                                                                                                                                                                    ') }}">
 @endsection
 @section('title')
     <h3>Crear Ticket</h3>
@@ -37,19 +37,30 @@
                 </div>
                 <div class="col-md-5">
                     @role('sales_assistant')
-                        <div class="form-group">
-                            <label for="type">Ejecutivo:</label>
-                            <select name="executive" class="form-control">
-                                <option value="">Seleccione a quien corresponde la solicitud...</option>
-                                @foreach (auth()->user()->team->members as $user)
-                                    <option value="{{ $user->id }}" {{ $user->id == old('executive') ? 'selected' : '' }}>
-                                        {{ $user->name . ' ' . $user->lastname }}</option>
-                                @endforeach
-                            </select>
-                            @error('executive')
-                                {{ $message }}
-                            @enderror
-                        </div>
+                        @if (auth()->user()->team)
+                            <div class="form-group">
+                                <label for="type">Ejecutivo:</label>
+                                <select name="executive" class="form-control">
+                                    <option value="">Seleccione a quien corresponde la solicitud...</option>
+                                    @foreach (auth()->user()->team->members as $user)
+                                        <option value="{{ $user->id }}"
+                                            {{ $user->id == old('executive') ? 'selected' : '' }}>
+                                            {{ $user->name . ' ' . $user->lastname }}</option>
+                                    @endforeach
+                                </select>
+                                @error('executive')
+                                    {{ $message }}
+                                @enderror
+                            </div>
+                        @else
+                            <div class="form-group">
+                                <label for="type">Ejecutivo:</label>
+                                <input type="text" class="form-control" disabled value="No tienes ejecutivos asignados">
+                                @error('executive')
+                                    {{ $message }}
+                                @enderror
+                            </div>
+                        @endif
                     @endrole
                     <div class="form-group">
                         <label for="type">Tipo</label>
