@@ -44,7 +44,7 @@
                         <select name="company" class="form-control">
                             <option value="">Seleccione</option>
                             @php
-                                $companies = ['BH', 'Promo Life','Promo Zale', 'TradeMarket', 'Unipromtex'];
+                                $companies = ['BH TradeMarket', 'Promo Life','Promo Zale', 'Unipromtex'];
                             @endphp
                             @foreach ($companies as $company)
                                 <option {{ $company == old('company') ? 'selected' : '' }} value="{{ $company }}">

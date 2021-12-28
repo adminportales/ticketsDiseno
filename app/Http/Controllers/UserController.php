@@ -203,7 +203,7 @@ class UserController extends Controller
             $user = User::create([
                 'name' => $user['nombre'],
                 'lastname' => $user['apellido'],
-                'email' => $user['email'],
+                'email' => trim($user['email']),
                 'password' => Hash::make($pass)
             ]);
             $user->profile()->update([
