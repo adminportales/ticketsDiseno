@@ -85,10 +85,12 @@ class SalesManagerController extends Controller
     {
         $priorities = Priority::all();
         $allTickets = [];
-        foreach (auth()->user()->team->members as $userSelected) {
-            $tickets = $userSelected->ticketsCreated()->where('status_id', '<', 6)->paginate(5);
-            foreach ($tickets as $ticket) {
-                array_push($allTickets, $ticket);
+        if (auth()->user()->team) {
+            foreach (auth()->user()->team->members as $userSelected) {
+                $tickets = $userSelected->ticketsCreated()->where('status_id', '<', 6)->paginate(5);
+                foreach ($tickets as $ticket) {
+                    array_push($allTickets, $ticket);
+                }
             }
         }
         $tickets = $allTickets;
