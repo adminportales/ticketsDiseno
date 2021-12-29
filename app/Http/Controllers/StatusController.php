@@ -48,7 +48,7 @@ class StatusController extends Controller
             $transmitter_name = auth()->user()->name . ' ' . auth()->user()->lastname;
             $userReceiver = '';
             if (auth()->user()->isAbleTo(['attend-ticket'])) {
-                $userReceiver = User::find($ticket->seller_id);
+                $userReceiver = User::find($ticket->creator_id);
             } else if (auth()->user()->isAbleTo(['create-ticket'])) {
                 $userReceiver = User::find($ticket->designer_id);
             }

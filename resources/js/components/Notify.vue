@@ -1,4 +1,7 @@
 <template>
+  <audio id="audio" controls>
+    <source type="audio/wav" src="/assets/audio/notify.mp3" />
+  </audio>
 </template>
 
 <script>
@@ -6,9 +9,11 @@ import toastr from "toastr";
 export default {
   props: ["user"],
   mounted() {
+    const audio = document.querySelector("#audio");
     window.Echo.channel("delivery").listen("TicketDeliverySendEvent", (e) => {
-    //   console.log(e);
+      //   console.log(e);
       if (this.user == e.receptor) {
+        audio.play();
         toastr.success(
           `Entrego: ${e.emisor}<br/>Ticket: ${e.ticket}`,
           "Entrega de Archivos"
@@ -16,14 +21,16 @@ export default {
       }
     });
     window.Echo.channel("notification").listen("MessageSendEvent", (e) => {
-    //   console.log(e);
+        console.log(e);
       if (this.user == e.receptor) {
+        audio.play();
         toastr.info(`${e.emisor}: ${e.message}`, "Mensaje");
       }
     });
     window.Echo.channel("status").listen("ChangeStatusSendEvent", (e) => {
-    //   console.log(e);
+      //   console.log(e);
       if (this.user == e.receptor) {
+        audio.play();
         toastr.warning(
           `Ticket: ${e.ticket}<br/> Estado: ${e.status}`,
           "Cambio de Estado"
@@ -32,8 +39,9 @@ export default {
     });
 
     window.Echo.channel("creado").listen("TicketCreateSendEvent", (e) => {
-    //   console.log(e);
+      //   console.log(e);
       if (this.user == e.receptor) {
+        audio.play();
         toastr.warning(
           `Creador: ${e.emisor}<br/>Ticket: ${e.ticket} `,
           "Creacion de Ticket"
@@ -41,8 +49,9 @@ export default {
       }
     });
     window.Echo.channel("priority").listen("ChangePrioritySendEvent", (e) => {
-    //   console.log(e);
+      //   console.log(e);
       if (this.user == e.receptor) {
+        audio.play();
         toastr.error(
           `Creador: ${e.emisor}<br/>Prioridad: ${e.prioridad}<br/>Ticket: ${e.ticket} `,
           "Cambio de prioridad"
@@ -50,8 +59,9 @@ export default {
       }
     });
     window.Echo.channel("change").listen("ChangeTicketSendEvent", (e) => {
-    //   console.log(e);
+      //   console.log(e);
       if (this.user == e.receptor) {
+        audio.play();
         toastr.error(
           `Modificado por: ${e.emisor}<br/>Ticket: ${e.ticket} `,
           "Cambio de Informacion"
@@ -67,5 +77,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+#audio {
+  display: none;
+}
 </style>

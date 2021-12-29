@@ -79,7 +79,6 @@ if (document.querySelector('#dropzoneItems')) {
             //acceptedFiles: '.pdf,.png,.jpg,.jpeg,.gif,.bmp',
             addRemoveLinks: true,
             dictRemoveFile: 'Borrar Archivo',
-            maxFiles: 1,
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
             },
@@ -122,14 +121,6 @@ if (document.querySelector('#dropzoneItems')) {
                 // console.log(response);
                 // console.log(file);
                 document.querySelector('#error').textContent = 'Formato no valido'
-            },
-            maxfilesexceeded: function (file) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Solo puedes agregar 1 imagen!',
-                })
-                file.previewElement.parentNode.removeChild(file.previewElement)
             },
             removedfile: function (file, response) {
                 file.previewElement.parentNode.removeChild(file.previewElement)
