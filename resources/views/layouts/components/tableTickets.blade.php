@@ -7,10 +7,10 @@
             @endrole
             <th>Titulo</th>
             <th>Info</th>
-            @permission('sales_manager|seller')
+            @permission('create-ticket')
                 <th>Asignado a</th>
             @endpermission
-            @permission('design_manager|designer')
+            @permission('attend-ticket')
                 <th>Creado por</th>
             @endpermission
             @role('sales_manager')
