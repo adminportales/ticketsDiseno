@@ -1,7 +1,10 @@
 <template>
-  <audio id="audio" controls>
-    <source type="audio/wav" src="/assets/audio/notify.mp3" />
-  </audio>
+  <div>
+    <audio id="audio" controls>
+      <source type="audio/wav" src="/assets/audio/notify.mp3" />
+    </audio>
+    <button id="botonClickeable">Click</button>
+  </div>
 </template>
 
 <script>
@@ -10,6 +13,10 @@ export default {
   props: ["user"],
   mounted() {
     const audio = document.querySelector("#audio");
+    const botonClickeable = document.querySelector("#botonClickeable");
+    setTimeout(() => {
+      botonClickeable.click();
+    }, 1000);
     window.Echo.channel("delivery").listen("TicketDeliverySendEvent", (e) => {
       //   console.log(e);
       if (this.user == e.receptor) {
@@ -21,7 +28,7 @@ export default {
       }
     });
     window.Echo.channel("notification").listen("MessageSendEvent", (e) => {
-        console.log(e);
+    //   console.log(e);
       if (this.user == e.receptor) {
         audio.play();
         toastr.info(`${e.emisor}: ${e.message}`, "Mensaje");
@@ -79,6 +86,9 @@ export default {
 
 <style scoped>
 #audio {
+  display: none;
+}
+#botonClickeable {
   display: none;
 }
 </style>
