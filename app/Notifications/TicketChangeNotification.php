@@ -18,10 +18,12 @@ class TicketChangeNotification extends Notification
      */
     public $ticket;
     public $emisor;
-    public function __construct($ticket, $emisor)
+    public $idTicket;
+    public function __construct($idTicket, $ticket, $emisor)
     {
         $this->ticket  = $ticket;
         $this->emisor  = $emisor;
+        $this->idTicket  = $idTicket;
     }
 
     /**
@@ -45,7 +47,8 @@ class TicketChangeNotification extends Notification
     {
         return [
             'ticket' => $this->ticket,
-            'emisor' => $this->emisor
+            'emisor' => $this->emisor,
+            'idTicket' => $this->idTicket
         ];
     }
 }

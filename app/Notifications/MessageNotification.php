@@ -19,11 +19,13 @@ class MessageNotification extends Notification
     public $ticket;
     public $message;
     public $emisor;
-    public function __construct($ticket, $emisor, $message)
+    public $idTicket;
+    public function __construct($idTicket, $ticket, $emisor, $message)
     {
         $this->ticket  = $ticket;
         $this->emisor  = $emisor;
         $this->message  = $message;
+        $this->idTicket  = $idTicket;
     }
 
     /**
@@ -49,6 +51,7 @@ class MessageNotification extends Notification
             'ticket' => $this->ticket,
             'emisor' => $this->emisor,
             'message' => $this->message,
+            'idTicket' => $this->idTicket,
         ];
     }
 }

@@ -19,10 +19,12 @@ class ChangePriorityNotification extends Notification
     public $ticket;
     public $emisor;
     public $priority;
-    public function __construct($ticket, $emisor,$priority)
+    public $idTicket;
+    public function __construct($idTicket, $ticket, $emisor,$priority)
     {
         $this->ticket  = $ticket;
         $this->emisor  = $emisor;
+        $this->idTicket  = $idTicket;
         $this->priority  = $priority;
     }
 
@@ -49,6 +51,7 @@ class ChangePriorityNotification extends Notification
             'ticket' => $this->ticket,
             'emisor' => $this->emisor,
             'priority' => $this->priority,
+            'idTicket' => $this->idTicket,
         ];
     }
 }

@@ -210,7 +210,7 @@ class TicketController extends Controller
 
         // Notificacion para avisar al diseñador
         event(new TicketCreateSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->creator_name));
-        $designerAssigment->notify(new TicketCreateNotification($ticket->latestTicketInformation->title, $ticket->creator_name));
+        $designerAssigment->notify(new TicketCreateNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->creator_name));
 
         // Regresar a la vista de inicio
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
@@ -340,7 +340,7 @@ class TicketController extends Controller
         ]);
         $receiver = User::find($ticket->designer_id);
         event(new ChangeTicketSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->creator_name));
-        $receiver->notify(new TicketCreateNotification($ticket->latestTicketInformation->title, $ticket->creator_name));
+        $receiver->notify(new TicketCreateNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->creator_name));
         // Regresar a la vista de inicio
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
     }

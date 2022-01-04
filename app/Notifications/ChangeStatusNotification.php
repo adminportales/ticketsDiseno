@@ -19,11 +19,13 @@ class ChangeStatusNotification extends Notification
     public $ticket;
     public $emisor;
     public $status;
-    public function __construct($ticket, $emisor,$status)
+    public $idTicket;
+    public function __construct($idTicket, $ticket, $emisor,$status)
     {
         $this->ticket  = $ticket;
         $this->emisor  = $emisor;
         $this->status  = $status;
+        $this->idTicket  = $idTicket;
     }
 
 
@@ -50,6 +52,7 @@ class ChangeStatusNotification extends Notification
             'ticket' => $this->ticket,
             'emisor' => $this->emisor,
             'status' => $this->status,
+            'idTicket' => $this->idTicket,
         ];
     }
 }

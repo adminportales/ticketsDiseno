@@ -5,8 +5,18 @@
 @else
     @foreach (auth()->user()->unreadNotifications as $notification)
         <li>
+            {{-- {{ dd($notificacion) }} --}}
             <div class="dropdown-item m-0">
-                <a href="" class="link-dark">
+                @if (array_key_exists('idTicket', $notification->data))
+                    @permission('attend-ticket')
+                        <a href="{{ route('designer.show', ['ticket'=>$notification->data['idTicket']]) }}" class="link-dark">
+                    @endpermission
+                    @permission('create-ticket')
+                        <a href="{{ route('tickets.show', ['ticket'=>$notification->data['idTicket']]) }}" class="link-dark">
+                    @endpermission
+                @else
+                    <a href="#" class="link-dark">
+                @endif
                     <h6 class="mb-1">{{ Str::limit($notification->data['ticket'], 28) }}</h6>
                     <p class="m-0">{{ $notification->data['emisor'] }}</p>
                     @switch($notification->type)

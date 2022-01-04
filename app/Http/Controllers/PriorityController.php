@@ -35,7 +35,7 @@ class PriorityController extends Controller
         $receiver = User::find($ticket->designer_id);
         $priority = Priority::find($request->priority);
         event(new ChangePrioritySendEvent($priority->priority, $ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->seller_name));
-        $receiver->notify(new ChangePriorityNotification($ticket->latestTicketInformation->title, $ticket->seller_name, $priority->priority));
+        $receiver->notify(new ChangePriorityNotification($ticket->id,$ticket->latestTicketInformation->title, $ticket->seller_name, $priority->priority));
         return response()->json($priority);
     }
 }
