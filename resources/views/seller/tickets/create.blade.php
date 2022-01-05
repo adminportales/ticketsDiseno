@@ -173,6 +173,7 @@
                 </div>
                 <div class="form-group">
                     <label for="descripcion">Descripcion</label>
+                    <p>En este espacio puedes informacion detallada de tu solicitud, agregar links, resaltar detalles, etc. </p>
                     <textarea id="summernote" name="description"></textarea>
                     @error('description')
                         {{ $message }}
@@ -238,7 +239,7 @@
                     */
                     companiesElement.classList.add('d-none')
                     logoElement.classList.remove('d-none')
-                    clientElement.classList.add('d-none')
+                    clientElement.classList.remove('d-none')
                     productElement.classList.remove('d-none')
                     tecnicaElement.classList.remove('d-none')
                     pantoneElement.classList.remove('d-none')

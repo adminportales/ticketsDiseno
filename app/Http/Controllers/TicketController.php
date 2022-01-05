@@ -83,12 +83,12 @@ class TicketController extends Controller
         $creator_name = $userCreator->name . ' ' . $userCreator->lastname;
         request()->validate([
             'type' => 'required',
-            'title' => ['required', 'string', 'max:255'],
         ]);
 
         switch ($request->type) {
             case 1:
                 request()->validate([
+                    'title' => ['required', 'string', 'max:255'],
                     'type' => 'required',
                     'technique' => 'required',
                     'position' => 'required',
@@ -97,6 +97,7 @@ class TicketController extends Controller
                     'logo' => 'required',
                     'product' => 'required',
                     'position' => 'required',
+                    'customer' => ['required', 'string', 'max:255'],
                 ]);
                 $request->items = null;
                 $request->companies = null;
@@ -105,6 +106,7 @@ class TicketController extends Controller
             case 2:
                 request()->validate([
                     'type' => 'required',
+                    'title' => ['required', 'string', 'max:255'],
                     'customer' => ['required', 'string', 'max:255'],
                     'companies' => 'required',
                     'description' => ['required', 'string'],
@@ -119,6 +121,7 @@ class TicketController extends Controller
             case 3:
                 request()->validate([
                     'type' => 'required',
+                    'title' => ['required', 'string', 'max:255'],
                     'description' => ['required', 'string'],
                     'items' => 'required',
                 ]);
