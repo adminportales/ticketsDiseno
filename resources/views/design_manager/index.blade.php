@@ -48,7 +48,30 @@
                         <td>
                             Tipo: {{ $ticket->typeTicket->type }}<br>
                             Prioridad: {{ $ticket->priorityTicket->priority }}<br>
-                            Estado: {{ $ticket->latestStatusChangeTicket->status }}
+                            @php $color = ''; @endphp
+                            @switch($ticket->latestStatusChangeTicket->status )
+                                @case('Creado')
+                                    @php $color = 'alert-success'; @endphp
+                                @break
+                                @case('En revision')
+                                    @php $color = 'alert-warning'; @endphp
+                                @break
+                                @case('Entregado')
+                                    @php $color = 'alert-info'; @endphp
+                                @break
+                                @case('Solicitud de ajustes')
+                                    @php $color = 'alert-danger'; @endphp
+                                @break
+                                @case('Realizando ajustes')
+                                    @php $color = 'alert-secondary'; @endphp
+                                @break
+                                @case('Finalizado')
+                                    @php $color = 'alert-primary'; @endphp
+                                @break
+                                @default
+
+                            @endswitch
+                            <div class="p-1 alert {{ $color }}">{{ $ticket->latestStatusChangeTicket->status }}</div>
                         </td>
                         <td>
                             @if ($ticket->seller_id == $ticket->creator_id)
@@ -59,8 +82,9 @@
                             @endif
                         </td>
                         <td>
-                            <change-designer-assigment designer="{{ $ticket->designer_name }}" :ticket={{ $ticket->id }}
-                                :designers=@json($designersRefactory)></change-designer-assigment>
+                            <change-designer-assigment designer="{{ $ticket->designer_name }}"
+                                :ticket={{ $ticket->id }} :designers=@json($designersRefactory)>
+                            </change-designer-assigment>
                         </td>
                         <td>
                             {{ $ticketInformation->created_at->diffForHumans() }}

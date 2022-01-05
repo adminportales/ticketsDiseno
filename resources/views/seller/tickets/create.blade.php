@@ -6,7 +6,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet"
         href="{{ asset('assets\vendors\sweetalert2\sweetalert2.min.css
-                                                                                                                                                                                                                                                                                                                    ') }}">
+                                                                                                                                                                                                                                                                                                                                            ') }}">
 @endsection
 @section('title')
     <h3>Crear Ticket</h3>
@@ -124,16 +124,25 @@
                         <label for="pantone">Posicion del logo en el virtual</label>
                         <input type="input" class="form-control" placeholder="Ubicacion del logo en el producto"
                             name="position" value="{{ old('position') }}" />
+                        @error('position')
+                            {{ $message }}
+                        @enderror
                     </div>
                     <div class="form-group" id="pantone">
                         <label for="pantone">Pantone</label>
                         <input type="text" class="form-control" name="pantone" placeholder="Pantones separados por comas"
                             value="{{ old('pantone') }}" />
+                        @error('pantone')
+                            {{ $message }}
+                        @enderror
                     </div>
                     <div class="form-group" id="link">
                         <label for="link">Links de productos</label>
                         <input type="text" class="form-control" name="link" placeholder="Links separados por comas"
                             value="{{ old('link') }}" />
+                        @error('link')
+                            {{ $message }}
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="descripcion">Descripcion</label>

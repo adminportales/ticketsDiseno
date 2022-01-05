@@ -540,8 +540,30 @@
                                 @elseif($ticketHistory->type == 'status')
                                     @php $status = $ticketHistory->ticketStatusChange; @endphp
                                     <li class="list-group-item">
-                                        <p class="m-0 "><strong>Estado: </strong>{{ $status->status }}
-                                        </p>
+                                        @php $color = ''; @endphp
+                                        @switch($status->status )
+                                            @case('Creado')
+                                                @php $color = 'alert-success'; @endphp
+                                            @break
+                                            @case('En revision')
+                                                @php $color = 'alert-warning'; @endphp
+                                            @break
+                                            @case('Entregado')
+                                                @php $color = 'alert-info'; @endphp
+                                            @break
+                                            @case('Solicitud de ajustes')
+                                                @php $color = 'alert-danger'; @endphp
+                                            @break
+                                            @case('Realizando ajustes')
+                                                @php $color = 'alert-secondary'; @endphp
+                                            @break
+                                            @case('Finalizado')
+                                                @php $color = 'alert-primary'; @endphp
+                                            @break
+                                            @default
+                                        @endswitch
+                                        <div class="p-1 m-0 alert {{ $color }}">
+                                            {{ $status->status }}</div>
                                         <p class="m-0 " style="font-size: .8rem">
                                             {{ $status->created_at->diffForHumans() }}</p>
                                     </li>

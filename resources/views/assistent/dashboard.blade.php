@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <h6 class="text-muted font-semibold">Tickets creados por mis ejecutivos</h6>
-                                    <h6 class="font-extrabold mb-0">{{ ($ticketsSellersTotal) }}</h6>
+                                    <h6 class="font-extrabold mb-0">{{ $ticketsSellersTotal }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +73,30 @@
                                                     <strong>Tecnica:</strong>
                                                     {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
                                                 @endif
-                                                <strong>Estado:</strong> {{ $ticket->latestStatusChangeTicket->status }}
+                                                @php $color = ''; @endphp
+                                                @switch($ticket->latestStatusChangeTicket->status )
+                                                    @case('Creado')
+                                                        @php $color = 'alert-success'; @endphp
+                                                    @break
+                                                    @case('En revision')
+                                                        @php $color = 'alert-warning'; @endphp
+                                                    @break
+                                                    @case('Entregado')
+                                                        @php $color = 'alert-info'; @endphp
+                                                    @break
+                                                    @case('Solicitud de ajustes')
+                                                        @php $color = 'alert-danger'; @endphp
+                                                    @break
+                                                    @case('Realizando ajustes')
+                                                        @php $color = 'alert-secondary'; @endphp
+                                                    @break
+                                                    @case('Finalizado')
+                                                        @php $color = 'alert-primary'; @endphp
+                                                    @break
+                                                    @default
+                                                @endswitch
+                                                <div class="p-1 m-0 alert {{ $color }}">
+                                                    {{ $ticket->latestStatusChangeTicket->status }}</div>
                                             </td>
                                             <td>{{ $ticket->designer_name }}</td>
                                             <td class="text-center"> {{ $ticket->priorityTicket->priority }} </td>
