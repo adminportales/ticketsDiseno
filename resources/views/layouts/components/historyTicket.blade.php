@@ -14,8 +14,7 @@
                 </p>
             @endif
             <p class="m-0">
-                <strong>Empresa:
-                </strong>{{ $ticket->ticketCreator->profile->company }}
+                <strong>Empresa: </strong>{{ $ticket->ticketCreator->profile->company }}
             </p>
             @endpermission
             @permission('create-ticket')
@@ -36,8 +35,8 @@
                     </p>
                 @endif
                 @if ($ticket->latestTicketInformation->techniqueTicket)
-                    <p class="m-0"><strong>Tecnica:
-                        </strong>{{ $ticket->latestTicketInformation->techniqueTicket->name }} <span>
+                    <p class="m-0"><strong>Tecnica: </strong>
+                        {{ $ticket->latestTicketInformation->techniqueTicket->name }} <span>
                     </p>
                 @endif
                 @if ($ticket->latestTicketInformation->pantone)
@@ -65,7 +64,7 @@
                     </p>
                 @endif
                 <p class="m-0"><strong>Descripción:
-                    </strong>{{ $ticket->latestTicketInformation->description }}
+                    </strong>{!! $ticket->latestTicketInformation->description !!}
                 </p>
             </div>
             <div class="col-md-4 overflow-auto" style="max-height: 200px;">
@@ -573,4 +572,4 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section

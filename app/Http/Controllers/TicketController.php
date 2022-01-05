@@ -84,7 +84,6 @@ class TicketController extends Controller
         request()->validate([
             'type' => 'required',
             'title' => ['required', 'string', 'max:255'],
-            'link' => 'required',
         ]);
 
         switch ($request->type) {
@@ -193,7 +192,7 @@ class TicketController extends Controller
             'pantone' => $request->pantone,
             'position' => $request->position,
             'companies' => $request->companies,
-            'link' => $request->link,
+            'link' => '',
         ]);
 
         $ticket->historyTicket()->create([

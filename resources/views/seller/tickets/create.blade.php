@@ -4,9 +4,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css"
         integrity="sha512-jU/7UFiaW5UBGODEopEqnbIAHOI8fO6T99m7Tsmqs2gkdujByJfkCbbfPSN4Wlqlb9TGnsuC0YgUgWkRBK7B9A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet"
-        href="{{ asset('assets\vendors\sweetalert2\sweetalert2.min.css
-                                                                                                                                                                                                                                                                                                                                            ') }}">
+    <link rel="stylesheet" href="{{ asset('assets\vendors\summernote\summernote-lite.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets\vendors\sweetalert2\sweetalert2.min.css') }}">
 @endsection
 @section('title')
     <h3>Crear Ticket</h3>
@@ -136,23 +135,6 @@
                             {{ $message }}
                         @enderror
                     </div>
-                    <div class="form-group" id="link">
-                        <label for="link">Links de productos</label>
-                        <input type="text" class="form-control" name="link" placeholder="Links separados por comas"
-                            value="{{ old('link') }}" />
-                        @error('link')
-                            {{ $message }}
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="descripcion">Descripcion</label>
-                        <textarea rows="" cols="" class="form-control w-100"
-                            placeholder="Una breve descripcion de tu solicitud, detalles o links"
-                            name="description">{{ old('description') }}</textarea>
-                        @error('description')
-                            {{ $message }}
-                        @enderror
-                    </div>
                 </div>
 
                 <div class="col-md-7">
@@ -162,7 +144,9 @@
                         </div>
                         <input type="hidden" name="logo" id="logo" value="{{ old('logo') }}">
                         @error('logo')
-                            {{ $message }}
+                            <div class="alert alert-danger">
+                                {{ $message }}
+                            </div>
                         @enderror
                     </div>
 
@@ -187,6 +171,13 @@
                         <p id="error"></p>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripcion</label>
+                    <textarea id="summernote" name="description"></textarea>
+                    @error('description')
+                        {{ $message }}
+                    @enderror
+                </div>
             </div>
             <input type="submit" value="Crear Ticket" class="boton">
         </form>
@@ -195,7 +186,23 @@
 
 @section('scripts')
     <script src="{{ asset('assets\vendors\sweetalert2\sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset('assets\vendors\summernote\summernote-lite.min.js') }}"></script>
     <script>
+        $('#summernote').summernote({
+            height: 300,
+            minHeight: 200, // set minimum height of editor
+            maxHeight: 500,
+            toolbar: [
+                // ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                // ['fontname', ['fontname']],
+                ['insert', ['link']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol']],
+            ],
+            fontNames: []
+        });
+
         if (document.querySelector('#message')) {
             const message = document.querySelector('#message')
             setTimeout(() => {
