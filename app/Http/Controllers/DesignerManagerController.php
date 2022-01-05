@@ -43,7 +43,7 @@ class DesignerManagerController extends Controller
     {
         $role = Role::find(3);
         $designers = $role->whatUsers->makeHidden('pivot');
-        $tickets = Ticket::all();
+        $tickets = Ticket::orderByDesc('created_at')->get();
         return view('design_manager.index', compact('tickets', 'designers'));
     }
     //Metodo para visualizar mis propios tickets

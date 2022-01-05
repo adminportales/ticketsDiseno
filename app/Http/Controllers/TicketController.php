@@ -450,12 +450,16 @@ class TicketController extends Controller
 
         if ($zip->open($public_dir . '/' . $zipFileName, ZipArchive::CREATE) === TRUE) {
             if ($ticket->latestTicketInformation->product) {
-                $zip->addFile(public_path('storage/products/' . $ticket->latestTicketInformation->product), $ticket->latestTicketInformation->product);
+                foreach (explode(',', $ticket->latestTicketInformation->product) as $product) {
+                    $zip->addFile(public_path('storage/products/' . $product), $product);
+                }
             }
             if ($ticket->latestTicketInformation->logo) {
-                $zip->addFile(public_path('storage/logos/' . $ticket->latestTicketInformation->logo), $ticket->latestTicketInformation->logo);
+                foreach (explode(',', $ticket->latestTicketInformation->logos) as $logos) {
+                    $zip->addFile(public_path('storage/logos/' . $logos), $logos);
+                }
             }
-            if ($ticket->latestTicketInformation->items) {
+            if ($ticket->latestTicketInformation->logos) {
                 foreach (explode(',', $ticket->latestTicketInformation->items) as $item) {
                     $zip->addFile(public_path('storage/items/' . $item), $item);
                 }
