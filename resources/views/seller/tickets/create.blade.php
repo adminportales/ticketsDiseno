@@ -30,7 +30,9 @@
                         <input type="text" class="form-control" placeholder="Nombre unico para tu solicitud" name="title"
                             value="{{ old('title') }}" />
                         @error('title')
-                            {{ $message }}
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
                         @enderror
                     </div>
                 </div>
@@ -48,7 +50,9 @@
                                     @endforeach
                                 </select>
                                 @error('executive')
-                                    {{ $message }}
+                                    <div class="text-danger">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
                         @else
@@ -56,7 +60,9 @@
                                 <label for="type">Ejecutivo:</label>
                                 <input type="text" class="form-control" disabled value="No tienes ejecutivos asignados">
                                 @error('executive')
-                                    {{ $message }}
+                                    <div class="text-danger">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
                         @endif
@@ -71,7 +77,9 @@
                             @endforeach
                         </select>
                         @error('type')
-                            {{ $message }}
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
                         @enderror
                     </div>
                     <div class="form-group" id="customer">
@@ -79,7 +87,9 @@
                         <input type="text" class="form-control" placeholder="Nombre del cliente" name="customer"
                             value="{{ old('customer') }}" />
                         @error('customer')
-                            {{ $message }}
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
                         @enderror
                     </div>
                     <div class="form-group" id="tecnica">
@@ -93,7 +103,9 @@
                             @endforeach
                         </select>
                         @error('technique')
-                            {{ $message }}
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
                         @enderror
                     </div>
                     <div class="form-group" id="companies">
@@ -124,7 +136,9 @@
                         <input type="input" class="form-control" placeholder="Ubicacion del logo en el producto"
                             name="position" value="{{ old('position') }}" />
                         @error('position')
-                            {{ $message }}
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
                         @enderror
                     </div>
                     <div class="form-group" id="pantone">
@@ -132,7 +146,9 @@
                         <input type="text" class="form-control" name="pantone" placeholder="Pantones separados por comas"
                             value="{{ old('pantone') }}" />
                         @error('pantone')
-                            {{ $message }}
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
                         @enderror
                     </div>
                 </div>
@@ -144,7 +160,7 @@
                         </div>
                         <input type="hidden" name="logo" id="logo" value="{{ old('logo') }}">
                         @error('logo')
-                            <div class="alert alert-danger">
+                            <div class="text-danger">
                                 {{ $message }}
                             </div>
                         @enderror
@@ -156,7 +172,9 @@
                             style="height: auto; width: auto"></div>
                         <input type="hidden" name="product" id="product" value="{{ old('product') }}">
                         @error('product')
-                            {{ $message }}
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
                         @enderror
                     </div>
                     <div class="form-group" id="itemsElement">
@@ -166,17 +184,21 @@
                         <div id="dropzoneItems" class="dropzone form-control text-center" style="height: auto;"></div>
                         <input type="hidden" name="items" id="items" value="{{ old('items') }}">
                         @error('items')
-                            <span class="block">{{ $message }}</span>
+                            <div class="text-danger">
+                                {{ $message }}</div>
                         @enderror
                         <p id="error"></p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="descripcion">Descripcion</label>
-                    <p>En este espacio puedes informacion detallada de tu solicitud, agregar links, resaltar detalles, etc. </p>
+                    <p>En este espacio puedes informacion detallada de tu solicitud, agregar links, resaltar detalles, etc.
+                    </p>
                     <textarea id="summernote" name="description"></textarea>
                     @error('description')
-                        {{ $message }}
+                        <div class="text-danger">
+                            {{ $message }}
+                        </div>
                     @enderror
                 </div>
             </div>

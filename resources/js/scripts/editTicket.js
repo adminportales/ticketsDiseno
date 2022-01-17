@@ -144,7 +144,7 @@ if (document.querySelector('#dropzoneItemsEdit')) {
         const dropzoneLogo = new Dropzone('#dropzoneLogo', {
             url: "/tickets/upload-logo",
             dictDefaultMessage: 'Selecciona o arrastra aqui tu archivo',
-            //acceptedFiles: '.pdf,.jpg,.jpeg,.gif,.bmp',
+            acceptedFiles: '.pdf,.ai',
             addRemoveLinks: true,
             dictRemoveFile: 'Borrar Archivo',
             headers: {

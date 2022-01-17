@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Permission;
 use App\Role;
 use App\Ticket;
 use App\Type;
@@ -19,8 +20,8 @@ class DesignerManagerController extends Controller
     {
         $tickets = Ticket::where('designer_id','!=', auth()->user()->id)->paginate(5);
         $ticketsPropios = auth()->user()->assignedTickets()->where('status_id', '!=', 6)->orderByDesc('created_at')->paginate(5);
-        $role = Role::find(3);
-        $designers = $role->whatUsers;
+        $permission = Permission::find(2);
+        $designers = $permission->users;
         $totalTickets = 0;
         $closedTickets = 0;
         $openTickets = 0;
@@ -41,8 +42,8 @@ class DesignerManagerController extends Controller
     //Metodo para ver todos los tickets
     public function allTickets()
     {
-        $role = Role::find(3);
-        $designers = $role->whatUsers->makeHidden('pivot');
+        $permission = Permission::find(2);
+        $designers = $permission->users;
         $tickets = Ticket::orderByDesc('created_at')->get();
         return view('design_manager.index', compact('tickets', 'designers'));
     }

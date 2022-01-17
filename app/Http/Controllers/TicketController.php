@@ -269,15 +269,17 @@ class TicketController extends Controller
         $creator_name = $userCreator->name . ' ' . $userCreator->lastname;
 
         request()->validate([
-            'title' => ['required', 'string', 'max:255'],
+            'type' => 'required',
         ]);
         switch ($ticket->typeTicket->id) {
             case 1:
                 request()->validate([
+                    'title' => ['required', 'string', 'max:255'],
                     'technique' => 'required',
                     'position' => 'required',
                     'pantone' => 'required',
                     'description' => ['required', 'string'],
+                    'customer' => ['required', 'string', 'max:255'],
                 ]);
                 $request->logo = $request->logo == null ?  $ticket->latestTicketInformation->logo : $request->logo;
                 $request->product = $request->product == null ? $ticket->latestTicketInformation->product : $request->product;
@@ -287,6 +289,7 @@ class TicketController extends Controller
                 break;
             case 2:
                 request()->validate([
+                    'title' => ['required', 'string', 'max:255'],
                     'customer' => ['required', 'string', 'max:255'],
                     'companies' => 'required',
                     'description' => ['required', 'string'],
@@ -300,6 +303,7 @@ class TicketController extends Controller
                 break;
             case 3:
                 request()->validate([
+                    'title' => ['required', 'string', 'max:255'],
                     'description' => ['required', 'string'],
                 ]);
                 $request->items = $request->items == null ?  $ticket->latestTicketInformation->items : $request->items;

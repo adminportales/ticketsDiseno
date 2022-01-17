@@ -4,8 +4,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css"
         integrity="sha512-jU/7UFiaW5UBGODEopEqnbIAHOI8fO6T99m7Tsmqs2gkdujByJfkCbbfPSN4Wlqlb9TGnsuC0YgUgWkRBK7B9A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{{ asset('assets\vendors\sweetalert2\sweetalert2.min.css
-            ') }}">
+    <link rel="stylesheet" href="{{ asset('assets\vendors\sweetalert2\sweetalert2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets\vendors\summernote\summernote-lite.min.css') }}">
 @endsection
 @section('title')
     <h3>Editar Ticket</h3>
@@ -30,7 +30,9 @@
                         <label for="title">Titulo</label>
                         <input type="text" class="form-control" name="title" value="{{ $ticketInformation->title }}" />
                         @error('title')
-                            {{ $message }}
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
                         @enderror
                     </div>
                 </div>
@@ -45,7 +47,9 @@
                             @endforeach
                         </select>
                         @error('type')
-                            {{ $message }}
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
                         @enderror
                     </div>
                     <div class="form-group" id="customer">
@@ -53,7 +57,9 @@
                         <input type="text" class="form-control" name="customer"
                             value="{{ $ticketInformation->customer }}" />
                         @error('customer')
-                            {{ $message }}
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
                         @enderror
                     </div>
                     <div class="form-group" id="tecnica">
@@ -68,7 +74,9 @@
                             @endforeach
                         </select>
                         @error('technique')
-                            {{ $message }}
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
                         @enderror
                     </div>
                     <div class="form-group" id="companies">
@@ -80,7 +88,7 @@
                             @php
                                 $check = false;
                                 if ($ticketInformation->companies != null) {
-                                    foreach (explode(',',$ticketInformation->companies) as $itemOld) {
+                                    foreach (explode(',', $ticketInformation->companies) as $itemOld) {
                                         if ($item == $itemOld) {
                                             $check = true;
                                         }
@@ -96,45 +104,39 @@
                     </div>
                     <div class="form-group" id="position">
                         <label for="pantone">Posicion del logo en el virtual</label>
-                        <input type="input" class="form-control" name="position" value="{{ $ticketInformation->position }}" />
+                        <input type="input" class="form-control" name="position"
+                            value="{{ $ticketInformation->position }}" />
                     </div>
                     <div class="form-group" id="pantone">
                         <label for="pantone">Pantone o color principal aproximado</label>
                         <input type="text" class="form-control" name="pantone"
                             value="{{ $ticketInformation->pantone }}" />
                     </div>
-                    <div class="form-group">
-                        <label for="descripcion">Descripcion</label>
-                        <textarea rows="" cols="" class="form-control w-100"
-                            name="description">{{ $ticketInformation->description }}</textarea>
-                        @error('description')
-                            {{ $message }}
-                        @enderror
-                    </div>
                 </div>
                 <div class="col-md-7">
                     <p class="text-center text-danger">Las imagenes colocadas anterirormente no se pueden modificar</p>
-                    <div class="d-flex">
-                        <div class="form-group w-100" id="logoElement">
-                            <label for="logo">Logo</label>
-                            <div id="dropzoneLogo" class="dropzone form-control text-center"
-                                style="height: auto; width: auto">
+                    <div class="form-group w-100" id="logoElement">
+                        <label for="logo">Logo</label>
+                        <div id="dropzoneLogo" class="dropzone form-control text-center" style="height: auto; width: auto">
+                        </div>
+                        <input type="hidden" name="logo" id="logo" value="">
+                        @error('logo')
+                            <div class="text-danger">
+                                {{ $message }}
                             </div>
-                            <input type="hidden" name="logo" id="logo" value="">
-                            @error('logo')
-                                {{ $message }}
-                            @enderror
-                        </div>
+                        @enderror
+                    </div>
 
-                        <div class="form-group w-100" id="productElement">
-                            <label for="product">Producto</label>
-                            <div id="dropzoneProduct" class="dropzone form-control text-center"
-                                style="height: auto; width: auto"></div>
-                            <input type="hidden" name="product" id="product" value="">
-                            @error('product')
+                    <div class="form-group w-100" id="productElement">
+                        <label for="product">Producto</label>
+                        <div id="dropzoneProduct" class="dropzone form-control text-center"
+                            style="height: auto; width: auto"></div>
+                        <input type="hidden" name="product" id="product" value="">
+                        @error('product')
+                            <div class="text-danger">
                                 {{ $message }}
-                            @enderror
-                        </div>
+                            </div>
+                        @enderror
                     </div>
                     <div class="form-group" id="itemsElement">
                         <label for="imagen">
@@ -143,10 +145,23 @@
                         <div id="dropzoneItems" class="dropzone form-control text-center" style="height: auto;"></div>
                         <input type="hidden" name="items" id="items" value="">
                         @error('items')
-                            <span class="block">{{ $message }}</span>
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
                         @enderror
                         <p id="error"></p>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripcion</label>
+                    <p>En este espacio puedes informacion detallada de tu solicitud, agregar links, resaltar detalles, etc.
+                    </p>
+                    <textarea id="summernote" name="description"></textarea>
+                    @error('description')
+                        <div class="text-danger">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             </div>
             <input type="submit" value="Editar Ticket" class="boton">
@@ -156,7 +171,30 @@
 
 @section('scripts')
     <script src="{{ asset('assets/vendors/sweetalert2\sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset('assets\vendors\summernote\summernote-lite.min.js') }}"></script>
     <script>
+        $('#summernote').summernote({
+            height: 300,
+            minHeight: 200, // set minimum height of editor
+            maxHeight: 500,
+            toolbar: [
+                // ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                // ['fontname', ['fontname']],
+                ['insert', ['link']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol']],
+            ],
+            fontNames: []
+        });
+
+        if (document.querySelector('#message')) {
+            const message = document.querySelector('#message')
+            setTimeout(() => {
+                message.remove()
+            }, 5000);
+        }
+
         const selectType = document.querySelector('#type')
         const logoElement = document.querySelector('#logoElement')
         const itemsElement = document.querySelector('#itemsElement')
@@ -178,7 +216,7 @@
                 case '1':
                     companiesElement.classList.add('d-none')
                     logoElement.classList.remove('d-none')
-                    clientElement.classList.add('d-none')
+                    clientElement.classList.remove('d-none')
                     productElement.classList.remove('d-none')
                     tecnicaElement.classList.remove('d-none')
                     pantoneElement.classList.remove('d-none')
