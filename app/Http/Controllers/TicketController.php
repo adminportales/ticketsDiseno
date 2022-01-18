@@ -14,6 +14,7 @@ use App\TicketAssigment;
 use App\Type;
 use App\User;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use ZipArchive;
 
@@ -268,9 +269,6 @@ class TicketController extends Controller
         $creator_id = $userCreator->id;
         $creator_name = $userCreator->name . ' ' . $userCreator->lastname;
 
-        request()->validate([
-            'type' => 'required',
-        ]);
         switch ($ticket->typeTicket->id) {
             case 1:
                 request()->validate([
@@ -453,21 +451,20 @@ class TicketController extends Controller
         $public_dir = public_path('storage/zip');
         $zipFileName = $ticket->latestTicketInformation->title . '.zip';
         $zip = new ZipArchive;
-
         if ($zip->open($public_dir . '/' . $zipFileName, ZipArchive::CREATE) === TRUE) {
             if ($ticket->latestTicketInformation->product) {
                 foreach (explode(',', $ticket->latestTicketInformation->product) as $product) {
-                    $zip->addFile(public_path('storage/products/' . $product), $product);
+                    $zip->addFile(public_path('storage/products/' . $product), Str::substr($product, 11));
                 }
             }
             if ($ticket->latestTicketInformation->logo) {
                 foreach (explode(',', $ticket->latestTicketInformation->logos) as $logos) {
-                    $zip->addFile(public_path('storage/logos/' . $logos), $logos);
+                    $zip->addFile(public_path('storage/logos/' . $logos), Str::substr($logos, 11));
                 }
             }
-            if ($ticket->latestTicketInformation->logos) {
+            if ($ticket->latestTicketInformation->items) {
                 foreach (explode(',', $ticket->latestTicketInformation->items) as $item) {
-                    $zip->addFile(public_path('storage/items/' . $item), $item);
+                    $zip->addFile(public_path('storage/items/' . $item), Str::substr($item, 11));
                 }
             }
             $zip->close();

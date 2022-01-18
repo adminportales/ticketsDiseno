@@ -188,7 +188,8 @@ if (document.querySelector('#dropzoneItems')) {
             error: function (file, response) {
                 // console.log(response);
                 // console.log(file);
-                document.querySelector('#error').textContent = 'Formato no valido tiene que ser un logo en curvas'
+                file.previewElement.parentNode.removeChild(file.previewElement)
+                document.querySelector('#error').textContent = 'Formato no valido tiene que ser un logo en curvas (PDF, AI)'
             },
             removedfile: function (file, response) {
                 file.previewElement.parentNode.removeChild(file.previewElement)

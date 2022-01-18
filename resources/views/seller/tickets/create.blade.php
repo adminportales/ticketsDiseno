@@ -159,6 +159,7 @@
                         <div id="dropzoneLogo" class="dropzone form-control text-center" style="height: auto; width: auto">
                         </div>
                         <input type="hidden" name="logo" id="logo" value="{{ old('logo') }}">
+                        <p id="error" class="text-danger text-center"></p>
                         @error('logo')
                             <div class="text-danger">
                                 {{ $message }}

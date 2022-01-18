@@ -156,7 +156,7 @@
                     <label for="descripcion">Descripcion</label>
                     <p>En este espacio puedes informacion detallada de tu solicitud, agregar links, resaltar detalles, etc.
                     </p>
-                    <textarea id="summernote" name="description"></textarea>
+                    <textarea id="summernote" name="description">{{ $ticketInformation->description }}</textarea>
                     @error('description')
                         <div class="text-danger">
                             {{ $message }}
