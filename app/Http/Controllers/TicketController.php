@@ -102,7 +102,6 @@ class TicketController extends Controller
                 ]);
                 $request->items = null;
                 $request->companies = null;
-                $request->customer = null;
                 break;
             case 2:
                 request()->validate([
@@ -283,7 +282,6 @@ class TicketController extends Controller
                 $request->product = $request->product == null ? $ticket->latestTicketInformation->product : $request->product;
                 $request->items = null;
                 $request->companies = null;
-                $request->customer = null;
                 break;
             case 2:
                 request()->validate([
@@ -458,7 +456,7 @@ class TicketController extends Controller
                 }
             }
             if ($ticket->latestTicketInformation->logo) {
-                foreach (explode(',', $ticket->latestTicketInformation->logos) as $logos) {
+                foreach (explode(',', $ticket->latestTicketInformation->logo) as $logos) {
                     $zip->addFile(public_path('storage/logos/' . $logos), Str::substr($logos, 11));
                 }
             }
