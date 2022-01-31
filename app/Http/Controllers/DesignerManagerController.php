@@ -13,15 +13,15 @@ class DesignerManagerController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth','role:design_manager']);
+        $this->middleware(['auth', 'role:design_manager']);
     }
 
     static function dashboard()
     {
-        $tickets = Ticket::where('designer_id','!=', auth()->user()->id)->paginate(5);
+        $tickets = Ticket::where('designer_id', '!=', auth()->user()->id)->paginate(5);
         $ticketsPropios = auth()->user()->assignedTickets()->where('status_id', '!=', 6)->orderByDesc('created_at')->paginate(5);
         $permission = Permission::find(2);
-        $designers = $permission->users;
+        $designers = $permission->users()->where('status', 0);
         $totalTickets = 0;
         $closedTickets = 0;
         $openTickets = 0;
@@ -58,7 +58,7 @@ class DesignerManagerController extends Controller
     public function ticketAssign()
     {
         $permission = Permission::find(2);
-        $users = $permission->users;
+        $users = $permission->users()->where('status', 0);
         return view('design_manager.ticketAssigment.index', compact('users'));
     }
 }
