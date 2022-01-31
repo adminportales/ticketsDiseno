@@ -57,8 +57,8 @@ class DesignerManagerController extends Controller
     //Metodo para asignar tickets por defecto
     public function ticketAssign()
     {
-        $role = Role::find(3);
-        $users = $role->whatUsers;
+        $permission = Permission::find(2);
+        $users = $permission->users;
         return view('design_manager.ticketAssigment.index', compact('users'));
     }
 }

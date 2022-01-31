@@ -528,6 +528,33 @@
             }
         }
 
+        .btn {
+            display: inline-block;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #607080;
+            text-align: center;
+            text-decoration: none;
+            vertical-align: middle;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-color: transparent;
+            border: 1px solid transparent;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            border-radius: 0.25rem;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .btn-secondary {
+            color: #fff;
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
     </style>
 
     <style>
@@ -543,14 +570,16 @@
         class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
         <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
             <div class="flex items-center pt-8 sm:justify-start sm:pt-0">
-                <div class="px-4 text-lg text-gray-500 border-r border-gray-400 tracking-wider">
-                    403 </div>
-
                 <div class="ml-4 text-lg text-gray-500 uppercase tracking-wider">
-                    Este usuario ha sido deshabilitado </div>
+                    Buen dia {{ auth()->user()->name }}.
+                    Este usuario ha sido deshabilitado.
+                </div>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="text-center">
+                    @csrf
+                    <input type="submit" class="btn btn-secondary" value="Salir">
+                </form>
             </div>
         </div>
-    </div>
 </body>
 
 </html>
