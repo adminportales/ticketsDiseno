@@ -13,15 +13,15 @@ class DesignerManagerController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth','role:design_manager']);
+        $this->middleware(['auth', 'role:design_manager']);
     }
 
     static function dashboard()
     {
-        $tickets = Ticket::where('designer_id','!=', auth()->user()->id)->paginate(5);
+        $tickets = Ticket::where('designer_id', '!=', auth()->user()->id)->paginate(5);
         $ticketsPropios = auth()->user()->assignedTickets()->where('status_id', '!=', 6)->orderByDesc('created_at')->paginate(5);
         $permission = Permission::find(2);
-        $designers = $permission->users;
+        $designers = $permission->users()->where('status', 1)->get();
         $totalTickets = 0;
         $closedTickets = 0;
         $openTickets = 0;
@@ -43,7 +43,7 @@ class DesignerManagerController extends Controller
     public function allTickets()
     {
         $permission = Permission::find(2);
-        $designers = $permission->users;
+        $designers = $permission->users()->where('status', 1)->get();
         $tickets = Ticket::orderByDesc('created_at')->get();
         return view('design_manager.index', compact('tickets', 'designers'));
     }
@@ -57,8 +57,8 @@ class DesignerManagerController extends Controller
     //Metodo para asignar tickets por defecto
     public function ticketAssign()
     {
-        $role = Role::find(3);
-        $users = $role->whatUsers;
+        $permission = Permission::find(2);
+        $users = $permission->users()->where('status', 1)->get();
         return view('design_manager.ticketAssigment.index', compact('users'));
     }
 }

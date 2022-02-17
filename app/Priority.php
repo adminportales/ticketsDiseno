@@ -9,5 +9,6 @@ class Priority extends Model
     protected $fillable = [
         'priority'
     ];
+
     public $timestamps = false;
 }

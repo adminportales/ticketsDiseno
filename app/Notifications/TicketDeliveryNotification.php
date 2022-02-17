@@ -35,7 +35,7 @@ class TicketDeliveryNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -51,5 +51,17 @@ class TicketDeliveryNotification extends Notification
             'emisor' => $this->emisor,
             'idTicket' => $this->idTicket,
         ];
+    }
+
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+            ->markdown('mail.delivery.delivery', [
+                'url' => url('/tickets' . '/' . $this->idTicket),  'ticket' => $this->ticket,
+                'emisor' => $this->emisor,
+                'idTicket' => $this->idTicket,
+            ])
+            ->subject('Tu solicitd ha sido resuelta')
+            ->from('admin@tdesign.promolife.lat', 'T-Design');
     }
 }

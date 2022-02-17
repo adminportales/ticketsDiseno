@@ -177,6 +177,7 @@
             height: 300,
             minHeight: 200, // set minimum height of editor
             maxHeight: 500,
+            disableDragAndDrop: true,
             toolbar: [
                 // ['style', ['style']],
                 ['font', ['bold', 'underline', 'clear']],

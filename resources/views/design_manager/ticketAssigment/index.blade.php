@@ -21,24 +21,6 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>{{ auth()->user()->name }}</td>
-
-                    <td>
-                        @foreach (auth()->user()->whatTypes as $type)
-                            {{ $type->type }}
-                        @endforeach
-                    </td>
-                    <td>
-                        <change-status-designer :availability={{ auth()->user()->profile->availability }}
-                            :user={{ auth()->user()->id }}>
-                        </change-status-designer>
-                    </td>
-                    <td><a href="{{ route('ticketAssigment.edit', ['user' => auth()->user()->id]) }}"
-                            class="boton">Editar
-                            asignación</a></td>
-                </tr>
                 @foreach ($users as $user)
                     <tr>
                         <td>{{ $loop->iteration + 1 }}</td>

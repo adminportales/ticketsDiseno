@@ -144,7 +144,7 @@ if (document.querySelector('#dropzoneItemsEdit')) {
         const dropzoneLogo = new Dropzone('#dropzoneLogo', {
             url: "/tickets/upload-logo",
             dictDefaultMessage: 'Selecciona o arrastra tu logo, para una respuesta mas rapida, es indispensable que el logo este en curvas',
-            acceptedFiles: '.pdf,.ai',
+            acceptedFiles: '.pdf,.ai,.svg,.rar,.zip',
             addRemoveLinks: true,
             dictRemoveFile: 'Borrar Archivo',
             headers: {
@@ -189,7 +189,7 @@ if (document.querySelector('#dropzoneItemsEdit')) {
                 // console.log(response);
                 // console.log(file);
                 file.previewElement.parentNode.removeChild(file.previewElement)
-                document.querySelector('#error').textContent = 'Formato no valido tiene que ser un logo en curvas (PDF, AI)'
+                document.querySelector('#error').textContent = 'Formato no valido tiene que ser un logo en curvas (PDF, AI, SVG, RAR, ZIP)'
             },
             removedfile: function (file, response) {
                 file.previewElement.parentNode.removeChild(file.previewElement)
