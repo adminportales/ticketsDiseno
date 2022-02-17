@@ -46,7 +46,7 @@ class TicketDeliveryController extends Controller
         ]);
         $userReceiver = User::find($ticket->creator_id);
         event(new TicketDeliverySendEvent($ticket->latestTicketInformation->title, $ticket->creator_id, $ticket->designer_name));
-        $userReceiver->notify(new TicketDeliveryNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->seller_name));
+        $userReceiver->notify(new TicketDeliveryNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->designer_name));
 
         $status = 0;
 
