@@ -54,8 +54,9 @@
                 <p>Archivos enviados por {{ $ticket->latestTicketDelivery->designer_name }}</p>
                 @foreach (explode(',', $ticket->latestTicketDelivery->files) as $item)
                     <a href="{{ asset('/storage/deliveries/' . $item) }}"
-                        class="btn btn-sm btn-light w-100 d-flex justify-content-between" download>
-                        {{ Str::limit($item, 20) }}
+                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"
+                        download="{{ Str::substr($item, 11) }}">
+                        {{ Str::limit(Str::substr($item, 11), 20) }}
                         <span class="fa-fw select-all fas"></span>
                     </a>
                 @endforeach
