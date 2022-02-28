@@ -61,7 +61,7 @@ class TicketDeliveryNotification extends Notification
                 'emisor' => $this->emisor,
                 'idTicket' => $this->idTicket,
             ])
-            ->subject('Tu solicitd ha sido resuelta')
+            ->subject('Tu solicitud ha sido entregada')
             ->from('admin@tdesign.promolife.lat', 'T-Design');
     }
 }
