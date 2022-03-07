@@ -94,7 +94,7 @@ class TicketController extends Controller
                     'technique' => 'required',
                     'position' => 'required',
                     'pantone' => 'required',
-                    'description' => ['required', 'string'],
+                    'description' => ['required'],
                     'logo' => 'required',
                     'product' => 'required',
                     'position' => 'required',
@@ -109,7 +109,7 @@ class TicketController extends Controller
                     'title' => ['required', 'string', 'max:255'],
                     'customer' => ['required', 'string', 'max:255'],
                     'companies' => 'required',
-                    'description' => ['required', 'string'],
+                    'description' => ['required'],
                     'logo' => 'required',
                     'items' => 'required',
                 ]);
@@ -122,7 +122,7 @@ class TicketController extends Controller
                 request()->validate([
                     'type' => 'required',
                     'title' => ['required', 'string', 'max:255'],
-                    'description' => ['required', 'string'],
+                    'description' => ['required'],
                     'items' => 'required',
                 ]);
                 $request->product = null;
@@ -275,7 +275,7 @@ class TicketController extends Controller
                     'technique' => 'required',
                     'position' => 'required',
                     'pantone' => 'required',
-                    'description' => ['required', 'string'],
+                    'description' => ['required'],
                     'customer' => ['required', 'string', 'max:255'],
                 ]);
                 $request->logo = $request->logo == null ?  $ticket->latestTicketInformation->logo : $request->logo;
@@ -288,7 +288,7 @@ class TicketController extends Controller
                     'title' => ['required', 'string', 'max:255'],
                     'customer' => ['required', 'string', 'max:255'],
                     'companies' => 'required',
-                    'description' => ['required', 'string'],
+                    'description' => ['required'],
                 ]);
                 $request->logo = $request->logo == null ?  $ticket->latestTicketInformation->logo : $request->logo;
                 $request->items = $request->items == null ?  $ticket->latestTicketInformation->items : $request->items;
@@ -300,7 +300,7 @@ class TicketController extends Controller
             case 3:
                 request()->validate([
                     'title' => ['required', 'string', 'max:255'],
-                    'description' => ['required', 'string'],
+                    'description' => ['required'],
                 ]);
                 $request->items = $request->items == null ?  $ticket->latestTicketInformation->items : $request->items;
                 $request->product = null;

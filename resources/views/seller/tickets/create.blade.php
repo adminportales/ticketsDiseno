@@ -195,12 +195,12 @@
                     <label for="descripcion">Descripcion</label>
                     <p>En este espacio puedes informacion detallada de tu solicitud, agregar links, resaltar detalles, etc.
                     </p>
-                    <textarea id="summernote" name="description"></textarea>
                     @error('description')
                         <div class="text-danger">
                             {{ $message }}
                         </div>
                     @enderror
+                    <textarea id="summernote" name="description">{{old('description')}}</textarea>
                 </div>
             </div>
             <input type="submit" value="Crear Ticket" class="boton">
