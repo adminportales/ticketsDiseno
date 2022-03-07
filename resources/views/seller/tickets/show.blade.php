@@ -91,48 +91,64 @@
     <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/sweetalert2\sweetalert2.all.min.js') }}"></script>
     <script>
-        let beforeUrl = '{{ url()->previous() }}'
         let ticket_id = '{{ $ticket->id }}'
         let status = '{{ $ticket->latestStatusChangeTicket->status_id }}'
         let messageInitial = document.querySelector("#message-initial")
+        let beforeUrl = "{{ url('/tickets') }}"
 
         document.addEventListener('DOMContentLoaded', () => {
             if (status == 3) {
-                Swal.fire({
-                    title: '¿El contenido esta acorde a lo solicitado?',
-                    html: messageInitial.innerHTML,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, es correcto',
-                    cancelButtonText: 'No, deseo solicitar algo mas!',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        finalizar()
-                    } else {
-                        solicitarCambios()
-                    }
-                })
+                verificar()
             }
         })
 
+        function verificar() {
+            Swal.fire({
+                title: '¿El contenido esta acorde a lo solicitado?',
+                html: messageInitial.innerHTML,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, es correcto',
+                denyButtonText: 'Necesito una modificacion!',
+                cancelButtonText: `Salir`,
+                showDenyButton: true,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+            }).then((result) => {
+                console.log(result);
+                if (result.isConfirmed) {
+                    finalizar()
+                } else if (result.isDenied) {
+                    solicitarCambios()
+                } else {
+                    window.location = beforeUrl;
+                }
+            })
+        }
+
         function solicitarCambios() {
             Swal.fire({
-                title: '¿Que modificicacion deseas?',
+                title: '¿Que modificacion deseas?',
                 input: 'textarea',
                 showCancelButton: true,
                 confirmButtonText: 'Enviar',
+                cancelButtonText: 'Cancelar',
                 showLoaderOnConfirm: true,
                 allowOutsideClick: false,
                 allowEscapeKey: false,
             }).then((result) => {
+                console.log(result)
                 if (result.value == undefined) {
                     solicitarCambios()
-                } else {
+                } else if (result.value.trim() !== "") {
                     changeStatus(4, ticket_id, result.value)
+                } else {
+                    solicitarCambios()
+                }
+                if (!result.isConfirmed) {
+                    verificar()
                 }
             })
         }
@@ -146,14 +162,18 @@
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Si, continuar',
-                cancelButtonText: 'No, deseo modificar algo',
+                cancelButtonText: 'Cancelar',
+                showDenyButton: true,
+                denyButtonText: 'No, deseo modificar algo',
                 allowOutsideClick: false,
                 allowEscapeKey: false,
             }).then((result) => {
                 if (result.isConfirmed) {
                     changeStatus(6, ticket_id)
-                } else {
+                } else if (result.isDenied) {
                     solicitarCambios()
+                } else {
+                    verificar()
                 }
             })
         }
@@ -174,7 +194,7 @@
                 if (data.message == 'OK') {
                     Swal.fire(
                         'Excelente!',
-                        `Esta solicitud ahora esta finalizada.`,
+                        `Estado: ${data.status}.`,
                         'success'
                     );
                 }

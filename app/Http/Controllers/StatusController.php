@@ -76,7 +76,7 @@ class StatusController extends Controller
                 event(new MessageSendEvent($request->message, $receiver_id, $transmitter_name));
                 $userReceiver->notify(new MessageNotification($ticket->id, $ticket->latestTicketInformation->title, $transmitter_name, $message->message));
             }
-            return response()->json(['message' => 'OK'], 200);
+            return response()->json(['message' => 'OK', 'status' => $status->status], 200);
         }
         return response()->json(['message' => 'Deny'], 400);
     }
