@@ -19,7 +19,7 @@ class TicketCreateNotification extends Notification
     public $ticket;
     public $emisor;
     public $idTicket;
-    public function __construct($idTicket,$ticket, $emisor)
+    public function __construct($idTicket, $ticket, $emisor)
     {
         $this->ticket  = $ticket;
         $this->emisor  = $emisor;
@@ -34,7 +34,7 @@ class TicketCreateNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -49,5 +49,18 @@ class TicketCreateNotification extends Notification
             'ticket' => $this->ticket,
             'emisor' => $this->emisor,
         ];
+    }
+
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+            ->markdown('mail.create.create', [
+                'url' => url('/designer/ticketShow' . '/' . $this->idTicket),
+                'ticket' => $this->ticket,
+                'emisor' => $this->emisor,
+                'idTicket' => $this->idTicket,
+            ])
+            ->subject('Se ha creado un ticket')
+            ->from('admin@tdesign.promolife.lat', 'T-Design');
     }
 }

@@ -113,7 +113,7 @@
     <script src="{{ asset('assets/vendors/sweetalert2\sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
     <script>
-        let beforeUrl = '{{ url()->previous() }}'
+        let beforeUrl = '{{ url('') }}'
         let ticket_id = '{{ $ticket->id }}'
         let status = '{{ $ticket->latestStatusChangeTicket->status_id }}'
         document.addEventListener('DOMContentLoaded', () => {

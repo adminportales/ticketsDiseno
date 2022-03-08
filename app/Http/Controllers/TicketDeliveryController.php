@@ -72,8 +72,8 @@ class TicketDeliveryController extends Controller
                 'type' => 'status'
             ]);
             $userReceiver = User::find($ticket->creator_id);
-            event(new ChangeStatusSendEvent($ticket->latestTicketInformation->title, $newStatus->status, $ticket->creator_id, $ticket->designer_name));
-            $userReceiver->notify(new ChangeStatusNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->seller_name, $newStatus->status));
+            // event(new ChangeStatusSendEvent($ticket->latestTicketInformation->title, $newStatus->status, $ticket->creator_id, $ticket->designer_name));
+            // $userReceiver->notify(new ChangeStatusNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->seller_name, $newStatus->status));
         }
         return redirect()->action('DesignerController@show', ['ticket' => $ticket->id]);
     }

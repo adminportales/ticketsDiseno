@@ -20,7 +20,8 @@ class ChangeStatusNotification extends Notification
     public $emisor;
     public $status;
     public $idTicket;
-    public function __construct($idTicket, $ticket, $emisor,$status)
+
+    public function __construct($idTicket, $ticket, $emisor, $status)
     {
         $this->ticket  = $ticket;
         $this->emisor  = $emisor;
@@ -37,6 +38,7 @@ class ChangeStatusNotification extends Notification
      */
     public function via($notifiable)
     {
+        // return ['database', 'mail'];
         return ['database'];
     }
 
@@ -54,5 +56,19 @@ class ChangeStatusNotification extends Notification
             'status' => $this->status,
             'idTicket' => $this->idTicket,
         ];
+    }
+
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+            ->markdown('mail.status.status', [
+                'url' => url('/tickets' . '/' . $this->idTicket),
+                'ticket' => $this->ticket,
+                'emisor' => $this->emisor,
+                'status' => $this->status,
+                'idTicket' => $this->idTicket,
+            ])
+            ->subject('Modificaciones en un ticket')
+            ->from('admin@tdesign.promolife.lat', 'T-Design');
     }
 }
