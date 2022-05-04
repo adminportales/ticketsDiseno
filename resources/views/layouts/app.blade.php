@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('assets/vendors/bootstrap-icons/bootstrap-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @livewireStyles
 </head>
 
 <body>
@@ -37,22 +38,7 @@
                                 @yield('title')
                                 <div class="card m-0 p-1">
                                     <div class="d-flex align-items-center">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <svg class="bi bell" fill="currentColor">
-                                                <use
-                                                    xlink:href="{{ asset('assets/vendors/bootstrap-icons/bootstrap-icons.svg#bell-fill') }}" />
-                                            </svg>
-                                            <span
-                                                class="badge-number position-absolute translate-middle badge rounded-pill bg-danger"
-                                                style="font-size: 0.7rem">
-                                                {{ count(auth()->user()->unreadNotifications) }}
-                                            </span>
-                                        </a>
-                                        <ul class="dropdown-menu" style="max-height: 500px; overflow-y: scroll;"
-                                            aria-labelledby="navbarDropdownMenuLink">
-                                            @include('layouts.components.notifies')
-                                        </ul>
+                                        @include('layouts.components.notifies')
                                         <div class="avatar avatar-xl">
                                             <div class="card-photo">
                                                 @if (auth()->user()->profile->photo)
@@ -128,11 +114,12 @@
     </div>
     <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('js/app2.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery/jquery.min.js') }}"></script>
     @yield('scripts')
     <script src="{{ asset('assets\vendors\toastify\toastify.js') }}"></script>
     <script src="{{ asset('assets/js/mazer.js') }}"></script>
+    @livewireScripts
 </body>
 
 </html>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\ChangeTicketSendEvent;
 use App\Events\TicketCreateSendEvent;
+use App\Notifications\TicketChangeNotification;
 use App\Notifications\TicketCreateNotification;
 use App\Priority;
 use App\Role;
@@ -342,7 +343,7 @@ class TicketController extends Controller
         ]);
         $receiver = User::find($ticket->designer_id);
         event(new ChangeTicketSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->creator_name));
-        $receiver->notify(new TicketCreateNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->creator_name));
+        $receiver->notify(new TicketChangeNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->creator_name));
         // Regresar a la vista de inicio
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
     }
