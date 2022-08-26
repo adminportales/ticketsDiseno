@@ -49,27 +49,32 @@
                             Tipo: {{ $ticket->typeTicket->type }}<br>
                             Prioridad: {{ $ticket->priorityTicket->priority }}<br>
                             @php $color = ''; @endphp
-                            @switch($ticket->latestStatusChangeTicket->status )
+                            @switch($ticket->latestStatusChangeTicket->status)
                                 @case('Creado')
                                     @php $color = 'alert-success'; @endphp
                                 @break
+
                                 @case('En revision')
                                     @php $color = 'alert-warning'; @endphp
                                 @break
+
                                 @case('Entregado')
                                     @php $color = 'alert-info'; @endphp
                                 @break
+
                                 @case('Solicitud de ajustes')
                                     @php $color = 'alert-danger'; @endphp
                                 @break
+
                                 @case('Realizando ajustes')
                                     @php $color = 'alert-secondary'; @endphp
                                 @break
+
                                 @case('Finalizado')
                                     @php $color = 'alert-primary'; @endphp
                                 @break
-                                @default
 
+                                @default
                             @endswitch
                             <div class="p-1 alert {{ $color }}">{{ $ticket->latestStatusChangeTicket->status }}</div>
                         </td>
@@ -82,8 +87,8 @@
                             @endif
                         </td>
                         <td>
-                            <change-designer-assigment designer="{{ $ticket->designer_name }}"
-                                :ticket={{ $ticket->id }} :designers=@json($designersRefactory)>
+                            <change-designer-assigment designer="{{ $ticket->designer_name }}" :ticket={{ $ticket->id }}
+                                :designers=@json($designersRefactory)>
                             </change-designer-assigment>
                         </td>
                         <td>
@@ -95,31 +100,30 @@
                 @endforeach
             </tbody>
         </table>
-    @endsection
+    </div>
+@endsection
 
-    @section('styles')
-        <link rel="stylesheet"
-            href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/vendors/chartjs/Chart.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}">
-        <style>
-            table.dataTable td {
-                padding: 15px 8px;
-            }
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/chartjs/Chart.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}">
+    <style>
+        table.dataTable td {
+            padding: 15px 8px;
+        }
 
-            .fontawesome-icons .the-icon svg {
-                font-size: 24px;
-            }
+        .fontawesome-icons .the-icon svg {
+            font-size: 24px;
+        }
+    </style>
+@endsection
 
-        </style>
-    @endsection
-
-    @section('scripts')
-        <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
-        <script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>
-        <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
-        <script>
-            // Jquery Datatable
-            let jquery_datatable = $("#tableTickets").DataTable()
-        </script>
-    @endsection
+@section('scripts')
+    <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
+    <script>
+        // Jquery Datatable
+        let jquery_datatable = $("#tableTickets").DataTable()
+    </script>
+@endsection
