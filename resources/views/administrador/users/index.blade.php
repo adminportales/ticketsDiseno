@@ -28,7 +28,8 @@
                     <th>Email</th>
                     <th>Perfil</th>
                     <th>Registro</th>
-                    <th>Estatus</th>
+                    {{-- <th>Estatus</th> --}}
+                    <th>Ultimo Ingreso</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -47,8 +48,11 @@
                         </td>
                         <td>{{ $user->created_at->diffForHumans() }}</td>
                         <td>
-                            <span class="badge bg-{{ $user->status ? 'light-success' : 'light-danger' }}">
-                                {{ $user->status ? 'Activo' : 'Inactivo' }}</span>
+                            @if ($user->last_login)
+                                {{ $user->last_login }}
+                            @else
+                                <p>No hay registro</p>
+                            @endif
                         </td>
                         <td class="text-center">
                             <a href="{{ route('users.edit', ['user' => $user->id]) }}"
@@ -77,7 +81,6 @@
         .fontawesome-icons .the-icon svg {
             font-size: 24px;
         }
-
     </style>
 @endsection
 
