@@ -36,13 +36,13 @@
                         <td>{{ $team->name }}</td>
                         <td>{{ $team->user->name . ' ' . $team->user->lastname }}</td>
                         <td>
-                            @if ($team->role==1)
-                            Gerente
-                            @elseif ($team->role==0)
-                            Asistente
+                            @if ($team->role == 1)
+                                Gerente
+                            @elseif ($team->role == 0)
+                                Asistente
                             @endif
                         </td>
-                            <td>
+                        <td>
                             @foreach ($team->members as $user)
                                 {{ $user->name . ' ' . $user->lastname }} <br>
                             @endforeach
@@ -51,7 +51,7 @@
                             <a href="{{ route('teams.edit', ['team' => $team->id]) }}"
                                 class="btn btn-warning btn-sm">Editar</a>
 
-                                <form action="{{ route('teams.destroy', ['team' => $team->id]) }}" method="post">
+                            <form action="{{ route('teams.destroy', ['team' => $team->id]) }}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
@@ -75,7 +75,6 @@
         .fontawesome-icons .the-icon svg {
             font-size: 24px;
         }
-
     </style>
 @endsection
 

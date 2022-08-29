@@ -124,6 +124,6 @@ class AdminController extends Controller
         $tickets = Ticket::orderByDesc('created_at')->get();
         $priorities = Priority::all();
 
-        return view('seller.tickets.index', compact('tickets', 'priorities'));
+        return view('administrador.tickets.index', compact('tickets', 'priorities'));
     }
 }
