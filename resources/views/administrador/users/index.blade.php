@@ -27,7 +27,7 @@
                     <th>Nombre</th>
                     <th>Email</th>
                     <th>Perfil</th>
-                    <th>Registro</th>
+                    {{-- <th>Registro</th> --}}
                     {{-- <th>Estatus</th> --}}
                     <th>Ultimo Ingreso</th>
                     <th>Acciones</th>
@@ -43,10 +43,11 @@
 
                             @foreach ($user->whatRoles as $role)
                                 {{ $loop->iteration . '. ' . $role->display_name }}
+                                <br>
                             @endforeach
 
                         </td>
-                        <td>{{ $user->created_at->diffForHumans() }}</td>
+                        {{-- <td>{{ $user->created_at->diffForHumans() }}</td> --}}
                         <td>
                             @if ($user->last_login)
                                 {{ $user->last_login }}
@@ -57,6 +58,8 @@
                         <td class="text-center">
                             <a href="{{ route('users.edit', ['user' => $user->id]) }}"
                                 class="btn btn-warning btn-sm">Editar</a>
+                            <a href="{{ url('roles_assignment/roles-assignment/' . $user->id . '/edit?model=users') }}"
+                                class="btn btn-warning btn-sm">Permisos</a>
                             <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="post">
                                 @csrf
                                 @method('DELETE')

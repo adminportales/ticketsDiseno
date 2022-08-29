@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderByRaw('status DESC')->get();
+        $users = User::where('status', 1)->get();
         //$users = User::where('status', 1);
         return view('administrador.users.index', compact('users'));
     }
@@ -227,9 +227,5 @@ class UserController extends Controller
             $user->notify(new RegisteredUser($dataNotification));
         }
         return redirect()->action('UserController@index');
-    }
-    public function sample(User $user)
-    {
-        return view('administrador.import');
     }
 }

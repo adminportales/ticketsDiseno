@@ -34,10 +34,16 @@
                             <span>Ver Usuarios</span>
                         </a>
                     </li>
-                    <li class="sidebar-item  {{ request()->is('temas') ? 'active' : '' }}">
+                    <li class="sidebar-item  {{ request()->is('teams') ? 'active' : '' }}">
                         <a href="{{ route('teams.index') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Ver Equipos</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item  {{ request()->is('ticketsViewAll') ? 'active' : '' }}">
+                        <a href="{{ route('admin.verTickets') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Todos los Tickets</span>
                         </a>
                     </li>
                 @endrole
