@@ -144,7 +144,7 @@ if (document.querySelector('#dropzoneItemsEdit')) {
         const dropzoneLogo = new Dropzone('#dropzoneLogo', {
             url: "/tickets/upload-logo",
             dictDefaultMessage: 'Selecciona o arrastra tu logo, para una respuesta mas rapida, es indispensable que el logo este en curvas',
-            acceptedFiles: '.pdf,.ai,.svg,.rar,.zip',
+            acceptedFiles: '.pdf,.ai,.svg,.rar,.zip,.eps',
             addRemoveLinks: true,
             dictRemoveFile: 'Borrar Archivo',
             headers: {

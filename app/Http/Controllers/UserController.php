@@ -155,7 +155,7 @@ class UserController extends Controller
     /**Eliminar usuario */
     public function destroy(User $user)
     {
-        $user->update(['status' => false]);
+        $user->update(['status' => false, 'email' => time() . 'disabled_' . $user->email]);
         return redirect()->action('UserController@index');
     }
 
