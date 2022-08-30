@@ -156,7 +156,10 @@ class TicketController extends Controller
 
 
         //Asignar el ticket de forma correcta
-        $designerAssigments = TicketAssigment::where('type_id', '=', $request->type)->get();
+        $designerAssigments = TicketAssigment::join('users', 'ticket_assigments.designer_id', '=', 'users.id')
+            ->join('profiles', 'ticket_assigments.designer_id', '=', 'profiles.user_id')
+            ->where('ticket_assigments.type_id', '=', $request->type)->where('users.status', '=', 1)
+            ->where('profiles.availability', '=', 1)->get();
         // Algoritmo para la asignacion de tickets
         $designerAssigment = $this->checkWorkload($designerAssigments);
 
@@ -404,8 +407,9 @@ class TicketController extends Controller
                 $timeWait = 0;
                 // Vamos a considerar al diseñador siempre y cuando este disponible
                 if ($designer->profile->availability) {
-                    foreach ($designer->assignedTickets as $ticket) {
-                        if ($ticket->latestStatusChangeTicket->status != 'Finalizado') {
+                    $ticketsAsignados = $designer->assignedTickets->where('status_id', '!=', '3')->where('status_id', '!=', '6')->where('updated_at', '>', now()->subDays(10));
+                    foreach ($ticketsAsignados  as $ticket) {
+                        if (strpos($ticket->designer_name, $designer->name) !== false) {
                             $totalTickets++;
                         }
                     }
@@ -415,6 +419,7 @@ class TicketController extends Controller
                         'time' => $timeWait,
                     ];
                 }
+                dd($data);
             }
 
             // Si no hay diseñadores disponibles, se asignan al gerente de diseño
@@ -439,6 +444,7 @@ class TicketController extends Controller
             if (!$sameAmountOfVirtual) {
                 return $designerAssigment['designer'];
             } else {
+                //TODO: Retornar a la persona que lleva mas tiempo si entregar un ticket
                 return $data[rand(0, count($data) - 1)]['designer'];
             }
         }
@@ -477,5 +483,10 @@ class TicketController extends Controller
         if (file_exists($filetopath)) {
             return response()->download($filetopath, $zipFileName, $headers);
         }
+    }
+
+    public function viewFile($file, $folder)
+    {
+        dd($file, $folder);
     }
 }

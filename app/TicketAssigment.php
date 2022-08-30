@@ -10,4 +10,8 @@ class TicketAssigment extends Model
         'designer_id',
         'type_id'
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'designer_id');
+    }
 }

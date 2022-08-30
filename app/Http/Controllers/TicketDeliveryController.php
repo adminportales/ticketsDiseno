@@ -45,9 +45,6 @@ class TicketDeliveryController extends Controller
             'type' => 'delivery'
         ]);
         $userReceiver = User::find($ticket->creator_id);
-        event(new TicketDeliverySendEvent($ticket->latestTicketInformation->title, $ticket->creator_id, $ticket->designer_name));
-        $userReceiver->notify(new TicketDeliveryNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->designer_name));
-
         $status = 0;
 
         if ($ticket->latestStatusChangeTicket->status_id == 2) {
@@ -75,6 +72,10 @@ class TicketDeliveryController extends Controller
             // event(new ChangeStatusSendEvent($ticket->latestTicketInformation->title, $newStatus->status, $ticket->creator_id, $ticket->designer_name));
             // $userReceiver->notify(new ChangeStatusNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->seller_name, $newStatus->status));
         }
+
+        event(new TicketDeliverySendEvent($ticket->latestTicketInformation->title, $ticket->creator_id, $ticket->designer_name));
+        $userReceiver->notify(new TicketDeliveryNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->designer_name));
+
         return redirect()->action('DesignerController@show', ['ticket' => $ticket->id]);
     }
 }

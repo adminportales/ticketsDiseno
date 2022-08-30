@@ -28,15 +28,24 @@
                         @foreach ($ticketDeliveries as $delivery)
                             <div class="item">
                                 @foreach (explode(',', $delivery->files) as $item)
-                                    <a href="{{ asset('/storage/deliveries/' . $item) }}"
-                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"
-                                        download="{{ Str::substr($item, 11) }}">
-                                        {{ Str::limit(Str::substr($item, 11), 20) }}
-                                        <span class="fa-fw select-all fas"></span>
-                                    </a>
+                                    <div class="d-flex justify-content-between bg-light py-1 mb-1 mx-1">
+                                        <div class="name">
+                                            {{ Str::limit(Str::substr($item, 11), 20) }}
+                                        </div>
+                                        <div class="actions d-flex justify-content-around">
+                                            {{-- <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
+                                                target="_blank">
+                                                <span class="fa-eye fas"></span>
+                                            </a> --}}
+                                            <a href="{{ asset('/storage/deliveries/' . $item) }}"
+                                                download="{{ Str::substr($item, 11) }}">
+                                                <span class="fa-fw select-all fas"></span>
+                                            </a>
+                                        </div>
+                                    </div>
                                 @endforeach
                                 <p class="m-0 text-center" style="font-size: .7rem">
-                                    <small>{{ $delivery->created_at->diffForHumans() }}</small>
+                                    <small>{{ $delivery->created_at }}</small>
                                 </p>
                             </div>
                         @endforeach
@@ -83,7 +92,6 @@
             grid-column-gap: 0px;
             grid-row-gap: 0px;
         }
-
     </style>
 @endsection
 
