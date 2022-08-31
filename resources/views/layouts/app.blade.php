@@ -21,29 +21,75 @@
 <body>
     <div id="app">
         @include('layouts.components.sidebar')
-        <div id="main" class="py-3">
-            {{-- Menu Hamburguesa --}}
-            <header class="mb-3 d-xl-none">
-                <a href="#" class="burger-btn d-block">
-                    <i class="bi bi-justify fs-3"></i>
-                </a>
-            </header>
-
+        <div id="main" class="p-3">
             <div class="page-heading ">
+                <div class="rounded">
+                    <ul class="d-flex justify-content-between align-items-center m-0 p-2"
+                        style="background: #ffffff; box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+                    border-radius: 10px;
+                    ">
+                        {{-- Menu Hamburguesa --}}
+                        <header class="d-xl-none">
+                            <a href="#" class="burger-btn d-block">
+                                <i class="bi bi-justify fs-3"></i>
+                            </a>
+                        </header>
+                        <li class="pl-4 m-0" style="list-style-type: none;"><img style="width: 45px;"
+                                src="{{ asset('/img/logos/bhtrade.png') }}" alt="bhtrade"> </li>
+                        <li class="p-0 m-0" style="list-style-type: none;"><img style="width: 100px;"
+                                src="{{ asset('/img/logos/promolife.png') }}" alt="promolife">
+                        </li>
+                        <li class="p-0 m-0" style="list-style-type: none;"><img style="width: 45px;"
+                                src="{{ asset('/img/logos/promodreams.png') }}" alt="promodreams">
+                        </li>
+                        <li class="p-0 m-0" style="list-style-type: none;"><img style="width: 45px;"
+                                src="{{ asset('/img/logos/trademarket.png') }}" alt="trademarket">
+                        </li>
+                        <li class="d-none" id="app" style="list-style-type: none;">
+                            <notify :auth-id={{ auth()->user()->id }}></notify>
+                        </li>
+                        <li class="pr-4 m-0 d-flex align-items-center">
+                            @livewire('notifications')
+                            <div class="dropdown">
+                                <div class="d-flex align-items-center nav-link dropdown-toggle px-0"
+                                    id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <h6 class="font-bold">
+                                        {{ auth()->user()->name }}
+                                        <i class="bi bi-caret-down-fill"></i>
+                                    </h6>
+                                </div>
+                                {{-- </a> --}}
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                            {{ __('Cerrar sesion') }}
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                            style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
                 <div id="appVue">
                     <notify :user={{ auth()->user()->id }}></notify>
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 order-md-1 order-last d-flex justify-content-between align-items-center">
-                                @yield('title')
-                                <div class="card m-0 p-1">
+                                {{-- <div class="card m-0 p-1">
                                     <div class="d-flex align-items-center">
                                         @include('layouts.components.notifies')
                                         <div class="avatar avatar-xl">
                                             <div class="card-photo">
                                                 @if (auth()->user()->profile->photo)
                                                     <img src="{{ asset(auth()->user()->profile->photo) }}"
-                                                        class="width-icon rounded-circle border border-primary" alt="">
+                                                        class="width-icon rounded-circle border border-primary"
+                                                        alt="">
                                                 @else
                                                     <p
                                                         class="rounded-circle border border-primary m-0 d-flex justify-content-center align-items-center width-icon">
@@ -97,7 +143,7 @@
                                                 {{ auth()->user()->whatRoles[0]->display_name }}</p>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -114,7 +160,7 @@
     </div>
     <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('js/app2.js') }}"></script>
+    <script src="{{ asset('js/app3.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery/jquery.min.js') }}"></script>
     @yield('scripts')
     <script src="{{ asset('assets\vendors\toastify\toastify.js') }}"></script>

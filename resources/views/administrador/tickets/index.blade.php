@@ -44,7 +44,7 @@
                             <strong>Prioridad:</strong> {{ $ticket->priorityTicket->priority }}
                         </td>
                         <td>{{ $ticket->designer_name }}</td>
-                        <td>{{ $ticket->seller_name }}</td>
+                        <td>{{ $ticket->creator_name }}</td>
                         <td>{{ $ticket->latestTicketInformation->created_at }} <br>
                             {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
                         <td class="text-center">

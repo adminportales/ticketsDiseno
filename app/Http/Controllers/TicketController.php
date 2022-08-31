@@ -407,7 +407,7 @@ class TicketController extends Controller
                 $timeWait = 0;
                 // Vamos a considerar al diseñador siempre y cuando este disponible
                 if ($designer->profile->availability) {
-                    $ticketsAsignados = $designer->assignedTickets->where('status_id', '!=', '3')->where('status_id', '!=', '6')->where('updated_at', '>', now()->subDays(10));
+                    $ticketsAsignados = $designer->assignedTickets->where('status_id', '!=', '3')->where('status_id', '!=', '6')->where('updated_at', '>', now()->subDays(5));
                     foreach ($ticketsAsignados  as $ticket) {
                         if (strpos($ticket->designer_name, $designer->name) !== false) {
                             $totalTickets++;
@@ -419,7 +419,6 @@ class TicketController extends Controller
                         'time' => $timeWait,
                     ];
                 }
-                dd($data);
             }
 
             // Si no hay diseñadores disponibles, se asignan al gerente de diseño
@@ -487,6 +486,43 @@ class TicketController extends Controller
 
     public function viewFile($file, $folder)
     {
-        dd($file, $folder);
+        $path = '/storage/' . $folder . '/' . $file;
+        $data = explode('.', $file);
+        $extension = $data[count($data) - 1];
+        switch ($extension) {
+            case 'pdf':
+                return redirect('https://tdesign.promolife.lat' . $path);
+                // return redirect(url($path));
+                break;
+            case 'png':
+                return redirect('https://tdesign.promolife.lat' . $path);
+                // return redirect(url($path));
+                break;
+            case 'jpg':
+                return redirect('https://tdesign.promolife.lat' . $path);
+                // return redirect(url($path));
+                break;
+            case 'jpeg':
+                return redirect('https://tdesign.promolife.lat' . $path);
+                // return redirect(url($path));
+                break;
+            case 'mp4':
+                return redirect('https://tdesign.promolife.lat' . $path);
+                // return redirect(url($path));
+                break;
+            case 'mp3':
+                return redirect('https://tdesign.promolife.lat' . $path);
+                // return redirect(url($path));
+                break;
+            case 'ai':
+                $newAiToPDF = 'https://tdesign.promolife.lat' . $path;
+                return redirect('http://www.ofoct.com/viewer/viewer_url.php?fileurl=https://tdesign.promolife.lat' . $path . '&filetype=ai&quality=high-resolution');
+                // return redirect(url($path));
+                break;
+            default:
+                return view('administrador.tickets.dontShow', compact('extension', 'file'));
+                break;
+        }
+        // return redirect('https://google.com.mx');
     }
 }

@@ -5,97 +5,101 @@
 @endsection
 
 @section('dashboard')
-    <section class="row">
-        <div class="col-12">
-            <div class="row">
-                <div class="col-6 col-lg-4 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon purple">
-                                        <i class="iconly-boldShow"></i>
+    <div class="card">
+        <div class="card-body">
+            <section class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-6 col-lg-4 col-md-6">
+                            <div class="card">
+                                <div class="card-body p-0">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="stats-icon purple">
+                                                <i class="iconly-boldShow"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h6 class="text-muted font-semibold">Usuarios activos</h6>
+                                            <h6 class="font-extrabold mb-0">{{ $user }}</h6>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Usuarios activos</h6>
-                                    <h6 class="font-extrabold mb-0">{{ $user }}</h6>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-4 col-md-6">
+                            <div class="card">
+                                <div class="card-body p-0">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="stats-icon blue">
+                                                <i class="iconly-boldProfile"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h6 class="text-muted font-semibold">Tickets Creados</h6>
+                                            <h6 class="font-extrabold mb-0">{{ count($tickets) }}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-4 col-md-6">
+                            <div class="card">
+                                <div class="card-body p-0">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="stats-icon blue">
+                                                <i class="iconly-boldProfile"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h6 class="text-muted font-semibold">Filtro por Fechas</h6>
+                                            <h6 class="font-extrabold mb-0">Pendiente</h6>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-lg-4 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon blue">
-                                        <i class="iconly-boldProfile"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Tickets Creados</h6>
-                                    <h6 class="font-extrabold mb-0">{{ count($tickets) }}</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-md-4">
+                    <p class="text-center">Tipos de Tickets Creados</p>
+                    <canvas id="myChart" width="400" height="400"></canvas>
                 </div>
-                <div class="col-6 col-lg-4 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon blue">
-                                        <i class="iconly-boldProfile"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Tickets Creados</h6>
-                                    <h6 class="font-extrabold mb-0">{{ count($tickets) }}</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-md-8">
+                    <p class="text-center">Usuarios Creadores de Tickets</p>
+                    <canvas id="myChartBarCreated" width="400" height="200"></canvas>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <p class="text-center">Tipos de Tickets Creados</p>
-            <canvas id="myChart" width="400" height="400"></canvas>
-        </div>
-        <div class="col-md-8">
-            <p class="text-center">Usuarios Creadores de Tickets</p>
-            <canvas id="myChartBarCreated" width="400" height="200"></canvas>
-        </div>
-        <div class="w-100">
-            <br>
-        </div>
-        <div class="col-md-4">
-            <p class="text-center">Recepcion de Tickets</p>
-            <canvas id="chartDesigner" width="400" height="200"></canvas>
-        </div>
-        <div class="col-md-4">
-            <p class="text-center">Estado de Tickets Creados</p>
-            <canvas id="chartStatus" width="400" height="400"></canvas>
-        </div>
-        <div class="col-md-4">
-            <p class="text-center">Usuarios que no han creado un ticket</p>
-            <table class="table">
-                <tbody>
-                    @foreach ($dataUserInfoTickets[2] as $item)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                <div class="w-100">
+                    <br>
+                </div>
+                <div class="col-md-4">
+                    <p class="text-center">Recepcion de Tickets</p>
+                    <canvas id="chartDesigner" width="400" height="200"></canvas>
+                </div>
+                <div class="col-md-4">
+                    <p class="text-center">Estado de Tickets Creados</p>
+                    <canvas id="chartStatus" width="400" height="400"></canvas>
+                </div>
+                <div class="col-md-4">
+                    <p class="text-center">Usuarios que no han creado un ticket</p>
+                    <table class="table">
+                        <tbody>
+                            @foreach ($dataUserInfoTickets[2] as $item)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                {{-- {{ $dataTypeTickets }} --}}
+            </section>
         </div>
 
-        {{-- {{ $dataTypeTickets }} --}}
-    </section>
+    </div>
 @endsection
 
 @section('styles')

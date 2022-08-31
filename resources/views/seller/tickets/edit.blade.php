@@ -114,7 +114,8 @@
                     </div>
                 </div>
                 <div class="col-md-7">
-                    <p class="text-center text-danger">Las imagenes colocadas anterirormente no se pueden modificar</p>
+                    <p class="text-center text-danger">Las imagenes o archivos colocados anterirormente no se pueden
+                        modificar, <span class="text-success">pero si puedes agregar nuevos archivos</span></p>
                     <div class="form-group w-100" id="logoElement">
                         <label for="logo">Logo</label>
                         <div id="dropzoneLogo" class="dropzone form-control text-center" style="height: auto; width: auto">

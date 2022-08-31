@@ -77,8 +77,9 @@
             <p class="m-0"><strong>Logo:</strong></p>
             @foreach (explode(',', $ticket->latestTicketInformation->logo) as $item)
                 <a href="{{ asset('/storage/logos/' . $item) }}"
-                    class="btn btn-sm btn-light w-100 d-flex justify-content-between"  download="{{ Str::substr($item, 11) }}">
-                    {{ Str::limit(Str::substr($item, 11),20) }}
+                    class="btn btn-sm btn-light w-100 d-flex justify-content-between"
+                    download="{{ Str::substr($item, 11) }}">
+                    {{ Str::limit(Str::substr($item, 11), 20) }}
                     <span class="fa-fw select-all fas"></span>
                 </a>
             @endforeach
@@ -88,8 +89,9 @@
             </p>
             @foreach (explode(',', $ticket->latestTicketInformation->product) as $item)
                 <a href="{{ asset('/storage/products/' . $item) }}"
-                    class="btn btn-sm btn-light w-100 d-flex justify-content-between"  download="{{ Str::substr($item, 11) }}">
-                    {{ Str::limit(Str::substr($item, 11),20) }}
+                    class="btn btn-sm btn-light w-100 d-flex justify-content-between"
+                    download="{{ Str::substr($item, 11) }}">
+                    {{ Str::limit(Str::substr($item, 11), 20) }}
                     <span class="fa-fw select-all fas"></span>
                 </a>
             @endforeach
@@ -98,8 +100,9 @@
             <p class="m-0"><strong>Items:</strong></p>
             @foreach (explode(',', $ticket->latestTicketInformation->items) as $item)
                 <a href="{{ asset('/storage/items/' . $item) }}"
-                    class="btn btn-sm btn-light w-100 d-flex justify-content-between" download="{{ Str::substr($item, 11) }}">
-                    {{ Str::limit(Str::substr($item, 11),20) }}
+                    class="btn btn-sm btn-light w-100 d-flex justify-content-between"
+                    download="{{ Str::substr($item, 11) }}">
+                    {{ Str::limit(Str::substr($item, 11), 20) }}
                     <span class="fa-fw select-all fas"></span>
                 </a>
             @endforeach
@@ -123,16 +126,16 @@
     <div class="">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                    role="tab" aria-controls="home" aria-selected="true">Mensajes</button>
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                    type="button" role="tab" aria-controls="home" aria-selected="true">Mensajes</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
-                    type="button" role="tab" aria-controls="profile" aria-selected="false">Proceso</button>
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                    role="tab" aria-controls="profile" aria-selected="false">Proceso</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
-                    type="button" role="tab" aria-controls="contact" aria-selected="false">Modificaciones</button>
+                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
+                    role="tab" aria-controls="contact" aria-selected="false">Modificaciones</button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button"
@@ -237,10 +240,10 @@
                                             @endif
                                             @if ($information->description != $latestInformation->description)
                                                 <strong>Descripción:
-                                                    </strong>
-                                                    {!! $latestInformation->description !!}
-                                                    <span class="fa-fw select-all fas"></span>
-                                                    {!! $information->description !!}
+                                                </strong>
+                                                {!! $latestInformation->description !!}
+                                                <span class="fa-fw select-all fas"></span>
+                                                {!! $information->description !!}
                                             @endif
                                         </div>
                                         <div class="col-md-12">
@@ -255,8 +258,9 @@
                                                             <div class="d-flex flex-wrap">
                                                                 @foreach (explode(',', $latestInformation->logo) as $item)
                                                                     <a href="{{ asset('/storage/logos/' . $item) }}"
-                                                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"  download="{{ Str::substr($item, 11) }}">
-                                                                        {{ Str::limit(Str::substr($item, 11),20) }}
+                                                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"
+                                                                        download="{{ Str::substr($item, 11) }}">
+                                                                        {{ Str::limit(Str::substr($item, 11), 20) }}
                                                                         <span class="fa-fw select-all fas"></span>
                                                                     </a>
                                                                 @endforeach
@@ -269,8 +273,9 @@
                                                             <div class="d-flex flex-wrap">
                                                                 @foreach (explode(',', $information->logo) as $item)
                                                                     <a href="{{ asset('/storage/logos/' . $item) }}"
-                                                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"  download="{{ Str::substr($item, 11) }}">
-                                                                        {{ Str::limit(Str::substr($item, 11),20) }}
+                                                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"
+                                                                        download="{{ Str::substr($item, 11) }}">
+                                                                        {{ Str::limit(Str::substr($item, 11), 20) }}
                                                                         <span class="fa-fw select-all fas"></span>
                                                                     </a>
                                                                 @endforeach
@@ -280,7 +285,7 @@
                                                 @endif
                                                 @if ($information->product)
                                                     @php
-                                                    $diferencias = array_diff(explode(',', $information->product), explode(',', $latestInformation->product));
+                                                        $diferencias = array_diff(explode(',', $information->product), explode(',', $latestInformation->product));
                                                     @endphp
                                                     @if (!empty($diferencias))
                                                         <p class="m-0"><strong>Productos: </strong></p>
@@ -288,8 +293,9 @@
                                                             <div class="d-flex flex-wrap">
                                                                 @foreach (explode(',', $latestInformation->product) as $item)
                                                                     <a href="{{ asset('/storage/products/' . $item) }}"
-                                                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"  download="{{ Str::substr($item, 11) }}">
-                                                                        {{ Str::limit(Str::substr($item, 11),20) }}
+                                                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"
+                                                                        download="{{ Str::substr($item, 11) }}">
+                                                                        {{ Str::limit(Str::substr($item, 11), 20) }}
                                                                         <span class="fa-fw select-all fas"></span>
                                                                     </a>
                                                                 @endforeach
@@ -302,8 +308,9 @@
                                                             <div class="d-flex flex-wrap">
                                                                 @foreach (explode(',', $information->product) as $item)
                                                                     <a href="{{ asset('/storage/products/' . $item) }}"
-                                                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"  download="{{ Str::substr($item, 11) }}">
-                                                                        {{ Str::limit(Str::substr($item, 11),20) }}
+                                                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"
+                                                                        download="{{ Str::substr($item, 11) }}">
+                                                                        {{ Str::limit(Str::substr($item, 11), 20) }}
                                                                         <span class="fa-fw select-all fas"></span>
                                                                     </a>
                                                                 @endforeach
@@ -323,8 +330,9 @@
                                                     <div class="d-flex flex-wrap">
                                                         @foreach (explode(',', $latestInformation->items) as $item)
                                                             <a href="{{ asset('/storage/items/' . $item) }}"
-                                                                class="btn btn-sm btn-light w-100 d-flex justify-content-between"  download="{{ Str::substr($item, 11) }}">
-                                                                {{ Str::limit(Str::substr($item, 11),20) }}
+                                                                class="btn btn-sm btn-light w-100 d-flex justify-content-between"
+                                                                download="{{ Str::substr($item, 11) }}">
+                                                                {{ Str::limit(Str::substr($item, 11), 20) }}
                                                                 <span class="fa-fw select-all fas"></span>
                                                             </a>
                                                         @endforeach
@@ -337,8 +345,9 @@
                                                     <div class="d-flex flex-wrap">
                                                         @foreach (explode(',', $information->items) as $item)
                                                             <a href="{{ asset('/storage/items/' . $item) }}"
-                                                                class="btn btn-sm btn-light w-100 d-flex justify-content-between"  download="{{ Str::substr($item, 11) }}">
-                                                                {{ Str::limit(Str::substr($item, 11),20) }}
+                                                                class="btn btn-sm btn-light w-100 d-flex justify-content-between"
+                                                                download="{{ Str::substr($item, 11) }}">
+                                                                {{ Str::limit(Str::substr($item, 11), 20) }}
                                                                 <span class="fa-fw select-all fas"></span>
                                                             </a>
                                                         @endforeach
@@ -370,11 +379,22 @@
                             <li class="list-group-item">
                                 <p class="m-0 "><strong>Entrega de archivos</strong></p>
                                 @foreach (explode(',', $delivery->files) as $item)
-                                    <a href="{{ asset('/storage/deliveries/' . $item) }}"
-                                        class="btn btn-sm btn-light w-25 d-flex justify-content-between"  download="{{ Str::substr($item, 11) }}">
-                                        {{ Str::limit(Str::substr($item, 11),20) }}
-                                        <span class="fa-fw select-all fas"></span>
-                                    </a>
+                                    <div
+                                        class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
+                                        <div class="name" style="width: 85%">
+                                            {{ Str::substr($item, 11) }}
+                                        </div>
+                                        <div class="actions d-flex justify-content-around" style="width: 15%">
+                                            <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
+                                                target="_blank">
+                                                <span class="fa-eye fas"></span>
+                                            </a>
+                                            <a href="{{ asset('/storage/deliveries/' . $item) }}"
+                                                download="{{ Str::substr($item, 11) }}">
+                                                <span class="fa-fw select-all fas"></span>
+                                            </a>
+                                        </div>
+                                    </div>
                                 @endforeach
                                 <p class="m-0 " style="font-size: .8rem">
                                     {{ $delivery->designer_id == auth()->user()->id ? 'Yo' : $delivery->designer_name }}
@@ -476,8 +496,9 @@
                                                             <div class="d-flex flex-wrap">
                                                                 @foreach (explode(',', $latestInformation->logo) as $item)
                                                                     <a href="{{ asset('/storage/logos/' . $item) }}"
-                                                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"  download="{{ Str::substr($item, 11) }}">
-                                                                        {{ Str::limit(Str::substr($item, 11),20) }}
+                                                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"
+                                                                        download="{{ Str::substr($item, 11) }}">
+                                                                        {{ Str::limit(Str::substr($item, 11), 20) }}
                                                                         <span class="fa-fw select-all fas"></span>
                                                                     </a>
                                                                 @endforeach
@@ -490,8 +511,9 @@
                                                             <div class="d-flex flex-wrap">
                                                                 @foreach (explode(',', $information->logo) as $item)
                                                                     <a href="{{ asset('/storage/logos/' . $item) }}"
-                                                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"  download="{{ Str::substr($item, 11) }}">
-                                                                        {{ Str::limit(Str::substr($item, 11),20) }}
+                                                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"
+                                                                        download="{{ Str::substr($item, 11) }}">
+                                                                        {{ Str::limit(Str::substr($item, 11), 20) }}
                                                                         <span class="fa-fw select-all fas"></span>
                                                                     </a>
                                                                 @endforeach
@@ -501,7 +523,7 @@
                                                 @endif
                                                 @if ($information->product)
                                                     @php
-                                                    $diferencias = array_diff(explode(',', $information->product), explode(',', $latestInformation->product));
+                                                        $diferencias = array_diff(explode(',', $information->product), explode(',', $latestInformation->product));
                                                     @endphp
                                                     @if (!empty($diferencias))
                                                         <p class="m-0"><strong>Productos: </strong></p>
@@ -509,8 +531,9 @@
                                                             <div class="d-flex flex-wrap">
                                                                 @foreach (explode(',', $latestInformation->product) as $item)
                                                                     <a href="{{ asset('/storage/products/' . $item) }}"
-                                                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"  download="{{ Str::substr($item, 11) }}">
-                                                                        {{ Str::limit(Str::substr($item, 11),20) }}
+                                                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"
+                                                                        download="{{ Str::substr($item, 11) }}">
+                                                                        {{ Str::limit(Str::substr($item, 11), 20) }}
                                                                         <span class="fa-fw select-all fas"></span>
                                                                     </a>
                                                                 @endforeach
@@ -523,8 +546,9 @@
                                                             <div class="d-flex flex-wrap">
                                                                 @foreach (explode(',', $information->product) as $item)
                                                                     <a href="{{ asset('/storage/products/' . $item) }}"
-                                                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"  download="{{ Str::substr($item, 11) }}">
-                                                                        {{ Str::limit(Str::substr($item, 11),20) }}
+                                                                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"
+                                                                        download="{{ Str::substr($item, 11) }}">
+                                                                        {{ Str::limit(Str::substr($item, 11), 20) }}
                                                                         <span class="fa-fw select-all fas"></span>
                                                                     </a>
                                                                 @endforeach
@@ -544,8 +568,9 @@
                                                     <div class="d-flex flex-wrap">
                                                         @foreach (explode(',', $latestInformation->items) as $item)
                                                             <a href="{{ asset('/storage/items/' . $item) }}"
-                                                                class="btn btn-sm btn-light w-100 d-flex justify-content-between"  download="{{ Str::substr($item, 11) }}">
-                                                                {{ Str::limit(Str::substr($item, 11),20) }}
+                                                                class="btn btn-sm btn-light w-100 d-flex justify-content-between"
+                                                                download="{{ Str::substr($item, 11) }}">
+                                                                {{ Str::limit(Str::substr($item, 11), 20) }}
                                                                 <span class="fa-fw select-all fas"></span>
                                                             </a>
                                                         @endforeach
@@ -558,8 +583,9 @@
                                                     <div class="d-flex flex-wrap">
                                                         @foreach (explode(',', $information->items) as $item)
                                                             <a href="{{ asset('/storage/items/' . $item) }}"
-                                                                class="btn btn-sm btn-light w-100 d-flex justify-content-between"  download="{{ Str::substr($item, 11) }}">
-                                                                {{ Str::limit(Str::substr($item, 11),20) }}
+                                                                class="btn btn-sm btn-light w-100 d-flex justify-content-between"
+                                                                download="{{ Str::substr($item, 11) }}">
+                                                                {{ Str::limit(Str::substr($item, 11), 20) }}
                                                                 <span class="fa-fw select-all fas"></span>
                                                             </a>
                                                         @endforeach
@@ -594,11 +620,22 @@
                             <li class="list-group-item">
                                 <p class="m-0 "><strong>Entrega de archivos</strong></p>
                                 @foreach (explode(',', $delivery->files) as $item)
-                                    <a href="{{ asset('/storage/deliveries/' . $item) }}"
-                                        class="btn btn-sm btn-light w-25 d-flex justify-content-between"  download="{{ Str::substr($item, 11) }}">
-                                        {{ Str::limit(Str::substr($item, 11),20) }}
-                                        <span class="fa-fw select-all fas"></span>
-                                    </a>
+                                    <div
+                                        class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
+                                        <div class="name" style="width: 85%">
+                                            {{ Str::substr($item, 11) }}
+                                        </div>
+                                        <div class="actions d-flex justify-content-around" style="width: 15%">
+                                            <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
+                                                target="_blank">
+                                                <span class="fa-eye fas"></span>
+                                            </a>
+                                            <a href="{{ asset('/storage/deliveries/' . $item) }}"
+                                                download="{{ Str::substr($item, 11) }}">
+                                                <span class="fa-fw select-all fas"></span>
+                                            </a>
+                                        </div>
+                                    </div>
                                 @endforeach
                                 <p class="m-0 " style="font-size: .8rem">
                                     {{ $delivery->designer_id == auth()->user()->id ? 'Yo' : $delivery->designer_name }}
@@ -608,25 +645,31 @@
                             @php $status = $ticketHistory->ticketStatusChange; @endphp
                             <li class="list-group-item">
                                 @php $color = ''; @endphp
-                                @switch($status->status )
+                                @switch($status->status)
                                     @case('Creado')
                                         @php $color = 'alert-success'; @endphp
                                     @break
+
                                     @case('En revision')
                                         @php $color = 'alert-warning'; @endphp
                                     @break
+
                                     @case('Entregado')
                                         @php $color = 'alert-info'; @endphp
                                     @break
+
                                     @case('Solicitud de ajustes')
                                         @php $color = 'alert-danger'; @endphp
                                     @break
+
                                     @case('Realizando ajustes')
                                         @php $color = 'alert-secondary'; @endphp
                                     @break
+
                                     @case('Finalizado')
                                         @php $color = 'alert-primary'; @endphp
                                     @break
+
                                     @default
                                 @endswitch
                                 <div class="p-1 m-0 alert {{ $color }}">

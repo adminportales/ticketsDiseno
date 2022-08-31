@@ -17,38 +17,40 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-8">
                 @include('layouts.components.historyTicket')
             </div>
-            <div class="col-md-3">
-                <h5>Entregas</h5>
+            <div class="col-md-4">
+                <h5>Ultima entrega realizada</h5>
                 @if (count($ticketDeliveries) > 0)
                     <div class="border border-info rounded d-flex flex-column-reverse">
-
-                        @foreach ($ticketDeliveries as $delivery)
-                            <div class="item">
-                                @foreach (explode(',', $delivery->files) as $item)
-                                    <div class="d-flex justify-content-between bg-light py-1 mb-1 mx-1">
-                                        <div class="name">
-                                            {{ Str::limit(Str::substr($item, 11), 20) }}
-                                        </div>
-                                        <div class="actions d-flex justify-content-around">
-                                            {{-- <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
-                                                target="_blank">
-                                                <span class="fa-eye fas"></span>
-                                            </a> --}}
-                                            <a href="{{ asset('/storage/deliveries/' . $item) }}"
-                                                download="{{ Str::substr($item, 11) }}">
-                                                <span class="fa-fw select-all fas"></span>
-                                            </a>
-                                        </div>
+                        @php
+                            $delivery = $ticketDeliveries[count($ticketDeliveries) - 1];
+                        @endphp
+                        {{-- @foreach ($ticketDeliveries as $delivery) --}}
+                        <div class="item">
+                            @foreach (explode(',', $delivery->files) as $item)
+                                <div class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
+                                    <div class="name" style="width: 85%">
+                                        {{ Str::substr($item, 11) }}
                                     </div>
-                                @endforeach
-                                <p class="m-0 text-center" style="font-size: .7rem">
-                                    <small>{{ $delivery->created_at }}</small>
-                                </p>
-                            </div>
-                        @endforeach
+                                    <div class="actions d-flex justify-content-around" style="width: 15%">
+                                        <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
+                                            target="_blank">
+                                            <span class="fa-eye fas"></span>
+                                        </a>
+                                        <a href="{{ asset('/storage/deliveries/' . $item) }}"
+                                            download="{{ Str::substr($item, 11) }}">
+                                            <span class="fa-fw select-all fas"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                            <p class="m-0 text-center" style="font-size: .7rem">
+                                <small>{{ $delivery->created_at }}</small>
+                            </p>
+                        </div>
+                        {{-- @endforeach --}}
                     </div>
                 @else
                     No hay archivos disponibles
@@ -62,12 +64,20 @@
             <div class="px-4">
                 <p>Archivos enviados por {{ $ticket->latestTicketDelivery->designer_name }}</p>
                 @foreach (explode(',', $ticket->latestTicketDelivery->files) as $item)
-                    <a href="{{ asset('/storage/deliveries/' . $item) }}"
-                        class="btn btn-sm btn-light w-100 d-flex justify-content-between"
-                        download="{{ Str::substr($item, 11) }}">
-                        {{ Str::limit(Str::substr($item, 11), 20) }}
-                        <span class="fa-fw select-all fas"></span>
-                    </a>
+                    <div class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
+                        <div class="name" style="width: 85%">
+                            {{ Str::substr($item, 11) }}
+                        </div>
+                        <div class="actions d-flex justify-content-around" style="width: 15%">
+                            <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
+                                target="_blank">
+                                <span class="fa-eye fas"></span>
+                            </a>
+                            <a href="{{ asset('/storage/deliveries/' . $item) }}" download="{{ Str::substr($item, 11) }}">
+                                <span class="fa-fw select-all fas"></span>
+                            </a>
+                        </div>
+                    </div>
                 @endforeach
                 <p class="m-0 text-center" style="font-size: .9rem">
                     <small>{{ $ticket->latestTicketDelivery->created_at->diffForHumans() }}</small>
