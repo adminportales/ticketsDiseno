@@ -17,6 +17,7 @@ use App\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 
 class TicketController extends Controller
@@ -491,38 +492,46 @@ class TicketController extends Controller
         $extension = $data[count($data) - 1];
         switch ($extension) {
             case 'pdf':
-                return redirect('https://tdesign.promolife.lat' . $path);
+                return redirect(url($path));
                 // return redirect(url($path));
                 break;
             case 'png':
-                return redirect('https://tdesign.promolife.lat' . $path);
+                return redirect(url($path));
                 // return redirect(url($path));
                 break;
             case 'jpg':
-                return redirect('https://tdesign.promolife.lat' . $path);
+                return redirect(url($path));
                 // return redirect(url($path));
                 break;
             case 'jpeg':
-                return redirect('https://tdesign.promolife.lat' . $path);
+                return redirect(url($path));
                 // return redirect(url($path));
                 break;
             case 'mp4':
-                return redirect('https://tdesign.promolife.lat' . $path);
+                return redirect(url($path));
                 // return redirect(url($path));
                 break;
             case 'mp3':
-                return redirect('https://tdesign.promolife.lat' . $path);
+                return redirect(url($path));
                 // return redirect(url($path));
                 break;
             case 'ai':
-                $newAiToPDF = 'https://tdesign.promolife.lat' . $path;
-                return redirect('http://www.ofoct.com/viewer/viewer_url.php?fileurl=https://tdesign.promolife.lat' . $path . '&filetype=ai&quality=high-resolution');
-                // return redirect(url($path));
+                $newName = '';
+                unset($data[count($data) - 1]);
+                foreach ($data as $part) {
+                    $newName = $newName . $part . '.';
+                }
+                $newPath = $newName . 'ARCHIVO_AI';
+                if (Storage::exists('public/tempDeliveries/' . $newPath)) {
+                    Storage::delete('public/tempDeliveries/' . $newPath);
+                }
+                Storage::copy('public/' . $folder . '/' . $file, 'public/tempDeliveries/' . $newPath);
+                return redirect(url('storage/tempDeliveries/' . $newPath));
                 break;
             default:
                 return view('administrador.tickets.dontShow', compact('extension', 'file'));
                 break;
         }
-        // return redirect('https://google.com.mx');
+        return view('administrador.tickets.dontShow', compact('extension', 'file'));
     }
 }
