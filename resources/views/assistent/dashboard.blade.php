@@ -74,25 +74,31 @@
                                                     {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
                                                 @endif
                                                 @php $color = ''; @endphp
-                                                @switch($ticket->latestStatusChangeTicket->status )
+                                                @switch($ticket->latestStatusChangeTicket->status)
                                                     @case('Creado')
                                                         @php $color = 'alert-success'; @endphp
                                                     @break
+
                                                     @case('En revision')
                                                         @php $color = 'alert-warning'; @endphp
                                                     @break
+
                                                     @case('Entregado')
                                                         @php $color = 'alert-info'; @endphp
                                                     @break
+
                                                     @case('Solicitud de ajustes')
                                                         @php $color = 'alert-danger'; @endphp
                                                     @break
+
                                                     @case('Realizando ajustes')
                                                         @php $color = 'alert-secondary'; @endphp
                                                     @break
+
                                                     @case('Finalizado')
                                                         @php $color = 'alert-primary'; @endphp
                                                     @break
+
                                                     @default
                                                 @endswitch
                                                 <div class="p-1 m-0 alert {{ $color }}">
@@ -143,8 +149,36 @@
                                                                 <strong>Tecnica:</strong>
                                                                 {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
                                                             @endif
+                                                            @switch($ticket->latestStatusChangeTicket->status)
+                                                                @case('Creado')
+                                                                    @php $color = 'alert-success'; @endphp
+                                                                @break
+
+                                                                @case('En revision')
+                                                                    @php $color = 'alert-warning'; @endphp
+                                                                @break
+
+                                                                @case('Entregado')
+                                                                    @php $color = 'alert-info'; @endphp
+                                                                @break
+
+                                                                @case('Solicitud de ajustes')
+                                                                    @php $color = 'alert-danger'; @endphp
+                                                                @break
+
+                                                                @case('Realizando ajustes')
+                                                                    @php $color = 'alert-secondary'; @endphp
+                                                                @break
+
+                                                                @case('Finalizado')
+                                                                    @php $color = 'alert-primary'; @endphp
+                                                                @break
+
+                                                                @default
+                                                            @endswitch
                                                             <strong>Estado:</strong>
-                                                            {{ $ticket->latestStatusChangeTicket->status }}
+                                                            <div class="p-1 alert {{ $color }}">
+                                                                {{ $ticket->latestStatusChangeTicket->status }}</div>
                                                         </td>
                                                         <td>{{ $ticket->designer_name }}</td>
                                                         <td class="text-center">
@@ -209,7 +243,6 @@
         .fontawesome-icons .the-icon svg {
             font-size: 24px;
         }
-
     </style>
 @endsection
 

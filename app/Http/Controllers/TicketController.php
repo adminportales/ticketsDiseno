@@ -163,7 +163,6 @@ class TicketController extends Controller
             ->where('profiles.availability', '=', 1)->get();
         // Algoritmo para la asignacion de tickets
         $designerAssigment = $this->checkWorkload($designerAssigments);
-
         // Registrar el ticket
         $ticket = Ticket::create([
             'creator_id' => $creator_id,
@@ -428,24 +427,43 @@ class TicketController extends Controller
                 return $designer[0];
             }
 
-            //Verificar quien tiene el menor numero de tickets o si son iguales
-            $data = array_values($data);
-            $designerAssigment = $data[0];
-            $sameAmountOfVirtual = true;
-            foreach ($data as $key => $item) {
-                if ($item['total'] < $designerAssigment['total']) {
-                    $designerAssigment = $item;
-                    $sameAmountOfVirtual = false;
+            //Si el numero de tickets es el mismo, asignalos aleatoreamemte
+            //Si no, regresa el que tenga el menor numero de tickets asignados
+                        for ($i = 0; $i < count($data) - 1; $i++) {
+                if ($data[$i]['total'] > $data[$i + 1]['total']) {
+                    $aux = $data[$i];
+                    $data[$i] = $data[$i + 1];
+                    $data[$i + 1] = $aux;
                 }
             }
 
-            //Si el numero de tickets es el mismo, asignalos aleatoreamemte
-            //Si no, regresa el que tenga el menor numero de tickets asignados
-            if (!$sameAmountOfVirtual) {
-                return $designerAssigment['designer'];
+            $newData=[$data[0]];
+
+            for ($i = 1; $i < count($data); $i++) {
+                if($data[0]['total']===$data[$i]['total']){
+                    array_push($newData,$data[$i]);
+                }else{
+                    break;
+                }
+            }
+            if (count($newData) == 1) {
+                return $newData[0]['designer'];
             } else {
                 //TODO: Retornar a la persona que lleva mas tiempo si entregar un ticket
-                return $data[rand(0, count($data) - 1)]['designer'];
+                $lastestTicket = [];
+                foreach($newData as $desNew){
+                    array_push($lastestTicket,  $desNew['designer']->assignedTickets()->orderBy('updated_at','desc')->first());
+                }
+
+                for ($i = 0; $i < count($lastestTicket) - 1; $i++) {
+                if ($lastestTicket[$i]->updated_at > $lastestTicket[$i + 1]->updated_at) {
+                    $aux = $lastestTicket[$i];
+                    $lastestTicket[$i] = $lastestTicket[$i + 1];
+                    $lastestTicket[$i + 1] = $aux;
+                }
+            }
+
+                return User::find($lastestTicket[0]->designer_id);
             }
         }
     }

@@ -34,7 +34,35 @@
                                 <strong>Tecnica:</strong>
                                 {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
                             @endif
-                            <strong>Estado:</strong> {{ $ticket->latestStatusChangeTicket->status }}
+                            @switch($ticket->latestStatusChangeTicket->status)
+                                @case('Creado')
+                                    @php $color = 'alert-success'; @endphp
+                                @break
+
+                                @case('En revision')
+                                    @php $color = 'alert-warning'; @endphp
+                                @break
+
+                                @case('Entregado')
+                                    @php $color = 'alert-info'; @endphp
+                                @break
+
+                                @case('Solicitud de ajustes')
+                                    @php $color = 'alert-danger'; @endphp
+                                @break
+
+                                @case('Realizando ajustes')
+                                    @php $color = 'alert-secondary'; @endphp
+                                @break
+
+                                @case('Finalizado')
+                                    @php $color = 'alert-primary'; @endphp
+                                @break
+
+                                @default
+                            @endswitch
+                            <strong>Estado:</strong>
+                            <div class="p-1 alert {{ $color }}">{{ $ticket->latestStatusChangeTicket->status }}</div>
                         </td>
                         <td>
                             @if ($ticket->seller_id == $ticket->creator_id)
@@ -53,8 +81,7 @@
                         <td>{{ $ticket->latestTicketInformation->created_at }} <br>
                             {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
                         <td class="text-center">
-                            <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
-                                class="boton-ver ">Ver</a>
+                            <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}" class="boton-ver ">Ver</a>
                             <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
                                 class="btn btn-danger">Modificar</a>
                         </td>
@@ -76,7 +103,6 @@
         .fontawesome-icons .the-icon svg {
             font-size: 24px;
         }
-
     </style>
 @endsection
 

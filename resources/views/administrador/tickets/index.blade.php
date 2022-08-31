@@ -40,7 +40,37 @@
                             <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
                         </td>
                         <td>
-                            <strong>Estado:</strong> {{ $ticket->latestStatusChangeTicket->status }} <br>
+                            @php $color = ''; @endphp
+                            @switch($ticket->latestStatusChangeTicket->status)
+                                @case('Creado')
+                                    @php $color = 'alert-success'; @endphp
+                                @break
+
+                                @case('En revision')
+                                    @php $color = 'alert-warning'; @endphp
+                                @break
+
+                                @case('Entregado')
+                                    @php $color = 'alert-info'; @endphp
+                                @break
+
+                                @case('Solicitud de ajustes')
+                                    @php $color = 'alert-danger'; @endphp
+                                @break
+
+                                @case('Realizando ajustes')
+                                    @php $color = 'alert-secondary'; @endphp
+                                @break
+
+                                @case('Finalizado')
+                                    @php $color = 'alert-primary'; @endphp
+                                @break
+
+                                @default
+                            @endswitch
+                            <strong>Estado:</strong>
+                            <div class="p-1 alert {{ $color }}">{{ $ticket->latestStatusChangeTicket->status }}</div>
+                            <br>
                             <strong>Prioridad:</strong> {{ $ticket->priorityTicket->priority }}
                         </td>
                         <td>{{ $ticket->designer_name }}</td>
