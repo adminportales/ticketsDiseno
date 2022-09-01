@@ -429,20 +429,21 @@ class TicketController extends Controller
 
             //Si el numero de tickets es el mismo, asignalos aleatoreamemte
             //Si no, regresa el que tenga el menor numero de tickets asignados
-                        for ($i = 0; $i < count($data) - 1; $i++) {
-                if ($data[$i]['total'] > $data[$i + 1]['total']) {
-                    $aux = $data[$i];
-                    $data[$i] = $data[$i + 1];
-                    $data[$i + 1] = $aux;
+            for ($j = 0; $j < count($data) - 1; $j++) {
+                for ($i = 0; $i < count($data) - 1; $i++) {
+                    if ($data[$i]['total'] > $data[$i + 1]['total']) {
+                        $aux = $data[$i];
+                        $data[$i] = $data[$i + 1];
+                        $data[$i + 1] = $aux;
+                    }
                 }
             }
 
-            $newData=[$data[0]];
-
+            $newData = [$data[0]];
             for ($i = 1; $i < count($data); $i++) {
-                if($data[0]['total']===$data[$i]['total']){
-                    array_push($newData,$data[$i]);
-                }else{
+                if ($data[0]['total'] === $data[$i]['total']) {
+                    array_push($newData, $data[$i]);
+                } else {
                     break;
                 }
             }
@@ -451,17 +452,19 @@ class TicketController extends Controller
             } else {
                 //TODO: Retornar a la persona que lleva mas tiempo si entregar un ticket
                 $lastestTicket = [];
-                foreach($newData as $desNew){
-                    array_push($lastestTicket,  $desNew['designer']->assignedTickets()->orderBy('updated_at','desc')->first());
+                foreach ($newData as $desNew) {
+                    array_push($lastestTicket,  $desNew['designer']->assignedTickets()->where('status_id', '!=', 1)->where('status_id', '!=', 5)->orderBy('updated_at', 'desc')->first());
                 }
 
-                for ($i = 0; $i < count($lastestTicket) - 1; $i++) {
-                if ($lastestTicket[$i]->updated_at > $lastestTicket[$i + 1]->updated_at) {
-                    $aux = $lastestTicket[$i];
-                    $lastestTicket[$i] = $lastestTicket[$i + 1];
-                    $lastestTicket[$i + 1] = $aux;
+                for ($j = 0; $j < count($lastestTicket) - 1; $j++) {
+                    for ($i = 0; $i < count($lastestTicket) - 1; $i++) {
+                        if ($lastestTicket[$i]->updated_at > $lastestTicket[$i + 1]->updated_at) {
+                            $aux = $lastestTicket[$i];
+                            $lastestTicket[$i] = $lastestTicket[$i + 1];
+                            $lastestTicket[$i + 1] = $aux;
+                        }
+                    }
                 }
-            }
 
                 return User::find($lastestTicket[0]->designer_id);
             }
