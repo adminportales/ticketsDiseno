@@ -76,35 +76,59 @@
         @if ($ticket->latestTicketInformation->logo)
             <p class="m-0"><strong>Logo:</strong></p>
             @foreach (explode(',', $ticket->latestTicketInformation->logo) as $item)
-                <a href="{{ asset('/storage/logos/' . $item) }}"
-                    class="btn btn-sm btn-light w-100 d-flex justify-content-between"
-                    download="{{ Str::substr($item, 11) }}">
-                    {{ Str::limit(Str::substr($item, 11), 20) }}
-                    <span class="fa-fw select-all fas"></span>
-                </a>
+                <div class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
+                    <div class="name" style="width: 85%">
+                        {{ Str::substr($item, 11) }}
+                    </div>
+                    <div class="actions d-flex justify-content-around" style="width: 15%">
+                        <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'logos']) }}"
+                            target="_blank">
+                            <span class="fa-eye fas"></span>
+                        </a>
+                        <a href="{{ asset('/storage/logos/' . $item) }}" download="{{ Str::substr($item, 11) }}">
+                            <span class="fa-fw select-all fas"></span>
+                        </a>
+                    </div>
+                </div>
             @endforeach
         @endif
         @if ($ticket->latestTicketInformation->product)
             <p class="m-0"><strong>Producto:</strong>
             </p>
             @foreach (explode(',', $ticket->latestTicketInformation->product) as $item)
-                <a href="{{ asset('/storage/products/' . $item) }}"
-                    class="btn btn-sm btn-light w-100 d-flex justify-content-between"
-                    download="{{ Str::substr($item, 11) }}">
-                    {{ Str::limit(Str::substr($item, 11), 20) }}
-                    <span class="fa-fw select-all fas"></span>
-                </a>
+                <div class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
+                    <div class="name" style="width: 85%">
+                        {{ Str::substr($item, 11) }}
+                    </div>
+                    <div class="actions d-flex justify-content-around" style="width: 15%">
+                        <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'products']) }}"
+                            target="_blank">
+                            <span class="fa-eye fas"></span>
+                        </a>
+                        <a href="{{ asset('/storage/products/' . $item) }}" download="{{ Str::substr($item, 11) }}">
+                            <span class="fa-fw select-all fas"></span>
+                        </a>
+                    </div>
+                </div>
             @endforeach
         @endif
         @if ($ticket->latestTicketInformation->items)
             <p class="m-0"><strong>Items:</strong></p>
             @foreach (explode(',', $ticket->latestTicketInformation->items) as $item)
-                <a href="{{ asset('/storage/items/' . $item) }}"
-                    class="btn btn-sm btn-light w-100 d-flex justify-content-between"
-                    download="{{ Str::substr($item, 11) }}">
-                    {{ Str::limit(Str::substr($item, 11), 20) }}
-                    <span class="fa-fw select-all fas"></span>
-                </a>
+                <div class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
+                    <div class="name" style="width: 85%">
+                        {{ Str::substr($item, 11) }}
+                    </div>
+                    <div class="actions d-flex justify-content-around" style="width: 15%">
+                        <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'items']) }}"
+                            target="_blank">
+                            <span class="fa-eye fas"></span>
+                        </a>
+                        <a href="{{ asset('/storage/items/' . $item) }}" download="{{ Str::substr($item, 11) }}">
+                            <span class="fa-fw select-all fas"></span>
+                        </a>
+                    </div>
+                </div>
             @endforeach
         @endif
     </div>
@@ -134,8 +158,9 @@
                     role="tab" aria-controls="profile" aria-selected="false">Proceso</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
-                    role="tab" aria-controls="contact" aria-selected="false">Modificaciones</button>
+                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
+                    type="button" role="tab" aria-controls="contact"
+                    aria-selected="false">Modificaciones</button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button"
