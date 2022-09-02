@@ -1,5 +1,6 @@
 <section class="border-0 row">
     <div class="col-md-8">
+        <h6 class="text-center">{{ $ticket->latestTicketInformation->title }}</h6>
         @permission('attend-ticket')
             @if ($ticket->seller_id == $ticket->creator_id)
                 <p class="m-0"><strong>Creado por:

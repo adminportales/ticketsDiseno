@@ -1,5 +1,5 @@
 <div id="sidebar" class="active">
-    <div class="sidebar-wrapper active" >
+    <div class="sidebar-wrapper active">
         <div class="toggler">
             <a href="#" class="sidebar-hide d-xl-none d-flex justify-content-end px-5" style="font-size: 2rem"><i
                     class="bi bi-x bi-middle"></i></a>
@@ -7,9 +7,14 @@
         <div class="sidebar-header px-3 pt-4 pb-1">
             <div class="name text-center">
 
-                <h4 class="font-bold" style="color: white">
-                    T-DESIGN
-                </h4>
+                <div class="d-flex align-items-center flex-column">
+                    <div class="w-50">
+                        <img src="{{ asset('img\logos\tickets.png') }}" alt="" class="w-100 h-auto">
+                    </div>
+                    <h4 class="font-bold" style="color: white">
+                        T-DESIGN
+                    </h4>
+                </div>
                 <hr>
                 <h5 class="font-bold" style="color: white">
                     {{ auth()->user()->name . ' ' . auth()->user()->lastname }}

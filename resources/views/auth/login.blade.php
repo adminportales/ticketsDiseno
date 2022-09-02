@@ -2,9 +2,14 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header">
-            <h3 class="auth-title">T-Design</h3>
-            <p class="auth-subtitle mb-5">Inicie sesión con los datos que se le proporcionaron.</p>
+        <div class="card-header py-1">
+            <div class="d-flex align-items-center flex-column">
+                <div class="w-25">
+                    <img src="{{ asset('img\logos\tickets.png') }}" alt="" class="w-100 h-auto">
+                </div>
+                <h3 class="auth-title">T-DESIGN</h3>
+                <p class="auth-subtitle">Inicie sesión con los datos que se le proporcionaron.</p>
+            </div>
         </div>
         <div class="card-body">
             <form method="POST" action="{{ route('login') }}">
