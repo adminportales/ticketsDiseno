@@ -94,8 +94,8 @@
                             </change-designer-assigment>
                         </td>
                         <td>
-                            @if ($latestTicketInformation)
-                                {{ $latestTicketInformation->created_at->diffForHumans() }}
+                            @if ($ticketInformation)
+                                {{ $ticketInformation->created_at->diffForHumans() }}
                             @else
                                 <p>No se pudo crear el ticket correctamente. Intente mandarlo
                                     nuevamente
@@ -104,7 +104,7 @@
 
                         </td>
                         <td>
-                            @if ($latestTicketInformation)
+                            @if ($ticketInformation)
                                 <a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="boton-ver">Ver
                                     ticket</a>
                             @endif
