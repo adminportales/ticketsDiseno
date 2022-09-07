@@ -45,7 +45,7 @@
 
                         <td>{{ $loop->iteration }}</td>
                         <td>
-                            {{ $ticketInformation ? $latestTicketInformation->title : 'Hubo un Problema al crear el ticket' }}
+                            {{ $ticketInformation ? $ticketInformation->title : 'Hubo un Problema al crear el ticket' }}
                         </td>
                         <td>
                             Tipo: {{ $ticket->typeTicket->type }}<br>
