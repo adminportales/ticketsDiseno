@@ -29,7 +29,7 @@
                     @endphp
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $latestTicketInformation->title }} <br>
+                        <td>{{ $latestTicketInformation ? $latestTicketInformation->title : 'Hubo un Problema al crear el ticket' }}<br>
                             <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
                         </td>
                         <td>
