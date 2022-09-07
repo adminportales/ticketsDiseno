@@ -67,53 +67,70 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($tickets as $ticket)
+                                        @php
+                                            $latestTicketInformation = $ticket->latestTicketInformation;
+                                        @endphp
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $ticket->latestTicketInformation->title }} <br>
+                                            <td>{{ $latestTicketInformation ? $latestTicketInformation->title : 'Hubo un Problema al crear el ticket' }}<br>
                                                 <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
                                             </td>
                                             <td>
-                                                @if ($ticket->latestTicketInformation->techniqueTicket)
-                                                    <strong>Tecnica:</strong>
-                                                    {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
+                                                @if ($latestTicketInformation)
+                                                    @if ($ticket->latestTicketInformation->techniqueTicket)
+                                                        <strong>Tecnica:</strong>
+                                                        {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
+                                                    @endif
                                                 @endif
                                                 @switch($ticket->latestStatusChangeTicket->status)
-                                                @case('Creado')
-                                                    @php $color = 'alert-success'; @endphp
-                                                @break
+                                                    @case('Creado')
+                                                        @php $color = 'alert-success'; @endphp
+                                                    @break
 
-                                                @case('En revision')
-                                                    @php $color = 'alert-warning'; @endphp
-                                                @break
+                                                    @case('En revision')
+                                                        @php $color = 'alert-warning'; @endphp
+                                                    @break
 
-                                                @case('Entregado')
-                                                    @php $color = 'alert-info'; @endphp
-                                                @break
+                                                    @case('Entregado')
+                                                        @php $color = 'alert-info'; @endphp
+                                                    @break
 
-                                                @case('Solicitud de ajustes')
-                                                    @php $color = 'alert-danger'; @endphp
-                                                @break
+                                                    @case('Solicitud de ajustes')
+                                                        @php $color = 'alert-danger'; @endphp
+                                                    @break
 
-                                                @case('Realizando ajustes')
-                                                    @php $color = 'alert-secondary'; @endphp
-                                                @break
+                                                    @case('Realizando ajustes')
+                                                        @php $color = 'alert-secondary'; @endphp
+                                                    @break
 
-                                                @case('Finalizado')
-                                                    @php $color = 'alert-primary'; @endphp
-                                                @break
+                                                    @case('Finalizado')
+                                                        @php $color = 'alert-primary'; @endphp
+                                                    @break
 
-                                                @default
-                                            @endswitch
-                                            <strong>Estado:</strong>
-                                            <div class="p-1 alert {{ $color }}">
-                                                {{ $ticket->latestStatusChangeTicket->status }}</div>
+                                                    @default
+                                                @endswitch
+                                                <strong>Estado:</strong>
+                                                <div class="p-1 alert {{ $color }}">
+                                                    {{ $ticket->latestStatusChangeTicket->status }}</div>
                                             </td>
                                             <td>{{ $ticket->designer_name }}</td>
                                             <td class="text-center"> {{ $ticket->priorityTicket->priority }} </td>
-                                            <td> {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
-                                            <td><a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
-                                                    class="boton">Ver
-                                                    ticket</a></td>
+                                            <td>
+                                                @if ($latestTicketInformation)
+                                                    {{ $latestTicketInformation->created_at->diffForHumans() }}
+                                                @else
+                                                    <p>No se puede ver el ticket correctamente por que hubo un error al
+                                                        crearlo.
+                                                    </p>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($latestTicketInformation)
+                                                    <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
+                                                        class="boton">Ver
+                                                        ticket</a>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -154,35 +171,35 @@
                                                         {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
                                                     @endif
                                                     @switch($ticket->latestStatusChangeTicket->status)
-                                                    @case('Creado')
-                                                        @php $color = 'alert-success'; @endphp
-                                                    @break
+                                                        @case('Creado')
+                                                            @php $color = 'alert-success'; @endphp
+                                                        @break
 
-                                                    @case('En revision')
-                                                        @php $color = 'alert-warning'; @endphp
-                                                    @break
+                                                        @case('En revision')
+                                                            @php $color = 'alert-warning'; @endphp
+                                                        @break
 
-                                                    @case('Entregado')
-                                                        @php $color = 'alert-info'; @endphp
-                                                    @break
+                                                        @case('Entregado')
+                                                            @php $color = 'alert-info'; @endphp
+                                                        @break
 
-                                                    @case('Solicitud de ajustes')
-                                                        @php $color = 'alert-danger'; @endphp
-                                                    @break
+                                                        @case('Solicitud de ajustes')
+                                                            @php $color = 'alert-danger'; @endphp
+                                                        @break
 
-                                                    @case('Realizando ajustes')
-                                                        @php $color = 'alert-secondary'; @endphp
-                                                    @break
+                                                        @case('Realizando ajustes')
+                                                            @php $color = 'alert-secondary'; @endphp
+                                                        @break
 
-                                                    @case('Finalizado')
-                                                        @php $color = 'alert-primary'; @endphp
-                                                    @break
+                                                        @case('Finalizado')
+                                                            @php $color = 'alert-primary'; @endphp
+                                                        @break
 
-                                                    @default
-                                                @endswitch
-                                                <strong>Estado:</strong>
-                                                <div class="p-1 alert {{ $color }}">
-                                                    {{ $ticket->latestStatusChangeTicket->status }}</div>
+                                                        @default
+                                                    @endswitch
+                                                    <strong>Estado:</strong>
+                                                    <div class="p-1 alert {{ $color }}">
+                                                        {{ $ticket->latestStatusChangeTicket->status }}</div>
                                                 </td>
                                                 <td>{{ $ticket->designer_name }}</td>
                                                 <td>{{ $ticket->priorityTicket->priority }}</td>
@@ -197,7 +214,6 @@
                                 </table>
                             </div>
                         </div>
-
                     @endif
                     {{-- @if (!empty($ticketsSellers))
                         <div class="card">
@@ -278,7 +294,6 @@
         .fontawesome-icons .the-icon svg {
             font-size: 24px;
         }
-
     </style>
 @endsection
 
