@@ -78,7 +78,7 @@
                                                 @if ($latestTicketInformation)
                                                     @if ($latestTicketInformation->techniqueTicket)
                                                         <strong>Tecnica:</strong>
-                                                        {{ $$latestTicketInformation->techniqueTicket->name }}<br>
+                                                        {{ $latestTicketInformation->techniqueTicket->name }}<br>
                                                     @endif
                                                 @endif
                                                 @php $color = ''; @endphp
