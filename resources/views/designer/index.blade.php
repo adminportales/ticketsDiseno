@@ -33,9 +33,11 @@
                             <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
                         </td>
                         <td>
-                            @if ($latestTicketInformation->techniqueTicket)
-                                <strong>Tecnica:</strong>
-                                {{ $latestTicketInformation->techniqueTicket->name }}<br>
+                            @if ($latestTicketInformation)
+                                @if ($latestTicketInformation->techniqueTicket)
+                                    <strong>Tecnica:</strong>
+                                    {{ $latestTicketInformation->techniqueTicket->name }}<br>
+                                @endif
                             @endif
                             @switch($ticket->latestStatusChangeTicket->status)
                                 @case('Creado')
