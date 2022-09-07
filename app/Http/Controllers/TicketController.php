@@ -407,7 +407,7 @@ class TicketController extends Controller
                 $timeWait = 0;
                 // Vamos a considerar al diseñador siempre y cuando este disponible
                 if ($designer->profile->availability) {
-                    $ticketsAsignados = $designer->assignedTickets->where('status_id', '!=', '3')->where('status_id', '!=', '6')->where('updated_at', '>', now()->subDays(5));
+                    $ticketsAsignados = $designer->assignedTickets->where('status_id', '!=', '3')->where('status_id', '!=', '6')->where('updated_at', '>', now()->subDays(2));
                     foreach ($ticketsAsignados  as $ticket) {
                         if (strpos($ticket->designer_name, $designer->name) !== false) {
                             $totalTickets++;
@@ -453,7 +453,7 @@ class TicketController extends Controller
                 //TODO: Retornar a la persona que lleva mas tiempo si entregar un ticket
                 $lastestTicket = [];
                 foreach ($newData as $desNew) {
-                    array_push($lastestTicket,  $desNew['designer']->assignedTickets()->where('status_id', '!=', 1)->where('status_id', '!=', 5)->orderBy('updated_at', 'desc')->first());
+                    array_push($lastestTicket,  $desNew['designer']->assignedTickets()->where('status_id', '!=', 1)->where('status_id', '!=', 4)->orderBy('updated_at', 'desc')->first());
                 }
 
                 for ($j = 0; $j < count($lastestTicket) - 1; $j++) {
