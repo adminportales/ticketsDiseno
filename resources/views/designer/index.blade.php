@@ -24,15 +24,18 @@
             </thead>
             <tbody>
                 @foreach ($tickets as $ticket)
+                    @php
+                        $latestTicketInformation = $ticket->latestTicketInformation;
+                    @endphp
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $ticket->latestTicketInformation->title }} <br>
+                        <td>{{ $latestTicketInformation->title }} <br>
                             <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
                         </td>
                         <td>
-                            @if ($ticket->latestTicketInformation->techniqueTicket)
+                            @if ($latestTicketInformation->techniqueTicket)
                                 <strong>Tecnica:</strong>
-                                {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
+                                {{ $latestTicketInformation->techniqueTicket->name }}<br>
                             @endif
                             @switch($ticket->latestStatusChangeTicket->status)
                                 @case('Creado')
@@ -66,10 +69,20 @@
                         </td>
                         <td>{{ $ticket->seller_name }}</td>
                         <td>{{ $ticket->priorityTicket->priority }}</td>
-                        <td>{{ $ticket->latestTicketInformation->created_at }}
-                            {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
-                        <td><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="boton">Ver
-                                ticket</a></td>
+                        <td>
+                            @if ($latestTicketInformation)
+                                {{ $latestTicketInformation->created_at }}
+                                {{ $latestTicketInformation->created_at->diffForHumans() }}
+                            @else
+                                <p>Hubo un problema al crear el ticket</p>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($latestTicketInformation)
+                                <a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="boton">Ver
+                                    ticket</a>
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -88,7 +101,6 @@
         .fontawesome-icons .the-icon svg {
             font-size: 24px;
         }
-
     </style>
 @endsection
 

@@ -29,6 +29,9 @@
             </thead>
             <tbody>
                 @foreach ($tickets as $ticket)
+                    @php
+                        $latestTicketInformation = $ticket->latestTicketInformation;
+                    @endphp
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         @role('sales_assistant')
@@ -36,7 +39,8 @@
                                 {{ $ticket->seller_name }}
                             </td>
                         @endrole
-                        <td>{{ $ticket->latestTicketInformation->title }} <br>
+                        <td>{{ $latestTicketInformation ? $latestTicketInformation->title : 'Hubo un Problema al crear el ticket' }}
+                            <br>
                             <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
                         </td>
                         <td>
@@ -75,12 +79,20 @@
                         </td>
                         <td>{{ $ticket->designer_name }}</td>
                         <td>{{ $ticket->creator_name }}</td>
-                        <td>{{ $ticket->latestTicketInformation->created_at }} <br>
-                            {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
+                        <td>
+                            @if ($latestTicketInformation)
+                                {{ $latestTicketInformation->created_at }} <br>
+                                {{ $latestTicketInformation->created_at->diffForHumans() }}
+                            @else
+                                <p>No se pudo crear el ticket correctamente. Intente mandarlo nuevamente</p>
+                            @endif
+                        </td>
                         <td class="text-center">
-                            <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}" class="boton-ver">Ver</a>
-                            <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
-                                class="btn btn-danger">Modificar</a>
+                            @if ($latestTicketInformation)
+                                <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}" class="boton-ver">Ver</a>
+                                <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
+                                    class="btn btn-danger">Modificar</a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

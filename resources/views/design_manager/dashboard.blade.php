@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('title')
-    <h3>Bienvenido {{ auth()->user()->name . ' ' . auth()->user()->lastname }}</h3>
+    <h3>
+        Bienvenido {{ auth()->user()->name . ' ' . auth()->user()->lastname }}</h3>
 @endsection
 
 @section('dashboard')
@@ -26,36 +27,48 @@
                         </thead>
                         <tbody>
                             @foreach ($ticketsPropios as $ticket)
+                                @php
+                                    $latestTicketInformation = $ticket->latestTicketInformation;
+                                @endphp
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $ticket->latestTicketInformation->title }} <br>
+                                    <td>
+                                        {{ $latestTicketInformation ? $latestTicketInformation->title : 'Hubo un Problema al crear el ticket' }}
+                                        <br>
                                         <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
                                     </td>
                                     <td>
                                         @php $color = ''; @endphp
-                                        @switch($ticket->latestStatusChangeTicket->status )
+                                        @switch($ticket->latestStatusChangeTicket->status)
                                             @case('Creado')
                                                 @php $color = 'alert-success'; @endphp
                                             @break
+
                                             @case('En revision')
                                                 @php $color = 'alert-warning'; @endphp
                                             @break
+
                                             @case('Entregado')
                                                 @php $color = 'alert-info'; @endphp
                                             @break
+
                                             @case('Solicitud de ajustes')
                                                 @php $color = 'alert-danger'; @endphp
                                             @break
+
                                             @case('Realizando ajustes')
                                                 @php $color = 'alert-secondary'; @endphp
                                             @break
+
                                             @case('Finalizado')
                                                 @php $color = 'alert-primary'; @endphp
                                             @break
+
                                             @default
                                         @endswitch
                                         <strong>Estado:</strong>
-                                        <div class="p-1 alert {{ $color }}">{{ $ticket->latestStatusChangeTicket->status }}</div>
+                                        <div class="p-1 alert {{ $color }}">
+                                            {{ $ticket->latestStatusChangeTicket->status }}</div>
                                     </td>
                                     <td>
                                         @if ($ticket->seller_id == $ticket->creator_id)
@@ -66,7 +79,15 @@
                                         @endif
                                     </td>
                                     <td>{{ $ticket->priorityTicket->priority }}</td>
-                                    <td>{{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
+                                    <td>
+                                        @if ($latestTicketInformation)
+                                            {{ $latestTicketInformation->created_at->diffForHumans() }}
+                                        @else
+                                            <p>No se pudo crear el ticket correctamente. Intente mandarlo
+                                                nuevamente
+                                            </p>
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -111,36 +132,43 @@
                                 <tr>
 
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $ticketInformation->title }} <br>
+                                    <td>
+                                        {{ $latestTicketInformation ? $latestTicketInformation->title : 'Hubo un Problema al crear el ticket' }}
+                                        <br>
                                         <strong>Tipo: </strong> {{ $ticket->typeTicket->type }}<br>
                                     </td>
                                     <td>
-
                                         <strong>Prioridad:</strong> {{ $ticket->priorityTicket->priority }}<br>
                                         @php $color = ''; @endphp
-                                        @switch($ticket->latestStatusChangeTicket->status )
+                                        @switch($ticket->latestStatusChangeTicket->status)
                                             @case('Creado')
                                                 @php $color = 'alert-success'; @endphp
                                             @break
+
                                             @case('En revision')
                                                 @php $color = 'alert-warning'; @endphp
                                             @break
+
                                             @case('Entregado')
                                                 @php $color = 'alert-info'; @endphp
                                             @break
+
                                             @case('Solicitud de ajustes')
                                                 @php $color = 'alert-danger'; @endphp
                                             @break
+
                                             @case('Realizando ajustes')
                                                 @php $color = 'alert-secondary'; @endphp
                                             @break
+
                                             @case('Finalizado')
                                                 @php $color = 'alert-primary'; @endphp
                                             @break
-                                            @default
 
+                                            @default
                                         @endswitch
-                                        <div class="p-1 alert {{ $color }}">{{ $ticket->latestStatusChangeTicket->status }}</div>
+                                        <div class="p-1 alert {{ $color }}">
+                                            {{ $ticket->latestStatusChangeTicket->status }}</div>
                                     </td>
                                     <td>
                                         @if ($ticket->seller_id == $ticket->creator_id)
@@ -156,7 +184,12 @@
                                         </change-designer-assigment>
                                     </td>
                                     <td>
-                                        {{ $ticketInformation->created_at->diffForHumans() }}
+                                        @if ($ticketInformation)
+                                            {{ $ticketInformation->created_at->diffForHumans() }}
+                                        @else
+                                            <p>No se pudo crear el ticket correctamente.
+                                            </p>
+                                        @endif
                                     </td>
 
                                 </tr>
@@ -188,7 +221,6 @@
             </div>
         </div>
     </section>
-
 @endsection
 
 @section('styles')
@@ -203,7 +235,6 @@
         .fontawesome-icons .the-icon svg {
             font-size: 24px;
         }
-
     </style>
 @endsection
 

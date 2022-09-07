@@ -21,7 +21,7 @@ class AdminController extends Controller
         $users = User::join('permission_user', 'users.id', '=', 'permission_user.user_id')->where('users.status', 1)->where('permission_user.permission_id', 1)->get();
         $usersDesigners = User::join('permission_user', 'users.id', '=', 'permission_user.user_id')->where('users.status', 1)->where('permission_user.permission_id', 2)->get();
         // Traemos el total de los tickets
-        $tickets = Ticket::all();
+        $tickets = Ticket::where('created_at', '>', now()->subMonth())->get();
         $dataTypeTickets = [];
 
         $virtual = 0;
@@ -86,7 +86,7 @@ class AdminController extends Controller
         $dataUserWithoutTickets = [];
 
         foreach ($users as $userCount) {
-            $ticketsCreated = $userCount->ticketsCreated()->count();
+            $ticketsCreated = $userCount->ticketsCreated()->where('created_at', '>', now()->subMonth())->count();
             if ($ticketsCreated > 0) {
                 array_push($dataUserCreatedTickets, $userCount->name);
                 array_push($dataUserCountTickets, $ticketsCreated);
@@ -96,13 +96,13 @@ class AdminController extends Controller
         }
         $dataUserInfoTickets = [$dataUserCreatedTickets, $dataUserCountTickets, $dataUserWithoutTickets];
 
-        // Diseñadores
+        // Dise単adores
         $dataUserCreatedTicketsDesign = [];
         $dataUserCountTicketsDesigns = [];
 
         foreach ($usersDesigners as $userCount) {
             $ticketsCreated = 0;
-            foreach ($userCount->assignedTickets as $ticketAssigned) {
+            foreach ($userCount->assignedTickets()->where('created_at', '>', now()->subMonth())->get() as $ticketAssigned) {
                 // dd($ticketAssigned->designer_name);s
                 if (strpos($ticketAssigned->designer_name, $userCount->name) !== false) {
                     $ticketsCreated++;

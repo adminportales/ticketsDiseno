@@ -510,7 +510,7 @@ class TicketController extends Controller
     {
         $path = '/storage/' . $folder . '/' . $file;
         $data = explode('.', $file);
-        $extension = $data[count($data) - 1];
+        $extension = strtolower($data[count($data) - 1]);
         switch ($extension) {
             case 'pdf':
                 return redirect(url($path));

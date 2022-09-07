@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('title')
-    <h3>Bienvenido {{ auth()->user()->name . ' ' . auth()->user()->lastname }}</h3>
+    <h3>
+        Bienvenido {{ auth()->user()->name . ' ' . auth()->user()->lastname }}</h3>
 @endsection
 
 @section('dashboard')
@@ -82,15 +83,21 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($tickets as $ticket)
+                                        @php
+                                            $latestTicketInformation = $ticket->latestTicketInformation;
+                                        @endphp
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $ticket->latestTicketInformation->title }} <br>
+                                            <td>{{ $latestTicketInformation ? $latestTicketInformation->title : 'Hubo un Problema al crear el ticket' }}
+                                                <br>
                                                 <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
                                             </td>
                                             <td>
-                                                @if ($ticket->latestTicketInformation->techniqueTicket)
-                                                    <strong>Tecnica:</strong>
-                                                    {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
+                                                @if ($latestTicketInformation)
+                                                    @if ($ticket->latestTicketInformation->techniqueTicket)
+                                                        <strong>Tecnica:</strong>
+                                                        {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
+                                                    @endif
                                                 @endif
                                                 @php $color = ''; @endphp
                                                 @switch($ticket->latestStatusChangeTicket->status)
@@ -130,7 +137,13 @@
                                                     :ticket={{ $ticket->id }} :priorities=@json($priorities)>
                                                 </change-priority>
                                             </td>
-                                            <td>{{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
+                                            <td>
+                                                @if ($latestTicketInformation)
+                                                    {{ $latestTicketInformation->created_at->diffForHumans() }}
+                                                @else
+                                                    <p>No se pudo crear el ticket correctamente</p>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -160,15 +173,20 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($ticketAssistant as $ticket)
+                                            @php
+                                                $latestTicketInformation = $ticket->latestTicketInformation;
+                                            @endphp
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $ticket->latestTicketInformation->title }} <br>
+                                                <td>{{ $latestTicketInformation ? $latestTicketInformation->title : 'Hubo un Problema al crear el ticket' }}<br>
                                                     <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
                                                 </td>
                                                 <td>
-                                                    @if ($ticket->latestTicketInformation->techniqueTicket)
-                                                        <strong>Tecnica:</strong>
-                                                        {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
+                                                    @if ($latestTicketInformation)
+                                                        @if ($ticket->latestTicketInformation->techniqueTicket)
+                                                            <strong>Tecnica:</strong>
+                                                            {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
+                                                        @endif
                                                     @endif
                                                     @switch($ticket->latestStatusChangeTicket->status)
                                                         @case('Creado')
@@ -203,10 +221,18 @@
                                                 </td>
                                                 <td>{{ $ticket->designer_name }}</td>
                                                 <td>{{ $ticket->priorityTicket->priority }}</td>
-                                                <td>{{ $ticket->latestTicketInformation->created_at->diffForHumans() }}
+                                                <td>
+                                                    @if ($latestTicketInformation)
+                                                        {{ $latestTicketInformation->created_at->diffForHumans() }}
+                                                    @else
+                                                        <p>No se pudo crear el ticket correctamente</p>
+                                                    @endif
                                                 </td>
-                                                <td><a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
-                                                        class="boton">Ver ticket</a>
+                                                <td>
+                                                    @if ($latestTicketInformation)
+                                                        <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
+                                                            class="boton">Ver ticket</a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -236,9 +262,12 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($allTickets as $ticket)
+                                        @php
+                                            $latestTicketInformation = $ticket->latestTicketInformation;
+                                        @endphp
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $ticket->latestTicketInformation->title }} <br>
+                                            <td>{{ $latestTicketInformation ? $latestTicketInformation->title : 'Hubo un Problema al crear el ticket' }}<br>
                                                 <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
                                             </td>
                                             <td>
@@ -287,7 +316,13 @@
                                                     :ticket={{ $ticket->id }} :priorities=@json($priorities)>
                                                 </change-priority>
                                             </td>
-                                            <td> {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
+                                            <td>
+                                                @if ($latestTicketInformation)
+                                                    {{ $latestTicketInformation->created_at->diffForHumans() }}
+                                                @else
+                                                    <p>No se pudo crear el ticket correctamente</p>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

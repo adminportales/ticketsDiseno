@@ -44,7 +44,9 @@
                     <tr>
 
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $ticketInformation->title }}</td>
+                        <td>
+                            {{ $ticketInformation ? $latestTicketInformation->title : 'Hubo un Problema al crear el ticket' }}
+                        </td>
                         <td>
                             Tipo: {{ $ticket->typeTicket->type }}<br>
                             Prioridad: {{ $ticket->priorityTicket->priority }}<br>
@@ -92,10 +94,21 @@
                             </change-designer-assigment>
                         </td>
                         <td>
-                            {{ $ticketInformation->created_at->diffForHumans() }}
+                            @if ($latestTicketInformation)
+                                {{ $latestTicketInformation->created_at->diffForHumans() }}
+                            @else
+                                <p>No se pudo crear el ticket correctamente. Intente mandarlo
+                                    nuevamente
+                                </p>
+                            @endif
+
                         </td>
-                        <td><a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="boton-ver">Ver
-                                ticket</a></td>
+                        <td>
+                            @if ($latestTicketInformation)
+                                <a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="boton-ver">Ver
+                                    ticket</a>
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

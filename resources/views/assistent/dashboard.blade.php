@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('title')
-    <h3>Bienvenido {{ auth()->user()->name . ' ' . auth()->user()->lastname }}</h3>
+    <h3>
+        Bienvenido {{ auth()->user()->name . ' ' . auth()->user()->lastname }}</h3>
 @endsection
 
 @section('dashboard')
@@ -63,15 +64,22 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($tickets as $ticket)
+                                        @php
+                                            $latestTicketInformation = $ticket->latestTicketInformation;
+                                        @endphp
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $ticket->latestTicketInformation->title }} <br>
+                                            <td>
+                                                {{ $latestTicketInformation ? $latestTicketInformation->title : 'Hubo un Problema al crear el ticket' }}
+                                                <br>
                                                 <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
                                             </td>
                                             <td>
-                                                @if ($ticket->latestTicketInformation->techniqueTicket)
-                                                    <strong>Tecnica:</strong>
-                                                    {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
+                                                @if ($latestTicketInformation)
+                                                    @if ($latestTicketInformation->techniqueTicket)
+                                                        <strong>Tecnica:</strong>
+                                                        {{ $$latestTicketInformation->techniqueTicket->name }}<br>
+                                                    @endif
                                                 @endif
                                                 @php $color = ''; @endphp
                                                 @switch($ticket->latestStatusChangeTicket->status)
@@ -106,9 +114,20 @@
                                             </td>
                                             <td>{{ $ticket->designer_name }}</td>
                                             <td class="text-center"> {{ $ticket->priorityTicket->priority }} </td>
-                                            <td> {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}</td>
-                                            <td><a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
-                                                    class="boton">Ver ticket</a></td>
+                                            <td>
+                                                @if ($latestTicketInformation)
+                                                    {{ $latestTicketInformation->created_at->diffForHumans() }}
+                                                @else
+                                                    <p>No se pudo crear el ticket correctamente. Intente mandarlo nuevamente
+                                                    </p>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($latestTicketInformation)
+                                                    <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
+                                                        class="boton">Ver ticket</a>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -139,15 +158,22 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($ticketsSeller['tickets'] as $ticket)
+                                                    @php
+                                                        $latestTicketInformation = $ticket->latestTicketInformation;
+                                                    @endphp
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $ticket->latestTicketInformation->title }} <br>
+                                                        <td>
+                                                            {{ $latestTicketInformation ? $latestTicketInformation->title : 'Hubo un Problema al crear el ticket' }}
+                                                            <br>
                                                             <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
                                                         </td>
                                                         <td>
-                                                            @if ($ticket->latestTicketInformation->techniqueTicket)
-                                                                <strong>Tecnica:</strong>
-                                                                {{ $ticket->latestTicketInformation->techniqueTicket->name }}<br>
+                                                            @if ($latestTicketInformation)
+                                                                @if ($latestTicketInformation->techniqueTicket)
+                                                                    <strong>Tecnica:</strong>
+                                                                    {{ $$latestTicketInformation->techniqueTicket->name }}<br>
+                                                                @endif
                                                             @endif
                                                             @switch($ticket->latestStatusChangeTicket->status)
                                                                 @case('Creado')
@@ -184,10 +210,20 @@
                                                         <td class="text-center">
                                                             {{ $ticket->priorityTicket->priority }}
                                                         </td>
-                                                        <td> {{ $ticket->latestTicketInformation->created_at->diffForHumans() }}
+                                                        @if ($latestTicketInformation)
+                                                            {{ $latestTicketInformation->created_at }} <br>
+                                                            {{ $latestTicketInformation->created_at->diffForHumans() }}
+                                                        @else
+                                                            <p>No se pudo crear el ticket correctamente. Intente mandarlo
+                                                                nuevamente
+                                                            </p>
+                                                        @endif
+                                                        <td>
+                                                            @if ($latestTicketInformation)
+                                                                <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
+                                                                    class="boton">Ver ticket</a>
+                                                            @endif
                                                         </td>
-                                                        <td><a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
-                                                                class="boton">Ver ticket</a></td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
