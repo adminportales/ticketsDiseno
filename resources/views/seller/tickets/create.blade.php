@@ -130,6 +130,11 @@
                                 {{ $item }}
                             </label>
                         @endforeach
+                        @error('companies')
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
                     <div class="form-group" id="position">
                         <label for="pantone">Posicion del logo en el virtual</label>
