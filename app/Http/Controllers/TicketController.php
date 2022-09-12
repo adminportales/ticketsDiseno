@@ -109,7 +109,7 @@ class TicketController extends Controller
                     'type' => 'required',
                     'title' => ['required', 'string', 'max:191'],
                     'customer' => ['required', 'string', 'max:191'],
-                    'companies' => ['required', 'string', 'max:191'],
+                    'companies' => ['required'],
                     'description' => ['required', 'string', 'max:60000'],
                     'logo' => 'required',
                     'items' => 'required',
