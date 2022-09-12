@@ -141,7 +141,8 @@
                     </div>
                     <div class="form-group" id="itemsElement">
                         <label for="imagen">
-                            Items del Producto:
+                            Archivos necesarios para la solicitud: <span class="opcional text-success text-sm">Campo
+                                Opcional, agrega archivos solo si es necesario</span>
                         </label>
                         <div id="dropzoneItems" class="dropzone form-control text-center" style="height: auto;"></div>
                         <input type="hidden" name="items" id="items" value="">
@@ -206,8 +207,9 @@
         const clientElement = document.querySelector('#customer')
         const positionElement = document.querySelector('#position')
         const companiesElement = document.querySelector('#companies')
+        const opcional = document.querySelector('.opcional')
 
-        let typeSelected = '{{ $ticket->type_id }}'
+        let typeSelected = '{{ old('type') }}'
         formDynamic(typeSelected)
         selectType.addEventListener('change', () => {
             formDynamic(selectType.value)
@@ -222,7 +224,8 @@
                     productElement.classList.remove('d-none')
                     tecnicaElement.classList.remove('d-none')
                     pantoneElement.classList.remove('d-none')
-                    itemsElement.classList.add('d-none')
+                    itemsElement.classList.remove('d-none')
+                    opcional.classList.remove('d-none')
                     positionElement.classList.remove('d-none')
                     break;
                 case '2':
@@ -234,6 +237,7 @@
                     logoElement.classList.remove('d-none')
                     productElement.classList.add('d-none')
                     itemsElement.classList.remove('d-none')
+                    opcional.classList.add('d-none')
                     break;
                 case '3':
                     logoElement.classList.add('d-none')
@@ -244,6 +248,7 @@
                     clientElement.classList.add('d-none')
                     tecnicaElement.classList.add('d-none')
                     pantoneElement.classList.add('d-none')
+                    opcional.classList.add('d-none')
                     break;
 
                 default:

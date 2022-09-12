@@ -92,6 +92,16 @@
                                 <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}" class="boton-ver">Ver</a>
                                 <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
                                     class="btn btn-danger">Modificar</a>
+                            @else
+                                <a class="btn btn-danger"
+                                    onclick="event.preventDefault();document.getElementById('destroyTicket').submit();">
+                                    Eliminar
+                                </a>
+                                <form id="destroyTicket" action="{{ route('tickets.destroy', ['ticket' => $ticket->id]) }}"
+                                    method="POST" style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
                             @endif
                         </td>
                     </tr>

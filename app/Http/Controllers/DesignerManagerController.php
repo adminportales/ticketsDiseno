@@ -18,8 +18,8 @@ class DesignerManagerController extends Controller
 
     static function dashboard()
     {
-        $tickets = Ticket::where('designer_id', '!=', auth()->user()->id)->paginate(5);
-        $ticketsPropios = auth()->user()->assignedTickets()->where('status_id', '!=', 6)->orderByDesc('created_at')->paginate(5);
+        $tickets = Ticket::where('designer_id', '!=', auth()->user()->id)->where('status_id', '!=', 6)->where('status_id', '!=', 3)->orderBy('created_at','desc')->limit(5)->get();
+        $ticketsPropios = auth()->user()->assignedTickets()->where('status_id', '!=', 6)->where('status_id', '!=', 3)->orderBy('created_at','desc')->limit(5)->get();
         $permission = Permission::find(2);
         $designers = $permission->users()->where('status', 1)->get();
         $totalTickets = 0;

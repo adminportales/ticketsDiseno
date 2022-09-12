@@ -91,27 +91,26 @@ class TicketController extends Controller
         switch ($request->type) {
             case 1:
                 request()->validate([
-                    'title' => ['required', 'string', 'max:255'],
+                    'title' => ['required', 'string', 'max:191'],
                     'type' => 'required',
                     'technique' => 'required',
-                    'position' => 'required',
-                    'pantone' => 'required',
-                    'description' => ['required'],
+                    'position' => ['required', 'string', 'max:191'],
+                    'pantone' => ['required', 'string', 'max:191'],
+                    'description' => ['required', 'string', 'max:60000'],
                     'logo' => 'required',
                     'product' => 'required',
                     'position' => 'required',
-                    'customer' => ['required', 'string', 'max:255'],
+                    'customer' => ['required', 'string', 'max:191'],
                 ]);
-                $request->items = null;
                 $request->companies = null;
                 break;
             case 2:
                 request()->validate([
                     'type' => 'required',
-                    'title' => ['required', 'string', 'max:255'],
-                    'customer' => ['required', 'string', 'max:255'],
-                    'companies' => 'required',
-                    'description' => ['required'],
+                    'title' => ['required', 'string', 'max:191'],
+                    'customer' => ['required', 'string', 'max:191'],
+                    'companies' => ['required', 'string', 'max:191'],
+                    'description' => ['required', 'string', 'max:60000'],
                     'logo' => 'required',
                     'items' => 'required',
                 ]);
@@ -123,8 +122,8 @@ class TicketController extends Controller
             case 3:
                 request()->validate([
                     'type' => 'required',
-                    'title' => ['required', 'string', 'max:255'],
-                    'description' => ['required'],
+                    'title' => ['required', 'string', 'max:191'],
+                    'description' => ['required', 'string', 'max:60000'],
                     'items' => 'required',
                 ]);
                 $request->product = null;
@@ -138,6 +137,8 @@ class TicketController extends Controller
             default:
                 break;
         }
+
+
 
         // Si es un asistente, validacion extra y obtener el ejecutivo, y si no
         // El ejecutivo es el creador
@@ -349,6 +350,12 @@ class TicketController extends Controller
         $receiver->notify(new TicketChangeNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->creator_name));
         // Regresar a la vista de inicio
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
+    }
+
+    public function destroy(Ticket $ticket)
+    {
+        $ticket->delete();
+        return redirect()->action('TicketController@index');
     }
 
     public function uploadDeliveries(Request $request)

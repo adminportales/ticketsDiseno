@@ -26,7 +26,7 @@ class DesignerController extends Controller
     static function dashboard()
     {
         // Leemos los tickets que se asignaron al ususrio y obtenemos su estado
-        $tickets = auth()->user()->assignedTickets()->where('status_id', '!=', 6)->orderByDesc('created_at')->paginate(5);
+        $tickets = auth()->user()->assignedTickets()->where('status_id', '!=', 6)->where('status_id', '!=', 3)->orderByDesc('created_at')->paginate(5);
         // MOstramos la vista
         return view('designer.dashboard', compact('tickets'));
     }

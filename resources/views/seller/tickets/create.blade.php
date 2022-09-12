@@ -27,8 +27,8 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="title">Titulo</label>
-                        <input type="text" class="form-control" placeholder="Nombre unico para tu solicitud" name="title"
-                            value="{{ old('title') }}" />
+                        <input type="text" class="form-control" placeholder="Nombre unico para tu solicitud"
+                            name="title" value="{{ old('title') }}" />
                         @error('title')
                             <div class="text-danger">
                                 {{ $message }}
@@ -156,7 +156,8 @@
                 <div class="col-md-7">
                     <div class="form-group w-100" id="logoElement">
                         <label for="logo">Logo</label>
-                        <div id="dropzoneLogo" class="dropzone form-control text-center" style="height: auto; width: auto">
+                        <div id="dropzoneLogo" class="dropzone form-control text-center"
+                            style="height: auto; width: auto">
                         </div>
                         <input type="hidden" name="logo" id="logo" value="{{ old('logo') }}">
                         <p id="error" class="text-danger text-center"></p>
@@ -180,7 +181,8 @@
                     </div>
                     <div class="form-group" id="itemsElement">
                         <label for="imagen">
-                            Archivos necesarios para la solicitud:
+                            Archivos necesarios para la solicitud: <span class="opcional text-success text-sm">Campo
+                                Opcional, agrega archivos solo si es necesario</span>
                         </label>
                         <div id="dropzoneItems" class="dropzone form-control text-center" style="height: auto;"></div>
                         <input type="hidden" name="items" id="items" value="{{ old('items') }}">
@@ -200,7 +202,7 @@
                             {{ $message }}
                         </div>
                     @enderror
-                    <textarea id="summernote" name="description">{{old('description')}}</textarea>
+                    <textarea id="summernote" name="description">{{ old('description') }}</textarea>
                 </div>
             </div>
             <input type="submit" value="Crear Ticket" class="boton">
@@ -244,6 +246,7 @@
         const clientElement = document.querySelector('#customer')
         const positionElement = document.querySelector('#position')
         const companiesElement = document.querySelector('#companies')
+        const opcional = document.querySelector('.opcional')
 
         let typeSelected = '{{ old('type') }}'
         formDynamic(typeSelected)
@@ -267,7 +270,8 @@
                     productElement.classList.remove('d-none')
                     tecnicaElement.classList.remove('d-none')
                     pantoneElement.classList.remove('d-none')
-                    itemsElement.classList.add('d-none')
+                    itemsElement.classList.remove('d-none')
+                    opcional.classList.remove('d-none')
                     positionElement.classList.remove('d-none')
                     break;
                 case '2':
@@ -285,6 +289,7 @@
                     logoElement.classList.remove('d-none')
                     productElement.classList.add('d-none')
                     itemsElement.classList.remove('d-none')
+                    opcional.classList.add('d-none')
                     break;
                 case '3':
                     logoElement.classList.add('d-none')
@@ -295,6 +300,7 @@
                     clientElement.classList.add('d-none')
                     tecnicaElement.classList.add('d-none')
                     pantoneElement.classList.add('d-none')
+                    opcional.classList.add('d-none')
                     break;
 
                 default:

@@ -68,7 +68,7 @@
             </strong>{!! $ticket->latestTicketInformation->description !!}
         </p>
     </div>
-    <div class="col-md-4 overflow-auto" style="max-height: 200px;">
+    <div class="col-md-4 overflow-auto" style="max-height: 600px;">
         <a href={{ route('descarga.archivosTicket', ['ticket' => $ticket->id]) }}
             class="btn btn-sm btn-light w-100 d-flex justify-content-between">
             Descargar todo

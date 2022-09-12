@@ -11,7 +11,7 @@
                 <h4 class="card-title">Informacion acerca de tu solicitud</h4>
             </div>
             <div class="d-flex flex-row-reverse" style="width: 40%">
-                <p class="m-0" style="font-size: 1.2rem">{{ $statusTicket }}</p>
+                <p class="m-0" style="font-size: 1.2rem"><span class="font-bold">Estado: </span>{{ $statusTicket }}</p>
             </div>
         </div>
     </div>
@@ -21,6 +21,9 @@
                 @include('layouts.components.historyTicket')
             </div>
             <div class="col-md-4">
+                @if ($statusTicket !== 'Finalizado')
+                    <button class="btn btn-sm btn-warning btn-block" onclick="cerrarTicket()">Cerrar Solicitud</button>
+                @endif
                 <h5>Entregas realizadas</h5>
                 @if (count($ticketDeliveries) > 0)
                     <div class="border border-info rounded d-flex flex-column-reverse">
@@ -58,27 +61,62 @@
 
     @if ($ticket->latestTicketDelivery)
         <div class="d-none" id="message-initial">
-            <div class="px-4">
-                <p>Archivos enviados por {{ $ticket->latestTicketDelivery->designer_name }}</p>
-                @foreach (explode(',', $ticket->latestTicketDelivery->files) as $item)
-                    <div class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
-                        <div class="name" style="width: 85%">
-                            {{ Str::substr($item, 11) }}
-                        </div>
-                        <div class="actions d-flex justify-content-around" style="width: 15%">
-                            <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
-                                target="_blank">
-                                <span class="fa-eye fas"></span>
-                            </a>
-                            <a href="{{ asset('/storage/deliveries/' . $item) }}" download="{{ Str::substr($item, 11) }}">
-                                <span class="fa-fw select-all fas"></span>
-                            </a>
+            <p class="font-bold">Ultima entrega realizada por {{ $ticket->latestTicketDelivery->designer_name }}</p>
+            @foreach (explode(',', $ticket->latestTicketDelivery->files) as $item)
+                <div class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
+                    <div class="name" style="width: 85%">
+                        {{ Str::substr($item, 11) }}
+                    </div>
+                    <div class="actions d-flex justify-content-around" style="width: 15%">
+                        <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
+                            target="_blank">
+                            <span class="fa-eye fas"></span>
+                        </a>
+                        <a href="{{ asset('/storage/deliveries/' . $item) }}" download="{{ Str::substr($item, 11) }}">
+                            <span class="fa-fw select-all fas"></span>
+                        </a>
+                    </div>
+                </div>
+            @endforeach
+            <p class="m-0 text-center" style="font-size: .9rem">
+                <small>{{ $ticket->latestTicketDelivery->created_at->diffForHumans() }}</small>
+            </p>
+            <div>
+                @php
+                    unset($ticketDeliveries[count($ticketDeliveries) - 1]);
+                @endphp
+                @if (count($ticketDeliveries))
+                    <div id="entregasAnteriores">
+                        <p class="font-bold text-sm">Entregas realizadas anteriormente</p>
+                        <div class="d-flex flex-column-reverse text-sm">
+                            @foreach ($ticketDeliveries as $delivery)
+                                <div class="item">
+                                    @foreach (explode(',', $delivery->files) as $item)
+                                        <div
+                                            class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
+                                            <div class="name" style="width: 85%">
+                                                {{ Str::substr($item, 11) }}
+                                            </div>
+                                            <div class="actions d-flex justify-content-around" style="width: 15%">
+                                                <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
+                                                    target="_blank">
+                                                    <span class="fa-eye fas"></span>
+                                                </a>
+                                                <a href="{{ asset('/storage/deliveries/' . $item) }}"
+                                                    download="{{ Str::substr($item, 11) }}">
+                                                    <span class="fa-fw select-all fas"></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    <p class="m-0 text-center" style="font-size: .7rem">
+                                        <small>{{ $delivery->created_at }}</small>
+                                    </p>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                @endforeach
-                <p class="m-0 text-center" style="font-size: .9rem">
-                    <small>{{ $ticket->latestTicketDelivery->created_at->diffForHumans() }}</small>
-                </p>
+                @endif
             </div>
         </div>
     @endif
@@ -220,6 +258,32 @@
                     'error'
                 );
             }
+        }
+
+        function cerrarTicket() {
+            Swal.fire({
+                title: 'Desea finalizar esta solicitud?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, continuar',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    changeStatus(6, ticket_id)
+                    setTimeout(() => {
+                        location.reload();
+                    }, 300);
+                }
+            })
+        }
+
+        function verMas() {
+            // const latest = document.querySelector("#entregasAnteriores")
+            // latest.style.display = 'block';
+            // // const opcional = document.querySelector('.opcional')
+            // // opcional.classList.remove('d-none')
         }
     </script>
 @endsection
