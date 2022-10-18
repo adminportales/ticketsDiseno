@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\ChangeTicketSendEvent;
 use App\Events\TicketCreateSendEvent;
+use App\Message;
 use App\Notifications\TicketChangeNotification;
 use App\Notifications\TicketCreateNotification;
 use App\Priority;
@@ -12,13 +13,19 @@ use App\Status;
 use App\Technique;
 use App\Ticket;
 use App\TicketAssigment;
+use App\TicketDelivery;
+use App\TicketHistory;
 use App\Type;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use PhpParser\Node\Identifier;
+use PHPUnit\Framework\MockObject\Builder\Identity;
 use ZipArchive;
+
 
 class TicketController extends Controller
 {
@@ -139,7 +146,6 @@ class TicketController extends Controller
         }
 
 
-
         // Si es un asistente, validacion extra y obtener el ejecutivo, y si no
         // El ejecutivo es el creador
         $seller_id = '';
@@ -238,10 +244,22 @@ class TicketController extends Controller
 
         $ticketHistories = $ticket->historyTicket;
         $ticketDeliveries = $ticket->deliveryTicket;
+        //obtener la fecha de la ultima entrega
+        $ultimafecha = $ticket->latestTicketDelivery->created_at;
+        $ultimosMensajes = $ticket->messagesTicket()
+        ->whereDate('created_at', '>=', $ultimafecha)
+        ->whereTime('created_at', '>=', $ultimafecha)
+        ->get();
+
+
+        //traer los mensajes que estan despues de la fecha de la ultima entrega
+
+
+
 
         return view(
             'seller.tickets.show',
-            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories', 'ticketDeliveries')
+            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories', 'ticketDeliveries', 'ultimosMensajes')
         );
     }
 
@@ -285,7 +303,6 @@ class TicketController extends Controller
                 ]);
                 $request->logo = $request->logo == null ?  $ticket->latestTicketInformation->logo : $request->logo;
                 $request->product = $request->product == null ? $ticket->latestTicketInformation->product : $request->product;
-                $request->items = null;
                 $request->companies = null;
                 break;
             case 2:

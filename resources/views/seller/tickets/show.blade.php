@@ -60,7 +60,13 @@
     </div>
 
     @if ($ticket->latestTicketDelivery)
-        <div class="d-none" id="message-initial">
+
+    <div class="d-none" id="message-initial">
+        <p class="font-bold align-items-center py-1 mb-1 mx-1"> Mensaje de la ultima entrega{{ $ticket->ultimosMensajes}}</p>
+        @foreach ( $ultimosMensajes as $message)
+        <div class="d-flex justify-content-center align-items-center bg-light py-1 mb-1 mx-1">{{$message->message}}</div>
+        @endforeach
+
             <p class="font-bold">Ultima entrega realizada por {{ $ticket->latestTicketDelivery->designer_name }}</p>
             @foreach (explode(',', $ticket->latestTicketDelivery->files) as $item)
                 <div class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">

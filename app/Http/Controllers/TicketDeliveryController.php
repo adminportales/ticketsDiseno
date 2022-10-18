@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Events\ChangeStatusSendEvent;
 use App\Events\MessageSendEvent;
 use App\Events\TicketDeliverySendEvent;
+use App\Message;
 use App\Notifications\ChangeStatusNotification;
 use App\Notifications\TicketDeliveryNotification;
 use App\Status;
 use App\Ticket;
+use App\TicketHistory;
 use App\User;
 use Illuminate\Http\Request;
+
 
 class TicketDeliveryController extends Controller
 {
@@ -28,9 +31,12 @@ class TicketDeliveryController extends Controller
      */
     public function store(Request $request, Ticket $ticket)
     {
+        // TODO: Agregar Mensaje
         request()->validate([
             'delivery' => 'required',
         ]);
+
+
 
         $ticketDelivery =  $ticket->deliveryTicket()->create([
             'designer_id' => auth()->user()->id,
@@ -71,6 +77,40 @@ class TicketDeliveryController extends Controller
             $userReceiver = User::find($ticket->creator_id);
             // event(new ChangeStatusSendEvent($ticket->latestTicketInformation->title, $newStatus->status, $ticket->creator_id, $ticket->designer_name));
             // $userReceiver->notify(new ChangeStatusNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->seller_name, $newStatus->status));
+        }
+
+        // Guardar El MEnsaje
+        if ($request->message !== null) {
+
+            $transmitter_id = auth()->user()->id;
+            $transmitter_name = auth()->user()->name . ' ' . auth()->user()->lastname;
+            $userReceiver = '';
+            if (auth()->user()->isAbleTo(['attend-ticket'])) {
+                $userReceiver = User::find($ticket->creator_id);
+            } else if (auth()->user()->isAbleTo(['create-ticket'])) {
+                $userReceiver = User::find($ticket->designer_id);
+            }
+            $receiver_id = $userReceiver->id;
+            $receiver_name = $userReceiver->name . ' ' . $userReceiver->lastname;
+            // Guardar el mensaje con los sigioetes datos
+
+            // Creamos el mensaje y lo guardamos en la base de datos
+            $message = Message::create([
+                "transmitter_id" => $transmitter_id,
+                "transmitter_name" => $transmitter_name,
+                'transmitter_role' => auth()->user()->whatRoles[0]->name,
+                "receiver_id" => $receiver_id,
+                "receiver_name" => $receiver_name,
+                "message" => $request->message,
+                "ticket_id" => $ticket->id
+            ]);
+
+            // Creamos un registro en el historial de logs
+            TicketHistory::create([
+                'ticket_id' => $ticket->id,
+                'reference_id' => $message->id,
+                'type' => 'message'
+            ]);
         }
 
         event(new TicketDeliverySendEvent($ticket->latestTicketInformation->title, $ticket->creator_id, $ticket->designer_name));

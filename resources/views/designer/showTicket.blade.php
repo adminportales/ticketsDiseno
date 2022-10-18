@@ -75,15 +75,20 @@
                         <div id="dropzoneDelivery" class="dropzone form-control text-center"
                             style="height: auto; width: auto">
                         </div>
+
+                        <h6 class="modal-title" id="exampleModalLabel">Mensaje Opcional</h6>
+                        <input type="text" class="form-control" placeholder="Agrega una nota adicional" name="message">
+
                         <input type="hidden" name="delivery" id="delivery" value="{{ old('delivery') }}">
                         @error('delivery')
                             {{ $message }}
                         @enderror
                         <p id="error"></p>
-                    </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary">Enviar</button>
+                        </div>
                     </div>
                 </form>
             </div>

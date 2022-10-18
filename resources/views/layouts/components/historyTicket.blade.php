@@ -183,7 +183,7 @@
                                 class="list-group-item {{ $message->transmitter_id == auth()->user()->id ? 'text-end' : '' }}">
                                 <p class="m-0 ">{{ $message->message }}</p>
                                 <p class="m-0 " style="font-size: .8rem">
-                                    {{ $message->transmitter_id == auth()->user()->id ? 'Yo' : $message->transmitter_name }}
+                                    {{ $message->transmitter_id == auth()->user()->id ? 'Yo' : $message->transmitter_id }}
                                     {{ $message->created_at->diffForHumans() }}</p>
                             </li>
                         @endif
