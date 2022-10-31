@@ -8,6 +8,7 @@ use App\Message;
 use App\Notifications\TicketChangeNotification;
 use App\Notifications\TicketCreateNotification;
 use App\Priority;
+use App\Profile;
 use App\Role;
 use App\Status;
 use App\Technique;
@@ -25,6 +26,7 @@ use Illuminate\Support\Facades\Storage;
 use PhpParser\Node\Identifier;
 use PHPUnit\Framework\MockObject\Builder\Identity;
 use ZipArchive;
+use subirArchivos;
 
 
 class TicketController extends Controller
@@ -85,12 +87,18 @@ class TicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Ticket $ticket)
     {
         // Obtener el id y el nombre del vendedor o asistente que esta editando
         $userCreator = User::find(auth()->user()->id);
         $creator_id = $userCreator->id;
         $creator_name = $userCreator->name . ' ' . $userCreator->lastname;
+
+
+        //Recibimos el archivo y lo guardamos en la carpeta storage/app/public
+
+
+
         request()->validate([
             'type' => 'required',
         ]);
@@ -247,9 +255,9 @@ class TicketController extends Controller
         //obtener la fecha de la ultima entrega
         $ultimafecha = $ticket->latestTicketDelivery->created_at;
         $ultimosMensajes = $ticket->messagesTicket()
-        ->whereDate('created_at', '>=', $ultimafecha)
-        ->whereTime('created_at', '>=', $ultimafecha)
-        ->get();
+            ->whereDate('created_at', '>=', $ultimafecha)
+            ->whereTime('created_at', '>=', $ultimafecha)
+            ->get();
 
 
         //traer los mensajes que estan despues de la fecha de la ultima entrega
@@ -369,9 +377,29 @@ class TicketController extends Controller
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
     }
 
+    public function subirArchivos(Request $request, Ticket $ticket)
+    {
+
+        //Recibimos el archivo y lo guardamos en la carpeta storage/app/public
+        $ticket_informations = $request->all();
+
+
+
+        if ($request->hasFile('items')) {
+            $ticket_informations['items'] = $request->file('items')->getClientOriginalName();
+            $request->file('items')->store('storage/items', $ticket_informations('items'));
+            dd("subido y guardado");
+            return redirect()->action('TicketController@subirArchivos', ['ticket' => $ticket->id]);
+        }
+    }
+
+    //$request->file('file');
+
+
     public function destroy(Ticket $ticket)
     {
         $ticket->delete();
+
         return redirect()->action('TicketController@index');
     }
 

@@ -61,11 +61,13 @@
 
     @if ($ticket->latestTicketDelivery)
 
-    <div class="d-none" id="message-initial">
-        <p class="font-bold align-items-center py-1 mb-1 mx-1"> Mensaje de la ultima entrega{{ $ticket->ultimosMensajes}}</p>
-        @foreach ( $ultimosMensajes as $message)
-        <div class="d-flex justify-content-center align-items-center bg-light py-1 mb-1 mx-1">{{$message->message}}</div>
-        @endforeach
+        <div class="d-none" id="message-initial">
+            <p class="font-bold align-items-center py-1 mb-1 mx-1"> Mensaje de la ultima
+                entrega{{ $ticket->ultimosMensajes }}</p>
+            @foreach ($ultimosMensajes as $message)
+                <div class="d-flex justify-content-center align-items-center bg-light py-1 mb-1 mx-1">
+                    {{ $message->message }}</div>
+            @endforeach
 
             <p class="font-bold">Ultima entrega realizada por {{ $ticket->latestTicketDelivery->designer_name }}</p>
             @foreach (explode(',', $ticket->latestTicketDelivery->files) as $item)
@@ -118,6 +120,7 @@
                                     <p class="m-0 text-center" style="font-size: .7rem">
                                         <small>{{ $delivery->created_at }}</small>
                                     </p>
+
                                 </div>
                             @endforeach
                         </div>
@@ -125,7 +128,39 @@
                 @endif
             </div>
         </div>
+
     @endif
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <form action="{{ route('ticket.subir', ['ticket' => $ticket->id]) }}" method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('POST')
+                    <div class="form-group">
+                        <label for="exampleFormControlFile1">Cargar nuevo archivo</label>
+                        <input type="file" name='items' class="form-control-file" id="exampleFormControlFile1">
+                    </div>
+                    <h6 class="modal-title" id="exampleModalLabel">Mensaje Opcional</h6>
+                    <input type="text" class="form-control" placeholder="Agrega una nota adicional" name="message">
+
+
+                    @error('delivery')
+                        {{ $message }}
+                    @enderror
+                    <p id="error"></p>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    </div>
+
 @endsection
 
 @section('styles')
@@ -154,7 +189,8 @@
         let status = '{{ $ticket->latestStatusChangeTicket->status_id }}'
         let messageInitial = document.querySelector("#message-initial")
         let beforeUrl = "{{ url('/tickets') }}"
-
+        let exampleModal = document.querySelector("#exampleModal")
+        let exampleModalLabel = document.querySelector("#exampleModalLabel")
         document.addEventListener('DOMContentLoaded', () => {
             if (status == 3) {
                 verificar()
@@ -187,29 +223,24 @@
             })
         }
 
+
         function solicitarCambios() {
-            Swal.fire({
-                title: '¿Que modificacion deseas?',
-                input: 'textarea',
-                showCancelButton: true,
-                confirmButtonText: 'Enviar',
-                cancelButtonText: 'Cancelar',
-                showLoaderOnConfirm: true,
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-            }).then((result) => {
-                console.log(result)
-                if (result.value == undefined) {
-                    solicitarCambios()
-                } else if (result.value.trim() !== "") {
-                    changeStatus(4, ticket_id, result.value)
-                } else {
-                    solicitarCambios()
-                }
-                if (!result.isConfirmed) {
-                    verificar()
-                }
-            })
+            $("#exampleModal").modal("show")
+            // Swal.fire({
+            //     html: exampleModal.innerHTML
+            // }).then((result) => {
+            //     console.log(result)
+            //     if (result.value == undefined) {
+            //         solicitarCambios()
+            //     } else if (result.value.trim() !== "") {
+            //         changeStatus(4, ticket_id, result.value)
+            //     } else {
+            //         solicitarCambios()
+            //     }
+            //     if (!result.isConfirmed) {
+            //         verificar()
+            //     }
+            // })
         }
 
         function finalizar() {
