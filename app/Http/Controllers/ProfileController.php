@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\HistoryAvailability;
 use App\Profile;
 use App\User;
 use Illuminate\Http\Request;
@@ -15,6 +16,10 @@ class ProfileController extends Controller
         $user->profile->update([
             'availability' => $request->status
         ]);
+        HistoryAvailability::create([
+            'info' => "El usuario " . auth()->user()->name . " ha cambiado el estado de {$user->name} a " . ($request->status == 0 ? 'Desactivado' : 'Activo'),
+            'user_id' => auth()->user()->id
+        ]);
         return response()->json($user);
     }
 
@@ -26,16 +31,15 @@ class ProfileController extends Controller
     public function update_profile(Request $request)
     {
         $file = $request->file('photo');
-        $imageName ='photos/'. $file->getClientOriginalName();
+        $imageName = 'photos/' . $file->getClientOriginalName();
 
         try {
-            Storage::disk('local')->put('public/'. $imageName, File::get($file));
+            Storage::disk('local')->put('public/' . $imageName, File::get($file));
         } catch (\Exception $exception) {
             return response('error', 400);
         }
 
-        auth()->user()->profile->update(['photo'=>$imageName]);
+        auth()->user()->profile->update(['photo' => $imageName]);
         return redirect()->back();
-
     }
 }

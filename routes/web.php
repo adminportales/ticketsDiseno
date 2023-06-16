@@ -27,6 +27,7 @@ Route::get('/home/inactive', 'HomeController@userActive')->name('user.active');
 
 // Rutas del administrador
 Route::resource('/users', 'UserController')->except('show');
+Route::get('/viewHistory', 'AdminController@viewHistory')->name('viewChanges');
 // Importar usuarios
 Route::get('/users/import', 'UserController@sample')->name('user.import.create');
 Route::post('/users/import', 'UserController@import')->name('user.import');

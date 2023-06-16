@@ -24,6 +24,7 @@
                     <th>Asignado a</th>
                     <th>Creado por</th>
                     <th>Hora de creación</th>
+                    <th>Tiempos</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -31,15 +32,67 @@
                 @foreach ($tickets as $ticket)
                     @php
                         $latestTicketInformation = $ticket->latestTicketInformation;
+
+                        $ticketHistory = $ticket
+                            ->historyTicket()
+                            ->where('type', 'status')
+                            ->orderBy('created_at', 'ASC')
+                            ->get();
+                        $data = [];
+                        foreach ($ticketHistory as $statusHistory) {
+                            $status = $statusHistory->ticketStatusChange;
+                            array_push($data, $status);
+                        }
+
+                        $tiempos = [];
+                        $creado = null;
+                        $cambio = null;
+                        $entregado = null;
+
+                        foreach ($data as $status) {
+                            switch ($status->status_id) {
+                                case 1:
+                                    if ($creado == null) {
+                                        $creado = $status->created_at;
+                                    }
+                                    break;
+                                case 3:
+                                    if ($creado != null && $cambio == null) {
+                                        $entregado = $status->created_at;
+                                        // Diff in minutes
+                                        $diff = $creado->diffInMinutes($entregado);
+                                        array_push($tiempos, ['Creado -> Entregado', $diff]);
+                                        $creado = null;
+                                    }
+                                    if ($cambio != null && $creado == null) {
+                                        $entregado = $status->created_at;
+                                        $diff = $cambio->diffInMinutes($entregado);
+                                        array_push($tiempos, ['Cambio -> Entregado', $diff]);
+                                        $cambio = null;
+                                    }
+                                    break;
+                                case 4:
+                                    if ($cambio == null) {
+                                        $cambio = $status->created_at;
+                                    }
+                                    break;
+
+                                default:
+                                    # code...
+                                    break;
+                            }
+                        }
                     @endphp
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         @role('sales_assistant')
                             <td>
-                                {{ $ticket->seller_name }}
+                                {{ Str::limit($ticket->seller_name, 10, '.') }}
                             </td>
                         @endrole
-                        <td>{{ $latestTicketInformation ? $latestTicketInformation->title : 'Hubo un Problema al crear el ticket' }}
+                        <td>{{ $latestTicketInformation
+                            ? Str::limit($latestTicketInformation->title, 10, '...')
+                            : 'Hubo un Problema al crear el ticket' }}
                             <br>
                             <strong>Tipo:</strong> {{ $ticket->typeTicket->type }}<br>
                         </td>
@@ -72,13 +125,11 @@
 
                                 @default
                             @endswitch
-                            <strong>Estado:</strong>
-                            <div class="p-1 alert {{ $color }}">{{ $ticket->latestStatusChangeTicket->status }}</div>
-                            <br>
-                            <strong>Prioridad:</strong> {{ $ticket->priorityTicket->priority }}
+                            <div class="p-1 alert {{ $color }}" style="width: 100px">
+                                {{ $ticket->latestStatusChangeTicket->status }}</div>
                         </td>
-                        <td>{{ $ticket->designer_name }}</td>
-                        <td>{{ $ticket->creator_name }}</td>
+                        <td>{{ Str::limit($ticket->designer_name, 10, '...') }}</td>
+                        <td>{{ Str::limit($ticket->creator_name, 10, '...') }}</td>
                         <td>
                             @if ($latestTicketInformation)
                                 {{ $latestTicketInformation->created_at }} <br>
@@ -87,11 +138,16 @@
                                 <p>No se pudo crear el ticket correctamente. Intente mandarlo nuevamente</p>
                             @endif
                         </td>
+                        <td>
+                            @foreach ($tiempos as $tiempo)
+                                <p style="font-size: 10px" class="m-0">{{ $tiempo[0] . ': ' . $tiempo[1] }}</p>
+                            @endforeach
+                        </td>
                         <td class="text-center">
                             @if ($latestTicketInformation)
-                                <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}" class="boton-ver">Ver</a>
+                                <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}" class="boton-ver">V</a>
                                 <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
-                                    class="btn btn-danger">Modificar</a>
+                                    class="btn btn-danger">M</a>
                             @else
                                 <a class="btn btn-danger"
                                     onclick="event.preventDefault();document.getElementById('destroyTicket').submit();">
@@ -108,13 +164,11 @@
                 @endforeach
             </tbody>
         </table>
-
+        {{ $tickets->links() }}
     </div>
 @endsection
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}">
     <style>
         table.dataTable td {
             padding: 15px 8px;
@@ -127,11 +181,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
-    <script>
-        // Jquery Datatable
-        let jquery_datatable = $("#tableTickets").DataTable()
-    </script>
 @endsection

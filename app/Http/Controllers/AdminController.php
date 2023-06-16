@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\HistoryAvailability;
 use App\Priority;
 use App\Status;
 use App\Ticket;
@@ -121,9 +122,16 @@ class AdminController extends Controller
 
     public function viewTickets()
     {
-        $tickets = Ticket::orderByDesc('created_at')->get();
+        $tickets = Ticket::orderByDesc('created_at')->paginate(20);
         $priorities = Priority::all();
 
         return view('administrador.tickets.index', compact('tickets', 'priorities'));
+    }
+
+    // Funcion para vaer el historyAvailability
+    public function viewHistory()
+    {
+        $history = HistoryAvailability::orderByDesc('created_at')->paginate(20);
+        return view('administrador.history', compact('history'));
     }
 }

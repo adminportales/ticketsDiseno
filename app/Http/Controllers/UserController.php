@@ -105,6 +105,21 @@ class UserController extends Controller
     {
     }
 
+    public function sendAccess(User $user)
+    {
+        $pass = Str::random(8);
+        $user->password = Hash::make($pass);
+        $user->save();
+        $dataNotification = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'password' => $pass,
+            'urlEmail' => url('/loginEmail?email=' . $user->email . '&password=' . $pass)
+        ];
+        $user->notify(new RegisteredUser($dataNotification));
+        return redirect()->action('UserController@index');
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
