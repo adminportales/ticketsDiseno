@@ -8,6 +8,7 @@ use App\Notifications\MessageNotification;
 use App\Ticket;
 use App\TicketHistory;
 use App\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\DatabaseNotification;
 
@@ -69,8 +70,11 @@ class MessageController extends Controller
             'type' => 'message'
         ]);
         //Mensaje
-        event(new MessageSendEvent($message->message, $receiver_id, $transmitter_name));
-        $userReceiver->notify(new MessageNotification($ticket->id, $ticket->latestTicketInformation->title, $transmitter_name, $message->message));
+        try {
+            event(new MessageSendEvent($message->message, $receiver_id, $transmitter_name));
+            $userReceiver->notify(new MessageNotification($ticket->id, $ticket->latestTicketInformation->title, $transmitter_name, $message->message));
+        } catch (Exception $th) {
+        }
         // Regresar a la misma vista AtenderTicket (ticket.show)
         if (auth()->user()->isAbleTo(['attend-ticket'])) {
             return redirect()->action('DesignerController@show', ['ticket' => $ticket->id]);

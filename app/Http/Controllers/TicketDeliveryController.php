@@ -10,6 +10,7 @@ use App\Notifications\TicketDeliveryNotification;
 use App\Status;
 use App\Ticket;
 use App\User;
+use Exception;
 use Illuminate\Http\Request;
 
 class TicketDeliveryController extends Controller
@@ -72,10 +73,11 @@ class TicketDeliveryController extends Controller
             // event(new ChangeStatusSendEvent($ticket->latestTicketInformation->title, $newStatus->status, $ticket->creator_id, $ticket->designer_name));
             // $userReceiver->notify(new ChangeStatusNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->seller_name, $newStatus->status));
         }
-
-        event(new TicketDeliverySendEvent($ticket->latestTicketInformation->title, $ticket->creator_id, $ticket->designer_name));
-        $userReceiver->notify(new TicketDeliveryNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->designer_name));
-
+        try {
+            event(new TicketDeliverySendEvent($ticket->latestTicketInformation->title, $ticket->creator_id, $ticket->designer_name));
+            $userReceiver->notify(new TicketDeliveryNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->designer_name));
+        } catch (Exception $th) {
+        }
         return redirect()->action('DesignerController@show', ['ticket' => $ticket->id]);
     }
 }

@@ -11,6 +11,7 @@ use App\Status;
 use App\Ticket;
 use App\TicketHistory;
 use App\User;
+use Exception;
 use Illuminate\Http\Request;
 
 class StatusController extends Controller
@@ -54,8 +55,11 @@ class StatusController extends Controller
             }
             $receiver_id = $userReceiver->id;
             $receiver_name = $userReceiver->name . ' ' . $userReceiver->lastname;
-            event(new ChangeStatusSendEvent($ticket->latestTicketInformation->title, $status->status, $receiver_id, $transmitter_name));
-            $userReceiver->notify(new ChangeStatusNotification($ticket->id, $ticket->latestTicketInformation->title, $transmitter_name, $status->status));
+            try {
+                event(new ChangeStatusSendEvent($ticket->latestTicketInformation->title, $status->status, $receiver_id, $transmitter_name));
+                $userReceiver->notify(new ChangeStatusNotification($ticket->id, $ticket->latestTicketInformation->title, $transmitter_name, $status->status));
+            } catch (Exception $th) {
+            }
             if ($request->message != '') {
                 $message = Message::create([
                     "transmitter_id" => $transmitter_id,
@@ -73,8 +77,11 @@ class StatusController extends Controller
                     'reference_id' => $message->id,
                     'type' => 'message'
                 ]);
-                event(new MessageSendEvent($request->message, $receiver_id, $transmitter_name));
-                $userReceiver->notify(new MessageNotification($ticket->id, $ticket->latestTicketInformation->title, $transmitter_name, $message->message));
+                try {
+                    event(new MessageSendEvent($request->message, $receiver_id, $transmitter_name));
+                    $userReceiver->notify(new MessageNotification($ticket->id, $ticket->latestTicketInformation->title, $transmitter_name, $message->message));
+                } catch (Exception $th) {
+                }
             }
             return response()->json(['message' => 'OK', 'status' => $status->status], 200);
         }

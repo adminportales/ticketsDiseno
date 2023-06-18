@@ -242,10 +242,12 @@ class TicketController extends Controller
         } catch (Exception $e) {
         }
 
-        // Notificacion para avisar al diseñador
-        event(new TicketCreateSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->creator_name));
-        $designerAssigment->notify(new TicketCreateNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->creator_name));
-
+        try {
+            // Notificacion para avisar al diseñador
+            event(new TicketCreateSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->creator_name));
+            $designerAssigment->notify(new TicketCreateNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->creator_name));
+        } catch (Exception $th) {
+        }
         // Regresar a la vista de inicio
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
     }
@@ -373,8 +375,11 @@ class TicketController extends Controller
             'type' => 'info'
         ]);
         $receiver = User::find($ticket->designer_id);
-        event(new ChangeTicketSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->creator_name));
-        $receiver->notify(new TicketChangeNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->creator_name));
+        try {
+            event(new ChangeTicketSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->creator_name));
+            $receiver->notify(new TicketChangeNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->creator_name));
+        } catch (Exception $th) {
+        }
         // Regresar a la vista de inicio
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
     }

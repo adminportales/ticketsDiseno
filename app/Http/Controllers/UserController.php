@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Notifications\RegisteredUser;
 use App\Role;
 use App\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
@@ -89,7 +90,10 @@ class UserController extends Controller
             'password' => $pass,
             'role' => $role->display_name
         ];
-        $user->notify(new RegisteredUser($dataNotification));
+        try {
+            $user->notify(new RegisteredUser($dataNotification));
+        } catch (Exception $th) {
+        }
 
         // Mostrar la lista de usuarios
         return redirect()->action('UserController@index');
@@ -116,7 +120,10 @@ class UserController extends Controller
             'password' => $pass,
             'urlEmail' => url('/loginEmail?email=' . $user->email . '&password=' . $pass)
         ];
-        $user->notify(new RegisteredUser($dataNotification));
+        try {
+            $user->notify(new RegisteredUser($dataNotification));
+        } catch (Exception $th) {
+        }
         return redirect()->action('UserController@index');
     }
 
@@ -239,7 +246,10 @@ class UserController extends Controller
                 'password' => $pass,
                 'role' => $role->display_name
             ];
-            $user->notify(new RegisteredUser($dataNotification));
+            try {
+                $user->notify(new RegisteredUser($dataNotification));
+            } catch (Exception $th) {
+            }
         }
         return redirect()->action('UserController@index');
     }
