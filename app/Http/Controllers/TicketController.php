@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\ChangeTicketSendEvent;
 use App\Events\TicketCreateSendEvent;
+use App\HistoryAvailability;
 use App\Notifications\TicketChangeNotification;
 use App\Notifications\TicketCreateNotification;
 use App\Priority;
@@ -14,6 +15,7 @@ use App\Ticket;
 use App\TicketAssigment;
 use App\Type;
 use App\User;
+use Exception;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -214,6 +216,31 @@ class TicketController extends Controller
             'reference_id' => $statusChange->id,
             'type' => 'status'
         ]);
+        try {
+            $usersConsiderated = '';
+            foreach ($designerAssigments as $uc) {
+                $usersConsiderated = $usersConsiderated . ' ' . $uc->name . ', ';
+            }
+
+            $designerAssigments = TicketAssigment::join('users', 'ticket_assigments.designer_id', '=', 'users.id')
+                ->join('profiles', 'ticket_assigments.designer_id', '=', 'profiles.user_id')
+                ->where('ticket_assigments.type_id', '=', $request->type)->where('users.status', '=', 1)
+                ->where('profiles.availability', '=', 0)->get();
+
+            $usersDisabled = '';
+            foreach ($designerAssigments as $uc) {
+                $usersDisabled = $usersDisabled . ' ' . $uc->name . ', ';
+            }
+            HistoryAvailability::create([
+                'info' => auth()->user()->name . " creo el ticket " . $ticket->latestTicketInformation->title .
+                    " de tipo {$ticket->typeTicket->type} asignado a {$designerAssigment->name} <br>Se considero a "
+                    . ($usersConsiderated == '' ? 'Ninguno' : $usersConsiderated) . '<br>' . ($usersDisabled == '' ? 'Ninguno ' : $usersDisabled) . 'estan deshabilitados.',
+                'user_id' => auth()->user()->id,
+                'action' => 'creacion'
+            ]);
+            //code...
+        } catch (Exception $e) {
+        }
 
         // Notificacion para avisar al diseñador
         event(new TicketCreateSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->creator_name));

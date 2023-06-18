@@ -41,6 +41,12 @@
                             <span>Ver Usuarios</span>
                         </a>
                     </li>
+                    <li class="sidebar-item">
+                        <a href="{{ route('viewChanges') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Historial de Diseño</span>
+                        </a>
+                    </li>
                     <li class="sidebar-item  {{ request()->is('teams') ? 'active' : '' }}">
                         <a href="{{ route('teams.index') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>

@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('history_availabilities', function (Blueprint $table) {
             $table->id();
-            $table->string('info');
+            $table->text('info');
+            $table->string('action');
             $table->integer('user_id');
             $table->timestamps();
         });

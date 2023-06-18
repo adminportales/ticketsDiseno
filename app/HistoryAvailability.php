@@ -10,7 +10,7 @@ class HistoryAvailability extends Model
     use HasFactory;
 
     // Crear el campo info y usuario
-    protected $fillable = ['info', 'user_id'];
+    protected $fillable = ['action', 'info', 'user_id'];
 
     public function user()
     {

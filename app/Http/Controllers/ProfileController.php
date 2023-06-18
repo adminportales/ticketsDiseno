@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\HistoryAvailability;
 use App\Profile;
 use App\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -16,10 +17,16 @@ class ProfileController extends Controller
         $user->profile->update([
             'availability' => $request->status
         ]);
-        HistoryAvailability::create([
-            'info' => "El usuario " . auth()->user()->name . " ha cambiado el estado de {$user->name} a " . ($request->status == 0 ? 'Desactivado' : 'Activo'),
-            'user_id' => auth()->user()->id
-        ]);
+        try {
+            $actual = $user->profile->availability ? "Activado" : "Desactivado";
+            HistoryAvailability::create([
+                'info' => auth()->user()->name . " ha cambiado el estado de {$user->name} a " . $actual,
+                'user_id' => auth()->user()->id,
+                'action' => 'disponibilidad'
+            ]);
+        } catch (Exception $e) {
+            //throw $th;
+        }
         return response()->json($user);
     }
 

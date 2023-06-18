@@ -122,6 +122,7 @@ class AdminController extends Controller
 
     public function viewTickets()
     {
+        $this->middleware('role:admin');
         $tickets = Ticket::orderByDesc('created_at')->paginate(20);
         $priorities = Priority::all();
 
@@ -131,7 +132,7 @@ class AdminController extends Controller
     // Funcion para vaer el historyAvailability
     public function viewHistory()
     {
-        $history = HistoryAvailability::orderByDesc('created_at')->paginate(20);
+        $history = HistoryAvailability::orderByDesc('created_at')->paginate(30);
         return view('administrador.history', compact('history'));
     }
 }

@@ -7,6 +7,7 @@ use App\Ticket;
 use App\TicketAssigment;
 use App\Type;
 use App\User;
+use Exception;
 use Illuminate\Http\Request;
 
 class TicketAssigmentController extends Controller
@@ -27,10 +28,15 @@ class TicketAssigmentController extends Controller
             'designer_id' => $request->designer_id,
             'designer_name' => $request->designer_name
         ]);
-        HistoryAvailability::create([
-            'info' => "El usuario " . auth()->user()->name . " ha reasignado el ticket {$ticket->latestTicketInformation->title} de {$actual} a " . $request->designer_name,
-            'user_id' => auth()->user()->id
-        ]);
+        try {
+            HistoryAvailability::create([
+                'info' => auth()->user()->name . " ha reasignado el ticket {$ticket->latestTicketInformation->title} <br>De {$actual} a " . $request->designer_name,
+                'user_id' => auth()->user()->id,
+                'action' => 'reasignacion'
+            ]);
+        } catch (Exception $e) {
+        }
+
         return response()->json(['name' => $request->designer_name]);
     }
     /**
@@ -61,15 +67,20 @@ class TicketAssigmentController extends Controller
         }
         $user->whatTypes()->detach();
         $user->whatTypes()->attach($request->types);
-        // Guardar dato en el HistoryAvailability
-        $text1 = '';
-        foreach ($user->whatTypes as $type) {
-            $text1 .= $type->type . ', ';
+        try {
+            // Guardar dato en el HistoryAvailability
+            $text1 = '';
+            foreach ($user->whatTypes()->get() as $type) {
+                $text1 .= $type->type . ', ';
+            }
+            HistoryAvailability::create([
+                'info' => auth()->user()->name . " ha cambiado los tipos de tickets de {$user->name} <br>De " . $text . " a " . $text1,
+                'user_id' => auth()->user()->id,
+                'action' => 'configuracion'
+            ]);
+        } catch (Exception $e) {
         }
-        HistoryAvailability::create([
-            'info' => "El usuario " . auth()->user()->name . " ha cambiado los tipos de tickets de {$user->name} de " . $text . "a " . $text1,
-            'user_id' => auth()->user()->id
-        ]);
+
         return redirect()->action('DesignerManagerController@ticketAssign');
     }
 }
