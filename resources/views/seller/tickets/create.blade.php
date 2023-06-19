@@ -12,7 +12,7 @@
 @endsection
 @section('content')
     <div class="card-header">
-        <h4 class="card-title">Ingresa la información necesaria para tu solicitud</h4>
+        <h4 class="card-title">Ingresa la informacion necesaria para tu solicitud</h4>
     </div>
     <div class="card-body">
         @if (session('message'))
@@ -210,7 +210,7 @@
                     <textarea id="summernote" name="description">{{ old('description') }}</textarea>
                 </div>
             </div>
-            <input type="submit" value="Crear Ticket" class="boton">
+            <button id="butonSubmit" class="boton">Crear Ticket</button>
         </form>
     </div>
 @endsection
@@ -219,6 +219,11 @@
     <script src="{{ asset('assets\vendors\sweetalert2\sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('assets\vendors\summernote\summernote-lite.min.js') }}"></script>
     <script>
+        document.querySelector('#butonSubmit').addEventListener("click", (e) => {
+            e.preventDefault();
+            document.querySelector('#butonSubmit').setAttribute('disabled', '');
+            $("#formCreate").submit();
+        })
         $('#summernote').summernote({
             height: 300,
             minHeight: 200, // set minimum height of editor
