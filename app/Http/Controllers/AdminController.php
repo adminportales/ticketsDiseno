@@ -116,8 +116,29 @@ class AdminController extends Controller
         }
         $dataUserInfoTicketsDesign = [$dataUserCreatedTicketsDesign, $dataUserCountTicketsDesigns];
 
+        // Entregas realizadas en los ultimos 7 dias
+        $dias = 30;
+
+        $dataUserDeliveredTickets = [];
+        $daysChartTicketDeliveries = [];
+        for ($i = $dias; $i >= 0; $i--) {
+            $daysChartTicketDeliveries[] = now()->subDays($i)->format('d-m');
+        }
+        foreach ($usersDesigners as $userCount) {
+            $ticketsDeliveries = [];
+            for ($i = $dias; $i >= 0; $i--) {
+                $ticketsDeliveries[] = ($userCount->deliveries()->whereDate("created_at", '=', now()->subDays($i)->format('Y-m-d'))->count());
+            }
+            $dataUserDeliveredTickets[] = [
+                'name' => $userCount->name,
+                'data' => $ticketsDeliveries
+            ];
+        }
+
+        $dataDeliveries = [$daysChartTicketDeliveries, $dataUserDeliveredTickets];
+
         // Regresamos la vista
-        return view('administrador.dashboard', compact('tickets', 'user', 'dataTypeTickets', 'dataUserInfoTickets', 'dataUserInfoTicketsDesign', 'dataInfoStatus'));
+        return view('administrador.dashboard', compact('tickets', 'user', 'dataTypeTickets', 'dataUserInfoTickets', 'dataUserInfoTicketsDesign', 'dataInfoStatus','dataDeliveries'));
     }
 
     public function viewTickets()

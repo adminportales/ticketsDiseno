@@ -74,13 +74,22 @@
                 <div class="w-100">
                     <br>
                 </div>
-                <div class="col-md-4">
-                    <p class="text-center">Recepcion de Tickets</p>
-                    <canvas id="chartDesigner" width="400" height="200"></canvas>
-                </div>
-                <div class="col-md-4">
-                    <p class="text-center">Estado de Tickets Creados</p>
-                    <canvas id="chartStatus" width="400" height="400"></canvas>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="text-center">Recepcion de Tickets</p>
+                            <canvas id="chartDesigner" width="400" height="200"></canvas>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-center">Estado de Tickets Creados</p>
+                            <canvas id="chartStatus" width="400" height="400"></canvas>
+                        </div>
+                        <div class="col-md-12">
+                            <br>
+                            <p class="text-center">Historial de Entregas al dia</p>
+                            <canvas id="chartDeliveries" width="400" height="200"></canvas>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <p class="text-center">Usuarios que no han creado un ticket</p>
@@ -255,5 +264,46 @@
                 }
             }
         });
+
+        const chartDeliveries = document.getElementById('chartDeliveries');
+
+        const dataDeliveriesBackend = @json($dataDeliveries);
+        const etiquetas = dataDeliveriesBackend[0]
+        console.log(dataDeliveriesBackend);
+
+        const dataDeliveries = {
+            labels: etiquetas,
+            datasets: [{
+                    label: dataDeliveriesBackend[1][0].name,
+                    data:  dataDeliveriesBackend[1][0].data, // Valores de ejemplo para Dataset 1
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                },
+                {
+                    label: dataDeliveriesBackend[1][1].name,
+                    data: dataDeliveriesBackend[1][1].data, // Valores de ejemplo para Dataset 2
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                },
+                {
+                    label: dataDeliveriesBackend[1][2].name,
+                    data: dataDeliveriesBackend[1][2].data, // Valores de ejemplo para Dataset 2
+                    borderColor: 'rgb(255, 205, 86)',
+                    backgroundColor: 'rgba(255, 205, 86, 0.5)',
+                },
+            ]
+        };
+        const myChartDeliveries = new Chart(chartDeliveries, {
+            type: 'line',
+            data: dataDeliveries,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                }
+            },
+        })
     </script>
 @endsection
