@@ -9,134 +9,13 @@
         <h4 class="card-title">Información general acerca de las solicitudes</h4>
     </div>
 
-    <div class="card-body">
-        <table class="table" id="tableTickets">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Titulo</th>
-                    <th>Info</th>
-                    <th>Solicitado por:</th>
-                    <th>Asignado a:</th>
-                    <th>Hora</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                    $designersRefactory = [];
-                @endphp
-
-                @foreach ($designers as $item)
-                    @php
-                        $designer = [
-                            'name' => str_replace(' ', '#', $item->name),
-                            'lastname' => str_replace(' ', '#', $item->lastname),
-                            'id' => $item->id,
-                        ];
-                        array_push($designersRefactory, $designer);
-                    @endphp
-                @endforeach
-                @foreach ($tickets as $ticket)
-                    @php
-                        $ticketInformation = $ticket->latestTicketInformation;
-                    @endphp
-                    <tr>
-
-                        <td>{{ $loop->iteration }}</td>
-                        <td>
-                            {{ $ticketInformation ? $ticketInformation->title : 'Hubo un Problema al crear el ticket' }}
-                        </td>
-                        <td>
-                            Tipo: {{ $ticket->typeTicket->type }}<br>
-                            Prioridad: {{ $ticket->priorityTicket->priority }}<br>
-                            @php $color = ''; @endphp
-                            @switch($ticket->latestStatusChangeTicket->status)
-                                @case('Creado')
-                                    @php $color = 'alert-success'; @endphp
-                                @break
-
-                                @case('En revision')
-                                    @php $color = 'alert-warning'; @endphp
-                                @break
-
-                                @case('Entregado')
-                                    @php $color = 'alert-info'; @endphp
-                                @break
-
-                                @case('Solicitud de ajustes')
-                                    @php $color = 'alert-danger'; @endphp
-                                @break
-
-                                @case('Realizando ajustes')
-                                    @php $color = 'alert-secondary'; @endphp
-                                @break
-
-                                @case('Finalizado')
-                                    @php $color = 'alert-primary'; @endphp
-                                @break
-
-                                @default
-                            @endswitch
-                            <div class="p-1 alert {{ $color }}">{{ $ticket->latestStatusChangeTicket->status }}</div>
-                        </td>
-                        <td>
-                            @if ($ticket->seller_id == $ticket->creator_id)
-                                {{ $ticket->seller_name }}
-                            @else
-                                {{ $ticket->creator_name }} <br>
-                                <strong>Ejecutivo:</strong>{{ $ticket->seller_name }}
-                            @endif
-                        </td>
-                        <td>
-                            <change-designer-assigment designer="{{ $ticket->designer_name }}" :ticket={{ $ticket->id }}
-                                :designers=@json($designersRefactory)>
-                            </change-designer-assigment>
-                        </td>
-                        <td>
-                            @if ($ticketInformation)
-                                {{ $ticketInformation->created_at->diffForHumans() }}
-                            @else
-                                <p>No se pudo crear el ticket correctamente. Intente mandarlo
-                                    nuevamente
-                                </p>
-                            @endif
-
-                        </td>
-                        <td>
-                            @if ($ticketInformation)
-                                <a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="boton-ver">Ver
-                                    ticket</a>
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+    @livewire('list-tickets.list-tickets-designer-manager-component')
 @endsection
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendors/chartjs/Chart.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}">
-    <style>
-        table.dataTable td {
-            padding: 15px 8px;
-        }
-
-        .fontawesome-icons .the-icon svg {
-            font-size: 24px;
-        }
-    </style>
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
-    <script>
-        // Jquery Datatable
-        let jquery_datatable = $("#tableTickets").DataTable()
-    </script>
 @endsection

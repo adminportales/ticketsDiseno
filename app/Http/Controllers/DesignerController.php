@@ -34,10 +34,8 @@ class DesignerController extends Controller
     // Muestra todos los tickets asignanos a ese diseñador
     public function index()
     {
-        //Traer los tickets asignados
-        $tickets = auth()->user()->assignedTickets()->orderByDesc('created_at')->get();;
         //Mostrar la vista
-        return view('designer.index', compact('tickets'));
+        return view('designer.index');
     }
 
     /**

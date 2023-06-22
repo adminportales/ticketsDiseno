@@ -42,10 +42,7 @@ class DesignerManagerController extends Controller
     //Metodo para ver todos los tickets
     public function allTickets()
     {
-        $permission = Permission::find(2);
-        $designers = $permission->users()->where('status', 1)->get();
-        $tickets = Ticket::orderByDesc('created_at')->get();
-        return view('design_manager.index', compact('tickets', 'designers'));
+        return view('design_manager.index');
     }
     //Metodo para visualizar mis propios tickets
     public function verTickets()

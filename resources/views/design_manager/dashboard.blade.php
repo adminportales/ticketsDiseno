@@ -210,9 +210,9 @@
                             <li class="list-group-item d-flex justify-content-between">
                                 <p class="m-0">{{ $user->name . ' ' . $user->lastname }}</p>
                                 <div>
-                                    <change-status-designer :availability={{ $user->profile->availability }}
+                                    {{-- <change-status-designer :availability={{ $user->profile->availability }}
                                         :user={{ $user->id }}>
-                                    </change-status-designer>
+                                    </change-status-designer> --}}
                                 </div>
                             </li>
                         @endforeach
