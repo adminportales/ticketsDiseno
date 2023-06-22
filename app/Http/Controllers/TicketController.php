@@ -446,7 +446,7 @@ class TicketController extends Controller
                 $timeWait = 0;
                 // Vamos a considerar al diseñador siempre y cuando este disponible
                 if ($designer->profile->availability) {
-                    $ticketsAsignados = $designer->assignedTickets->where('status_id', '!=', '3')->where('status_id', '!=', '6')->where('updated_at', '>', now()->subDays(2));
+                    $ticketsAsignados = $designer->assignedTickets->where('status_id', '!=', '3')->where('status_id', '!=', '6')->where('updated_at', '>', now()->subHours(16));
                     foreach ($ticketsAsignados  as $ticket) {
                         if (strpos($ticket->designer_name, $designer->name) !== false) {
                             $totalTickets++;
