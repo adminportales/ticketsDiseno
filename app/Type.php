@@ -10,4 +10,9 @@ class Type extends Model
         'type'
     ];
     public $timestamps = false;
+
+    public function tickets()
+    {
+        return $this->hasMany('App\Ticket');
+    }
 }

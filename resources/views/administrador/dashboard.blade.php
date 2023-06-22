@@ -63,35 +63,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <p class="text-center">Tipos de Tickets Creados</p>
-                    <canvas id="myChart" width="400" height="400"></canvas>
-                </div>
-                <div class="col-md-8">
-                    <p class="text-center">Usuarios Creadores de Tickets</p>
-                    <canvas id="myChartBarCreated" width="400" height="200"></canvas>
-                </div>
                 <div class="w-100">
-                    <br>
+                    <h4 class="text-center">Informacion de los ultimos 2 meses</h4>
                 </div>
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p class="text-center">Recepcion de Tickets</p>
-                            <canvas id="chartDesigner" width="400" height="200"></canvas>
-                        </div>
-                        <div class="col-md-6">
-                            <p class="text-center">Estado de Tickets Creados</p>
-                            <canvas id="chartStatus" width="400" height="400"></canvas>
-                        </div>
-                        <div class="col-md-12">
-                            <br>
-                            <p class="text-center">Historial de Entregas al dia</p>
-                            <canvas id="chartDeliveries" width="400" height="200"></canvas>
-                        </div>
-                    </div>
+                <div class="col-md-3">
+                    <p class="text-center">Tipos de Tickets Creados</p>
+                    <canvas id="myChart" width="400" height="300"></canvas>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
+                    <p class="text-center">Recepcion de Tickets</p>
+                    <canvas id="chartDesigner" width="400" height="200"></canvas>
+                </div>
+                <div class="col-md-3">
+                    <p class="text-center">Estado de Tickets Creados</p>
+                    <canvas id="chartStatus" width="400" height="300"></canvas>
+                </div>
+                <div class="col-md-3" style="max-height: 400px; overflow-y: auto;">
                     <p class="text-center">Usuarios que no han creado un ticket</p>
                     <table class="table">
                         <tbody>
@@ -103,6 +90,28 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+                <div class="col-md-12">
+                    <p class="text-center">Usuarios Creadores de Tickets</p>
+                    <canvas id="myChartBarCreated" width="600" height="180"></canvas>
+                </div>
+                <div class="w-100">
+                    <br>
+                    <h4 class="text-center">Informacion de los ultimos 60 dias</h4>
+                </div>
+                <div class="col-md-12">
+                    <p class="text-center">Historial de Entregas al dia</p>
+                    <canvas id="chartDeliveries" width="700" height="180"></canvas>
+                </div>
+                <div class="col-md-12">
+                    <br>
+                    <p class="text-center">Historial de Tipos de Tickets creados al dia</p>
+                    <canvas id="chartTypeDeliveries" width="700" height="180"></canvas>
+                </div>
+                <div class="col-md-12">
+                    <br>
+                    <p class="text-center">Historial de Tickets Recibidos al dia</p>
+                    <canvas id="chartTicketsReceived" width="700" height="180"></canvas>
                 </div>
                 {{-- {{ $dataTypeTickets }} --}}
             </section>
@@ -275,7 +284,7 @@
             labels: etiquetas,
             datasets: [{
                     label: dataDeliveriesBackend[1][0].name,
-                    data:  dataDeliveriesBackend[1][0].data, // Valores de ejemplo para Dataset 1
+                    data: dataDeliveriesBackend[1][0].data, // Valores de ejemplo para Dataset 1
                     borderColor: 'rgb(255, 99, 132)',
                     backgroundColor: 'rgba(255, 99, 132, 0.5)',
                 },
@@ -296,6 +305,89 @@
         const myChartDeliveries = new Chart(chartDeliveries, {
             type: 'line',
             data: dataDeliveries,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                }
+            },
+        })
+
+
+        const chartTypeDeliveries = document.getElementById('chartTypeDeliveries');
+
+        const dataDeliveriesTypeBackend = @json($dataTypeDelivered);
+        const etiquetasTypeTickets = dataDeliveriesTypeBackend[0]
+        console.log(1);
+
+        const dataDeliveriesType = {
+            labels: etiquetasTypeTickets,
+            datasets: [{
+                    label: dataDeliveriesTypeBackend[1][0].name,
+                    data: dataDeliveriesTypeBackend[1][0].data, // Valores de ejemplo para Dataset 1
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                },
+                {
+                    label: dataDeliveriesTypeBackend[1][1].name,
+                    data: dataDeliveriesTypeBackend[1][1].data, // Valores de ejemplo para Dataset 2
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                },
+                {
+                    label: dataDeliveriesTypeBackend[1][2].name,
+                    data: dataDeliveriesTypeBackend[1][2].data, // Valores de ejemplo para Dataset 2
+                    borderColor: 'rgb(255, 205, 86)',
+                    backgroundColor: 'rgba(255, 205, 86, 0.5)',
+                },
+            ]
+        };
+        const myChartDeliveriesType = new Chart(chartTypeDeliveries, {
+            type: 'line',
+            data: dataDeliveriesType,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                }
+            },
+        })
+
+        const chartTicketsReceived = document.getElementById('chartTicketsReceived');
+
+        const dataTicketsReceivedBackend = @json($dataTicketsReceived);
+        const etiquetasTicketsReceived = dataTicketsReceivedBackend[0]
+        console.log(1);
+
+        const dataTicketsReceived = {
+            labels: etiquetasTicketsReceived,
+            datasets: [{
+                    label: dataTicketsReceivedBackend[1][0].name,
+                    data: dataTicketsReceivedBackend[1][0].data, // Valores de ejemplo para Dataset 1
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                },
+                {
+                    label: dataTicketsReceivedBackend[1][1].name,
+                    data: dataTicketsReceivedBackend[1][1].data, // Valores de ejemplo para Dataset 2
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                },
+                {
+                    label: dataTicketsReceivedBackend[1][2].name,
+                    data: dataTicketsReceivedBackend[1][2].data, // Valores de ejemplo para Dataset 2
+                    borderColor: 'rgb(255, 205, 86)',
+                    backgroundColor: 'rgba(255, 205, 86, 0.5)',
+                },
+            ]
+        };
+        const myChartTicketsReceived = new Chart(chartTicketsReceived, {
+            type: 'line',
+            data: dataTicketsReceived,
             options: {
                 responsive: true,
                 plugins: {

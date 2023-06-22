@@ -6,6 +6,7 @@ use App\HistoryAvailability;
 use App\Priority;
 use App\Status;
 use App\Ticket;
+use App\Type;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,7 @@ class AdminController extends Controller
         $users = User::join('permission_user', 'users.id', '=', 'permission_user.user_id')->where('users.status', 1)->where('permission_user.permission_id', 1)->get();
         $usersDesigners = User::join('permission_user', 'users.id', '=', 'permission_user.user_id')->where('users.status', 1)->where('permission_user.permission_id', 2)->get();
         // Traemos el total de los tickets
-        $tickets = Ticket::where('created_at', '>', now()->subMonth())->get();
+        $tickets = Ticket::where('created_at', '>', now()->subMonths(2))->get();
         $dataTypeTickets = [];
 
         $virtual = 0;
@@ -87,7 +88,7 @@ class AdminController extends Controller
         $dataUserWithoutTickets = [];
 
         foreach ($users as $userCount) {
-            $ticketsCreated = $userCount->ticketsCreated()->where('created_at', '>', now()->subMonth())->count();
+            $ticketsCreated = $userCount->ticketsCreated()->where('created_at', '>', now()->subMonths(2))->count();
             if ($ticketsCreated > 0) {
                 array_push($dataUserCreatedTickets, $userCount->name);
                 array_push($dataUserCountTickets, $ticketsCreated);
@@ -103,7 +104,7 @@ class AdminController extends Controller
 
         foreach ($usersDesigners as $userCount) {
             $ticketsCreated = 0;
-            foreach ($userCount->assignedTickets()->where('created_at', '>', now()->subMonth())->get() as $ticketAssigned) {
+            foreach ($userCount->assignedTickets()->where('created_at', '>', now()->subMonths(2))->get() as $ticketAssigned) {
                 // dd($ticketAssigned->designer_name);s
                 if (strpos($ticketAssigned->designer_name, $userCount->name) !== false) {
                     $ticketsCreated++;
@@ -117,7 +118,7 @@ class AdminController extends Controller
         $dataUserInfoTicketsDesign = [$dataUserCreatedTicketsDesign, $dataUserCountTicketsDesigns];
 
         // Entregas realizadas en los ultimos 7 dias
-        $dias = 30;
+        $dias = 60;
 
         $dataUserDeliveredTickets = [];
         $daysChartTicketDeliveries = [];
@@ -137,8 +138,45 @@ class AdminController extends Controller
 
         $dataDeliveries = [$daysChartTicketDeliveries, $dataUserDeliveredTickets];
 
+        // Entregas realizadas por tipo de ticket
+        $dataTypeDeliveredTickets = [];
+        $daysChartTypeTicketDeliveries = [];
+        for ($i = $dias; $i >= 0; $i--) {
+            $daysChartTypeTicketDeliveries[] = now()->subDays($i)->format('d-m');
+        }
+        $typesTickets =Type::all();
+        foreach ($typesTickets as $typeTicket) {
+            $ticketsDeliveries = [];
+            for ($i = $dias; $i >= 0; $i--) {
+                $ticketsDeliveries[] = ($typeTicket->tickets()->whereDate("created_at", '=', now()->subDays($i)->format('Y-m-d'))->count());
+            }
+            $dataTypeDeliveredTickets[] = [
+                'name' => $typeTicket->type,
+                'data' => $ticketsDeliveries
+            ];
+        }
+        $dataTypeDelivered = [$daysChartTypeTicketDeliveries, $dataTypeDeliveredTickets];
+
+
+        // Recepcion de tickets
+        $dataUserReceivedTickets = [];
+        $daysChartTicketReceived = [];
+        for ($i = $dias; $i >= 0; $i--) {
+            $daysChartTicketReceived[] = now()->subDays($i)->format('d-m');
+        }
+        foreach ($usersDesigners as $userCount) {
+            $ticketsReceived = [];
+            for ($i = $dias; $i >= 0; $i--) {
+                $ticketsReceived[] = ($userCount->assignedTickets()->whereDate("created_at", '=', now()->subDays($i)->format('Y-m-d'))->count());
+            }
+            $dataUserReceivedTickets[] = [
+                'name' => $userCount->name,
+                'data' => $ticketsReceived
+            ];
+        }
+        $dataTicketsReceived = [$daysChartTicketReceived, $dataUserReceivedTickets];
         // Regresamos la vista
-        return view('administrador.dashboard', compact('tickets', 'user', 'dataTypeTickets', 'dataUserInfoTickets', 'dataUserInfoTicketsDesign', 'dataInfoStatus','dataDeliveries'));
+        return view('administrador.dashboard', compact('tickets', 'user', 'dataTypeTickets', 'dataUserInfoTickets', 'dataUserInfoTicketsDesign', 'dataInfoStatus','dataDeliveries', 'dataTypeDelivered', 'dataTicketsReceived'));
     }
 
     public function viewTickets()
