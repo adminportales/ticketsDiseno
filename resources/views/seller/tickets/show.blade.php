@@ -60,66 +60,163 @@
     </div>
 
     @if ($ticket->latestTicketDelivery)
-        <div class="d-none" id="message-initial">
-            <p class="font-bold">Ultima entrega realizada por {{ $ticket->latestTicketDelivery->designer_name }}</p>
-            @foreach (explode(',', $ticket->latestTicketDelivery->files) as $item)
-                <div class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
-                    <div class="name" style="width: 85%">
-                        {{ Str::substr($item, 11) }}
+        <div class="modal fade" id="lastDelivery" data-bs-backdrop="false" tabindex="-1"
+            aria-labelledby="lastDeliveryLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl shadow-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center" id="lastDeliveryLabel">¿El contenido esta acorde a lo
+                            solicitado?</h5>
                     </div>
-                    <div class="actions d-flex justify-content-around" style="width: 15%">
-                        <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
-                            target="_blank">
-                            <span class="fa-eye fas"></span>
-                        </a>
-                        <a href="{{ asset('/storage/deliveries/' . $item) }}" download="{{ Str::substr($item, 11) }}">
-                            <span class="fa-fw select-all fas"></span>
-                        </a>
-                    </div>
-                </div>
-            @endforeach
-            <p class="m-0 text-center" style="font-size: .9rem">
-                <small>{{ $ticket->latestTicketDelivery->created_at->diffForHumans() }}</small>
-            </p>
-            <div>
-                @php
-                    unset($ticketDeliveries[count($ticketDeliveries) - 1]);
-                @endphp
-                @if (count($ticketDeliveries))
-                    <div id="entregasAnteriores">
-                        <p class="font-bold text-sm">Entregas realizadas anteriormente</p>
-                        <div class="d-flex flex-column-reverse text-sm">
-                            @foreach ($ticketDeliveries as $delivery)
-                                <div class="item">
-                                    @foreach (explode(',', $delivery->files) as $item)
-                                        <div
-                                            class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
-                                            <div class="name" style="width: 85%">
-                                                {{ Str::substr($item, 11) }}
-                                            </div>
-                                            <div class="actions d-flex justify-content-around" style="width: 15%">
-                                                <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
-                                                    target="_blank">
-                                                    <span class="fa-eye fas"></span>
-                                                </a>
-                                                <a href="{{ asset('/storage/deliveries/' . $item) }}"
-                                                    download="{{ Str::substr($item, 11) }}">
-                                                    <span class="fa-fw select-all fas"></span>
-                                                </a>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <p class="font-bold">Ultima entrega realizada por
+                                    {{ $ticket->latestTicketDelivery->designer_name }}</p>
+                                @foreach (explode(',', $ticket->latestTicketDelivery->files) as $item)
+                                    <div class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
+                                        <div class="name" style="width: 85%">
+                                            {{ Str::substr($item, 11) }}
+                                        </div>
+                                        <div class="actions d-flex justify-content-around" style="width: 15%">
+                                            <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
+                                                target="_blank">
+                                                <span class="fa-eye fas"></span>
+                                            </a>
+                                            <a href="{{ asset('/storage/deliveries/' . $item) }}"
+                                                download="{{ Str::substr($item, 11) }}">
+                                                <span class="fa-fw select-all fas"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                <p class="m-0 text-center" style="font-size: .9rem">
+                                    <small>{{ $ticket->latestTicketDelivery->created_at->diffForHumans() }}</small>
+                                </p>
+                                <div>
+                                    @php
+                                        unset($ticketDeliveries[count($ticketDeliveries) - 1]);
+                                    @endphp
+                                    @if (count($ticketDeliveries))
+                                        <div id="entregasAnteriores">
+                                            <p class="font-bold text-sm">Entregas realizadas anteriormente</p>
+                                            <div class="d-flex flex-column-reverse text-sm">
+                                                @foreach ($ticketDeliveries as $delivery)
+                                                    <div class="item">
+                                                        @foreach (explode(',', $delivery->files) as $item)
+                                                            <div
+                                                                class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
+                                                                <div class="name" style="width: 85%">
+                                                                    {{ Str::substr($item, 11) }}
+                                                                </div>
+                                                                <div class="actions d-flex justify-content-around"
+                                                                    style="width: 15%">
+                                                                    <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
+                                                                        target="_blank">
+                                                                        <span class="fa-eye fas"></span>
+                                                                    </a>
+                                                                    <a href="{{ asset('/storage/deliveries/' . $item) }}"
+                                                                        download="{{ Str::substr($item, 11) }}">
+                                                                        <span class="fa-fw select-all fas"></span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                        <p class="m-0 text-center" style="font-size: .7rem">
+                                                            <small>{{ $delivery->created_at }}</small>
+                                                        </p>
+                                                    </div>
+                                                @endforeach
                                             </div>
                                         </div>
-                                    @endforeach
-                                    <p class="m-0 text-center" style="font-size: .7rem">
-                                        <small>{{ $delivery->created_at }}</small>
-                                    </p>
+                                    @endif
                                 </div>
-                            @endforeach
+                            </div>
+                            <div class="col-md-4">
+                                <p class="font-bold">Ultimos Mensajes</p>
+                                <div class="d-flex flex-column overflow-auto" style="max-height: 400px">
+                                    @php
+                                        $conut = 0;
+                                    @endphp
+                                    @foreach ($ticketHistories as $ticketHistory)
+                                        @if ($ticketHistory->type == 'message')
+                                            @php $message = $ticketHistory->ticketMessage; @endphp
+                                            <li
+                                                class="list-group-item {{ $message->transmitter_id == auth()->user()->id ? 'text-end' : '' }}">
+                                                <p class="m-0 ">{{ $message->message }}</p>
+                                                <p class="m-0 " style="font-size: .8rem">
+                                                    {{ $message->transmitter_id == auth()->user()->id ? 'Yo' : $message->transmitter_name }}
+                                                    {{ $message->created_at->diffForHumans() }}</p>
+                                            </li>
+                                            @php
+                                                $conut++;
+                                            @endphp
+                                        @endif
+                                    @endforeach
+                                    @if ($conut == 0)
+                                        <p class="text-center">No hay mensajes</p>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                     </div>
-                @endif
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="finalizar()">Correcto</button>
+                        <button type="button" class="btn btn-primary" onclick="solicitarCambios()">Necesito una
+                            modificacion</button>
+                        <button type="button" class="btn btn-secondary"
+                            onclick="window.location = beforeUrl;">Salir</button>
+                    </div>
+                </div>
             </div>
         </div>
     @endif
+    <div class="modal fade" id="requestChange" data-bs-backdrop="false" tabindex="-1" aria-labelledby="requestChangeLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg shadow-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="requestChangeLabel">¿Que modificacion deseas?</h5>
+                </div>
+                <div class="modal-body">
+                    {{-- Text Area para las modificaciones --}}
+                    <textarea name="message" id="message" class="form-control" placeholder="Mensaje"></textarea>
+                    <br>
+                    {{-- Campo para subir archovos --}}
+                    <p class="m-0">Archivos Adicionales (Opcional)</p>
+                    <div class="dropzone text-center" id="dropzoneItemsModificacion"></div>
+                    {{-- Input de Items --}}
+                    <input type="hidden" name="items" id="items" class="form-control" placeholder="Item">
+                    <p id="error"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="verificar()">Cancelar</button>
+                    <button type="button" class="btn btn-success"
+                        onclick="changeStatus(4, {{ $ticket->id }})">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="finallyTicket" data-bs-backdrop="false" tabindex="-1"
+        aria-labelledby="finallyTicketLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md shadow-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="finallyTicketLabel">Al continuar el ticket quedara finalizado
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <h6 class="text-center">Estas seguro de continuar?</h6>
+                    <br>
+                    <button type="button" class="btn btn-secondary" onclick="cerrarTicket()">Si,
+                        Continuar</button>
+                    <button type="button" class="btn btn-success" onclick="solicitarCambios()">No, deseo modificar
+                        algo</button>
+                    <button type="button" class="btn btn-success" onclick="verificar()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('styles')
@@ -156,86 +253,40 @@
         })
 
         function verificar() {
-            Swal.fire({
-                title: '¿El contenido esta acorde a lo solicitado?',
-                html: messageInitial.innerHTML,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, es correcto',
-                denyButtonText: 'Necesito una modificacion!',
-                cancelButtonText: `Salir`,
-                showDenyButton: true,
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-            }).then((result) => {
-                console.log(result);
-                if (result.isConfirmed) {
-                    finalizar()
-                } else if (result.isDenied) {
-                    solicitarCambios()
-                } else {
-                    window.location = beforeUrl;
-                }
-            })
+            $('#lastDelivery').modal('show')
+            $('#requestChange').modal('hide');
+            $('#finallyTicket').modal('hide');
         }
 
         function solicitarCambios() {
-            Swal.fire({
-                title: '¿Que modificacion deseas?',
-                input: 'textarea',
-                showCancelButton: true,
-                confirmButtonText: 'Enviar',
-                cancelButtonText: 'Cancelar',
-                showLoaderOnConfirm: true,
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-            }).then((result) => {
-                console.log(result)
-                if (result.value == undefined) {
-                    solicitarCambios()
-                } else if (result.value.trim() !== "") {
-                    changeStatus(4, ticket_id, result.value)
-                } else {
-                    solicitarCambios()
-                }
-                if (!result.isConfirmed) {
-                    verificar()
-                }
-            })
+            $('#lastDelivery').modal('hide');
+            $('#requestChange').modal('show');
+            $('#finallyTicket').modal('hide');
         }
 
         function finalizar() {
-            Swal.fire({
-                title: 'Al continuar el ticket quedara finalizado',
-                text: 'Estas seguro de continuar?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, continuar',
-                cancelButtonText: 'Cancelar',
-                showDenyButton: true,
-                denyButtonText: 'No, deseo modificar algo',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    changeStatus(6, ticket_id)
-                } else if (result.isDenied) {
-                    solicitarCambios()
-                } else {
-                    verificar()
-                }
-            })
+            $('#lastDelivery').modal('hide');
+            $('#requestChange').modal('hide');
+            $('#finallyTicket').modal('show');
         }
 
-        async function changeStatus(status, ticket, message = '') {
+        async function changeStatus(status, ticket) {
+            // Leer el mensaje y los items
+            let message = document.querySelector("#message").value
+            let images = document.querySelector("#items").value
+            if ([message].includes('') && status != 6) {
+                Swal.fire(
+                    'Error!',
+                    'El mensaje no puede estar vacio',
+                    'error'
+                );
+                return
+            }
             try {
                 let params = {
-                    status: status,
-                    message: message,
+                    status,
+                    message,
+                    images,
                     _method: "put"
                 };
                 let res = await axios.post(
@@ -243,13 +294,15 @@
                     params
                 );
                 let data = res.data;
-                console.log(data);
                 if (data.message == 'OK') {
                     Swal.fire(
                         'Excelente!',
                         `Estado: ${data.status}.`,
                         'success'
                     );
+                    setTimeout(() => {
+                        location.reload();
+                    }, 300);
                 }
             } catch (error) {
                 Swal.fire(
@@ -279,11 +332,6 @@
             })
         }
 
-        function verMas() {
-            // const latest = document.querySelector("#entregasAnteriores")
-            // latest.style.display = 'block';
-            // // const opcional = document.querySelector('.opcional')
-            // // opcional.classList.remove('d-none')
-        }
+        function verMas() {}
     </script>
 @endsection

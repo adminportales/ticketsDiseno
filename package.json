@@ -29,6 +29,7 @@
         "apexcharts": "^3.29.0",
         "dropzone": "^5.9.3",
         "toastr": "^2.1.4",
-        "vue-apexcharts": "^1.6.2"
+        "vue-apexcharts": "^1.6.2",
+        "vue-sweetalert2": "^5.0.5"
     }
 }

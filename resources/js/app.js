@@ -7,6 +7,7 @@
 require('./bootstrap');
 require('./scripts/crearTicket');
 require('./scripts/entregarTicket');
+require('./scripts/modificarTicket');
 
 window.Vue = require('vue');
 

@@ -9,8 +9,14 @@
     <section class="row">
         <div class="col-12 col-lg-8">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between">
                     <h4>Mis ultimos 5 tickets pendientes</h4>
+                    <div class="d-flex">
+                        <p class="m-0">Mi Disponibilidad:</p>
+                        <change-status-designer :availability={{ auth()->user()->profile->availability }}
+                            :user={{ auth()->user()->id }}>
+                        </change-status-designer>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div id="chart-profile-visit"></div>
@@ -210,9 +216,7 @@
                             <li class="list-group-item d-flex justify-content-between">
                                 <p class="m-0">{{ $user->name . ' ' . $user->lastname }}</p>
                                 <div>
-                                    {{-- <change-status-designer :availability={{ $user->profile->availability }}
-                                        :user={{ $user->id }}>
-                                    </change-status-designer> --}}
+                                   {{$user->profile->availability ? 'Disponible' : 'No Disponible'}}
                                 </div>
                             </li>
                         @endforeach

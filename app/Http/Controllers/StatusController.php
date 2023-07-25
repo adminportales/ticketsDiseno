@@ -60,7 +60,7 @@ class StatusController extends Controller
                 $userReceiver->notify(new ChangeStatusNotification($ticket->id, $ticket->latestTicketInformation->title, $transmitter_name, $status->status));
             } catch (Exception $th) {
             }
-            if ($request->message != '') {
+            if ($request->message != '' && $request->status != 6) {
                 $message = Message::create([
                     "transmitter_id" => $transmitter_id,
                     "transmitter_name" => $transmitter_name,
@@ -82,6 +82,36 @@ class StatusController extends Controller
                     $userReceiver->notify(new MessageNotification($ticket->id, $ticket->latestTicketInformation->title, $transmitter_name, $message->message));
                 } catch (Exception $th) {
                 }
+            }
+            if ($request->images != '' && $request->status != 6) {
+
+                $latestTicketInformation = $ticket->latestTicketInformation;
+
+                $dataItems = explode(',', $latestTicketInformation->items);
+                $newDataItems = explode(',', $request->images);
+                $itemsComplete =  array_merge($dataItems, $newDataItems);
+
+                $latestTicketInformation = $ticket->latestTicketInformation;
+                $ticketInformation = $ticket->ticketInformation()->create([
+                    'technique_id' => $latestTicketInformation->technique_id,
+                    'customer' => $latestTicketInformation->customer,
+                    'description' => $latestTicketInformation->description,
+                    'modifier_name' => $latestTicketInformation->modifier_name,
+                    'modifier_id' => $latestTicketInformation->modifier_id,
+                    'title' => $latestTicketInformation->title,
+                    'logo' => $latestTicketInformation->logo,
+                    'items' => $latestTicketInformation->items,
+                    'product' => $latestTicketInformation->product,
+                    'items' => implode(',', $itemsComplete),
+                    'pantone' => $latestTicketInformation->pantone,
+                    'position' => $latestTicketInformation->position,
+                    'companies' => $latestTicketInformation->companies,
+                ]);
+                $ticket->historyTicket()->create([
+                    'ticket_id' => $ticket->id,
+                    'reference_id' => $ticketInformation->id,
+                    'type' => 'info'
+                ]);
             }
             return response()->json(['message' => 'OK', 'status' => $status->status], 200);
         }

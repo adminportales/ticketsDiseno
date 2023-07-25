@@ -19,8 +19,12 @@ class ProfileController extends Controller
         ]);
         try {
             $actual = $user->profile->availability ? "Activado" : "Desactivado";
+            $info = auth()->user()->name . " ha cambiado el estado de {$user->name} a " . $actual;
+            if (trim($request->reason) != "") {
+                $info .= ". Motivo: " . $request->reason;
+            }
             HistoryAvailability::create([
-                'info' => auth()->user()->name . " ha cambiado el estado de {$user->name} a " . $actual,
+                'info' => $info,
                 'user_id' => auth()->user()->id,
                 'action' => 'disponibilidad'
             ]);

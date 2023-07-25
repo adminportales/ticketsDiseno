@@ -10,8 +10,14 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header d-flex justify-content-between">
                             <h4>Mis Ultimos 5 Tickets Pendientes</h4>
+                            <div class="d-flex">
+                                <p class="m-0">Mi Disponibilidad:</p>
+                                <change-status-designer :availability={{ auth()->user()->profile->availability }}
+                                    :user={{ auth()->user()->id }}>
+                                </change-status-designer>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div id="chart-profile-visit"></div>
