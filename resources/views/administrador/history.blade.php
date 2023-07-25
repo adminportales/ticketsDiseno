@@ -44,8 +44,8 @@
                                         break;
                                 }
                             @endphp
-                            <div class="alert alert-{{ $color }} p-0 text-center p-1 capitalize">{{ Str::ucfirst($item->action) }}</div>
-
+                            <div class="alert alert-{{ $color }} p-0 text-center p-1 capitalize">
+                                {{ Str::ucfirst($item->action) }}</div>
                         </td>
                         <td>{!! $item->info !!}</td>
 
@@ -77,7 +77,7 @@
                             }
                         @endphp
                         {{-- Crear la columna de la tabla --}}
-                        <td>{{ $resultado }}</td>
+                        <td>{{ $item->created_at }}</td>
                     </tr>
                 @endforeach
             </tbody>

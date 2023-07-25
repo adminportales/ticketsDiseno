@@ -134,6 +134,7 @@
                             @foreach ($tickets as $ticket)
                                 @php
                                     $ticketInformation = $ticket->latestTicketInformation;
+                                    $latestTicketInformation = $ticket->latestTicketInformation;
                                 @endphp
                                 <tr>
 
@@ -185,9 +186,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <change-designer-assigment designer="{{ $ticket->designer_name }}"
-                                            :ticket={{ $ticket->id }} :designers=@json($designersRefactory)>
-                                        </change-designer-assigment>
+                                        {{ $ticket->designer_name }}
                                     </td>
                                     <td>
                                         @if ($ticketInformation)

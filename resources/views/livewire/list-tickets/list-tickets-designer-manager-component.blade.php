@@ -88,7 +88,7 @@
                             :designers=@json($designersRefactory)>
                         </change-designer-assigment> --}}
                         <div class="d-flex">
-                            <span></span>
+                            {{-- <span>{{ $designer->name . ' ' . $designer->lastname }}</span> --}}
 
                             <div class="dropdown">
                                 <button class="boton btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
