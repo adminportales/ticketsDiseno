@@ -87,10 +87,14 @@ class StatusController extends Controller
 
                 $latestTicketInformation = $ticket->latestTicketInformation;
 
-                $dataItems = explode(',', $latestTicketInformation->items);
+                $itemsComplete = [];
                 $newDataItems = explode(',', $request->images);
-                $itemsComplete =  array_merge($dataItems, $newDataItems);
-
+                if ($latestTicketInformation->items != '' || $latestTicketInformation->items != null) {
+                    $dataItems = explode(',', $latestTicketInformation->items);
+                    $itemsComplete =  array_merge($dataItems, $newDataItems);
+                } else {
+                    $itemsComplete = $newDataItems;
+                }
                 $latestTicketInformation = $ticket->latestTicketInformation;
                 $ticketInformation = $ticket->ticketInformation()->create([
                     'technique_id' => $latestTicketInformation->technique_id,
