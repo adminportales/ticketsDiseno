@@ -4,7 +4,7 @@
             <div class="col-md-4 shadow">
                 <strong>{{ $designerByType['type'] }}</strong><br>
                 <br>
-                @if (array_key_exists('data', $designerByType['designer']))
+                @if (array_key_exists('designers', $designerByType['designer']))
                     <strong>Diseñadores Contemplados</strong>
                     <br>
                     @foreach ($designerByType['designers'] as $designer)
