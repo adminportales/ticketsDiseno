@@ -64,6 +64,9 @@
                     </div>
                 </div>
                 <div class="w-100">
+                    @livewire('monitor-asignacion-component')
+                </div>
+                <div class="w-100">
                     <h4 class="text-center">Informacion de los ultimos 2 meses</h4>
                 </div>
                 <div class="col-md-3">

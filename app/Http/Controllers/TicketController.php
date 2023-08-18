@@ -492,7 +492,7 @@ class TicketController extends Controller
                 //TODO: Retornar a la persona que lleva mas tiempo si entregar un ticket
                 $lastestTicket = [];
                 foreach ($newData as $desNew) {
-                    array_push($lastestTicket,  $desNew['designer']->assignedTickets()->where('status_id', '!=', 1)->where('status_id', '!=', 4)->orderBy('updated_at', 'desc')->first());
+                    array_push($lastestTicket,  $desNew['designer']->assignedTickets()->whereIn('status_id', [2, 3, 5])->orderBy('updated_at', 'desc')->first());
                 }
 
                 for ($j = 0; $j < count($lastestTicket) - 1; $j++) {

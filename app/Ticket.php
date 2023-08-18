@@ -18,7 +18,7 @@ class Ticket extends Model
         'type_id',
         'status_id',
     ];
-    
+
     // Empleado creador del ticket
     public function ticketCreator()
     {
@@ -82,5 +82,11 @@ class Ticket extends Model
     public function latestStatusChangeTicket()
     {
         return $this->hasOne('App\TicketStatusChange')->latestOfMany();
+    }
+
+    // Traer el diseñador del ticket
+    public function designerTicket()
+    {
+        return $this->belongsTo('App\User', 'designer_id');
     }
 }
