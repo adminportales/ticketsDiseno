@@ -89,4 +89,16 @@ class Ticket extends Model
     {
         return $this->belongsTo('App\User', 'designer_id');
     }
+
+    // Traer el proceso de asignacion del ticket
+    public function ticketAssignProcess()
+    {
+        return $this->hasMany('App\TicketAssignProcess');
+    }
+
+    // Traer el ultimo proceso de asignacion del ticket
+    public function latestTicketAssignProcess()
+    {
+        return $this->hasOne('App\TicketAssignProcess')->latestOfMany();
+    }
 }

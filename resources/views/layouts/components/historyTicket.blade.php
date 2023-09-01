@@ -149,7 +149,9 @@
             <div class="form-group flex-grow-1">
                 <input type="text" class="form-control" placeholder="Agrega una nota adicional" name="message">
             </div>
-            <input type="submit" class="boton-enviar" value="Enviar">
+            @if (!auth()->user()->hasRole(['designer', 'design_manager']) || auth()->user()->id == $ticket->designer_id)
+                <input type="submit" class="boton-enviar" value="Enviar">
+            @endif
         </div>
     </form>
     <div class="">
@@ -706,6 +708,34 @@
                                     {{ $status->status }}</div>
                                 <p class="m-0 " style="font-size: .8rem">
                                     {{ $status->created_at->diffForHumans() }}</p>
+                            </li>
+                        @elseif($ticketHistory->type == 'assigment')
+                            @php $assigment = $ticketHistory->ticketAssignProcess; @endphp
+                            <li class="list-group-item">
+                                @php $text = ''; @endphp
+                                @switch($assigment->status)
+                                    @case('Seleccionado')
+                                        @php $text = $assigment->designer_name. ' ha comenzado a trabajar en tu solicitud'; @endphp
+                                    @break
+
+                                    @case('En proceso de traspaso')
+                                        @php $text = $assigment->designer_name .' ha solicitado que ' .$assigment->designer_received_name . ' atienda el ticket'; @endphp
+                                    @break
+
+                                    @case('Aceptado')
+                                        @php $text = $assigment->designer_received_name .' ha aceptado atender el ticket'; @endphp
+                                    @break
+
+                                    @case('Rechazado')
+                                        @php $text = $assigment->designer_received_name .' ha rechazado atender el ticket'; @endphp
+                                    @break
+
+                                    @default
+                                @endswitch
+                                <div class="p-1 m-0">
+                                    {{ $text }}</div>
+                                <p class="m-0 " style="font-size: .8rem">
+                                    {{ $assigment->created_at->diffForHumans() }}</p>
                             </li>
                         @endif
                     @endforeach

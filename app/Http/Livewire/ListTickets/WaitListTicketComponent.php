@@ -39,6 +39,8 @@ class WaitListTicketComponent extends Component
             $this->ticket->designer_id = auth()->user()->id;
             $this->ticket->designer_name = auth()->user()->name . " " . auth()->user()->lastname;
             $this->ticket->save();
+
+            // Cambiar el estado del ticket y guardar el historial
             $status = Status::find(2);
             $statusChange = $this->ticket->statusChangeTicket()->create([
                 'status_id' => $status->id,
@@ -51,6 +53,23 @@ class WaitListTicketComponent extends Component
             ]);
             $this->ticket->status_id = $statusChange->status_id;
             $this->ticket->save();
+
+            // Guardar el proceso de asignacion y el diseñador que lo acepto
+            $traspaso = $this->ticket->ticketAssignProcess()->create([
+                'ticket_id' => $this->ticket->id,
+                'designer_id' => auth()->user()->id,
+                'designer_name' => auth()->user()->name . " " . auth()->user()->lastname,
+                'designer_received_id' => null,
+                'designer_received_name' => null,
+                'date_response' => now(),
+                'status' => 'Seleccionado',
+            ]);
+
+            $this->ticket->historyTicket()->create([
+                'ticket_id' => $this->ticket->id,
+                'reference_id' => $traspaso->id,
+                'type' => 'assigment'
+            ]);
 
             $transmitter_name = auth()->user()->name . ' ' . auth()->user()->lastname;
             $userReceiver = '';

@@ -101,6 +101,12 @@
                             <span>Mi equipo</span>
                         </a>
                     </li>
+                    <li class="sidebar-item {{ request()->is('designer/list-wait') ? 'active' : '' }}">
+                        <a href="{{ route('designer.listWait') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Lista de Espera</span>
+                        </a>
+                    </li>
                 @endrole
                 @role('sales_manager')
                     {{-- <li class="sidebar-item  {{ request()->is('sales_manager/tickets') ? 'active' : '' }}">
