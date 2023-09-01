@@ -2,6 +2,7 @@
 
 use App\Events\MessageSendEvent;
 use App\Events\OrderStatusChangeEvent;
+use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +39,10 @@ Route::resource('/teams', 'TeamController');
 // Rutas del diseñador
 route::get('/designer/ticketShow/{ticket}', 'DesignerController@show')->name('designer.show');
 Route::get('/designer/home', 'DesignerController@index')->name('designer.inicio');
+Route::get('/designer/WaitingList', 'DesignerController@list')->name('designer.waitinglist');
+Route::post('/designer/asignar/{ticketId}', [TicketController::class, 'assignTicket'])->name('tickets.asignarDisenador');
+Route::get('/mostrar-ticket', 'UserController@showTicketView');
+Route::post('/designer/reasignar', 'DesignerController@reasignTicket')->name('designer.reasigment');
 
 // Rutas del gerente de diseño
 Route::get('/design_manager/all-tickets', 'DesignerManagerController@allTickets')->name('design_manager.all');
@@ -47,6 +52,7 @@ Route::get('/design_manager/edit-asign/{user}', 'TicketAssigmentController@edit'
 Route::put('/design_manager/edit-asign/{user}', 'TicketAssigmentController@update')->name('ticketAssigment.update');
 Route::put('/design-manager/update-availability/{user}', 'ProfileController@updateStatus')->name('profile.updateStatus');
 Route::put('/design-manager/update-assign/{ticket}', 'TicketAssigmentController@changeDesigner');
+
 
 // Cambio de estado
 Route::put('/design/update-status/{ticket}', 'StatusController@update');

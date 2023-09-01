@@ -17,7 +17,10 @@ class Ticket extends Model
         'priority_id',
         'type_id',
         'status_id',
+        'status_assignment',
     ];
+
+    
 
     // Empleado creador del ticket
     public function ticketCreator()

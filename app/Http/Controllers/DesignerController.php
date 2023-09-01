@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Message;
+use App\ReassignmentTicket;
 use App\Status;
 use App\Ticket;
 use App\TicketHistory;
@@ -38,6 +39,13 @@ class DesignerController extends Controller
         return view('designer.index');
     }
 
+    public function list()
+    {
+        // Buscar tickets que no tengan diseñador
+        $tickets = Ticket::where('designer_id', null)->paginate(5);
+        return view('designer.waitinglist',  compact('tickets'));
+    }
+
     /**
      * Display the specified resource.
      *
@@ -54,10 +62,37 @@ class DesignerController extends Controller
 
         $ticketHistories = $ticket->historyTicket;
         $ticketDeliveries = $ticket->deliveryTicket;
+        $userall = User::join('role_user', 'users.id', 'role_user.user_id')
+        ->whereIn('role_user.role_id', [3, 5])
+        ->where('users.id', '!=', auth()->user()->id)
+        ->where('users.status', 1)
+        ->get();
 
         return view(
             'designer.showTicket',
-            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories', 'ticketDeliveries')
+            compact('userall', 'messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories', 'ticketDeliveries')
         );
+    }
+
+    public function reasignTicket(Request $request)
+    {
+
+        // Validar datos si es necesario
+        $ticketId = $request->input('ticket_id');
+        $designerId = $request->input('designer_id');
+        $designerName = $request->input('designer_name');
+        $selectedDesignerId = $request->input('designer_receives_id');
+        $selectedDesignerName = $request->input('designer_receives');
+
+        // Guardar en la base de datos
+        $reassignment = new ReassignmentTicket();
+        $reassignment->ticket_id = $ticketId;
+        $reassignment->designer_id = $designerId;
+        $reassignment->designer_name = $designerName;
+        $reassignment->designer_receives_id = $selectedDesignerId;
+        $reassignment->designer_receives = $selectedDesignerName;
+        $reassignment->save();
+
+        return response()->json(['success' => true]);
     }
 }

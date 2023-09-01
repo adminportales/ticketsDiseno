@@ -75,6 +75,12 @@
                             <span>Ver ticket</span>
                         </a>
                     </li>
+                    <li class="sidebar-item {{ request()->is('designer/WaitingList') ? 'active' : '' }}">
+                        <a href="{{ route('designer.waitinglist') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Lista de espera</span>
+                        </a>
+                    </li>
                 @endrole
                 @role('design_manager')
                     <li class="sidebar-item  {{ request()->is('design_manager/mis-tickets') ? 'active' : '' }}">
