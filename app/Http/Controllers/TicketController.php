@@ -158,23 +158,15 @@ class TicketController extends Controller
             $seller_name = $userCreator->name . ' ' . $userCreator->lastname;
         }
 
-
-        //Asignar el ticket de forma correcta
-        $designerAssigments = TicketAssigment::join('users', 'ticket_assigments.designer_id', '=', 'users.id')
-            ->join('profiles', 'ticket_assigments.designer_id', '=', 'profiles.user_id')
-            ->where('ticket_assigments.type_id', '=', $request->type)->where('users.status', '=', 1)
-            ->where('profiles.availability', '=', 1)->get();
-        // Algoritmo para la asignacion de tickets
-        $designerAssigment = $this->checkWorkload($designerAssigments);
         // Registrar el ticket
         $ticket = Ticket::create([
             'creator_id' => $creator_id,
             'creator_name' =>  $creator_name,
             'seller_id' => $seller_id,
             'seller_name' =>  $seller_name,
-            'designer_id' => $designerAssigment->id,
-            'designer_name' => $designerAssigment->name . ' ' . $designerAssigment->lastname,
-            'priority_id' => 2,
+            'designer_id' => null,
+            'designer_name' => null,
+             'priority_id' => 2,
             'type_id' => $request->type,
             'status_id' => 1
         ]);
@@ -216,38 +208,7 @@ class TicketController extends Controller
             'reference_id' => $statusChange->id,
             'type' => 'status'
         ]);
-        try {
-            $usersConsiderated = '';
-            foreach ($designerAssigments as $uc) {
-                $usersConsiderated = $usersConsiderated . ' ' . $uc->name . ', ';
-            }
 
-            $designerAssigments = TicketAssigment::join('users', 'ticket_assigments.designer_id', '=', 'users.id')
-                ->join('profiles', 'ticket_assigments.designer_id', '=', 'profiles.user_id')
-                ->where('ticket_assigments.type_id', '=', $request->type)->where('users.status', '=', 1)
-                ->where('profiles.availability', '=', 0)->get();
-
-            $usersDisabled = '';
-            foreach ($designerAssigments as $uc) {
-                $usersDisabled = $usersDisabled . ' ' . $uc->name . ', ';
-            }
-            HistoryAvailability::create([
-                'info' => auth()->user()->name . " creo el ticket " . $ticket->latestTicketInformation->title .
-                    " de tipo {$ticket->typeTicket->type} asignado a {$designerAssigment->name} <br>Se considero a "
-                    . ($usersConsiderated == '' ? 'Ninguno' : $usersConsiderated) . '<br>' . ($usersDisabled == '' ? 'Ninguno ' : $usersDisabled) . 'estan deshabilitados.',
-                'user_id' => auth()->user()->id,
-                'action' => 'creacion'
-            ]);
-            //code...
-        } catch (Exception $e) {
-        }
-
-        try {
-            // Notificacion para avisar al diseñador
-            event(new TicketCreateSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->creator_name));
-            $designerAssigment->notify(new TicketCreateNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->creator_name));
-        } catch (Exception $th) {
-        }
         // Regresar a la vista de inicio
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
     }

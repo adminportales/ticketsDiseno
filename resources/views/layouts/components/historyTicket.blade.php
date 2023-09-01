@@ -19,8 +19,12 @@
             </p>
         @endpermission
         @permission('create-ticket')
-            <p class="m-0"><strong>Asignado a:
-                </strong>{{ $ticket->designer_name }}
+            <p class="m-0"><strong>Asignado a:</strong>
+                @if ($ticket->designer_id == null)
+                    Ticket En Espera
+                @else
+                    {{ $ticket->designer_name }}
+                @endif
             </p>
         @endpermission
         @role('sales_assistant')

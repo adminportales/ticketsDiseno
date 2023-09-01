@@ -60,4 +60,11 @@ class DesignerController extends Controller
             compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories', 'ticketDeliveries')
         );
     }
+
+    // Muestra la lista de tickets en espera
+    public function listWait()
+    {
+        // Mostramos la vista
+        return view('designer.listWait');
+    }
 }
