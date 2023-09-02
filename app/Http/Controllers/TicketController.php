@@ -12,6 +12,7 @@ use App\Role;
 use App\Status;
 use App\Technique;
 use App\Ticket;
+use App\TicketAssigment;
 use App\Type;
 use App\User;
 use Exception;
@@ -20,8 +21,6 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
-use Illuminate\Support\Facades\Auth;
-use App\Ticket as AppTicket;
 
 class TicketController extends Controller
 {
@@ -65,9 +64,9 @@ class TicketController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
      * @return \Illuminate\Http\Response
      */
-
     public function create()
     {
         $types = Type::all();
@@ -81,7 +80,6 @@ class TicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
     public function store(Request $request)
     {
         // Obtener el id y el nombre del vendedor o asistente que esta editando
@@ -108,7 +106,6 @@ class TicketController extends Controller
                 ]);
                 $request->companies = null;
                 break;
-
             case 2:
                 request()->validate([
                     'type' => 'required',
@@ -124,7 +121,6 @@ class TicketController extends Controller
                 $request->technique = null;
                 $request->position = null;
                 break;
-
             case 3:
                 request()->validate([
                     'type' => 'required',
@@ -140,14 +136,14 @@ class TicketController extends Controller
                 $request->customer = null;
                 $request->companies = null;
                 break;
-
             default:
                 break;
         }
 
+
+
         // Si es un asistente, validacion extra y obtener el ejecutivo, y si no
         // El ejecutivo es el creador
-
         $seller_id = '';
         $seller_name = '';
         if ($userCreator->hasRole('sales_assistant')) {
@@ -162,20 +158,18 @@ class TicketController extends Controller
             $seller_name = $userCreator->name . ' ' . $userCreator->lastname;
         }
 
-        //Funcion para asignar el ticket cuando des clic en el boton "Asignar Ticket"
-        $ticket = AppTicket::create([
+        // Registrar el ticket
+        $ticket = Ticket::create([
             'creator_id' => $creator_id,
             'creator_name' =>  $creator_name,
             'seller_id' => $seller_id,
             'seller_name' =>  $seller_name,
             'designer_id' => null,
             'designer_name' => null,
-            'priority_id' => 2,
+             'priority_id' => 2,
             'type_id' => $request->type,
-            'status_id' => 1,
-            'status_assignment' => 1,
+            'status_id' => 1
         ]);
-
         // Creacion del estado
         $status = Status::find(1);
         $statusChange = $ticket->statusChangeTicket()->create([
@@ -241,22 +235,12 @@ class TicketController extends Controller
         );
     }
 
-    public function mostrarlista()
-    {
-        $tickets = auth()->user()->ticketsCreated()->orderByDesc('created_at')->get();
-        return view(
-            'designet.WaitingList',
-            compact('tickets')
-        );
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-
     public function edit(Ticket $ticket)
     {
         $types = Type::all();
@@ -387,151 +371,105 @@ class TicketController extends Controller
         }
     }
 
-    // public function checkWorkload($designerAssigments)
-    // {
-    //     /*
-    //        Revisar si hay cero diseñadores que pueden recibir este tipo de ticket
-    //        En este caso asignarlo al gerente de diseño y que el lo reasigne si desea
-    //     */
-    //     if (count($designerAssigments) <= 0) {
-    //         $designer = Role::find(5)->whatUsers;
-    //         return $designer[0];
-    //     }
-    //     /*
-    //         Si solo hay un diseñador que recibe ese ticket, asignar el ticket a ese diseñador
-    //         Si no esta disponible por que falto o algo, asignarselo al gerente de diseño
-    //     */
-    //     if (count($designerAssigments) == 1) {
-    //         $designerAssigment = User::find($designerAssigments[0]->designer_id);
-    //         if ($designerAssigment->profile->availability) {
-    //             return $designerAssigment;
-    //         } else {
-    //             $designer = Role::find(5)->whatUsers;
-    //             return $designer[0];
-    //         }
-    //     } else {
-    //         /*
-    //             Si hay mas de un diseñador que pueda atender este ticket
-    //             Revisamos las disponibilidad
-    //         */
-    //         $data = [];
-    //         // Crear un arreglo para guardar el total de tickets que no estan finalizados
-    //         foreach ($designerAssigments as $key => $designerAssigment) {
-    //             $designer = User::find($designerAssigment->designer_id);
-
-    //             $totalTickets = 0;
-    //             $timeWait = 0;
-    //             // Vamos a considerar al diseñador siempre y cuando este disponible
-    //             if ($designer->profile->availability) {
-    //                 $ticketsAsignados = $designer->assignedTickets->where('status_id', '!=', '3')->where('status_id', '!=', '6')->where('updated_at', '>', now()->subHours(16));
-    //                 foreach ($ticketsAsignados  as $ticket) {
-    //                     if (strpos($ticket->designer_name, $designer->name) !== false) {
-    //                         $totalTickets++;
-    //                     }
-    //                 }
-    //                 $data[$key] = [
-    //                     'designer' => $designer,
-    //                     'total' => $totalTickets,
-    //                     'time' => $timeWait,
-    //                 ];
-    //             }
-    //         }
-
-    //         // Si no hay diseñadores disponibles, se asignan al gerente de diseño
-    //         if (count($data) <= 0) {
-    //             $designer = Role::find(5)->whatUsers;
-    //             return $designer[0];
-    //         }
-
-    //         //Si el numero de tickets es el mismo, asignalos aleatoreamemte
-    //         //Si no, regresa el que tenga el menor numero de tickets asignados
-    //         for ($j = 0; $j < count($data) - 1; $j++) {
-    //             for ($i = 0; $i < count($data) - 1; $i++) {
-    //                 if ($data[$i]['total'] > $data[$i + 1]['total']) {
-    //                     $aux = $data[$i];
-    //                     $data[$i] = $data[$i + 1];
-    //                     $data[$i + 1] = $aux;
-    //                 }
-    //             }
-    //         }
-
-    //         $newData = [$data[0]];
-    //         for ($i = 1; $i < count($data); $i++) {
-    //             if ($data[0]['total'] === $data[$i]['total']) {
-    //                 array_push($newData, $data[$i]);
-    //             } else {
-    //                 break;
-    //             }
-    //         }
-    //         if (count($newData) == 1) {
-    //             return $newData[0]['designer'];
-    //         } else {
-    //             //TODO: Retornar a la persona que lleva mas tiempo si entregar un ticket
-    //             $lastestTicket = [];
-    //             foreach ($newData as $desNew) {
-    //                 array_push($lastestTicket,  $desNew['designer']->assignedTickets()->whereIn('status_id', [2, 3, 5])->orderBy('updated_at', 'desc')->first());
-    //             }
-
-    //             for ($j = 0; $j < count($lastestTicket) - 1; $j++) {
-    //                 for ($i = 0; $i < count($lastestTicket) - 1; $i++) {
-    //                     if ($lastestTicket[$i]->updated_at > $lastestTicket[$i + 1]->updated_at) {
-    //                         $aux = $lastestTicket[$i];
-    //                         $lastestTicket[$i] = $lastestTicket[$i + 1];
-    //                         $lastestTicket[$i + 1] = $aux;
-    //                     }
-    //                 }
-    //             }
-
-    //             return User::find($lastestTicket[0]->designer_id);
-    //         }
-    //     }
-    // }
-
-    public function assignTicket(Request $request)
+    public function checkWorkload($designerAssigments)
     {
-        // dd($request);
-        $ticketId = $request->input('ticket_id');
-        // dd($ticketId);
-        // Obtener el usuario autenticado
-        $user = Auth::user();
-
-        // Buscar el ticket por su ID
-        $ticket = AppTicket::findOrFail($ticketId);
-
-        // Actualizar los campos del diseñador
-        $ticket->designer_id = $user->id;
-        $ticket->designer_name = $user->name;
-
-        // Guardar los cambios en la base de datos
-        $ticket->save();
-
-        // Return a la ruta del mismo ticket
-        return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
-
-    }
-
-    public function reassignTicket(Request $request) {
-        $ticketId = $request->input('ticket_id');
-        $selectedDesignerId = $request->input('selected_designer_id');
-        $selectedDesignerName = $request->input('selected_designer_name');
-    
-        // Buscar el ticket en la base de datos
-        $ticket = Ticket::find($ticketId);
-    
-        if (!$ticket) {
-            return redirect()->route('error.page')->with('message', 'El ticket no se encontró o no existe.');
+        /*
+           Revisar si hay cero diseñadores que pueden recibir este tipo de ticket
+           En este caso asignarlo al gerente de diseño y que el lo reasigne si desea
+        */
+        if (count($designerAssigments) <= 0) {
+            $designer = Role::find(5)->whatUsers;
+            return $designer[0];
         }
-    
-        // Actualizar los campos designer_id y designer_name
-        $ticket->designer_id = $selectedDesignerId;
-        $ticket->designer_name = $selectedDesignerName;
-        $ticket->save();
-    
-        // Aquí podrías realizar cualquier otra lógica necesaria
-    
-        return redirect()->route('designer.waitingList')->with('success', 'Ticket reasignado exitosamente.');;
-    }
+        /*
+            Si solo hay un diseñador que recibe ese ticket, asignar el ticket a ese diseñador
+            Si no esta disponible por que falto o algo, asignarselo al gerente de diseño
+        */
+        if (count($designerAssigments) == 1) {
+            $designerAssigment = User::find($designerAssigments[0]->designer_id);
+            if ($designerAssigment->profile->availability) {
+                return $designerAssigment;
+            } else {
+                $designer = Role::find(5)->whatUsers;
+                return $designer[0];
+            }
+        } else {
+            /*
+                Si hay mas de un diseñador que pueda atender este ticket
+                Revisamos las disponibilidad
+            */
+            $data = [];
+            // Crear un arreglo para guardar el total de tickets que no estan finalizados
+            foreach ($designerAssigments as $key => $designerAssigment) {
+                $designer = User::find($designerAssigment->designer_id);
 
+                $totalTickets = 0;
+                $timeWait = 0;
+                // Vamos a considerar al diseñador siempre y cuando este disponible
+                if ($designer->profile->availability) {
+                    $ticketsAsignados = $designer->assignedTickets->where('status_id', '!=', '3')->where('status_id', '!=', '6')->where('updated_at', '>', now()->subHours(16));
+                    foreach ($ticketsAsignados  as $ticket) {
+                        if (strpos($ticket->designer_name, $designer->name) !== false) {
+                            $totalTickets++;
+                        }
+                    }
+                    $data[$key] = [
+                        'designer' => $designer,
+                        'total' => $totalTickets,
+                        'time' => $timeWait,
+                    ];
+                }
+            }
+
+            // Si no hay diseñadores disponibles, se asignan al gerente de diseño
+            if (count($data) <= 0) {
+                $designer = Role::find(5)->whatUsers;
+                return $designer[0];
+            }
+
+            //Si el numero de tickets es el mismo, asignalos aleatoreamemte
+            //Si no, regresa el que tenga el menor numero de tickets asignados
+            for ($j = 0; $j < count($data) - 1; $j++) {
+                for ($i = 0; $i < count($data) - 1; $i++) {
+                    if ($data[$i]['total'] > $data[$i + 1]['total']) {
+                        $aux = $data[$i];
+                        $data[$i] = $data[$i + 1];
+                        $data[$i + 1] = $aux;
+                    }
+                }
+            }
+
+            $newData = [$data[0]];
+            for ($i = 1; $i < count($data); $i++) {
+                if ($data[0]['total'] === $data[$i]['total']) {
+                    array_push($newData, $data[$i]);
+                } else {
+                    break;
+                }
+            }
+            if (count($newData) == 1) {
+                return $newData[0]['designer'];
+            } else {
+                //TODO: Retornar a la persona que lleva mas tiempo si entregar un ticket
+                $lastestTicket = [];
+                foreach ($newData as $desNew) {
+                    array_push($lastestTicket,  $desNew['designer']->assignedTickets()->whereIn('status_id', [2, 3, 5])->orderBy('updated_at', 'desc')->first());
+                }
+
+                for ($j = 0; $j < count($lastestTicket) - 1; $j++) {
+                    for ($i = 0; $i < count($lastestTicket) - 1; $i++) {
+                        if ($lastestTicket[$i]->updated_at > $lastestTicket[$i + 1]->updated_at) {
+                            $aux = $lastestTicket[$i];
+                            $lastestTicket[$i] = $lastestTicket[$i + 1];
+                            $lastestTicket[$i + 1] = $aux;
+                        }
+                    }
+                }
+
+                return User::find($lastestTicket[0]->designer_id);
+            }
+        }
+    }
 
     //Comprimir archivos de ticket y descargarlos
     public function descargarArchivos(Ticket $ticket)

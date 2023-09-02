@@ -17,10 +17,7 @@ class Ticket extends Model
         'priority_id',
         'type_id',
         'status_id',
-        'status_assignment',
     ];
-
-    
 
     // Empleado creador del ticket
     public function ticketCreator()
@@ -91,5 +88,17 @@ class Ticket extends Model
     public function designerTicket()
     {
         return $this->belongsTo('App\User', 'designer_id');
+    }
+
+    // Traer el proceso de asignacion del ticket
+    public function ticketAssignProcess()
+    {
+        return $this->hasMany('App\TicketAssignProcess');
+    }
+
+    // Traer el ultimo proceso de asignacion del ticket
+    public function latestTicketAssignProcess()
+    {
+        return $this->hasOne('App\TicketAssignProcess')->latestOfMany();
     }
 }

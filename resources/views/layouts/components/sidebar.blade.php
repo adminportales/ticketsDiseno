@@ -75,10 +75,10 @@
                             <span>Ver ticket</span>
                         </a>
                     </li>
-                    <li class="sidebar-item {{ request()->is('designer/WaitingList') ? 'active' : '' }}">
-                        <a href="{{ route('designer.waitinglist') }}" class='sidebar-link'>
+                    <li class="sidebar-item {{ request()->is('designer/list-wait') ? 'active' : '' }}">
+                        <a href="{{ route('designer.listWait') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
-                            <span>Lista de espera</span>
+                            <span>Lista de Espera</span>
                         </a>
                     </li>
                 @endrole
@@ -99,6 +99,12 @@
                         <a href="{{ route('design_manager.assign') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Mi equipo</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item {{ request()->is('designer/list-wait') ? 'active' : '' }}">
+                        <a href="{{ route('designer.listWait') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Lista de Espera</span>
                         </a>
                     </li>
                 @endrole

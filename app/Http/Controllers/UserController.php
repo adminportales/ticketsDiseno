@@ -27,17 +27,13 @@ class UserController extends Controller
         //$users = User::where('status', 1);
         return view('administrador.users.index', compact('users'));
     }
+
     public function allUsers()
     {
         $users = User::where('status', '=', '1')->get();
         return response()->json($users);
     }
 
-    // public function mostrarVista()
-    // {
-    //     $fernandaUser = User::where('id', 25)->get();
-    //     return view('designer.showTicket', compact('fernandaUser'));
-    // }
     /**
      * Show the form for creating a new resource.
      *
@@ -137,6 +133,12 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
+    public function edit(User $user)
+    {
+        $roles = Role::all();
+        return view('administrador.users.edit', compact('roles', 'user'));
+    }
+
     /**
      * Update the specified resource in storage.
      *

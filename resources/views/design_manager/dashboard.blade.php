@@ -7,6 +7,100 @@
 
 @section('dashboard')
     <section class="row">
+        <div class="col-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Tickets en Espera de tu aprobacion</h4>
+                    @if (count($ticketsToTransfer) > 0)
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Titulo</th>
+                                    <th>Info</th>
+                                    <th>Solicitado por</th>
+                                    <th>Prioridad</th>
+                                    <th>Hora de creación</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($ticketsToTransfer as $ticketToTransfer)
+                                    @php
+                                        $latestTicketInformation = $ticketToTransfer->latestTicketInformation;
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $latestTicketInformation ? $latestTicketInformation->title : 'Hubo un Problema al crear el ticket' }}
+                                            <br>
+                                            <strong>Tipo:</strong> {{ $ticketToTransfer->typeTicket->type }}<br>
+                                        </td>
+                                        <td>
+                                            @php $color = ''; @endphp
+                                            @switch($ticketToTransfer->latestStatusChangeTicket->status)
+                                                @case('Creado')
+                                                    @php $color = 'alert-success'; @endphp
+                                                @break
+
+                                                @case('En revision')
+                                                    @php $color = 'alert-warning'; @endphp
+                                                @break
+
+                                                @case('Entregado')
+                                                    @php $color = 'alert-info'; @endphp
+                                                @break
+
+                                                @case('Solicitud de ajustes')
+                                                    @php $color = 'alert-danger'; @endphp
+                                                @break
+
+                                                @case('Realizando ajustes')
+                                                    @php $color = 'alert-secondary'; @endphp
+                                                @break
+
+                                                @case('Finalizado')
+                                                    @php $color = 'alert-primary'; @endphp
+                                                @break
+
+                                                @default
+                                            @endswitch
+                                            <strong>Estado:</strong>
+                                            <div class="p-1 alert {{ $color }}">
+                                                {{ $ticketToTransfer->latestStatusChangeTicket->status }}</div>
+                                        </td>
+                                        <td>
+                                            @if ($ticketToTransfer->seller_id == $ticketToTransfer->creator_id)
+                                                {{ $ticketToTransfer->seller_name }}
+                                            @else
+                                                {{ $ticketToTransfer->creator_name }} <br>
+                                                <strong>Ejecutivo:</strong>{{ $ticketToTransfer->seller_name }}
+                                            @endif
+                                        </td>
+                                        <td>{{ $ticketToTransfer->priorityTicket->priority }}</td>
+                                        <td>
+                                            @if ($latestTicketInformation)
+                                                {{ $latestTicketInformation->created_at->diffForHumans() }}
+                                            @else
+                                                <p>No se pudo crear el ticket correctamente. Intente mandarlo
+                                                    nuevamente
+                                                </p>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('designer.show', $ticketToTransfer) }}"
+                                                class="btn btn-primary btn-sm">Ver</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <p class="text-center">No tienes tickets en espera</p>
+                    @endif
+                </div>
+            </div>
+        </div>
         <div class="col-12 col-lg-8">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
@@ -215,7 +309,7 @@
                             <li class="list-group-item d-flex justify-content-between">
                                 <p class="m-0">{{ $user->name . ' ' . $user->lastname }}</p>
                                 <div>
-                                   {{$user->profile->availability ? 'Disponible' : 'No Disponible'}}
+                                    {{ $user->profile->availability ? 'Disponible' : 'No Disponible' }}
                                 </div>
                             </li>
                         @endforeach
