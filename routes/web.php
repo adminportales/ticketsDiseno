@@ -38,6 +38,7 @@ Route::resource('/teams', 'TeamController');
 // Rutas del diseñador
 route::get('/designer/ticketShow/{ticket}', 'DesignerController@show')->name('designer.show');
 Route::get('/designer/home', 'DesignerController@index')->name('designer.inicio');
+Route::get("/designer/list-wait", 'DesignerController@listWait')->name('designer.listWait');
 
 // Rutas del gerente de diseño
 Route::get('/design_manager/all-tickets', 'DesignerManagerController@allTickets')->name('design_manager.all');

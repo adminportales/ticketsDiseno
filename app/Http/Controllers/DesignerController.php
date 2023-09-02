@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Message;
 use App\Status;
 use App\Ticket;
+use App\TicketAssignProcess;
 use App\TicketHistory;
 use App\User;
 use Illuminate\Http\Request;
@@ -27,8 +28,10 @@ class DesignerController extends Controller
     {
         // Leemos los tickets que se asignaron al ususrio y obtenemos su estado
         $tickets = auth()->user()->assignedTickets()->where('status_id', '!=', 6)->where('status_id', '!=', 3)->orderByDesc('created_at')->paginate(5);
+        $ticketsToTransferMe = auth()->user()->latestTicketsToTransferMe()->where('status', 'En proceso de traspaso')->select("ticket_id")->get();
+        $ticketsToTransfer = Ticket::whereIn('id', $ticketsToTransferMe)->orderByDesc('created_at')->get();
         // MOstramos la vista
-        return view('designer.dashboard', compact('tickets'));
+        return view('designer.dashboard', compact('tickets', 'ticketsToTransfer'));
     }
 
     // Muestra todos los tickets asignanos a ese diseñador
@@ -59,5 +62,12 @@ class DesignerController extends Controller
             'designer.showTicket',
             compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories', 'ticketDeliveries')
         );
+    }
+
+    // Muestra la lista de tickets en espera
+    public function listWait()
+    {
+        // Mostramos la vista
+        return view('designer.listWait');
     }
 }
