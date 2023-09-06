@@ -36,7 +36,10 @@ class DesignerManagerController extends Controller
             $totalTickets++;
         }
 
-        return view('design_manager.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets', 'designers', 'ticketsPropios'));
+        $ticketsToTransferMe = auth()->user()->latestTicketsToTransferMe()->where('status', 'En proceso de traspaso')->select("ticket_id")->get();
+        $ticketsToTransfer = Ticket::whereIn('id', $ticketsToTransferMe)->orderByDesc('created_at')->get();
+
+        return view('design_manager.dashboard', compact('tickets', 'totalTickets', 'closedTickets', 'openTickets', 'designers', 'ticketsPropios' , 'ticketsToTransfer'));
     }
 
     //Metodo para ver todos los tickets

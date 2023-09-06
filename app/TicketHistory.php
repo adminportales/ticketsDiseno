@@ -27,4 +27,8 @@ class TicketHistory extends Model
     {
         return $this->belongsTo('App\TicketDelivery','reference_id');
     }
+    public function ticketAssignProcess()
+    {
+        return $this->belongsTo('App\TicketAssignProcess','reference_id');
+    }
 }

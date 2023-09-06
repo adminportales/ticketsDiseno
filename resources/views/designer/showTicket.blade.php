@@ -10,8 +10,11 @@
             <div class="titulo">
                 <h4 class="card-title">Informacion acerca de tu solicitud</h4>
             </div>
-            <div class="d-flex flex-row-reverse" style="width: 40%">
+            <div class="d-flex flex-row-reverse align-items-center" style="width: 40%;">
                 <p class="m-0" style="font-size: 1.2rem">{{ $statusTicket }}</p>
+                <div class="mx-3">
+                    @livewire('reassign-ticket-component', ['ticket' => $ticket])
+                </div>
             </div>
         </div>
     </div>
@@ -22,10 +25,12 @@
             </div>
             <div class="col-md-3">
                 <h5>Entregas</h5>
-                <button type="button" class="boton-entregar-archivos" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal">
-                    Entregar <span class="fa-fw select-all fas"></span>
-                </button>
+                @if (auth()->user()->id == $ticket->designer_id)
+                    <button type="button" class="boton-entregar-archivos" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        Entregar <span class="fa-fw select-all fas"></span>
+                    </button>
+                @endif
                 <hr>
                 @if (count($ticketDeliveries) > 0)
                     <div class="border border-info rounded d-flex flex-column-reverse">
