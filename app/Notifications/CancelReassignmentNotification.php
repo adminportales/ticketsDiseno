@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TicketCreateNotification extends Notification
+class CancelReassignmentNotification extends Notification
 {
     use Queueable;
 
@@ -16,16 +16,16 @@ class TicketCreateNotification extends Notification
      *
      * @return void
      */
-    public $ticket;
-    public $emisor;
-    public $idTicket;
-    public function __construct($idTicket, $ticket, $emisor)
-    {
-        $this->ticket  = $ticket;
-        $this->emisor  = $emisor;
-        $this->idTicket  = $idTicket;
-    }
 
+
+     public $ticket;
+     public $emisor;
+     public function __construct($ticket, $emisor)
+     {
+         $this->ticket  = $ticket;
+         $this->emisor  = $emisor;
+     }
+ 
     /**
      * Get the notification's delivery channels.
      *
@@ -38,17 +38,23 @@ class TicketCreateNotification extends Notification
     }
 
     /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+
+    /**
      * Get the array representation of the notification.
      *
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toDatabase($notifiable)
     {
         return [
             'ticket' => $this->ticket,
             'emisor' => $this->emisor,
         ];
     }
-
 }

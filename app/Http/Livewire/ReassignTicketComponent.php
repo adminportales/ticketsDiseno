@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Notifications\CancelReassignmentNotification;
+use App\Notifications\ReasignarTicketNotification;
+use App\Notifications\ReassignmentAcceptedNotification;
 use App\User;
 use Livewire\Component;
 
@@ -39,6 +42,14 @@ class ReassignTicketComponent extends Component
             'type' => 'assigment'
         ]);
 
+        //Notiticacion al usuario que recibe el ticket  
+        $userReceivingReassignment = User::find($designer_id);
+        $userReceivingReassignment->notify(new ReasignarTicketNotification(
+            $this->ticket->designer_id,
+            $this->ticket->latestTicketInformation->title,
+            $this->ticket->designer_name
+        ));
+
         $this->status_reassigned = $this->ticket->latestTicketAssignProcess;
         return ["message" => "OK"];
     }
@@ -61,6 +72,13 @@ class ReassignTicketComponent extends Component
             'reference_id' => $traspaso->id,
             'type' => 'assigment'
         ]);
+
+        //Notiticacion de rechazo al usuario que envio el ticket
+        $userReceivingReassignment = User::find($this->status_reassigned->designer_id);
+        $userReceivingReassignment->notify(new CancelReassignmentNotification(
+            $this->ticket->latestTicketInformation->title,
+            $this->status_reassigned->designer_received_name
+        ));
 
         $this->status_reassigned = $this->ticket->latestTicketAssignProcess;
         return ["message" => "OK"];
@@ -88,6 +106,13 @@ class ReassignTicketComponent extends Component
         $this->ticket->designer_id = auth()->user()->id;
         $this->ticket->designer_name = auth()->user()->name . ' ' . auth()->user()->lastname;
         $this->ticket->save();
+
+        //Notiticacion de aceptacion al usuario que envio el ticket
+
+        $userReceivingReassignment = User::find($this->status_reassigned->designer_id);
+        $userReceivingReassignment->notify(new ReassignmentAcceptedNotification(
+            $this->ticket->latestTicketInformation->title, 
+            $this->status_reassigned->designer_received_name));
 
         $this->status_reassigned = $this->ticket->latestTicketAssignProcess;
         return ["message" => "OK", "ticket_id" => $this->ticket->id];

@@ -1,7 +1,7 @@
 <div>
     @if ($active)
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
             <svg class="bi bell" fill="currentColor">
                 <use xlink:href="{{ asset('assets/vendors/bootstrap-icons/bootstrap-icons.svg#bell-fill') }}" />
             </svg>
@@ -37,7 +37,7 @@
                             <p class="m-0">{{ $notification->data['emisor'] }}</p>
                             @switch($notification->type)
                                 @case('App\Notifications\TicketCreateNotification')
-                                    <p class="m-0">Se creo el ticket</p>
+                                    <p class="m-0">Nuevo ticket en la lista de espera</p>
                                 @break
 
                                 @case('App\Notifications\ChangeStatusNotification')
@@ -59,6 +59,18 @@
 
                                 @case('App\Notifications\TicketChangeNotification')
                                     <p class="m-0"><strong>Modificacion del Ticket</strong></p>
+                                @break
+
+                                @case('App\Notifications\ReasignarTicketNotification')
+                                    <p class="m-0">Quiere reasignarte un ticket</p>
+                                @break
+
+                                @case('App\Notifications\CancelReassignmentNotification')
+                                    <p class="m-0">Rechazo tú reasignación</p>
+                                @break
+
+                                @case('App\Notifications\ReassignmentAcceptedNotification')
+                                    <p class="m-0">Acepto tú reasignación</p>
                                 @break
 
                                 @default

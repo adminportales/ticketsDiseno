@@ -166,7 +166,7 @@ class TicketController extends Controller
             'seller_name' =>  $seller_name,
             'designer_id' => null,
             'designer_name' => null,
-             'priority_id' => 2,
+            'priority_id' => 2,
             'type_id' => $request->type,
             'status_id' => 1
         ]);
@@ -176,6 +176,7 @@ class TicketController extends Controller
             'status_id' => $status->id,
             'status' => $status->status
         ]);
+
 
         // Registrar la informacion del ticket
         if ($request->companies) {
@@ -208,6 +209,13 @@ class TicketController extends Controller
             'reference_id' => $statusChange->id,
             'type' => 'status'
         ]);
+
+        // Notificacion creacion de ticket solo para el designer
+
+        $designer_role = Role::where('display_name', 'Diseñador')->first();
+        $designer_role->whatUsers->each(function ($user) use ($ticket) {
+            $user->notify(new TicketCreateNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->creator_name));
+        });
 
         // Regresar a la vista de inicio
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
