@@ -43,15 +43,23 @@ class MessageController extends Controller
         $transmitter_id = auth()->user()->id;
         $transmitter_name = auth()->user()->name . ' ' . auth()->user()->lastname;
         $userReceiver = '';
-        if (auth()->user()->isAbleTo(['attend-ticket'])) {
+        /*  if (auth()->user()->isAbleTo(['attend-ticket'])) {
             $userReceiver = User::find($ticket->creator_id);
         } else if (auth()->user()->isAbleTo(['create-ticket'])) {
             $userReceiver = User::find($ticket->designer_id);
+        } */
+        /*   $user = User::where('id', $ticket->creator_id)->first();
+        dd($user); */
+        if (auth()->user()->isAbleTo(['attend-ticket'])) {
+            $userReceiver = User::where('id', $ticket->creator_id)->first();
+        } else if (auth()->user()->isAbleTo(['create-ticket'])) {
+            $userReceiver = User::where('id', $ticket->creator_id)->first();
         }
+
+
         $receiver_id = $userReceiver->id;
         $receiver_name = $userReceiver->name . ' ' . $userReceiver->lastname;
         // Guardar el mensaje con los sigioetes datos
-
         // Creamos el mensaje y lo guardamos en la base de datos
         $message = Message::create([
             "transmitter_id" => $transmitter_id,
