@@ -86,15 +86,13 @@ class MessageController extends Controller
             'type' => 'message'
         ]);
         //Mensaje
-        if ($receiver_id !== null){
-
-
-        try {
-            event(new MessageSendEvent($message->message, $receiver_id, $transmitter_name));
-            $userReceiver->notify(new MessageNotification($ticket->id, $ticket->latestTicketInformation->title, $transmitter_name, $message->message));
-        } catch (Exception $th) {
+        if ($receiver_id !== null) {
+            try {
+                event(new MessageSendEvent($message->message, $receiver_id, $transmitter_name));
+                $userReceiver->notify(new MessageNotification($ticket->id, $ticket->latestTicketInformation->title, $transmitter_name, $message->message));
+            } catch (Exception $th) {
+            }
         }
-     }
         // Regresar a la misma vista AtenderTicket (ticket.show)
         if (auth()->user()->isAbleTo(['attend-ticket'])) {
             return redirect()->action('DesignerController@show', ['ticket' => $ticket->id]);
