@@ -36,16 +36,26 @@
                     <div class="border border-info rounded d-flex flex-column-reverse">
                         @foreach ($ticketDeliveries as $delivery)
                             <div class="item">
+                                <a href="{{ route('tickets.deleteFile', ['file' => $delivery->files]) }}">
+                                    Eliminar
+                                    <span class="fa-trash fas"></span>
+                                </a>
                                 @foreach (explode(',', $delivery->files) as $item)
                                     <div class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
+
                                         <div class="name" style="width: 85%">
+
                                             {{ Str::substr($item, 11) }}
+
                                         </div>
+
                                         <div class="actions d-flex justify-content-around" style="width: 15%">
+
                                             <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
                                                 target="_blank">
                                                 <span class="fa-eye fas"></span>
                                             </a>
+
                                             <a href="{{ asset('/storage/deliveries/' . $item) }}"
                                                 download="{{ Str::substr($item, 11) }}">
                                                 <span class="fa-fw select-all fas"></span>
@@ -53,6 +63,11 @@
                                         </div>
                                     </div>
                                 @endforeach
+
+
+
+
+
                                 <p class="m-0 text-center" style="font-size: .7rem">
                                     <small>{{ $delivery->created_at->diffForHumans() }}</small>
                                 </p>

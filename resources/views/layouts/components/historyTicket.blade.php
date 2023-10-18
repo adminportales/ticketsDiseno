@@ -409,30 +409,36 @@
                         @if ($ticketHistory->type == 'delivery')
                             @php $delivery = $ticketHistory->ticketDelivery; @endphp
                             <li class="list-group-item">
+
                                 <p class="m-0 "><strong>Entrega de archivos</strong></p>
-                                @foreach (explode(',', $delivery->files) as $item)
-                                    <div
-                                        class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
-                                        <div class="name" style="width: 85%">
-                                            {{ Str::substr($item, 11) }}
+                                @if ($delivery)
+                                    @foreach (explode(',', $delivery->files) as $item)
+                                        <div
+                                            class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
+                                            <div class="name" style="width: 85%">
+                                                {{ Str::substr($item, 11) }}
+                                            </div>
+                                            <div class="actions d-flex justify-content-around" style="width: 15%">
+                                                <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
+                                                    target="_blank">
+                                                    <span class="fa-eye fas"></span>
+                                                </a>
+                                                <a href="{{ asset('/storage/deliveries/' . $item) }}"
+                                                    download="{{ Str::substr($item, 11) }}">
+                                                    <span class="fa-fw select-all fas"></span>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div class="actions d-flex justify-content-around" style="width: 15%">
-                                            <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
-                                                target="_blank">
-                                                <span class="fa-eye fas"></span>
-                                            </a>
-                                            <a href="{{ asset('/storage/deliveries/' . $item) }}"
-                                                download="{{ Str::substr($item, 11) }}">
-                                                <span class="fa-fw select-all fas"></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                @endforeach
-                                <p class="m-0 " style="font-size: .8rem">
-                                    {{ $delivery->designer_id == auth()->user()->id ? 'Yo' : $delivery->designer_name }}
-                                    {{ $delivery->created_at->diffForHumans() }}</p>
+                                    @endforeach
+
+
+
+                                    <p class="m-0 " style="font-size: .8rem">
+                                        {{ $delivery->designer_id == auth()->user()->id ? 'Yo' : $delivery->designer_name }}
+                                        {{ $delivery->created_at->diffForHumans() }}</p>
                             </li>
                         @endif
+                    @endif
                     @endforeach
                 </ul>
             </div>
@@ -651,27 +657,29 @@
                             @php $delivery = $ticketHistory->ticketDelivery; @endphp
                             <li class="list-group-item">
                                 <p class="m-0 "><strong>Entrega de archivos</strong></p>
-                                @foreach (explode(',', $delivery->files) as $item)
-                                    <div
-                                        class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
-                                        <div class="name" style="width: 85%">
-                                            {{ Str::substr($item, 11) }}
+                                @if ($delivery)
+                                    @foreach (explode(',', $delivery->files) as $item)
+                                        <div
+                                            class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
+                                            <div class="name" style="width: 85%">
+                                                {{ Str::substr($item, 11) }}
+                                            </div>
+                                            <div class="actions d-flex justify-content-around" style="width: 15%">
+                                                <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
+                                                    target="_blank">
+                                                    <span class="fa-eye fas"></span>
+                                                </a>
+                                                <a href="{{ asset('/storage/deliveries/' . $item) }}"
+                                                    download="{{ Str::substr($item, 11) }}">
+                                                    <span class="fa-fw select-all fas"></span>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div class="actions d-flex justify-content-around" style="width: 15%">
-                                            <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
-                                                target="_blank">
-                                                <span class="fa-eye fas"></span>
-                                            </a>
-                                            <a href="{{ asset('/storage/deliveries/' . $item) }}"
-                                                download="{{ Str::substr($item, 11) }}">
-                                                <span class="fa-fw select-all fas"></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                @endforeach
-                                <p class="m-0 " style="font-size: .8rem">
-                                    {{ $delivery->designer_id == auth()->user()->id ? 'Yo' : $delivery->designer_name }}
-                                    {{ $delivery->created_at->diffForHumans() }}</p>
+                                    @endforeach
+                                    <p class="m-0 " style="font-size: .8rem">
+                                        {{ $delivery->designer_id == auth()->user()->id ? 'Yo' : $delivery->designer_name }}
+                                        {{ $delivery->created_at->diffForHumans() }}</p>
+                                @endif
                             </li>
                         @elseif($ticketHistory->type == 'status')
                             @php $status = $ticketHistory->ticketStatusChange; @endphp
