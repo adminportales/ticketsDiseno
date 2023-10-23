@@ -436,9 +436,11 @@
                                     <p class="m-0 " style="font-size: .8rem">
                                         {{ $delivery->designer_id == auth()->user()->id ? 'Yo' : $delivery->designer_name }}
                                         {{ $delivery->created_at->diffForHumans() }}</p>
+                                @else
+                                    <p>Se cancelo esta entrega</p>
+                                @endif
                             </li>
                         @endif
-                    @endif
                     @endforeach
                 </ul>
             </div>
@@ -656,6 +658,7 @@
                         @elseif($ticketHistory->type == 'delivery')
                             @php $delivery = $ticketHistory->ticketDelivery; @endphp
                             <li class="list-group-item">
+
                                 <p class="m-0 "><strong>Entrega de archivos</strong></p>
                                 @if ($delivery)
                                     @foreach (explode(',', $delivery->files) as $item)
@@ -679,6 +682,8 @@
                                     <p class="m-0 " style="font-size: .8rem">
                                         {{ $delivery->designer_id == auth()->user()->id ? 'Yo' : $delivery->designer_name }}
                                         {{ $delivery->created_at->diffForHumans() }}</p>
+                                @else
+                                    <p>Se cancelo esta entrega</p>
                                 @endif
                             </li>
                         @elseif($ticketHistory->type == 'status')

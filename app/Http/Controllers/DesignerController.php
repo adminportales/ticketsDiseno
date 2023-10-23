@@ -62,9 +62,11 @@ class DesignerController extends Controller
         //dd($ticketHistories);
         $ticketDeliveries = $ticket->deliveryTicket;
         // dd($ticketDeliveries);
+        $delivery = TicketDelivery::where('ticket_id', $ticket->id)
+            ->select('files')->get();
         return view(
             'designer.showTicket',
-            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories', 'ticketDeliveries')
+            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories', 'ticketDeliveries' , 'delivery')
         );
     }
 
@@ -79,6 +81,7 @@ class DesignerController extends Controller
     {
 
         $archivo = $request->file;
+        $id_ticket = $request->ticket_id;
 
         // Eliminar el registro de la base de datos
         $delivery = TicketDelivery::where('files', $archivo)->first();
@@ -90,7 +93,10 @@ class DesignerController extends Controller
             $delivery->delete();
         }
 
-        $delivery = null;
+        $delivery = TicketDelivery::where('ticket_id', $id_ticket)
+            ->select('files')->get();
+
+
         return redirect()->back();
     }
 }
