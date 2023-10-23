@@ -6,9 +6,12 @@ use App\Message;
 use App\Status;
 use App\Ticket;
 use App\TicketAssignProcess;
+use App\TicketDelivery;
 use App\TicketHistory;
 use App\User;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DesignerController extends Controller
 {
@@ -56,11 +59,14 @@ class DesignerController extends Controller
         $statusTicket = $ticket->latestStatusChangeTicket->status;
 
         $ticketHistories = $ticket->historyTicket;
+        //dd($ticketHistories);
         $ticketDeliveries = $ticket->deliveryTicket;
-
+        // dd($ticketDeliveries);
+        $delivery = TicketDelivery::where('ticket_id', $ticket->id)
+            ->select('files')->get();
         return view(
             'designer.showTicket',
-            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories', 'ticketDeliveries')
+            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories', 'ticketDeliveries' , 'delivery')
         );
     }
 
@@ -69,5 +75,28 @@ class DesignerController extends Controller
     {
         // Mostramos la vista
         return view('designer.listWait');
+    }
+
+    public function deleteFile(Request $request, $file)
+    {
+
+        $archivo = $request->file;
+        $id_ticket = $request->ticket_id;
+
+        // Eliminar el registro de la base de datos
+        $delivery = TicketDelivery::where('files', $archivo)->first();
+
+        if ($delivery) {
+
+
+            // Eliminar el registro de la base de datos
+            $delivery->delete();
+        }
+
+        $delivery = TicketDelivery::where('ticket_id', $id_ticket)
+            ->select('files')->get();
+
+
+        return redirect()->back();
     }
 }
