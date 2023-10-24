@@ -66,7 +66,7 @@ class DesignerController extends Controller
             ->select('files')->get();
         return view(
             'designer.showTicket',
-            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories', 'ticketDeliveries' , 'delivery')
+            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories', 'ticketDeliveries', 'delivery')
         );
     }
 
@@ -77,25 +77,16 @@ class DesignerController extends Controller
         return view('designer.listWait');
     }
 
-    public function deleteFile(Request $request, $file)
+    public function deleteFile($delivery_id)
     {
 
-        $archivo = $request->file;
-        $id_ticket = $request->ticket_id;
 
-        // Eliminar el registro de la base de datos
-        $delivery = TicketDelivery::where('files', $archivo)->first();
+        $delivery = TicketDelivery::find($delivery_id);
 
-        if ($delivery) {
-
-
-            // Eliminar el registro de la base de datos
-            $delivery->delete();
+        $delete = $delivery->active;
+        if ($delete == 1) {
+            $delivery->update(['active' => false]);
         }
-
-        $delivery = TicketDelivery::where('ticket_id', $id_ticket)
-            ->select('files')->get();
-
 
         return redirect()->back();
     }

@@ -37,6 +37,7 @@ class TicketDeliveryController extends Controller
             'designer_id' => auth()->user()->id,
             'designer_name' => auth()->user()->name . ' ' . auth()->user()->lastname,
             'is_accepted' => 0,
+            'active' => 1,
             'files' => request()->delivery
         ]);
 
