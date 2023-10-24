@@ -36,12 +36,12 @@ class WaitListTicketComponent extends Component
     public function assignTicket()
     {
         try {
-            $this->ticket->designer_id = auth()->user()->id;
-            $this->ticket->designer_name = auth()->user()->name . " " . auth()->user()->lastname;
-            $this->ticket->save();
+            if ($this->ticket->designer_id == null) {
 
-            
-
+                $this->ticket->designer_id = auth()->user()->id;
+                $this->ticket->designer_name = auth()->user()->name . " " . auth()->user()->lastname;
+                $this->ticket->save();
+            }
             // Cambiar el estado del ticket y guardar el historial
             $status = Status::find(2);
             $statusChange = $this->ticket->statusChangeTicket()->create([

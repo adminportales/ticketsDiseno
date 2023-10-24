@@ -20,6 +20,7 @@ class CreateTicketDeliveriesTable extends Migration
             $table->string('designer_name');
             $table->text('files');
             $table->boolean('is_accepted');
+            $table->boolean('active');
             $table->timestamps();
         });
     }

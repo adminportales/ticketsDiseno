@@ -411,7 +411,7 @@
                             <li class="list-group-item">
 
                                 <p class="m-0 "><strong>Entrega de archivos</strong></p>
-                                @if ($delivery)
+                                @if ($delivery->active == true)
                                     @foreach (explode(',', $delivery->files) as $item)
                                         <div
                                             class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
@@ -660,7 +660,7 @@
                             <li class="list-group-item">
 
                                 <p class="m-0 "><strong>Entrega de archivos</strong></p>
-                                @if ($delivery)
+                                @if ($delivery->active == true)
                                     @foreach (explode(',', $delivery->files) as $item)
                                         <div
                                             class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">

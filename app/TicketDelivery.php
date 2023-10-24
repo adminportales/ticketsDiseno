@@ -11,6 +11,7 @@ class TicketDelivery extends Model
         'designer_id',
         'designer_name',
         'is_accepted',
-        'files'
+        'files',
+        'active'
     ];
 }

@@ -39,7 +39,7 @@ Route::resource('/teams', 'TeamController');
 route::get('/designer/ticketShow/{ticket}', 'DesignerController@show')->name('designer.show');
 Route::get('/designer/home', 'DesignerController@index')->name('designer.inicio');
 Route::get("/designer/list-wait", 'DesignerController@listWait')->name('designer.listWait');
-Route::get('/designer/deleteFile/{file}', 'DesignerController@deleteFile')->name('tickets.deleteFile');
+Route::get('/designer/deleteFile/{delivery_id}', 'DesignerController@deleteFile')->name('tickets.deleteFile');
 
 
 // Rutas del gerente de diseño
