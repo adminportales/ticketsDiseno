@@ -262,7 +262,16 @@
                 if (result.isConfirmed) {
                     let response = @this.assignTicket();
                     response.then((value) => {
-                        if (value[0] == 1) {
+
+                        if (value === 3) {
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Este ticket ya tiene un diseñador asignado',
+                                icon: 'error',
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                            });
+                        } else if (value[0] == 1) {
                             $('#showTicket').modal('hide');
                             Swal.fire({
                                 title: 'Ticket asignado',
