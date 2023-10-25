@@ -88,23 +88,7 @@
                             :designers=@json($designersRefactory)>
                         </change-designer-assigment> --}}
                         <div class="d-flex">
-                            {{-- <span>{{ $designer->name . ' ' . $designer->lastname }}</span> --}}
-
-                            <div class="dropdown">
-                                <button class="boton btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ $ticket->designer_name }}
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
-                                    <li>
-                                        @foreach ($designers as $designer)
-                                            <p class="dropdown-item"
-                                                wire:click="changeDesigner({{ $designer->id }}, {{ $ticket->id }})">
-                                                {{ $designer->name . ' ' . $designer->lastname }}</p>
-                                        @endforeach
-                                    </li>
-                                </ul>
-                            </div>
+                            {{ $ticket->designer_name }}
                         </div>
                     </td>
                     <td>

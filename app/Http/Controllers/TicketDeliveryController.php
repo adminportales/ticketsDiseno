@@ -37,6 +37,7 @@ class TicketDeliveryController extends Controller
             'designer_id' => auth()->user()->id,
             'designer_name' => auth()->user()->name . ' ' . auth()->user()->lastname,
             'is_accepted' => 0,
+            'active' => 1,
             'files' => request()->delivery
         ]);
 
@@ -77,6 +78,7 @@ class TicketDeliveryController extends Controller
             event(new TicketDeliverySendEvent($ticket->latestTicketInformation->title, $ticket->creator_id, $ticket->designer_name));
             $userReceiver->notify(new TicketDeliveryNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->designer_name));
         } catch (Exception $th) {
+            return redirect()->action('DesignerController@show', ['ticket' => $ticket->id])->with('error', 'No se pudo enviar la notificación');
         }
         return redirect()->action('DesignerController@show', ['ticket' => $ticket->id]);
     }

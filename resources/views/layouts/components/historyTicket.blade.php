@@ -405,34 +405,47 @@
             </div>
             <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
                 <ul class="list-group d-flex flex-column-reverse">
+
                     @foreach ($ticketHistories as $ticketHistory)
                         @if ($ticketHistory->type == 'delivery')
+
                             @php $delivery = $ticketHistory->ticketDelivery; @endphp
-                            <li class="list-group-item">
-                                <p class="m-0 "><strong>Entrega de archivos</strong></p>
-                                @foreach (explode(',', $delivery->files) as $item)
-                                    <div
-                                        class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
-                                        <div class="name" style="width: 85%">
-                                            {{ Str::substr($item, 11) }}
-                                        </div>
-                                        <div class="actions d-flex justify-content-around" style="width: 15%">
-                                            <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
-                                                target="_blank">
-                                                <span class="fa-eye fas"></span>
-                                            </a>
-                                            <a href="{{ asset('/storage/deliveries/' . $item) }}"
-                                                download="{{ Str::substr($item, 11) }}">
-                                                <span class="fa-fw select-all fas"></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                @endforeach
-                                <p class="m-0 " style="font-size: .8rem">
-                                    {{ $delivery->designer_id == auth()->user()->id ? 'Yo' : $delivery->designer_name }}
-                                    {{ $delivery->created_at->diffForHumans() }}</p>
-                            </li>
+
+                            @if ($delivery)
+                                <li class="list-group-item">
+
+                                    <p class="m-0 "><strong>Entrega de archivos</strong></p>
+
+
+                                    @if ($delivery->active == 1)
+                                        @foreach (explode(',', $delivery->files) as $item)
+                                            <div
+                                                class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
+                                                <div class="name" style="width: 85%">
+                                                    {{ Str::substr($item, 11) }}
+                                                </div>
+                                                <div class="actions d-flex justify-content-around" style="width: 15%">
+                                                    <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
+                                                        target="_blank">
+                                                        <span class="fa-eye fas"></span>
+                                                    </a>
+                                                    <a href="{{ asset('/storage/deliveries/' . $item) }}"
+                                                        download="{{ Str::substr($item, 11) }}">
+                                                        <span class="fa-fw select-all fas"></span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                        <p class="m-0 " style="font-size: .8rem">
+                                            {{ $delivery->designer_id == auth()->user()->id ? 'Yo' : $delivery->designer_name }}
+                                            {{ $delivery->created_at->diffForHumans() }}</p>
+                                    @else
+                                        <p>Se cancelo esta entrega</p>
+                                    @endif
+                                </li>
+                            @endif
                         @endif
+
                     @endforeach
                 </ul>
             </div>
@@ -649,30 +662,38 @@
                             </li>
                         @elseif($ticketHistory->type == 'delivery')
                             @php $delivery = $ticketHistory->ticketDelivery; @endphp
-                            <li class="list-group-item">
-                                <p class="m-0 "><strong>Entrega de archivos</strong></p>
-                                @foreach (explode(',', $delivery->files) as $item)
-                                    <div
-                                        class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
-                                        <div class="name" style="width: 85%">
-                                            {{ Str::substr($item, 11) }}
-                                        </div>
-                                        <div class="actions d-flex justify-content-around" style="width: 15%">
-                                            <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
-                                                target="_blank">
-                                                <span class="fa-eye fas"></span>
-                                            </a>
-                                            <a href="{{ asset('/storage/deliveries/' . $item) }}"
-                                                download="{{ Str::substr($item, 11) }}">
-                                                <span class="fa-fw select-all fas"></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                @endforeach
-                                <p class="m-0 " style="font-size: .8rem">
-                                    {{ $delivery->designer_id == auth()->user()->id ? 'Yo' : $delivery->designer_name }}
-                                    {{ $delivery->created_at->diffForHumans() }}</p>
-                            </li>
+
+                            @if ($delivery)
+                                <li class="list-group-item">
+
+                                    <p class="m-0 "><strong>Entrega de archivos</strong></p>
+                                    @if ($delivery->active == true)
+                                        @foreach (explode(',', $delivery->files) as $item)
+                                            <div
+                                                class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
+                                                <div class="name" style="width: 85%">
+                                                    {{ Str::substr($item, 11) }}
+                                                </div>
+                                                <div class="actions d-flex justify-content-around" style="width: 15%">
+                                                    <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
+                                                        target="_blank">
+                                                        <span class="fa-eye fas"></span>
+                                                    </a>
+                                                    <a href="{{ asset('/storage/deliveries/' . $item) }}"
+                                                        download="{{ Str::substr($item, 11) }}">
+                                                        <span class="fa-fw select-all fas"></span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                        <p class="m-0 " style="font-size: .8rem">
+                                            {{ $delivery->designer_id == auth()->user()->id ? 'Yo' : $delivery->designer_name }}
+                                            {{ $delivery->created_at->diffForHumans() }}</p>
+                                    @else
+                                        <p>Se cancelo esta entrega</p>
+                                    @endif
+                                </li>
+                            @endif
                         @elseif($ticketHistory->type == 'status')
                             @php $status = $ticketHistory->ticketStatusChange; @endphp
                             <li class="list-group-item">

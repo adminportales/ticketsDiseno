@@ -35,28 +35,45 @@
                 @if (count($ticketDeliveries) > 0)
                     <div class="border border-info rounded d-flex flex-column-reverse">
                         @foreach ($ticketDeliveries as $delivery)
-                            <div class="item">
-                                @foreach (explode(',', $delivery->files) as $item)
-                                    <div class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
-                                        <div class="name" style="width: 85%">
-                                            {{ Str::substr($item, 11) }}
+                            @if ($delivery->active == true)
+                                <div class="item">
+                                    @foreach (explode(',', $delivery->files) as $item)
+                                        <div
+                                            class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
+
+                                            <div class="name" style="width: 85%">
+
+                                                {{ Str::substr($item, 11) }}
+
+                                            </div>
+
+                                            <div class="actions d-flex justify-content-around" style="width: 15%">
+
+                                                <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
+                                                    target="_blank">
+                                                    <span class="fa-eye fas"></span>
+                                                </a>
+
+                                                <a href="{{ asset('/storage/deliveries/' . $item) }}"
+                                                    download="{{ Str::substr($item, 11) }}">
+                                                    <span class="fa-fw select-all fas"></span>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div class="actions d-flex justify-content-around" style="width: 15%">
-                                            <a href="{{ route('tickets.viewFile', ['file' => $item, 'folder' => 'deliveries']) }}"
-                                                target="_blank">
-                                                <span class="fa-eye fas"></span>
-                                            </a>
-                                            <a href="{{ asset('/storage/deliveries/' . $item) }}"
-                                                download="{{ Str::substr($item, 11) }}">
-                                                <span class="fa-fw select-all fas"></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                @endforeach
-                                <p class="m-0 text-center" style="font-size: .7rem">
-                                    <small>{{ $delivery->created_at->diffForHumans() }}</small>
-                                </p>
-                            </div>
+                                    @endforeach
+                                    <p class="d-flex justify-content-between align-items-center py-1 mb-1 mx-1"
+                                        style="font-size: .7rem ">
+                                        <a>{{ $delivery->created_at->diffForHumans() }}</a>
+
+                                        <a href="{{ route('tickets.deleteFile', ['delivery_id' => $delivery->id]) }}"
+                                            data-confirm="¿Estás seguro de que deseas eliminar este archivo?">
+                                            Eliminar
+                                            <span class="fa-trash fas"></span>
+                                        </a>
+                                    </p>
+
+                                </div>
+                            @endif
                         @endforeach
                     </div>
                 @else
@@ -188,5 +205,23 @@
         }
 
         //
+    </script>
+    <script>
+        // Obtén todos los enlaces con el atributo "data-confirm"
+        const deleteLinks = document.querySelectorAll('[data-confirm]');
+
+        // Agrega un evento clic a cada enlace
+        deleteLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                // Pide confirmación antes de seguir el enlace
+                const confirmMessage = link.getAttribute('data-confirm');
+                if (confirm(confirmMessage)) {
+                    // Si se confirma, se sigue el enlace
+                } else {
+                    // Si se cancela la confirmación, se evita el seguimiento del enlace
+                    event.preventDefault();
+                }
+            });
+        });
     </script>
 @endsection
