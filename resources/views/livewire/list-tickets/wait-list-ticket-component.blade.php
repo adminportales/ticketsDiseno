@@ -225,11 +225,14 @@
                             </div>
                         @endif
                     </div>
+                    {{--  --}}
                     <div class="modal-footer">
+
                         <button class="btn btn-primary" onclick="asignarTicket()">Atender
                             Ticket</button>
                         <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Salir</button>
                     </div>
+                    {{--  --}}
                 </div>
             </div>
         </div>
@@ -257,25 +260,34 @@
                 allowEscapeKey: false,
             }).then((result) => {
                 if (result.isConfirmed) {
-                   let response = @this.assignTicket();
-                   response.then((value) => {
-                       if (value[0] == 1) {
-                           $('#showTicket').modal('hide');
-                           Swal.fire({
-                               title: 'Ticket asignado',
-                               icon: 'success'
-                           })
-                           //
+                    let response = @this.assignTicket();
+                    response.then((value) => {
+
+                        if (value === 3) {
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Este ticket ya tiene un diseñador asignado',
+                                icon: 'error',
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                            });
+                        } else if (value[0] == 1) {
+                            $('#showTicket').modal('hide');
+                            Swal.fire({
+                                title: 'Ticket asignado',
+                                icon: 'success'
+                            })
+                            //
                             window.location.href = "/designer/ticketShow/" + value[1];
-                       } else {
-                           Swal.fire({
-                               title: 'Hubo un problema al asignar el ticket',
-                               icon: 'error',
-                               allowOutsideClick: false,
-                               allowEscapeKey: false,
-                           })
-                       }
-                   })
+                        } else {
+                            Swal.fire({
+                                title: 'Hubo un problema al asignar el ticket',
+                                icon: 'error',
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                            })
+                        }
+                    })
                 }
             })
         }

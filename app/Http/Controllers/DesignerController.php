@@ -6,9 +6,12 @@ use App\Message;
 use App\Status;
 use App\Ticket;
 use App\TicketAssignProcess;
+use App\TicketDelivery;
 use App\TicketHistory;
 use App\User;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DesignerController extends Controller
 {
@@ -56,11 +59,14 @@ class DesignerController extends Controller
         $statusTicket = $ticket->latestStatusChangeTicket->status;
 
         $ticketHistories = $ticket->historyTicket;
+        //dd($ticketHistories);
         $ticketDeliveries = $ticket->deliveryTicket;
-
+        // dd($ticketDeliveries);
+        $delivery = TicketDelivery::where('ticket_id', $ticket->id)
+            ->select('files')->get();
         return view(
             'designer.showTicket',
-            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories', 'ticketDeliveries')
+            compact('messages', 'ticketInformation', 'ticket', 'statuses', 'statusTicket', 'ticketHistories', 'ticketDeliveries', 'delivery')
         );
     }
 
@@ -69,5 +75,19 @@ class DesignerController extends Controller
     {
         // Mostramos la vista
         return view('designer.listWait');
+    }
+
+    public function deleteFile($delivery_id)
+    {
+
+
+        $delivery = TicketDelivery::find($delivery_id);
+
+        $delete = $delivery->active;
+        if ($delete == 1) {
+            $delivery->update(['active' => false]);
+        }
+        $delivery = TicketDelivery::find($delivery_id);
+        return redirect()->back();
     }
 }
