@@ -87,7 +87,7 @@ class DesignerController extends Controller
         if ($delete == 1) {
             $delivery->update(['active' => false]);
         }
-
+        $delivery = TicketDelivery::find($delivery_id);
         return redirect()->back();
     }
 }

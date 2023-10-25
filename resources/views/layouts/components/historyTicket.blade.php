@@ -405,16 +405,19 @@
             </div>
             <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
                 <ul class="list-group d-flex flex-column-reverse">
+
                     @foreach ($ticketHistories as $ticketHistory)
                         @if ($ticketHistory->type == 'delivery')
 
-                            @php $delivery = $ticketHistory; @endphp
+                            @php $delivery = $ticketHistory->ticketDelivery; @endphp
 
-                            @if ($delivery->ticketDelivery == null)
+                            @if ($delivery)
                                 <li class="list-group-item">
 
                                     <p class="m-0 "><strong>Entrega de archivos</strong></p>
-                                    @if ($delivery->active == true)
+
+
+                                    @if ($delivery->active == 1)
                                         @foreach (explode(',', $delivery->files) as $item)
                                             <div
                                                 class="d-flex justify-content-between align-items-center bg-light py-1 mb-1 mx-1">
@@ -433,9 +436,6 @@
                                                 </div>
                                             </div>
                                         @endforeach
-
-
-
                                         <p class="m-0 " style="font-size: .8rem">
                                             {{ $delivery->designer_id == auth()->user()->id ? 'Yo' : $delivery->designer_name }}
                                             {{ $delivery->created_at->diffForHumans() }}</p>
@@ -445,6 +445,7 @@
                                 </li>
                             @endif
                         @endif
+
                     @endforeach
                 </ul>
             </div>
@@ -660,9 +661,9 @@
                                     {{ $message->created_at->diffForHumans() }}</p>
                             </li>
                         @elseif($ticketHistory->type == 'delivery')
-                            @php $delivery = $ticketHistory; @endphp
+                            @php $delivery = $ticketHistory->ticketDelivery; @endphp
 
-                            @if ($delivery->ticketDelivery == null)
+                            @if ($delivery)
                                 <li class="list-group-item">
 
                                     <p class="m-0 "><strong>Entrega de archivos</strong></p>
