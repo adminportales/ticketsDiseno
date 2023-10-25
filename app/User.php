@@ -101,6 +101,6 @@ class User extends Authenticatable
 
     public function latestTicketsToTransferMe()
     {
-        return $this->hasOne(TicketAssignProcess::class, 'designer_received_id', 'id')->latestOfMany();
+        return $this->hasMany(TicketAssignProcess::class, 'designer_received_id', 'id');
     }
 }
