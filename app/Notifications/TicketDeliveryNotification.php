@@ -62,6 +62,6 @@ class TicketDeliveryNotification extends Notification
                 'idTicket' => $this->idTicket,
             ])
             ->subject('Tu solicitud ha sido entregada')
-            ->from('admin@tdesign.promolife.lat', 'T-Design');
+            ->from('adminportales@promolife.com.mx', 'T-Design');
     }
 }
