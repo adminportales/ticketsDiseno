@@ -61,6 +61,6 @@ class TicketCreateNotification extends Notification
                 'idTicket' => $this->idTicket,
             ])
             ->subject('Se ha creado un ticket')
-            ->from('admin@tdesign.promolife.lat', 'T-Design');
+            ->from('adminportales@promolife.com.mx', 'T-Design');
     }
 }

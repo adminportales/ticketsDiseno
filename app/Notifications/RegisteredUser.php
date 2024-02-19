@@ -43,7 +43,7 @@ class RegisteredUser extends Notification
         return (new MailMessage)
             ->markdown('mail.registered.user', ['url' => url('/'), 'data' => $this->data])
             ->subject('Usuario Registrado al sistema T-Design PL - BH')
-            ->from('admin@tdesign.promolife.lat', 'T-Design');
+            ->from('adminportales@promolife.com.mx', 'T-Design');
     }
 
     /**

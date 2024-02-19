@@ -69,6 +69,6 @@ class ChangeStatusNotification extends Notification
                 'idTicket' => $this->idTicket,
             ])
             ->subject('Modificaciones en un ticket')
-            ->from('admin@tdesign.promolife.lat', 'T-Design');
+            ->from('adminportales@promolife.com.mx', 'T-Design');
     }
 }
