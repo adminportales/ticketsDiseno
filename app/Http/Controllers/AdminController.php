@@ -6,9 +6,11 @@ use App\HistoryAvailability;
 use App\Priority;
 use App\Status;
 use App\Ticket;
+use App\TicketStatusChange;
 use App\Type;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -182,8 +184,24 @@ class AdminController extends Controller
     public function viewTickets()
     {
         $this->middleware('role:admin');
-        $tickets = Ticket::orderByDesc('created_at')->paginate(20);
+
         $priorities = Priority::all();
+        $tickets = Ticket::orderByDesc('created_at')->paginate(20);
+        $ticketIds = $tickets->pluck('id');
+
+        // Obtener los registros de ticket_status_changes relacionados con los IDs de los tickets
+        foreach ($tickets as $ticket) {
+            $ticket->statusChanges = TicketStatusChange::where('ticket_id', $ticket->id)
+                                                       ->where('status', 'Finalizado')
+                                                       ->orderByDesc('id')
+                                                       ->get();
+            // Verificar si se encontraron cambios de estado con 'Entregado'
+            if ($ticket->statusChanges->isEmpty()) {
+                $ticket->statusChanges = ['Revisar status del ticket'];
+            }
+        }
+
+        //dd($tickets);
 
         return view('administrador.tickets.index', compact('tickets', 'priorities'));
     }
