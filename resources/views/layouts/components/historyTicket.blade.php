@@ -248,14 +248,14 @@
                                                     </p>
                                                 @endif
                                             @endif
-                                            @if ($information->techniqueTicket)
-                                                @if ($information->techniqueTicket->name != $latestInformation->techniqueTicket->name)
-                                                    <p class="m-0"><strong>Tecnica:
-                                                        </strong>{{ $latestInformation->techniqueTicket->name }}
-                                                        <span class="fa-fw select-all fas"></span>
-                                                        {{ $information->techniqueTicket->name }}
-                                                    </p>
-                                                @endif
+                                            @if ($information->techniqueTicket && $latestInformation->techniqueTicket && 
+                                                ($information->techniqueTicket->name != $latestInformation->techniqueTicket->name))
+                                                <p class="m-0">
+                                                    <strong>Tecnica:</strong>
+                                                    {{ $latestInformation->techniqueTicket ? $latestInformation->techniqueTicket->name : '' }}
+                                                    <span class="fa-fw select-all fas"></span>
+                                                    {{ $information->techniqueTicket ? $information->techniqueTicket->name : '' }}
+                                                </p>
                                             @endif
                                             @if ($information->pantone)
                                                 @if ($information->pantone != $latestInformation->pantone)
@@ -486,14 +486,14 @@
                                                     </p>
                                                 @endif
                                             @endif
-                                            @if ($information->techniqueTicket)
-                                                @if ($information->techniqueTicket->name != $latestInformation->techniqueTicket->name)
-                                                    <p class="m-0"><strong>Tecnica:
-                                                        </strong>{{ $latestInformation->techniqueTicket->name }}
-                                                        <span class="fa-fw select-all fas"></span>
-                                                        {{ $information->techniqueTicket->name }}
-                                                    </p>
-                                                @endif
+                                            @if ($information->techniqueTicket && $latestInformation->techniqueTicket && 
+                                                ($information->techniqueTicket->name != $latestInformation->techniqueTicket->name))                                                
+                                                <p class="m-0">
+                                                    <strong>Tecnica:</strong>
+                                                    {{ $latestInformation->techniqueTicket ? $latestInformation->techniqueTicket->name : '' }}
+                                                    <span class="fa-fw select-all fas"></span>
+                                                    {{ $information->techniqueTicket ? $information->techniqueTicket->name : '' }}
+                                                </p>
                                             @endif
                                             @if ($information->pantone)
                                                 @if ($information->pantone != $latestInformation->pantone)
