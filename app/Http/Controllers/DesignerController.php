@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Message;
+use App\Notifications\MissingInformation;
 use App\Status;
 use App\Ticket;
 use App\TicketAssignProcess;
 use App\TicketDelivery;
 use App\TicketHistory;
+use App\TicketStatusChange;
 use App\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+
 
 class DesignerController extends Controller
 {
@@ -74,7 +78,9 @@ class DesignerController extends Controller
     public function listWait()
     {
         // Mostramos la vista
+        ///////////AQUÍ//////////
         return view('designer.listWait');
+        
     }
 
     public function deleteFile($delivery_id)
@@ -90,4 +96,45 @@ class DesignerController extends Controller
         $delivery = TicketDelivery::find($delivery_id);
         return redirect()->back();
     }
+
+    public function returnticket($ticketId) 
+    {
+        $user = auth()->user();
+        
+        $return_ticket= TicketStatusChange::create([
+            'ticket_id' => $ticketId,
+            'status_id' => 7,
+            'status' => 'Falta de información',
+        ]);
+
+        TicketHistory::create([
+            'ticket_id' => $ticketId,
+            'reference_id' => $return_ticket->id,
+            'type' => 'status',
+        ]);
+
+        //Obtenemos el título del ticket///
+        $Ticket = DB::table('ticket_informations')->where('id', $ticketId)->first();
+        $title = $Ticket->title;
+
+        //OBTENEMOS EL NAME DEL USUARIO LOGEADO (ENVIARA EL CORREO)
+        $send = $user->name;
+
+        ///OBTENEMOS EL ID DEL CREADOR DEL TICKET///
+        $ticket = DB::table('tickets')->where('id', $ticketId)->first();
+        $creatorId = $ticket->creator_id;
+        
+
+        //OBTENEMOS EL NAME DEL CREADOR DEL TICKET///
+        $username = DB::table('users')->where('id', $creatorId)->first(); 
+        $name = $username->name;
+    
+        ///CON AYUDA DEL ID DEL CREADOR SE LE ENVIARA EL CORREO///
+        $user = User::find($creatorId);
+        $user->notify(new MissingInformation($title,$send, $name,$ticketId));
+
+        return redirect()->back();
+    }
+    
+    
 }

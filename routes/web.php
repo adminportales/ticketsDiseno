@@ -40,6 +40,7 @@ route::get('/designer/ticketShow/{ticket}', 'DesignerController@show')->name('de
 Route::get('/designer/home', 'DesignerController@index')->name('designer.inicio');
 Route::get("/designer/list-wait", 'DesignerController@listWait')->name('designer.listWait');
 Route::get('/designer/deleteFile/{delivery_id}', 'DesignerController@deleteFile')->name('tickets.deleteFile');
+Route::get('/designer/return/{ticket}', 'DesignerController@returnticket')->name('return.ticket');
 
 
 // Rutas del gerente de diseño
