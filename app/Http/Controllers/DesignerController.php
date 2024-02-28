@@ -114,7 +114,7 @@ class DesignerController extends Controller
         ]);
 
         //Obtenemos el título del ticket///
-        $Ticket = DB::table('ticket_informations')->where('id', $ticketId)->first();
+        $Ticket = DB::table('ticket_informations')->where('ticket_id', $ticketId)->first();
         $title = $Ticket->title;
 
         //OBTENEMOS EL NAME DEL USUARIO LOGEADO (ENVIARA EL CORREO)
