@@ -178,6 +178,7 @@ class AdminController extends Controller
         }
         $dataTicketsReceived = [$daysChartTicketReceived, $dataUserReceivedTickets];
         // Regresamos la vista
+
         return view('administrador.dashboard', compact('tickets', 'user', 'dataTypeTickets', 'dataUserInfoTickets', 'dataUserInfoTicketsDesign', 'dataInfoStatus','dataDeliveries', 'dataTypeDelivered', 'dataTicketsReceived'));
     }
 

@@ -9,7 +9,7 @@
                         <th>Info</th>
                         <th>Elaboro</th>
                         <th>Prioridad</th>
-                        <th>Hora de creación</th>
+                        <th>Fecha de creación</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -35,6 +35,10 @@
                                         @php $color = 'alert-success'; @endphp
                                     @break
 
+                                    @case('Falta de información')
+                                        @php $color = 'alert-warning'; @endphp
+                                    @break
+
                                     @case('En revision')
                                         @php $color = 'alert-warning'; @endphp
                                     @break
@@ -58,7 +62,7 @@
                                     @default
                                 @endswitch
                                 <strong>Estado:</strong>
-                                <div class="p-1 alert {{ $color }}">
+                                <div class="p-1 alert {{ $color }}" style="width: 100px;text-align: center;text-transform: uppercase;font-size: smaller;">
                                     {{ $item->latestStatusChangeTicket->status }}</div>
                             </td>
                             <td>{{ $item->seller_name }}</td>
@@ -88,7 +92,7 @@
             <div class="modal-dialog modal-lg shadow-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title text-center" id="showTicketLabel">Informacion del Ticket</h5>
+                        <h5 class="modal-title text-center" id="showTicketLabel">Información del Ticket</h5>
                     </div>
                     <div class="modal-body">
                         @if ($ticket)
@@ -119,7 +123,7 @@
                                         </p>
                                     @endif
                                     @if ($ticket->latestTicketInformation->techniqueTicket)
-                                        <p class="m-0"><strong>Tecnica: </strong>
+                                        <p class="m-0"><strong>Técnica: </strong>
                                             {{ $ticket->latestTicketInformation->techniqueTicket->name }} <span>
                                         </p>
                                     @endif
@@ -133,7 +137,7 @@
                                         </p>
                                     @endif
                                     @if ($ticket->latestTicketInformation->position)
-                                        <p class="m-0"><strong>Posicion:
+                                        <p class="m-0"><strong>Posición:
                                             </strong>{{ $ticket->latestTicketInformation->position }}
                                         </p>
                                     @endif
@@ -227,9 +231,14 @@
                     </div>
                     {{--  --}}
                     <div class="modal-footer">
-
-                        <button class="btn btn-primary" onclick="asignarTicket()">Atender
-                            Ticket</button>
+                        @if ($ticket)
+                            <!-- Si $ticket está disponible, muestra el botón "Prueba" con el ID del ticket -->     
+                            <button class="btn btn-warning" onclick="regresarTicket({{ $ticket->id }})">Falta información</button>
+                        @else
+                            <!-- Manejo si $ticket es nulo -->
+                            El ticket no está disponible.
+                        @endif
+                        <button class="btn btn-primary" onclick="asignarTicket()">Atender Ticket</button>
                         <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Salir</button>
                     </div>
                     {{--  --}}
@@ -241,7 +250,32 @@
             No hay tickets en espera
         </p>
     @endif
+
     <script>
+
+        ///ALERTA POR FALTA DE INFORMACIÓN///
+        function regresarTicket(ticketId) {
+            let title = '¿Seguro que al ticket le falta información?';
+            Swal.fire({
+                title: title,
+                text: 'Le informaremos al creador del ticket que le hace falta información',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'No',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "/designer/return/" +ticketId;
+                }
+            });
+        }
+
+        ///////////////////////////////////
+
         window.addEventListener('showTicket', event => {
             $('#showTicket').modal('show');
         });

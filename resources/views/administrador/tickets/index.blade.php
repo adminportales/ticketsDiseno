@@ -24,8 +24,8 @@
                     <th>Asignado a</th>
                     <th>Creado por</th>
                     <th>Fecha de creación</th>
-                    <th>Tiempos</th>
                     <th>Fecha de entrega</th>
+                    <th>Tiempos</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -48,6 +48,7 @@
                         $tiempos = [];
                         $creado = null;
                         $cambio = null;
+                        $Falta_de_información = null;
                         $entregado = null;
 
                         foreach ($data as $status) {
@@ -78,6 +79,12 @@
                                     }
                                     break;
 
+                                case 5:
+                                    if ($Falta_de_información == null) {
+                                        $$Falta_de_información = $status->created_at;
+                                    }
+                                    break;
+
                                 default:
                                     # code...
                                     break;
@@ -104,6 +111,10 @@
                                     @php $color = 'alert-success'; @endphp
                                 @break
 
+                                @case('Falta de información')
+                                    @php $color = 'alert-warning'; @endphp
+                                @break
+
                                 @case('En revision')
                                     @php $color = 'alert-warning'; @endphp
                                 @break
@@ -126,7 +137,7 @@
 
                                 @default
                             @endswitch
-                            <div class="p-1 alert {{ $color }}" style="width: 100px">
+                            <div class="p-1 alert {{ $color }}" style="width: 100px;text-align: center;text-transform: uppercase;font-size: smaller;" >
                                 {{ $ticket->latestStatusChangeTicket->status }}</div>
                         </td>
                         <td>{{ Str::limit($ticket->designer_name, 10, '...') }}</td>
@@ -140,12 +151,6 @@
                             @endif
                         </td>
                         <td>
-                            @foreach ($tiempos as $tiempo)
-                                <p style="font-size: 10px" class="m-0">{{ $tiempo[0] . ': ' . $tiempo[1] }}</p>
-                            @endforeach
-                        </td>
-                        
-                        <td>
                             @foreach ($ticket->statusChanges as $statusChange)
                                 @if ($statusChange === 'Revisar status del ticket')
                                     <p>{{ $statusChange }}</p>
@@ -154,22 +159,28 @@
                                 @endif
                             @endforeach
                         </td>
+                        <td>
+                            @foreach ($tiempos as $tiempo)
+                                <p style="font-size: 10px" class="m-0">{{ $tiempo[0] . ': ' . $tiempo[1] }}</p>
+                            @endforeach
+                        </td>
 
                         <td class="text-center">
                             @if ($latestTicketInformation)
-                                <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}" class="boton-ver" style="display: inline-block; width: 36px; height: 36px;">
-                                    <svg width="100%" height="100%" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M11.984 5.25c-3.653 0-7.401 2.115-10.351 6.344a.75.75 0 0 0-.013.833c2.267 3.548 5.964 6.323 10.364 6.323 4.352 0 8.125-2.783 10.397-6.34a.757.757 0 0 0 0-.819C20.104 8.076 16.303 5.25 11.984 5.25Z"></path>
-                                        <path d="M12 15.75a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z"></path>
-                                    </svg>
-                                </a>
+                                <div style="display: flex;">
+                                    <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}" style="display: inline-block; width: 36px; height: 36px; padding: 8px;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                        </svg>
+                                    </a>
 
-                                <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}" class="btn btn-danger" style="display: inline-block; width: 36px; height: 36px;">
-                                    <svg width="100%" height="100%" fill="#fff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M20.523 5.208a.6.6 0 0 1 0 .847L19.27 7.308l-2.4-2.4 1.252-1.253a.6.6 0 0 1 .848 0l1.552 1.552v.001Zm-2.1 2.947-2.4-2.4-8.176 8.177a.6.6 0 0 0-.145.235l-.966 2.897a.3.3 0 0 0 .38.38l2.896-.967a.6.6 0 0 0 .235-.144l8.176-8.178Z"></path>
-                                        <path fill-rule="evenodd" d="M3.12 19.08a1.8 1.8 0 0 0 1.8 1.8h13.2a1.8 1.8 0 0 0 1.8-1.8v-7.2a.6.6 0 1 0-1.2 0v7.2a.6.6 0 0 1-.6.6H4.92a.6.6 0 0 1-.6-.6V5.88a.6.6 0 0 1 .6-.6h7.8a.6.6 0 1 0 0-1.2h-7.8a1.8 1.8 0 0 0-1.8 1.8v13.2Z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </a>
+                                    <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}" style="display: inline-block; width: 36px; height: 36px; padding: 8px;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                        </svg>
+                                    </a>
+                                </div>
                             @else
                                 <a class="btn btn-danger"
                                     onclick="event.preventDefault();document.getElementById('destroyTicket').submit();">
