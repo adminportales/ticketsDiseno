@@ -105,6 +105,10 @@
                                                         @php $color = 'alert-success'; @endphp
                                                     @break
 
+                                                    @case('Falta de información')
+                                                        @php $color = 'alert-warning'; @endphp
+                                                    @break
+
                                                     @case('En revision')
                                                         @php $color = 'alert-warning'; @endphp
                                                     @break
@@ -193,6 +197,10 @@
                                                             @php $color = 'alert-success'; @endphp
                                                         @break
 
+                                                        @case('Falta de información')
+                                                            @php $color = 'alert-warning'; @endphp
+                                                        @break
+
                                                         @case('En revision')
                                                             @php $color = 'alert-warning'; @endphp
                                                         @break
@@ -274,6 +282,10 @@
                                                 @switch($ticket->latestStatusChangeTicket->status)
                                                     @case('Creado')
                                                         @php $color = 'alert-success'; @endphp
+                                                    @break
+
+                                                    @case('Falta de información')
+                                                        @php $color = 'alert-warning'; @endphp
                                                     @break
 
                                                     @case('En revision')

@@ -10,7 +10,9 @@ Quisiera informarte sobre una observación importante relacionada con el ticket 
 {{$emisor}} ha señalado que falta información crucial en este ticket.
 Es esencial asegurarnos de que la solicitud esté completa para poder avanzar con el diseño. 
 Por favor, se solicita que regreses y edites el ticket, asegurándote de no omitir ningún detalle en los campos requeridos.
-Agradezco tu pronta atención y colaboración en este asunto.                 
+Agradezco tu pronta atención y colaboración en este asunto. 
+
+{{$emisor}} agrego un comentario "{{$message}}"
 
 Saludos cordiales,Equipo de Diseño.
 </div>
