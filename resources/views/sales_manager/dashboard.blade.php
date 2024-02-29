@@ -77,7 +77,7 @@
                                         <th>Info</th>
                                         <th>Asignado a</th>
                                         <th class="text-center">Prioridad</th>
-                                        <th>Hora de creación</th>
+                                        <th>Fecha de creación</th>
 
                                     </tr>
                                 </thead>
@@ -171,7 +171,7 @@
                                             <th>Info</th>
                                             <th>Asignado a</th>
                                             <th>Prioridad</th>
-                                            <th>Hora de creación</th>
+                                            <th>Fecha de creación</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -264,7 +264,7 @@
                                         <th>Creado por</th>
                                         <th>Asignado a</th>
                                         <th class="text-center">Prioridad</th>
-                                        <th>Hora de creación</th>
+                                        <th>Fecha de creación</th>
 
                                     </tr>
                                 </thead>

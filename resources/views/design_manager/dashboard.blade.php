@@ -20,7 +20,7 @@
                                     <th>Info</th>
                                     <th>Solicitado por</th>
                                     <th>Prioridad</th>
-                                    <th>Hora de creación</th>
+                                    <th>Fecha de creación</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -126,7 +126,7 @@
                                 <th>Info</th>
                                 <th>Solicitado por:</th>
                                 <th>Prioridad</th>
-                                <th>Hora de creación</th>
+                                <th>Fecha de creación</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -215,7 +215,7 @@
                                 <th>Info</th>
                                 <th>Solicitado por:</th>
                                 <th>Asignado a:</th>
-                                <th>Hora de creación</th>
+                                <th>Fecha de creación</th>
                             </tr>
                         </thead>
                         <tbody>

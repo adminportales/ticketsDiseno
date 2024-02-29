@@ -156,7 +156,7 @@
                                                     <th>Info</th>
                                                     <th>Asignado a</th>
                                                     <th class="text-center">Prioridad</th>
-                                                    <th>Hora de creación</th>
+                                                    <th>Fecha de creación</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>

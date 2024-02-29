@@ -16,7 +16,7 @@
             @role('sales_manager')
                 <th class="text-center">Prioridad</th>
             @endrole
-            <th>Hora de creación</th>
+            <th>Fecha de creación</th>
             <th>Acciones</th>
         </tr>
     </thead>

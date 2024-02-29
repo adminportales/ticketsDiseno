@@ -25,7 +25,7 @@
                 <th>Info</th>
                 <th>Elaboro</th>
                 <th>Prioridad</th>
-                <th>Hora de creación</th>
+                <th>Fecha de creación</th>
                 <th>Acciones</th>
             </tr>
         </thead>
