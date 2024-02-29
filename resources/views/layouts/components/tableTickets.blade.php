@@ -16,7 +16,7 @@
             @role('sales_manager')
                 <th class="text-center">Prioridad</th>
             @endrole
-            <th>Hora de creación</th>
+            <th>Fecha de creación</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -40,6 +40,10 @@
                     @switch($ticket->latestStatusChangeTicket->status)
                         @case('Creado')
                             @php $color = 'alert-success'; @endphp
+                        @break
+
+                        @case('Falta de información')
+                            @php $color = 'alert-warning'; @endphp
                         @break
 
                         @case('En revision')

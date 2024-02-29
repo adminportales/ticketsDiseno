@@ -231,9 +231,36 @@
                     </div>
                     {{--  --}}
                     <div class="modal-footer">
-                        @if ($ticket)
-                            <!-- Si $ticket está disponible, muestra el botón "Prueba" con el ID del ticket -->     
-                            <button class="btn btn-warning" onclick="regresarTicket({{ $ticket->id }})">Falta información</button>
+                    @if ($ticket)
+                            <!-- Botón que abre el modal -->
+                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#returnticket">Falta información</button>
+                            <div class="modal" id="returnticket" tabindex="-1" wire:ignore.self>
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Especifica la falta de información.</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        
+                                        <div class="modal-body">
+                                            <!-- Formulario para enviar comentario -->
+                                            <form action="{{ route('return.ticket') }}" method="POST">
+                                                @csrf
+                                                <div class="mb-3">
+                                                    <label for="message" class="form-label" style="color: black">Motivo por el cual se regresa el ticket:</label>
+                                                    <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
+                                                    <input type="hidden" name="ticketid" value="{{ $ticket->id }}">
+                                                    <br>
+                                                    <label for="Info" class="form-label" style="color: red; font-weight: bold;">Le enviaremos al creador del ticket un correo electrónico informándole que le hace falta información.</label>
+                                                </div>
+                                                <div class="d-flex justify-content-end">
+                                                <button type="submit" class="btn btn-primary">Enviar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @else
                             <!-- Manejo si $ticket es nulo -->
                             El ticket no está disponible.
@@ -252,28 +279,6 @@
     @endif
 
     <script>
-
-        ///ALERTA POR FALTA DE INFORMACIÓN///
-        function regresarTicket(ticketId) {
-            let title = '¿Seguro que al ticket le falta información?';
-            Swal.fire({
-                title: title,
-                text: 'Le informaremos al creador del ticket que le hace falta información',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si',
-                cancelButtonText: 'No',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "/designer/return/" +ticketId;
-                }
-            });
-        }
-
         ///////////////////////////////////
 
         window.addEventListener('showTicket', event => {
