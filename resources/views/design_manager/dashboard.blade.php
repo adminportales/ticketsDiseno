@@ -20,7 +20,7 @@
                                     <th>Info</th>
                                     <th>Solicitado por</th>
                                     <th>Prioridad</th>
-                                    <th>Hora de creación</th>
+                                    <th>Fecha de creación</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -41,6 +41,10 @@
                                             @switch($ticketToTransfer->latestStatusChangeTicket->status)
                                                 @case('Creado')
                                                     @php $color = 'alert-success'; @endphp
+                                                @break
+
+                                                @case('Falta de información')
+                                                    @php $color = 'alert-warning'; @endphp
                                                 @break
 
                                                 @case('En revision')
@@ -122,7 +126,7 @@
                                 <th>Info</th>
                                 <th>Solicitado por:</th>
                                 <th>Prioridad</th>
-                                <th>Hora de creación</th>
+                                <th>Fecha de creación</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -142,6 +146,10 @@
                                         @switch($ticket->latestStatusChangeTicket->status)
                                             @case('Creado')
                                                 @php $color = 'alert-success'; @endphp
+                                            @break
+
+                                            @case('Falta de información')
+                                                @php $color = 'alert-warning'; @endphp
                                             @break
 
                                             @case('En revision')
@@ -207,7 +215,7 @@
                                 <th>Info</th>
                                 <th>Solicitado por:</th>
                                 <th>Asignado a:</th>
-                                <th>Hora de creación</th>
+                                <th>Fecha de creación</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -244,6 +252,10 @@
                                         @switch($ticket->latestStatusChangeTicket->status)
                                             @case('Creado')
                                                 @php $color = 'alert-success'; @endphp
+                                            @break
+
+                                            @case('Falta de información')
+                                                @php $color = 'alert-warning'; @endphp
                                             @break
 
                                             @case('En revision')

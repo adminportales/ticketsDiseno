@@ -20,12 +20,14 @@ class MissingInformation extends Notification
     public $emisor;
     public $receptor;
     public $idTicket;
-    public function __construct($ticket, $emisor,$receptor, $idTicket)
+    public $message;
+    public function __construct($ticket, $emisor,$receptor, $idTicket, $message)
     {
         $this->ticket  = $ticket;
         $this->emisor  = $emisor;
         $this->receptor = $receptor;
         $this->idTicket  = $idTicket;
+        $this->message = $message;
     }
 
     /**
@@ -48,6 +50,7 @@ class MissingInformation extends Notification
                         'emisor'=>$this->emisor,
                         'receptor'=>$this->receptor,
                         'idTicket'=>$this->idTicket,
+                        'message' =>$this->message,
                     ])
                     ->subject('TICKET CON FALTANTE DE INFORMACIÓN')
                     ->from('adminportales@promolife.com.mx', 'T-Design');

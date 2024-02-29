@@ -97,41 +97,70 @@ class DesignerController extends Controller
         return redirect()->back();
     }
 
-    public function returnticket($ticketId) 
+    public function returnticket(Request $request) 
     {
         $user = auth()->user();
-        
-        $return_ticket= TicketStatusChange::create([
-            'ticket_id' => $ticketId,
-            'status_id' => 7,
-            'status' => 'Falta de información',
-        ]);
 
-        TicketHistory::create([
-            'ticket_id' => $ticketId,
-            'reference_id' => $return_ticket->id,
-            'type' => 'status',
+        $this->validate($request,[
+            'ticketid' => 'required',
+            'message' => 'required'
         ]);
 
         //Obtenemos el título del ticket///
-        $Ticket = DB::table('ticket_informations')->where('ticket_id', $ticketId)->first();
+        $Ticket = DB::table('ticket_informations')->where('ticket_id', $request->ticketid)->first();
         $title = $Ticket->title;
 
         //OBTENEMOS EL NAME DEL USUARIO LOGEADO (ENVIARA EL CORREO)
         $send = $user->name;
 
         ///OBTENEMOS EL ID DEL CREADOR DEL TICKET///
-        $ticket = DB::table('tickets')->where('id', $ticketId)->first();
+        $ticket = DB::table('tickets')->where('id', $request->ticketid)->first();
         $creatorId = $ticket->creator_id;
         
-
         //OBTENEMOS EL NAME DEL CREADOR DEL TICKET///
         $username = DB::table('users')->where('id', $creatorId)->first(); 
         $name = $username->name;
+
+        ///////Obtenemos el nombre del rol
+        $rol = DB::table('role_user')->where('user_id', $user->id)->first();
+        $id_rol = $rol->role_id;
+        $name_rol = DB::table('roles')->where('id', $id_rol)->first();
+        ////////////////////////////////////
+
+        ////Creamos el registro de que se regreso el ticket/////
+        $return_ticket= TicketStatusChange::create([
+            'ticket_id' => $request->ticketid,
+            'status_id' => 7,
+            'status' => 'Falta de información',
+        ]);
+
+        TicketHistory::create([
+            'ticket_id' => $request->ticketid,
+            'reference_id' => $return_ticket->id,
+            'type' => 'status',
+        ]);
     
+        ///////CREAMOS UN MENSAJE//////////////////////////////
+        $Message = Message::create([
+            'transmitter_id' => $user->id,
+            'transmitter_name' => $user->name,
+            'transmitter_role' => $name_rol->name,
+            'receiver_id' =>  $creatorId,
+            'receiver_name' => $name,
+            'message' => $request->message,
+            'ticket_id' => $request->ticketid
+        ]);
+
+        TicketHistory::create([
+            'ticket_id' => $ticket->id,
+            'reference_id' => $Message->id,
+            'type' => 'message'
+        ]);
+        ///////////////////////////////////////////////////////
+        
         ///CON AYUDA DEL ID DEL CREADOR SE LE ENVIARA EL CORREO///
         $user = User::find($creatorId);
-        $user->notify(new MissingInformation($title,$send, $name,$ticketId));
+        $user->notify(new MissingInformation($title,$send, $name,$request->ticketid, $request->message));
 
         return redirect()->back();
     }
