@@ -258,6 +258,7 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
+        ///dd($request);
         // Obtener el id y el nombre del vendedor o asistente que esta editando
         $userCreator = User::find(auth()->user()->id);
         $creator_id = $userCreator->id;
@@ -335,13 +336,17 @@ class TicketController extends Controller
             'reference_id' => $ticketInformation->id,
             'type' => 'info'
         ]);
+
         $receiver = User::find($ticket->designer_id);
-        try {
-            event(new ChangeTicketSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->creator_name));
-            $receiver->notify(new TicketChangeNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->creator_name));
-        } catch (Exception $th) {
+        if ($receiver) {
+            try {
+                event(new ChangeTicketSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->creator_name));
+                $receiver->notify(new TicketChangeNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->creator_name));
+            } catch (Exception $th) {
+                // Manejar la excepción de manera adecuada
+            }
         }
-        // Regresar a la vista de inicio
+        
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
     }
 
