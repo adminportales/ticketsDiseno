@@ -241,17 +241,16 @@
                                             <h5 class="modal-title">Especifica la falta de información.</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        
+                        
                                         <div class="modal-body">
                                             <!-- Formulario para enviar comentario -->
                                             <form action="{{ route('return.ticket') }}" method="POST">
                                                 @csrf
                                                 <div class="mb-3">
-                                                    <label for="message" class="form-label" style="color: black">Motivo por el cual se regresa el ticket:</label>
+                                                    <label for="message" class="form-label" style="font-weight:bolder;">Motivo por el cual se regresa el ticket:</label>
+                                                    <label for="Info" class="form-label" style="text-align: justify; color: #DC143C; font-weight: lighter; font-size: 14px;">Le enviaremos al creador del ticket un correo electrónico informándole que le hace falta información.</label>
                                                     <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
                                                     <input type="hidden" name="ticketid" value="{{ $ticket->id }}">
-                                                    <br>
-                                                    <label for="Info" class="form-label" style="color: red; font-weight: bold;">Le enviaremos al creador del ticket un correo electrónico informándole que le hace falta información.</label>
                                                 </div>
                                                 <div class="d-flex justify-content-end">
                                                 <button type="submit" class="btn btn-primary">Enviar</button>

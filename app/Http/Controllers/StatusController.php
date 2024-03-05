@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\ChangeStatusSendEvent;
 use App\Events\MessageSendEvent;
 use App\Message;
+use App\Notifications\ChangeOfStatus;
 use App\Notifications\ChangeStatusNotification;
 use App\Notifications\MessageNotification;
 use App\Status;
@@ -57,7 +58,7 @@ class StatusController extends Controller
             $receiver_name = $userReceiver->name . ' ' . $userReceiver->lastname;
             try {
                 event(new ChangeStatusSendEvent($ticket->latestTicketInformation->title, $status->status, $receiver_id, $transmitter_name));
-                $userReceiver->notify(new ChangeStatusNotification($ticket->id, $ticket->latestTicketInformation->title, $transmitter_name, $status->status));
+                $userReceiver->notify(new ChangeOfStatus($ticket->id, $ticket->latestTicketInformation->title, $transmitter_name, $status->status));
             } catch (Exception $th) {
             }
             if ($request->message != '' && $request->status != 6) {
