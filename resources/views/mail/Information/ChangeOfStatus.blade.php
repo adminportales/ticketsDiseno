@@ -9,5 +9,5 @@
     Ver ticket
 @endcomponent
 <hr>
-Si tienes problemas para visualizar el boton, puedes hacer click en el siguiente enlace: <a href="{{$url}}">{{$url}}</a>
+Si tienes problemas para visualizar el botón, puedes hacer clic en el siguiente enlace: <a href="{{$url}}">{{$url}}</a>
 @endcomponent
