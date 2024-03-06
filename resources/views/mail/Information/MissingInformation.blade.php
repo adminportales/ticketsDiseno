@@ -12,7 +12,7 @@ Es esencial asegurarnos de que la solicitud esté completa para poder avanzar co
 Por favor, se solicita que regreses y edites el ticket, asegurándote de no omitir ningún detalle en los campos requeridos.
 Agradezco tu pronta atención y colaboración en este asunto. 
 
-{{$emisor}} agrego un comentario "{{$message}}"
+{{$emisor}} igual agrego un comentario "{{$message}}"
 
 Saludos cordiales,Equipo de Diseño.
 </div>

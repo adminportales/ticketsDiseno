@@ -5,10 +5,10 @@
 </div>
 <br>
 <div style="text-align: justify; font-family: 'Roboto', sans-serif;">
-{{$emisor}} ha agregado un mensaje en ticket que lleva por título "{{$title_ticket}}"
+{{$emisor}} ha agregado un mensaje en el ticket que lleva por título "{{$title_ticket}}"
 <br>
 <div style="font-family: 'Roboto', sans-serif; color: black; font-weight: bold;">
-    El mensaje que envio es "{{$message}}"
+    El mensaje que envió es "{{$message}}"
 </div>
 <br>
 Saludos cordiales,Equipo de Diseño.
