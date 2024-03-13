@@ -5,6 +5,7 @@ namespace App\Http\Livewire\ListTickets;
 use App\Events\ChangeStatusSendEvent;
 use App\Notifications\ChangeOfStatus;
 use App\Notifications\ChangeStatusNotification;
+use App\Notifications\StatusTicket;
 use App\Status;
 use App\Ticket;
 use App\User;
@@ -82,10 +83,13 @@ class WaitListTicketComponent extends Component
             } else if (auth()->user()->isAbleTo(['create-ticket'])) {
                 $userReceiver = User::find($this->ticket->designer_id);
             }
+            
             $receiver_id = $userReceiver->id;
             try {
                 event(new ChangeStatusSendEvent($this->ticket->latestTicketInformation->title, $status->status, $receiver_id, $transmitter_name));
+                $userReceiver->notify(new StatusTicket($this->ticket->latestTicketInformation->title,$status->status,$transmitter_name,$this->ticket->id));
                 $userReceiver->notify(new ChangeOfStatus($this->ticket->id, $this->ticket->latestTicketInformation->title, $transmitter_name, $status->status));
+                
             } catch (Exception $th) {
                 return 2;
             }

@@ -8,6 +8,7 @@ use App\Message;
 use App\Notifications\ChangeOfStatus;
 use App\Notifications\ChangeStatusNotification;
 use App\Notifications\MessageNotification;
+use App\Notifications\StatusTicket;
 use App\Status;
 use App\Ticket;
 use App\TicketHistory;
@@ -34,6 +35,7 @@ class StatusController extends Controller
     {
         if ($request->status) {
             $status = Status::find($request->status);
+            //dd($status->status); 
             $statusChange = $ticket->statusChangeTicket()->create([
                 'status_id' => $status->id,
                 'status' => $status->status
@@ -59,6 +61,9 @@ class StatusController extends Controller
             try {
                 event(new ChangeStatusSendEvent($ticket->latestTicketInformation->title, $status->status, $receiver_id, $transmitter_name));
                 $userReceiver->notify(new ChangeOfStatus($ticket->id, $ticket->latestTicketInformation->title, $transmitter_name, $status->status));
+                if($status->status == 'Realizando ajustes' || $status->status == 'Finalizado'){
+                    $userReceiver->notify(new StatusTicket($ticket->latestTicketInformation->title,$status->status,$transmitter_name,$ticket->id));
+                }
             } catch (Exception $th) {
             }
             if ($request->message != '' && $request->status != 6) {
@@ -81,6 +86,7 @@ class StatusController extends Controller
                 try {
                     event(new MessageSendEvent($request->message, $receiver_id, $transmitter_name));
                     $userReceiver->notify(new MessageNotification($ticket->id, $ticket->latestTicketInformation->title, $transmitter_name, $message->message));
+                    $userReceiver->notify(new StatusTicket($ticket->latestTicketInformation->title,$status->status,$transmitter_name,$ticket->id));
                 } catch (Exception $th) {
                 }
             }

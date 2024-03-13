@@ -51,6 +51,10 @@
                                                     @php $color = 'alert-warning'; @endphp
                                                 @break
 
+                                                @case('Diseño en proceso')
+                                                    @php $color = 'alert-warning'; @endphp
+                                                @break
+
                                                 @case('Entregado')
                                                     @php $color = 'alert-info'; @endphp
                                                 @break
@@ -153,6 +157,10 @@
                                             @break
 
                                             @case('En revision')
+                                                @php $color = 'alert-warning'; @endphp
+                                            @break
+
+                                            @case('Diseño en proceso')
                                                 @php $color = 'alert-warning'; @endphp
                                             @break
 
@@ -259,6 +267,10 @@
                                             @break
 
                                             @case('En revision')
+                                                @php $color = 'alert-warning'; @endphp
+                                            @break
+
+                                            @case('Diseño en proceso')
                                                 @php $color = 'alert-warning'; @endphp
                                             @break
 
