@@ -12,7 +12,7 @@
 @endsection
 @section('content')
     <div class="card-header">
-        <h4 class="card-title">Ingresa la informacion necesaria para tu solicitud</h4>
+        <h4 class="card-title">Ingresa la información necesaria para tu solicitud</h4>
     </div>
     <div class="card-body">
         @if (session('message'))
@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="title">Titulo</label>
+                        <label for="title">Título</label>
                         <input type="text" class="form-control" placeholder="Nombre unico para tu solicitud"
                             name="title" value="{{ old('title') }}" />
                         @error('title')
@@ -93,7 +93,7 @@
                         @enderror
                     </div>
                     <div class="form-group" id="tecnica">
-                        <label for="technique">Tecnica</label>
+                        <label for="technique">Técnica</label>
                         <select name="technique" class="form-control">
                             <option value="">Seleccione...</option>
                             @foreach ($techniques as $technique)
@@ -112,7 +112,7 @@
                         @php
                             $companies = ['Promo Life', 'BH'];
                         @endphp
-                        <label for="pantone">La presentacion es para:</label><br>
+                        <label for="pantone">La presentación es para:</label><br>
                         @foreach ($companies as $item)
                             @php
                                 $check = false;
@@ -137,7 +137,7 @@
                         @enderror
                     </div>
                     <div class="form-group" id="position">
-                        <label for="pantone">Posicion del logo en el virtual</label>
+                        <label for="pantone">Posición del logo en el virtual</label>
                         <input type="input" class="form-control" placeholder="Ubicacion del logo en el producto"
                             name="position" value="{{ old('position') }}" />
                         @error('position')
@@ -199,8 +199,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="descripcion">Descripcion</label>
-                    <p>En este espacio puedes informacion detallada de tu solicitud, agregar links, resaltar detalles, etc.
+                    <label for="descripcion">Descripción</label>
+                    <p>En este espacio puedes proporcionar información detallada sobre tu solicitud, agregar enlaces, resaltar detalles, etc.
                     </p>
                     @error('description')
                         <div class="text-danger">
@@ -312,7 +312,18 @@
                     pantoneElement.classList.add('d-none')
                     opcional.classList.add('d-none')
                     break;
-
+                case '4':
+                    // Mostrar solo Cliente y Descripción //
+                    logoElement.classList.add('d-none');
+                    companiesElement.classList.add('d-none');
+                    positionElement.classList.add('d-none');
+                    productElement.classList.add('d-none');
+                    itemsElement.classList.add('d-none');
+                    clientElement.classList.remove('d-none');
+                    tecnicaElement.classList.add('d-none');
+                    pantoneElement.classList.add('d-none');
+                    opcional.classList.add('d-none');
+                    break;
                 default:
                     break;
             }

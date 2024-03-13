@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Message;
+use App\Notifications\MessageNotification;
 use App\Notifications\MissingInformation;
+use App\Notifications\StatusTicket;
 use App\Status;
 use App\Ticket;
 use App\TicketAssignProcess;
@@ -134,6 +136,9 @@ class DesignerController extends Controller
             'status' => 'Falta de información',
         ]);
 
+        $status = $return_ticket->status;
+        //dd($status);
+
         TicketHistory::create([
             'ticket_id' => $request->ticketid,
             'reference_id' => $return_ticket->id,
@@ -160,8 +165,13 @@ class DesignerController extends Controller
         
         ///CON AYUDA DEL ID DEL CREADOR SE LE ENVIARA EL CORREO///
         $user = User::find($creatorId);
-        $user->notify(new MissingInformation($title,$send, $name,$request->ticketid, $request->message));
-
+        try {
+            $user->notify(new MissingInformation($title, $send, $name, $request->ticketid, $request->message));
+            $user->notify(new StatusTicket($title, $status, $send, $ticket->id));
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'No se pudo enviar las notificaciones']);
+        }
+        
         return redirect()->back();
     }
     
