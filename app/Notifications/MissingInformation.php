@@ -46,10 +46,10 @@ class MissingInformation extends Notification
     {
         return (new MailMessage)
                     ->markdown('mail.Information.MissingInformation',[
+                        'url' => url('/designer/ticketShow' . '/' . $this->idTicket),
                         'ticket'=>$this->ticket,
                         'emisor'=>$this->emisor,
                         'receptor'=>$this->receptor,
-                        'idTicket'=>$this->idTicket,
                         'message' =>$this->message,
                     ])
                     ->subject('TICKET CON FALTANTE DE INFORMACIÓN')

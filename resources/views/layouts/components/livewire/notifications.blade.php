@@ -44,6 +44,10 @@
                                     <p class="m-0">{{ $notification->data['status'] }}</p>
                                 @break
 
+                                @case('App\Notifications\StatusTicket')
+                                    <p class="m-0">{{ $notification->data['status'] }}</p>
+                                @break
+
                                 @case('App\Notifications\MessageNotification')
                                     <p class="m-0">{{ Str::limit($notification->data['message'], 30) }}</p>
                                 @break
