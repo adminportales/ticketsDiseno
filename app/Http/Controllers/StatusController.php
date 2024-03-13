@@ -61,7 +61,7 @@ class StatusController extends Controller
             try {
                 event(new ChangeStatusSendEvent($ticket->latestTicketInformation->title, $status->status, $receiver_id, $transmitter_name));
                 $userReceiver->notify(new ChangeOfStatus($ticket->id, $ticket->latestTicketInformation->title, $transmitter_name, $status->status));
-                if($status->status == 'Realizando ajustes'){
+                if($status->status == 'Realizando ajustes' || $status->status == 'Finalizado'){
                     $userReceiver->notify(new StatusTicket($ticket->latestTicketInformation->title,$status->status,$transmitter_name,$ticket->id));
                 }
             } catch (Exception $th) {
