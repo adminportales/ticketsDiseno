@@ -101,8 +101,13 @@
                 <td class="text-center">
                     @if ($latestTicketInformation)
                         <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}" class="boton-ver">Ver</a>
-                        <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
-                            class="btn btn-danger">Modificar</a>
+                        @if ($ticket->status_id == 6)
+                        <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}" class="btn btn-secondary" style="pointer-events: none; cursor: default;">Modificar</a>
+                        @else
+                            <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
+                                class="btn btn-danger">Modificar
+                            </a>
+                        @endif
                     @else
                         <a class="btn btn-danger"
                             onclick="event.preventDefault();document.getElementById('destroyTicket').submit();">

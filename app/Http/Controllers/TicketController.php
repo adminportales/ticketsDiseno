@@ -10,6 +10,7 @@ use App\Notifications\TicketCreateNotification;
 use App\Priority;
 use App\Role;
 use App\Status;
+use App\Subtype;
 use App\Technique;
 use App\Ticket;
 use App\TicketAssigment;
@@ -70,8 +71,9 @@ class TicketController extends Controller
     public function create()
     {
         $types = Type::all();
+        $subtypes = Subtype::all();
         $techniques = Technique::all();
-        return view('seller.tickets.create', compact('types', 'techniques'));
+        return view('seller.tickets.create', compact('types', 'techniques', 'subtypes'));
     }
 
     /**
@@ -89,7 +91,6 @@ class TicketController extends Controller
         request()->validate([
             'type' => 'required',
         ]);
-
         switch ($request->type) {
             case 1:
                 request()->validate([
@@ -105,6 +106,8 @@ class TicketController extends Controller
                     'customer' => ['required', 'string', 'max:191'],
                 ]);
                 $request->companies = null;
+                $request->subtype = null;
+                dd(1);
                 break;
             case 2:
                 request()->validate([
@@ -120,8 +123,26 @@ class TicketController extends Controller
                 $request->pantone = null;
                 $request->technique = null;
                 $request->position = null;
+                $request->subtype = null;
+                dd(2);
                 break;
             case 3:
+                request()->validate([
+                    'type' => 'required',
+                    'title' => ['required', 'string', 'max:191'],
+                    'customer' => ['required', 'string', 'max:191'],
+                    'subtype' => ['required'],
+                    'description' => ['required', 'string', 'max:60000'],
+                    'logo' => 'required',
+                    'items' => 'required',
+                ]);
+                $request->product = null;
+                $request->pantone = null;
+                $request->technique = null;
+                $request->position = null;
+                $request->companies = null;
+                break;
+            case 4:
                 request()->validate([
                     'type' => 'required',
                     'title' => ['required', 'string', 'max:191'],
@@ -159,6 +180,7 @@ class TicketController extends Controller
         }
 
         // Registrar el ticket
+
         $ticket = Ticket::create([
             'creator_id' => $creator_id,
             'creator_name' =>  $creator_name,
@@ -166,8 +188,9 @@ class TicketController extends Controller
             'seller_name' =>  $seller_name,
             'designer_id' => null,
             'designer_name' => null,
-             'priority_id' => 2,
+            'priority_id' => 2,
             'type_id' => $request->type,
+            'subtype_id' => $request->subtype != null ? $request->subtype : null,
             'status_id' => 1
         ]);
         // Creacion del estado
@@ -244,6 +267,7 @@ class TicketController extends Controller
     public function edit(Ticket $ticket)
     {
         $types = Type::all();
+        $subtypes = Subtype::all();
         $techniques = Technique::all();
         $ticketInformation = $ticket->latestTicketInformation;
         return view('seller.tickets.edit', compact('techniques', 'ticket', 'types', 'ticketInformation'));
@@ -346,7 +370,7 @@ class TicketController extends Controller
                 // Manejar la excepción de manera adecuada
             }
         }
-        
+
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
     }
 

@@ -16,6 +16,7 @@ class Ticket extends Model
         'designer_name',
         'priority_id',
         'type_id',
+        'subtype_id',
         'status_id',
     ];
 
@@ -48,7 +49,10 @@ class Ticket extends Model
     {
         return $this->belongsTo('App\Type', 'type_id');
     }
-
+    public function subTypeTicket()
+    {
+        return $this->belongsTo('App\Subtype', 'subtype_id');
+    }
     //Traer la prioridad del ticket
     public function priorityTicket()
     {

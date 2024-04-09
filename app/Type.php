@@ -15,4 +15,8 @@ class Type extends Model
     {
         return $this->hasMany('App\Ticket');
     }
+    public function subType()
+    {
+        return $this->belongsTo('App\Subtype');
+    }
 }
