@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTicketAssigmentsTable extends Migration
+class CreateSubtypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateTicketAssigmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ticket_assigments', function (Blueprint $table) {
+        Schema::create('subtypes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('designer_id')->references('id')->on('users');
-            $table->foreignId('type_id')->constrained();
-            $table->foreignId('subtype_id')->nullable();
+            $table->foreignId('id_type');
+            $table->string('subtype');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateTicketAssigmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ticket_assigments');
+        Schema::dropIfExists('subtypes');
     }
 }

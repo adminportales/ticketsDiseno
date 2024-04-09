@@ -141,19 +141,24 @@
 <hr>
 <section class="border-0">
     <h5>Historial</h5>
-    <form action="{{ route('message.store') }}" method="post">
-        @csrf
-        @method('POST')
-        <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
-        <div class="d-flex">
-            <div class="form-group flex-grow-1">
-                <input type="text" class="form-control" placeholder="Agrega una nota adicional" name="message">
+
+        <form action="{{ route('message.store') }}" method="post">
+
+            @csrf
+            @method('POST')
+            <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
+            <div class="d-flex">
+                <div class="form-group flex-grow-1">
+                    <input type="text" class="form-control" placeholder="Agrega una nota adicional" name="message"
+                        @if ($ticket->status_id == 6) disabled @endif>
+                </div>
+                @if (!auth()->user()->hasRole(['designer', 'design_manager']) || auth()->user()->id == $ticket->designer_id)
+                    <input type="submit" class="boton-enviar" value="Enviar"
+                        @if ($ticket->status_id == 6) disabled @endif>
+                @endif
             </div>
-            @if (!auth()->user()->hasRole(['designer', 'design_manager']) || auth()->user()->id == $ticket->designer_id)
-                <input type="submit" class="boton-enviar" value="Enviar">
-            @endif
-        </div>
-    </form>
+        </form>
+  
     <div class="">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
@@ -202,6 +207,7 @@
                         @if ($ticketHistory->type == 'status')
                             @php $status = $ticketHistory->ticketStatusChange; @endphp
                             <li class="list-group-item">
+                                holaaaaaaaaaaaaaaaaa
                                 <p class="m-0 ">{{ $status->status }}
                                 </p>
                                 <p class="m-0 " style="font-size: .8rem">
@@ -218,6 +224,7 @@
                     @endphp
                     @foreach ($ticketHistories as $ticketHistory)
                         @if ($ticketHistory->type == 'info')
+
                             @php $information = $ticketHistory->ticketInformation; @endphp
                             <li class="list-group-item">
                                 <div class="row">
@@ -248,8 +255,10 @@
                                                     </p>
                                                 @endif
                                             @endif
-                                            @if ($information->techniqueTicket && $latestInformation->techniqueTicket && 
-                                                ($information->techniqueTicket->name != $latestInformation->techniqueTicket->name))
+                                            @if (
+                                                $information->techniqueTicket &&
+                                                    $latestInformation->techniqueTicket &&
+                                                    $information->techniqueTicket->name != $latestInformation->techniqueTicket->name)
                                                 <p class="m-0">
                                                     <strong>Tecnica:</strong>
                                                     {{ $latestInformation->techniqueTicket ? $latestInformation->techniqueTicket->name : '' }}
@@ -282,7 +291,10 @@
                                             <div class="row">
                                                 @if ($information->logo)
                                                     @php
-                                                        $diferencias = array_diff(explode(',', $information->logo), explode(',', $latestInformation->logo));
+                                                        $diferencias = array_diff(
+                                                            explode(',', $information->logo),
+                                                            explode(',', $latestInformation->logo),
+                                                        );
                                                     @endphp
                                                     @if (!empty($diferencias))
                                                         <p class="m-0"><strong>Logos: </strong></p>
@@ -317,7 +329,10 @@
                                                 @endif
                                                 @if ($information->product)
                                                     @php
-                                                        $diferencias = array_diff(explode(',', $information->product), explode(',', $latestInformation->product));
+                                                        $diferencias = array_diff(
+                                                            explode(',', $information->product),
+                                                            explode(',', $latestInformation->product),
+                                                        );
                                                     @endphp
                                                     @if (!empty($diferencias))
                                                         <p class="m-0"><strong>Productos: </strong></p>
@@ -354,7 +369,10 @@
                                         </div>
                                         @if ($information->items)
                                             @php
-                                                $diferencias = array_diff(explode(',', $information->items), explode(',', $latestInformation->items));
+                                                $diferencias = array_diff(
+                                                    explode(',', $information->items),
+                                                    explode(',', $latestInformation->items),
+                                                );
                                             @endphp
                                             @if (!empty($diferencias))
                                                 <p class="m-0"><strong>Items: </strong></p>
@@ -486,8 +504,10 @@
                                                     </p>
                                                 @endif
                                             @endif
-                                            @if ($information->techniqueTicket && $latestInformation->techniqueTicket && 
-                                                ($information->techniqueTicket->name != $latestInformation->techniqueTicket->name))                                                
+                                            @if (
+                                                $information->techniqueTicket &&
+                                                    $latestInformation->techniqueTicket &&
+                                                    $information->techniqueTicket->name != $latestInformation->techniqueTicket->name)
                                                 <p class="m-0">
                                                     <strong>Tecnica:</strong>
                                                     {{ $latestInformation->techniqueTicket ? $latestInformation->techniqueTicket->name : '' }}
@@ -533,7 +553,10 @@
                                             <div class="row">
                                                 @if ($information->logo)
                                                     @php
-                                                        $diferencias = array_diff(explode(',', $information->logo), explode(',', $latestInformation->logo));
+                                                        $diferencias = array_diff(
+                                                            explode(',', $information->logo),
+                                                            explode(',', $latestInformation->logo),
+                                                        );
                                                     @endphp
                                                     @if (!empty($diferencias))
                                                         <p class="m-0"><strong>Logos: </strong></p>
@@ -568,7 +591,10 @@
                                                 @endif
                                                 @if ($information->product)
                                                     @php
-                                                        $diferencias = array_diff(explode(',', $information->product), explode(',', $latestInformation->product));
+                                                        $diferencias = array_diff(
+                                                            explode(',', $information->product),
+                                                            explode(',', $latestInformation->product),
+                                                        );
                                                     @endphp
                                                     @if (!empty($diferencias))
                                                         <p class="m-0"><strong>Productos: </strong></p>
@@ -605,7 +631,10 @@
                                         </div>
                                         @if ($information->items)
                                             @php
-                                                $diferencias = array_diff(explode(',', $information->items), explode(',', $latestInformation->items));
+                                                $diferencias = array_diff(
+                                                    explode(',', $information->items),
+                                                    explode(',', $latestInformation->items),
+                                                );
                                             @endphp
                                             @if (!empty($diferencias))
                                                 <p class="m-0"><strong>Items: </strong></p>

@@ -23,6 +23,7 @@ class CreateTicketsTable extends Migration
             $table->string('designer_name')->nullable();
             $table->foreignId('priority_id')->constrained();
             $table->foreignId('type_id')->constrained();
+            $table->foreignId('subtype_id')->nullable();
             $table->foreignId('status_id')->constrained();
             $table->timestamps();
         });

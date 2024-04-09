@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\HistoryAvailability;
+use App\Subtype;
 use App\Ticket;
 use App\TicketAssigment;
 use App\Type;
@@ -48,6 +49,7 @@ class TicketAssigmentController extends Controller
     public function edit(User $user)
     {
         $types = Type::all();
+        $subtypes = Subtype::all();
         $userTypes = $user->whatTypes;
         return view('design_manager.ticketAssigment.edit', compact('types', 'user', 'userTypes'));
     }
