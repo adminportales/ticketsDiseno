@@ -142,23 +142,23 @@
 <section class="border-0">
     <h5>Historial</h5>
 
-        <form action="{{ route('message.store') }}" method="post">
+    <form action="{{ route('message.store') }}" method="post">
 
-            @csrf
-            @method('POST')
-            <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
-            <div class="d-flex">
-                <div class="form-group flex-grow-1">
-                    <input type="text" class="form-control" placeholder="Agrega una nota adicional" name="message"
-                        @if ($ticket->status_id == 6) disabled @endif>
-                </div>
-                @if (!auth()->user()->hasRole(['designer', 'design_manager']) || auth()->user()->id == $ticket->designer_id)
-                    <input type="submit" class="boton-enviar" value="Enviar"
-                        @if ($ticket->status_id == 6) disabled @endif>
-                @endif
+        @csrf
+        @method('POST')
+        <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
+        <div class="d-flex">
+            <div class="form-group flex-grow-1">
+                <input type="text" class="form-control" placeholder="Agrega una nota adicional" name="message"
+                    @if ($ticket->status_id == 6 || $ticket->status_id == 1) disabled @endif>
             </div>
-        </form>
-  
+            @if (!auth()->user()->hasRole(['designer', 'design_manager']) || auth()->user()->id == $ticket->designer_id)
+                <input type="submit" class="boton-enviar" value="Enviar"
+                    @if ($ticket->status_id == 6 || $ticket->status_id == 1) disabled @endif>
+            @endif
+        </div>
+    </form>
+
     <div class="">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
@@ -207,7 +207,6 @@
                         @if ($ticketHistory->type == 'status')
                             @php $status = $ticketHistory->ticketStatusChange; @endphp
                             <li class="list-group-item">
-                                holaaaaaaaaaaaaaaaaa
                                 <p class="m-0 ">{{ $status->status }}
                                 </p>
                                 <p class="m-0 " style="font-size: .8rem">
