@@ -136,6 +136,22 @@
                             </div>
                         @enderror
                     </div>
+                    <div class="form-group">
+                        <label for="pantone">Subtipos</label>
+                        <select name="subtype" id="subtype"class="form-control">
+                            <option value="">Seleccione...</option>
+                            @foreach ($subtypes as $subtype)
+                                <option value="{{ $subtype->id }}"
+                                    {{ $subtype->id == old('subtype') ? 'selected' : '' }}>{{ $subtype->subtype }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('subtype')
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
                     <div class="form-group" id="position">
                         <label for="pantone">Posición del logo en el virtual</label>
                         <input type="input" class="form-control" placeholder="Ubicacion del logo en el producto"
@@ -148,8 +164,8 @@
                     </div>
                     <div class="form-group" id="pantone">
                         <label for="pantone">Pantone</label>
-                        <input type="text" class="form-control" name="pantone" placeholder="Pantones separados por comas"
-                            value="{{ old('pantone') }}" />
+                        <input type="text" class="form-control" name="pantone"
+                            placeholder="Pantones separados por comas" value="{{ old('pantone') }}" />
                         @error('pantone')
                             <div class="text-danger">
                                 {{ $message }}
@@ -200,7 +216,8 @@
                 </div>
                 <div class="form-group">
                     <label for="descripcion">Descripción</label>
-                    <p>En este espacio puedes proporcionar información detallada sobre tu solicitud, agregar enlaces, resaltar detalles, etc.
+                    <p>En este espacio puedes proporcionar información detallada sobre tu solicitud, agregar enlaces,
+                        resaltar detalles, etc.
                     </p>
                     @error('description')
                         <div class="text-danger">
@@ -223,16 +240,15 @@
             e.preventDefault();
             document.querySelector('#butonSubmit').setAttribute('disabled', '');
             $("#formCreate").submit();
-        })
+        });
+
         $('#summernote').summernote({
             height: 300,
-            minHeight: 200, // set minimum height of editor
+            minHeight: 200,
             maxHeight: 500,
             disableDragAndDrop: true,
             toolbar: [
-                // ['style', ['style']],
                 ['font', ['bold', 'underline', 'clear']],
-                // ['fontname', ['fontname']],
                 ['insert', ['link']],
                 ['color', ['color']],
                 ['para', ['ul', 'ol']],
@@ -241,79 +257,76 @@
         });
 
         if (document.querySelector('#message')) {
-            const message = document.querySelector('#message')
+            const message = document.querySelector('#message');
             setTimeout(() => {
-                message.remove()
+                message.remove();
             }, 5000);
         }
 
-        const selectType = document.querySelector('#type')
-        const logoElement = document.querySelector('#logoElement')
-        const itemsElement = document.querySelector('#itemsElement')
-        const productElement = document.querySelector('#productElement')
-        const pantoneElement = document.querySelector('#pantone')
-        const tecnicaElement = document.querySelector('#tecnica')
-        const clientElement = document.querySelector('#customer')
-        const positionElement = document.querySelector('#position')
-        const companiesElement = document.querySelector('#companies')
-        const opcional = document.querySelector('.opcional')
+        const selectType = document.querySelector('#type');
+        const logoElement = document.querySelector('#logoElement');
+        const itemsElement = document.querySelector('#itemsElement');
+        const productElement = document.querySelector('#productElement');
+        const pantoneElement = document.querySelector('#pantone');
+        const tecnicaElement = document.querySelector('#tecnica');
+        const clientElement = document.querySelector('#customer');
+        const positionElement = document.querySelector('#position');
+        const companiesElement = document.querySelector('#companies');
+        const subtypeSelect = document.querySelector('#subtype');
+        const opcional = document.querySelector('.opcional');
 
-        let typeSelected = '{{ old('type') }}'
-        formDynamic(typeSelected)
+        let typeSelected = '{{ old('type') }}';
+        formDynamic(typeSelected);
         selectType.addEventListener('change', () => {
-            formDynamic(selectType.value)
-        })
+            formDynamic(selectType.value);
+        });
+
+
+        let typeSelected2 = '{{ old('subtype') }}';
+        formDynamic2(typeSelected2);
+        subtypeSelect.addEventListener('change', () => {
+            formDynamic2(subtypeSelect.value);
+        });
 
         function formDynamic(type) {
             switch (type) {
-                case '1':
-                    /*
-                        Logo
-                        Tecnica
-                        Pantone
-                        Producto
-                        Posicion
-                    */
-                    companiesElement.classList.add('d-none')
-                    logoElement.classList.remove('d-none')
-                    clientElement.classList.remove('d-none')
-                    productElement.classList.remove('d-none')
-                    tecnicaElement.classList.remove('d-none')
-                    pantoneElement.classList.remove('d-none')
-                    itemsElement.classList.remove('d-none')
-                    opcional.classList.remove('d-none')
-                    positionElement.classList.remove('d-none')
+                case undefined:
+                    companiesElement.classList.add('d-none');
+                    logoElement.classList.remove('d-none');
+                    clientElement.classList.remove('d-none');
+                    productElement.classList.remove('d-none');
+                    tecnicaElement.classList.remove('d-none');
+                    pantoneElement.classList.remove('d-none');
+                    itemsElement.classList.remove('d-none');
+                    opcional.classList.remove('d-none');
+                    positionElement.classList.remove('d-none');
+                    subtypeSelect.classList.add('d-none');
                     break;
                 case '2':
-                    /*
-                        Cliente
-                        Items
-                        Logo
-                        Empresas
-                    */
-                    companiesElement.classList.remove('d-none')
-                    positionElement.classList.add('d-none')
-                    tecnicaElement.classList.add('d-none')
-                    clientElement.classList.remove('d-none')
-                    pantoneElement.classList.add('d-none')
-                    logoElement.classList.remove('d-none')
-                    productElement.classList.add('d-none')
-                    itemsElement.classList.remove('d-none')
-                    opcional.classList.add('d-none')
+                    companiesElement.classList.remove('d-none');
+                    positionElement.classList.add('d-none');
+                    tecnicaElement.classList.add('d-none');
+                    clientElement.classList.remove('d-none');
+                    pantoneElement.classList.add('d-none');
+                    logoElement.classList.remove('d-none');
+                    productElement.classList.add('d-none');
+                    itemsElement.classList.remove('d-none');
+                    opcional.classList.add('d-none');
+                    subtypeSelect.classList.add('d-none');
                     break;
                 case '3':
-                    logoElement.classList.add('d-none')
-                    companiesElement.classList.add('d-none')
-                    positionElement.classList.add('d-none')
-                    productElement.classList.add('d-none')
-                    itemsElement.classList.remove('d-none')
-                    clientElement.classList.add('d-none')
-                    tecnicaElement.classList.add('d-none')
-                    pantoneElement.classList.add('d-none')
-                    opcional.classList.add('d-none')
+                    logoElement.classList.add('d-none');
+                    companiesElement.classList.add('d-none');
+                    positionElement.classList.add('d-none');
+                    productElement.classList.add('d-none');
+                    itemsElement.classList.remove('d-none');
+                    clientElement.classList.add('d-none');
+                    tecnicaElement.classList.add('d-none');
+                    pantoneElement.classList.add('d-none');
+                    opcional.classList.add('d-none');
+                    subtypeSelect.classList.remove('d-none');
                     break;
                 case '4':
-                    // Mostrar solo Cliente y Descripción //
                     logoElement.classList.add('d-none');
                     companiesElement.classList.add('d-none');
                     positionElement.classList.add('d-none');
@@ -323,10 +336,56 @@
                     tecnicaElement.classList.add('d-none');
                     pantoneElement.classList.add('d-none');
                     opcional.classList.add('d-none');
+                    subtypeSelect.classList.add('d-none');
                     break;
                 default:
-                    break;
             }
         }
+
+        function formDynamic2(subtype) {
+            switch (subtype) {
+                case '1':
+                    companiesElement.classList.add('d-none');
+                    logoElement.classList.remove('d-none');
+                    clientElement.classList.remove('d-none');
+                    productElement.classList.remove('d-none');
+                    tecnicaElement.classList.remove('d-none');
+                    pantoneElement.classList.remove('d-none');
+                    itemsElement.classList.remove('d-none');
+                    opcional.classList.remove('d-none');
+                    positionElement.classList.remove('d-none');
+                    subtypeSelect.classList.add('d-none');
+                    break;
+                case '2':
+                    logoElement.classList.add('d-none')
+                    companiesElement.classList.add('d-none')
+                    positionElement.classList.add('d-none')
+                    productElement.classList.add('d-none')
+                    itemsElement.classList.remove('d-none')
+                    clientElement.classList.add('d-none')
+                    tecnicaElement.classList.add('d-none')
+                    pantoneElement.classList.add('d-none')
+                    opcional.classList.add('d-none')
+                    subtypeSelect.classList.remove('d-none');
+                    break;
+                default:
+            }
+        }
+
+
+        document.getElementById('checkboxCase1').addEventListener('change', function() {
+            if (this.checked) {
+                companiesElement.classList.add('d-none');
+                logoElement.classList.remove('d-none');
+                clientElement.classList.remove('d-none');
+                productElement.classList.remove('d-none');
+                tecnicaElement.classList.remove('d-none');
+                pantoneElement.classList.remove('d-none');
+                itemsElement.classList.remove('d-none');
+                opcional.classList.remove('d-none');
+                positionElement.classList.remove('d-none');
+                subtypeSelect.classList.add('d-none');
+            }
+        });
     </script>
 @endsection

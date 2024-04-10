@@ -8,7 +8,8 @@ class TicketAssigment extends Model
 {
     protected $fillable = [
         'designer_id',
-        'type_id'
+        'type_id',
+        'subtype_id'
     ];
     public function user()
     {

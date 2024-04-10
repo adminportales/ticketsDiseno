@@ -206,7 +206,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="verificar()">Cancelar</button>
-                    <button type="button" class="btn btn-success"
+                    <button id="sendButton" type="button" class="btn btn-success"
                         onclick="changeStatus(4, {{ $ticket->id }})">Enviar</button>
                 </div>
             </div>
@@ -298,6 +298,8 @@
                 return
             }
             try {
+                let sendButton = document.getElementById('sendButton');
+                sendButton.disabled = true; // Deshabilitar el botón
                 let params = {
                     status,
                     message,
@@ -325,6 +327,8 @@
                     'No se pudo cambiar el estado',
                     'error'
                 );
+            } finally {
+                sendButton.disabled = false; // Habilitar el botón después de que se complete la solicitud
             }
         }
 
