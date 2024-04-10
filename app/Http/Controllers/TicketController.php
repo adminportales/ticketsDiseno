@@ -107,7 +107,6 @@ class TicketController extends Controller
                 ]);
                 $request->companies = null;
                 $request->subtype = null;
-                dd(1);
                 break;
             case 2:
                 request()->validate([
@@ -124,7 +123,6 @@ class TicketController extends Controller
                 $request->technique = null;
                 $request->position = null;
                 $request->subtype = null;
-                dd(2);
                 break;
             case 3:
                 request()->validate([
