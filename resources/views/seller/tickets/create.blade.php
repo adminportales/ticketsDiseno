@@ -137,7 +137,7 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="subtype">Subtipos</label>
+                        <label for="pantone">Subtipos</label>
                         <select name="subtype" id="subtype"class="form-control">
                             <option value="">Seleccione...</option>
                             @foreach ($subtypes as $subtype)
@@ -338,6 +338,7 @@
                     opcional.classList.add('d-none');
                     subtypeSelect.classList.add('d-none');
                     break;
+                default:
             }
         }
 
@@ -355,9 +356,20 @@
                     positionElement.classList.remove('d-none');
                     subtypeSelect.classList.add('d-none');
                     break;
-
-                    default:
-                }
+                case '2':
+                    logoElement.classList.add('d-none')
+                    companiesElement.classList.add('d-none')
+                    positionElement.classList.add('d-none')
+                    productElement.classList.add('d-none')
+                    itemsElement.classList.remove('d-none')
+                    clientElement.classList.add('d-none')
+                    tecnicaElement.classList.add('d-none')
+                    pantoneElement.classList.add('d-none')
+                    opcional.classList.add('d-none')
+                    subtypeSelect.classList.remove('d-none');
+                    break;
+                default:
+            }
         }
 
 
@@ -374,6 +386,6 @@
                 positionElement.classList.remove('d-none');
                 subtypeSelect.classList.add('d-none');
             }
-        }); 
+        });
     </script>
 @endsection
