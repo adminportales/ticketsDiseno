@@ -127,19 +127,20 @@ class TicketController extends Controller
             case 3:
                 request()->validate([
                     'type' => 'required',
-                    'title' => ['required', 'string', 'max:191'],
-                    'customer' => ['required', 'string', 'max:191'],
                     'subtype' => ['required'],
+                    'title' => ['required', 'string', 'max:191'],
                     'description' => ['required', 'string', 'max:60000'],
-                    'logo' => 'required',
-                    'items' => 'required',
+                  /*   'items' => 'required', */
                 ]);
                 $request->product = null;
                 $request->pantone = null;
                 $request->technique = null;
                 $request->position = null;
+                $request->logo = null;
+                $request->customer = null;
                 $request->companies = null;
                 break;
+                dd(1);
             case 4:
                 request()->validate([
                     'type' => 'required',
@@ -156,7 +157,6 @@ class TicketController extends Controller
                 $request->companies = null;
                 break;
             default:
-                break;
         }
 
 
@@ -176,7 +176,8 @@ class TicketController extends Controller
             $seller_id = $userCreator->id;
             $seller_name = $userCreator->name . ' ' . $userCreator->lastname;
         }
-
+        if ($request->subtype == 2) {
+        }
         // Registrar el ticket
 
         $ticket = Ticket::create([
