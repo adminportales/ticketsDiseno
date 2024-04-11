@@ -92,6 +92,16 @@
                             </div>
                         @enderror
                     </div>
+                    <div class="form-group" id="measures">
+                        <label for="measures">Medidas</label>
+                        <input type="text" class="form-control" placeholder="medidas del producto" name="measures"
+                            value="{{ old('measures') }}" />
+                        @error('measures')
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
                     <div class="form-group" id="tecnica">
                         <label for="technique">Técnica</label>
                         <select name="technique" class="form-control">
@@ -136,7 +146,7 @@
                             </div>
                         @enderror
                     </div>
-                    <div class="form-group">
+                    {{--     <div class="form-group">
                         <label for="pantone">Subtipos</label>
                         <select name="subtype" id="subtype"class="form-control">
                             <option value="">Seleccione...</option>
@@ -151,7 +161,7 @@
                                 {{ $message }}
                             </div>
                         @enderror
-                    </div>
+                    </div> --}}
                     <div class="form-group" id="position">
                         <label for="pantone">Posición del logo en el virtual</label>
                         <input type="input" class="form-control" placeholder="Ubicacion del logo en el producto"
@@ -272,6 +282,7 @@
         const clientElement = document.querySelector('#customer');
         const positionElement = document.querySelector('#position');
         const companiesElement = document.querySelector('#companies');
+        const measuresElement = document.querySelector('#measures');
         const subtypeSelect = document.querySelector('#subtype');
         const opcional = document.querySelector('.opcional');
 
@@ -282,15 +293,15 @@
         });
 
 
-        let typeSelected2 = '{{ old('subtype') }}';
-        formDynamic2(typeSelected2);
-        subtypeSelect.addEventListener('change', () => {
-            formDynamic2(subtypeSelect.value);
-        });
+        /*  let typeSelected2 = '{{ old('subtype') }}';
+         formDynamic2(typeSelected2);
+         subtypeSelect.addEventListener('change', () => {
+             formDynamic2(subtypeSelect.value);
+         }); */
 
         function formDynamic(type) {
             switch (type) {
-                case undefined:
+                case '1':
                     companiesElement.classList.add('d-none');
                     logoElement.classList.remove('d-none');
                     clientElement.classList.remove('d-none');
@@ -300,7 +311,7 @@
                     itemsElement.classList.remove('d-none');
                     opcional.classList.remove('d-none');
                     positionElement.classList.remove('d-none');
-                    subtypeSelect.classList.add('d-none');
+                    measuresElement.classList.add('d-none');
                     break;
                 case '2':
                     companiesElement.classList.remove('d-none');
@@ -312,7 +323,7 @@
                     productElement.classList.add('d-none');
                     itemsElement.classList.remove('d-none');
                     opcional.classList.add('d-none');
-                    subtypeSelect.classList.add('d-none');
+                    measuresElement.classList.add('d-none');
                     break;
                 case '3':
                     logoElement.classList.add('d-none');
@@ -324,7 +335,7 @@
                     tecnicaElement.classList.add('d-none');
                     pantoneElement.classList.add('d-none');
                     opcional.classList.add('d-none');
-                    subtypeSelect.classList.remove('d-none');
+                    measuresElement.classList.add('d-none');
                     break;
                 case '4':
                     logoElement.classList.add('d-none');
@@ -336,41 +347,53 @@
                     tecnicaElement.classList.add('d-none');
                     pantoneElement.classList.add('d-none');
                     opcional.classList.add('d-none');
-                    subtypeSelect.classList.add('d-none');
+                    measuresElement.classList.add('d-none');
+                    break;
+                case '5':
+                    logoElement.classList.remove('d-none');
+                    companiesElement.classList.remove('d-none');
+                    positionElement.classList.add('d-none');
+                    productElement.classList.remove('d-none');
+                    itemsElement.classList.add('d-none');
+                    clientElement.classList.remove('d-none');
+                    tecnicaElement.classList.add('d-none');
+                    pantoneElement.classList.add('d-none');
+                    opcional.classList.add('d-none');
+                    measuresElement.classList.remove('d-none');
                     break;
                 default:
             }
         }
 
-        function formDynamic2(subtype) {
-            switch (subtype) {
-                case '1':
-                    companiesElement.classList.add('d-none');
-                    logoElement.classList.remove('d-none');
-                    clientElement.classList.remove('d-none');
-                    productElement.classList.remove('d-none');
-                    tecnicaElement.classList.remove('d-none');
-                    pantoneElement.classList.remove('d-none');
-                    itemsElement.classList.remove('d-none');
-                    opcional.classList.remove('d-none');
-                    positionElement.classList.remove('d-none');
-                    subtypeSelect.classList.add('d-none');
-                    break;
-                case '2':
-                    logoElement.classList.add('d-none')
-                    companiesElement.classList.add('d-none')
-                    positionElement.classList.add('d-none')
-                    productElement.classList.add('d-none')
-                    itemsElement.classList.remove('d-none')
-                    clientElement.classList.add('d-none')
-                    tecnicaElement.classList.add('d-none')
-                    pantoneElement.classList.add('d-none')
-                    opcional.classList.add('d-none')
-                    subtypeSelect.classList.remove('d-none');
-                    break;
-                default:
-            }
-        }
+        /*       function formDynamic2(subtype) {
+                  switch (subtype) {
+                      case '1':
+                          companiesElement.classList.add('d-none');
+                          logoElement.classList.remove('d-none');
+                          clientElement.classList.remove('d-none');
+                          productElement.classList.remove('d-none');
+                          tecnicaElement.classList.remove('d-none');
+                          pantoneElement.classList.remove('d-none');
+                          itemsElement.classList.remove('d-none');
+                          opcional.classList.remove('d-none');
+                          positionElement.classList.remove('d-none');
+                          subtypeSelect.classList.add('d-none');
+                          break;
+                      case '2':
+                          logoElement.classList.add('d-none')
+                          companiesElement.classList.add('d-none')
+                          positionElement.classList.add('d-none')
+                          productElement.classList.add('d-none')
+                          itemsElement.classList.remove('d-none')
+                          clientElement.classList.add('d-none')
+                          tecnicaElement.classList.add('d-none')
+                          pantoneElement.classList.add('d-none')
+                          opcional.classList.add('d-none')
+                          subtypeSelect.classList.remove('d-none');
+                          break;
+                      default:
+                  }
+              } */
 
 
         document.getElementById('checkboxCase1').addEventListener('change', function() {
