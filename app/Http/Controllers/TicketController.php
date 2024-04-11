@@ -107,6 +107,7 @@ class TicketController extends Controller
                 ]);
                 $request->companies = null;
                 $request->subtype = null;
+                $request->measures = null;
                 break;
             case 2:
                 request()->validate([
@@ -123,14 +124,15 @@ class TicketController extends Controller
                 $request->technique = null;
                 $request->position = null;
                 $request->subtype = null;
+                $request->measures = null;
                 break;
             case 3:
                 request()->validate([
                     'type' => 'required',
-                    'subtype' => ['required'],
                     'title' => ['required', 'string', 'max:191'],
                     'description' => ['required', 'string', 'max:60000'],
-                  /*   'items' => 'required', */
+                    'product' => 'required',
+                    /*   'items' => 'required', */
                 ]);
                 $request->product = null;
                 $request->pantone = null;
@@ -139,12 +141,14 @@ class TicketController extends Controller
                 $request->logo = null;
                 $request->customer = null;
                 $request->companies = null;
+                $request->measures = null;
+                $request->subtype = null;
                 break;
-                dd(1);
             case 4:
                 request()->validate([
                     'type' => 'required',
                     'title' => ['required', 'string', 'max:191'],
+                    'customer' => ['required', 'string', 'max:191'],
                     'description' => ['required', 'string', 'max:60000'],
                     'items' => 'required',
                 ]);
@@ -155,11 +159,27 @@ class TicketController extends Controller
                 $request->logo = null;
                 $request->customer = null;
                 $request->companies = null;
+                $request->measures = null;
+                $request->subtype = null;
+                break;
+            case 5:
+                request()->validate([
+                    'title' => ['required', 'string', 'max:191'],
+                    'companies' => ['required'],
+                    'type' => 'required',
+                    'description' => ['required', 'string', 'max:60000'],
+                    'logo' => 'required',
+                    'product' => 'required',
+                    'customer' => ['required', 'string', 'max:191'],
+                    'measures' => 'required'
+                ]);
+                $request->technique = null;
+                $request->position = null;
+                $request->pantone = null;
+                $request->subtype = null;
                 break;
             default:
         }
-
-
 
         // Si es un asistente, validacion extra y obtener el ejecutivo, y si no
         // El ejecutivo es el creador
@@ -175,8 +195,6 @@ class TicketController extends Controller
         } else {
             $seller_id = $userCreator->id;
             $seller_name = $userCreator->name . ' ' . $userCreator->lastname;
-        }
-        if ($request->subtype == 2) {
         }
         // Registrar el ticket
 
@@ -198,7 +216,6 @@ class TicketController extends Controller
             'status_id' => $status->id,
             'status' => $status->status
         ]);
-
         // Registrar la informacion del ticket
         if ($request->companies) {
             $request->companies = implode(',', $request->companies);
@@ -216,6 +233,7 @@ class TicketController extends Controller
             'pantone' => $request->pantone,
             'position' => $request->position,
             'companies' => $request->companies,
+            'measures' => $request->measures,
             'link' => '',
         ]);
 
