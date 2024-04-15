@@ -150,7 +150,7 @@
         <div class="d-flex">
             <div class="form-group flex-grow-1">
                 <input type="text" class="form-control" placeholder="Agrega una nota adicional" name="message"
-                    @if (/* $ticket->status_id == 6 ||  */$ticket->status_id == 1) disabled @endif>
+                    @if (/* $ticket->status_id == 6 ||  */ $ticket->status_id == 1) disabled @endif>
             </div>
             @if (!auth()->user()->hasRole(['designer', 'design_manager']) || auth()->user()->id == $ticket->designer_id)
                 <input type="submit" class="boton-enviar" value="Enviar"
@@ -752,6 +752,10 @@
                                     @break
 
                                     @case('Realizando ajustes')
+                                        @php $color = 'alert-secondary'; @endphp
+                                    @break
+
+                                    @case('Solicitar artes')
                                         @php $color = 'alert-secondary'; @endphp
                                     @break
 
