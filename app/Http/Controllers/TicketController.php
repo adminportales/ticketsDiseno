@@ -127,7 +127,6 @@ class TicketController extends Controller
                 $request->measures = null;
                 break;
             case 3:
-            case 3:
                 request()->validate([
                     'type' => 'required',
                     'title' => ['required', 'string', 'max:191'],
