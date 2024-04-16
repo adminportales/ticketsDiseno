@@ -149,7 +149,7 @@
         let ticket_id = '{{ $ticket->id }}'
         let status = '{{ $ticket->latestStatusChangeTicket->status_id }}'
         document.addEventListener('DOMContentLoaded', () => {
-            if (status == 1 || status == 4) {
+            if (status == 1 || status == 4 || status == 8) {
                 let title = status == 1 ?
                     'Deseas iniciar con esta solicitud?' :
                     'Deseas realizar los ajustes de esta solicitud?'

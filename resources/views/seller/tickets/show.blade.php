@@ -217,14 +217,14 @@
         <div class="modal-dialog modal-md shadow-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center" id="finallyTicketLabel">Al continuar el ticket quedara finalizado
+                    <h5 class="modal-title text-center" id="finallyTicketLabel">
                     </h5>
                 </div>
                 <div class="modal-body">
                     <h6 class="text-center">Estas seguro de continuar?</h6>
                     <br>
                     <button type="button" class="btn btn-secondary" onclick="cerrarTicket()">Si,
-                        Continuar</button>
+                        solicitar artes</button>
                     <button type="button" class="btn btn-success" onclick="solicitarCambios()">No, deseo modificar
                         algo</button>
                     <button type="button" class="btn btn-success" onclick="verificar()">Cancelar</button>
@@ -289,7 +289,7 @@
             // Leer el mensaje y los items
             let message = document.querySelector("#message").value
             let images = document.querySelector("#items").value
-            if ([message].includes('') && status != 6) {
+            if ([message].includes('') && status != 8) {
                 Swal.fire(
                     'Error!',
                     'El mensaje no puede estar vacio',
@@ -334,16 +334,16 @@
 
         function cerrarTicket() {
             Swal.fire({
-                title: 'Desea finalizar esta solicitud?',
+                title: 'Desea Solicitar artes?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, continuar',
+                confirmButtonText: 'Si',
                 cancelButtonText: 'Cancelar',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    changeStatus(6, ticket_id)
+                    changeStatus(8, ticket_id)
                     setTimeout(() => {
                         location.reload();
                     }, 300);

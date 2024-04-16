@@ -131,8 +131,7 @@ class TicketController extends Controller
                     'type' => 'required',
                     'title' => ['required', 'string', 'max:191'],
                     'description' => ['required', 'string', 'max:60000'],
-                    'product' => 'required',
-                    /*   'items' => 'required', */
+                    'items' => 'required',
                 ]);
                 $request->product = null;
                 $request->pantone = null;
