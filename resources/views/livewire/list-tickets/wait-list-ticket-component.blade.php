@@ -59,6 +59,10 @@
                                         @php $color = 'alert-secondary'; @endphp
                                     @break
 
+                                    @case('Solicitar artes')
+                                        @php $color = 'alert-secondary'; @endphp
+                                    @break
+
                                     @case('Finalizado')
                                         @php $color = 'alert-primary'; @endphp
                                     @break
@@ -66,7 +70,8 @@
                                     @default
                                 @endswitch
                                 <strong>Estado:</strong>
-                                <div class="p-1 alert {{ $color }}" style="width: 100px;text-align: center;text-transform: uppercase;font-size: smaller;">
+                                <div class="p-1 alert {{ $color }}"
+                                    style="width: 100px;text-align: center;text-transform: uppercase;font-size: smaller;">
                                     {{ $item->latestStatusChangeTicket->status }}</div>
                             </td>
                             <td>{{ $item->seller_name }}</td>
@@ -235,29 +240,37 @@
                     </div>
                     {{--  --}}
                     <div class="modal-footer">
-                    @if ($ticket)
+                        @if ($ticket)
                             <!-- Botón que abre el modal -->
-                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#returnticket">Falta información</button>
+                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#returnticket">Falta
+                                información</button>
                             <div class="modal" id="returnticket" tabindex="-1" wire:ignore.self>
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title">Especifica la falta de información.</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                         </div>
-                        
+
                                         <div class="modal-body">
                                             <!-- Formulario para enviar comentario -->
                                             <form action="{{ route('return.ticket') }}" method="POST">
                                                 @csrf
                                                 <div class="mb-3">
-                                                    <label for="message" class="form-label" style="font-weight:bolder;">Motivo por el cual se regresa el ticket:</label>
-                                                    <label for="Info" class="form-label" style="text-align: justify; color: #DC143C; font-weight: lighter; font-size: 14px;">Le enviaremos al creador del ticket un correo electrónico informándole que le hace falta información.</label>
+                                                    <label for="message" class="form-label"
+                                                        style="font-weight:bolder;">Motivo por el cual se regresa el
+                                                        ticket:</label>
+                                                    <label for="Info" class="form-label"
+                                                        style="text-align: justify; color: #DC143C; font-weight: lighter; font-size: 14px;">Le
+                                                        enviaremos al creador del ticket un correo electrónico
+                                                        informándole que le hace falta información.</label>
                                                     <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
-                                                    <input type="hidden" name="ticketid" value="{{ $ticket->id }}">
+                                                    <input type="hidden" name="ticketid"
+                                                        value="{{ $ticket->id }}">
                                                 </div>
                                                 <div class="d-flex justify-content-end">
-                                                <button type="submit" class="btn btn-primary">Enviar</button>
+                                                    <button type="submit" class="btn btn-primary">Enviar</button>
                                                 </div>
                                             </form>
                                         </div>
