@@ -162,7 +162,7 @@
                                     @endif
                                     @if ($ticket->latestTicketInformation->samples)
                                         <p class="m-0"><strong>Muestra Fisica:
-                                            </strong>{{ $ticket->latestTicketInformation->samples }}
+                                            </strong>{{ $ticket->latestTicketInformation->samples}}
                                         </p>
                                     @endif
 

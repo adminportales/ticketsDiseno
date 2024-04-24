@@ -104,11 +104,11 @@ class TicketController extends Controller
                     'product' => 'required',
                     'position' => 'required',
                     'customer' => ['required', 'string', 'max:191'],
+                    'samples' => ['required']
                 ]);
                 $request->companies = null;
                 $request->subtype = null;
                 $request->measures = null;
-                $request->samples = null;
                 break;
             case 2:
                 request()->validate([
@@ -135,6 +135,7 @@ class TicketController extends Controller
                     'title' => ['required', 'string', 'max:191'],
                     'description' => ['required', 'string', 'max:60000'],
                     'items' => 'required',
+                    'samples' => ['required']
                 ]);
                 $request->product = null;
                 $request->pantone = null;
@@ -145,7 +146,6 @@ class TicketController extends Controller
                 $request->companies = null;
                 $request->measures = null;
                 $request->subtype = null;
-                $request->samples = null;
                 break;
             case 4:
                 request()->validate([
