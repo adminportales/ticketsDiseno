@@ -108,6 +108,7 @@ class TicketController extends Controller
                 $request->companies = null;
                 $request->subtype = null;
                 $request->measures = null;
+                $request->samples = null;
                 break;
             case 2:
                 request()->validate([
@@ -125,8 +126,9 @@ class TicketController extends Controller
                 $request->position = null;
                 $request->subtype = null;
                 $request->measures = null;
+                $request->samples = null;
                 break;
-            case 3:
+
             case 3:
                 request()->validate([
                     'type' => 'required',
@@ -143,6 +145,7 @@ class TicketController extends Controller
                 $request->companies = null;
                 $request->measures = null;
                 $request->subtype = null;
+                $request->samples = null;
                 break;
             case 4:
                 request()->validate([
@@ -161,11 +164,13 @@ class TicketController extends Controller
                 $request->companies = null;
                 $request->measures = null;
                 $request->subtype = null;
+                $request->samples = null;
                 break;
             case 5:
                 request()->validate([
                     'title' => ['required', 'string', 'max:191'],
                     'companies' => ['required'],
+                    'samples' => ['required'],
                     'type' => 'required',
                     'description' => ['required', 'string', 'max:60000'],
                     'logo' => 'required',
@@ -220,6 +225,11 @@ class TicketController extends Controller
         if ($request->companies) {
             $request->companies = implode(',', $request->companies);
         }
+
+        if ($request->samples) {
+            $request->samples = implode(',', $request->samples);
+        }
+
         $ticketInformation = $ticket->ticketInformation()->create([
             'technique_id' => $request->technique,
             'customer' => $request->customer,
@@ -234,6 +244,7 @@ class TicketController extends Controller
             'position' => $request->position,
             'companies' => $request->companies,
             'measures' => $request->measures,
+            'samples' => $request->samples,
             'link' => '',
         ]);
 

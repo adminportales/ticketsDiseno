@@ -160,6 +160,12 @@
                                             </strong>{{ $ticket->latestTicketInformation->companies }}
                                         </p>
                                     @endif
+                                    @if ($ticket->latestTicketInformation->samples)
+                                        <p class="m-0"><strong>Muestra Fisica:
+                                            </strong>{{ $ticket->latestTicketInformation->samples }}
+                                        </p>
+                                    @endif
+
                                     <p class="m-0"><strong>Descripción:
                                         </strong>{!! $ticket->latestTicketInformation->description !!}
                                     </p>

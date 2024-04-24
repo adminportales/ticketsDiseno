@@ -223,11 +223,24 @@
                 <div class="modal-body">
                     <h6 class="text-center">Estas seguro de continuar?</h6>
                     <br>
-                    <button type="button" class="btn btn-secondary" onclick="cerrarTicket()">Si,
+                    @if ($ticket->status_id == 8)
+                        <button type="button" class="btn btn-secondary" onclick="cerrarTicket()">Finalizar
+                            ticket</button>
+                        <button type="button" class="btn btn-success" onclick="solicitarCambios()">No, deseo modificar
+                            algo</button>
+                        <button type="button" class="btn btn-success" onclick="verificar()">Cancelar</button>
+                    @else
+                        <button type="button" class="btn btn-secondary" onclick="finalizarTicket()">Si,
+                            solicitar artes</button>
+                        <button type="button" class="btn btn-success" onclick="solicitarCambios()">No, deseo modificar
+                            algo</button>
+                        <button type="button" class="btn btn-success" onclick="verificar()">Cancelar</button>
+                    @endif
+                    {{-- <button type="button" class="btn btn-secondary" onclick="cerrarTicket()">Si,
                         solicitar artes</button>
                     <button type="button" class="btn btn-success" onclick="solicitarCambios()">No, deseo modificar
                         algo</button>
-                    <button type="button" class="btn btn-success" onclick="verificar()">Cancelar</button>
+                    <button type="button" class="btn btn-success" onclick="verificar()">Cancelar</button> --}}
                 </div>
             </div>
         </div>
@@ -262,7 +275,7 @@
         let beforeUrl = "{{ url('/tickets') }}"
 
         document.addEventListener('DOMContentLoaded', () => {
-            if (status == 3) {
+            if (status == 3 || status == 8) {
                 verificar()
             }
         })
@@ -289,7 +302,7 @@
             // Leer el mensaje y los items
             let message = document.querySelector("#message").value
             let images = document.querySelector("#items").value
-            if ([message].includes('') && status != 8) {
+            if ([message].includes('') && status != 6 && status != 8) {
                 Swal.fire(
                     'Error!',
                     'El mensaje no puede estar vacio',
@@ -332,7 +345,7 @@
             }
         }
 
-        function cerrarTicket() {
+        function finalizarTicket() {
             Swal.fire({
                 title: 'Desea Solicitar artes?',
                 icon: 'warning',
@@ -344,6 +357,25 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     changeStatus(8, ticket_id)
+                    setTimeout(() => {
+                        location.reload();
+                    }, 300);
+                }
+            })
+        }
+
+        function cerrarTicket() {
+            Swal.fire({
+                title: 'Desea finalizar el ticket?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    changeStatus(6, ticket_id)
                     setTimeout(() => {
                         location.reload();
                     }, 300);

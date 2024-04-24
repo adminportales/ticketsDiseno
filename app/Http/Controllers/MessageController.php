@@ -40,10 +40,10 @@ class MessageController extends Controller
 
         // Obtener el id del ticket, hay que traerlo del formulario
         $ticket = Ticket::find($request->ticket_id);
-    
+
         $tic = DB::table('ticket_informations')->where('ticket_id', $request->ticket_id)->first();
         $ticket_title = $tic->title;
-    
+
         // Obtener el id y nombre del vendedor y diseñador asignados al ticket
         // El diseñador transmite el mensaje y el vendedor recibe
         $transmitter_id = auth()->user()->id;
@@ -99,10 +99,12 @@ class MessageController extends Controller
         }
 
         try {
-            $userReceiver->notify(new MessageTicket($transmitter_name, $receiver_name, $ticket_title, $request->message));
+            if ($userReceiver) {
+                $userReceiver->notify(new MessageTicket($transmitter_name, $receiver_name, $ticket_title, $request->message));
+            }
         } catch (\Exception $e) {
         }
-        
+
 
         // Regresar a la misma vista AtenderTicket (ticket.show)
         if (auth()->user()->isAbleTo(['attend-ticket'])) {

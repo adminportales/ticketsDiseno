@@ -62,7 +62,7 @@ class StatusController extends Controller
                 event(new ChangeStatusSendEvent($ticket->latestTicketInformation->title, $status->status, $receiver_id, $transmitter_name));
                 if ($receiver_id != 26) {
                     $userReceiver->notify(new ChangeOfStatus($ticket->id, $ticket->latestTicketInformation->title, $transmitter_name, $status->status));
-                    if ($status->status == 'Realizando ajustes' || $status->status == 'Finalizado') {
+                    if ($status->status == 'Realizando ajustes' || $status->status == 'Finalizado' || $status->status == 'Solicitar artes') {
                         $userReceiver->notify(new StatusTicket($ticket->latestTicketInformation->title, $status->status, $transmitter_name, $ticket->id));
                     }
                 }
@@ -119,6 +119,8 @@ class StatusController extends Controller
                     'pantone' => $latestTicketInformation->pantone,
                     'position' => $latestTicketInformation->position,
                     'companies' => $latestTicketInformation->companies,
+                    'samples' => $latestTicketInformation->samples,
+                    'measures' => $latestTicketInformation->measures,
                 ]);
                 $ticket->historyTicket()->create([
                     'ticket_id' => $ticket->id,
