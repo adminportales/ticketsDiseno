@@ -71,6 +71,7 @@
         @if ($ticket->latestTicketInformation->samples)
             <p class="m-0"><strong>Muestra fisica:
                 </strong>{{ $ticket->latestTicketInformation->samples }}
+
             </p>
         @endif
         <p class="m-0"><strong>Descripción:
