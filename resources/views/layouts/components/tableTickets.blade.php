@@ -75,6 +75,7 @@
                         @break
 
                         @default
+
                     @endswitch
                     <strong>Estado:</strong>
                     <div class="p-1 alert {{ $color }}">{{ $ticket->latestStatusChangeTicket->status }}</div><br>

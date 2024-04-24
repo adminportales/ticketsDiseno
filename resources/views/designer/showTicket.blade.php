@@ -149,10 +149,11 @@
         let ticket_id = '{{ $ticket->id }}'
         let status = '{{ $ticket->latestStatusChangeTicket->status_id }}'
         document.addEventListener('DOMContentLoaded', () => {
-            if (status == 1 || status == 4 || status == 8) {
+            if (status == 1 || status == 4) {
                 let title = status == 1 ?
                     'Deseas iniciar con esta solicitud?' :
-                    'Deseas realizar los ajustes de esta solicitud?'
+                    status == 8 ? 'Deseas realizar los artes de esta solicitud?' :
+                    'Deseas realizar los ajustes de esta solicitud?';
                 Swal.fire({
                     title: title,
                     text: "De no ser asi, seras enviado a la pantalla anterior!",
@@ -167,7 +168,8 @@
                     allowEscapeKey: false,
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        let statusChange = status == 1 ? 2 : 5
+                        /*  let statusChange = status == 1 ? 2 : 5 */
+                        let statusChange = status == 1 ? 2 : (status == 8 ? 8 : 5);
                         changeStatus(statusChange, ticket_id)
                     } else {
                         window.location = beforeUrl;

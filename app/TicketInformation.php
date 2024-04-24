@@ -23,7 +23,8 @@ class TicketInformation extends Model
         'pantone',
         'position',
         'companies',
-        'measures'
+        'measures',
+        'samples'
     ];
 
     public function techniqueTicket()
