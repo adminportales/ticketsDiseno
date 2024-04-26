@@ -245,6 +245,25 @@
             </div>
         </div>
     </div>
+    <!-- Modal para ingresar mensaje -->
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalLabel">Ingresar mensaje</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" id="messageInput" placeholder="Ingrese su mensaje aquí">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="enviarMensaje()">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('styles')
@@ -346,24 +365,65 @@
         }
 
         function finalizarTicket() {
-            Swal.fire({
-                title: 'Desea Solicitar artes?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si',
-                cancelButtonText: 'Cancelar',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    changeStatus(8, ticket_id)
-                    setTimeout(() => {
-                        location.reload();
-                    }, 300);
-                }
-            })
+            $('#messageModal').modal('show');
         }
 
+        function enviarMensaje() {
+            var mensaje = $('#messageInput').val();
+            // Aquí puedes realizar cualquier acción con el mensaje, como enviarlo al servidor
+            console.log('Mensaje ingresado:', mensaje);
+            $.ajax({
+                url: '/message', // Ruta de tu controlador de mensajes
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}', // Agrega el token CSRF para protección contra CSRF
+                    message: mensaje,
+                    ticket_id: '{{ $ticket->id }}' // Si $ticket->id no está disponible aquí, asegúrate de obtenerlo de alguna manera
+                },
+                success: function(response) {
+                    // Manejar la respuesta del servidor (opcional)
+                    console.log(response);
+                    // Cerrar el modal después de enviar el mensaje
+                    $('#messageModal').modal('hide');
+                    // Actualizar la página si es necesario
+                    // location.reload();
+                },
+                error: function(xhr, status, error) {
+                    // Manejar errores (opcional)
+                    console.error(xhr.responseText);
+                }
+            });
+            // Cambiar el status_id a 8
+            changeStatus(8, ticket_id);
+
+            // Recargar la página después de un breve retraso (opcional)
+            setTimeout(() => {
+                location.reload();
+            }, 300);
+
+            // Cerrar el modal
+            $('#messageModal').modal('hide');
+        }
+
+        /*   function finalizarTicket() {
+                    Swal.fire({
+                        title: 'Desea Solicitar artes?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Si',
+                        cancelButtonText: 'Cancelar',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            changeStatus(8, ticket_id)
+                            setTimeout(() => {
+                                location.reload();
+                            }, 300);
+                        }
+                    })
+                }
+         */
         function cerrarTicket() {
             Swal.fire({
                 title: 'Desea finalizar el ticket?',
