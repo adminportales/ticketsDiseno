@@ -146,6 +146,34 @@
                             </div>
                         @enderror
                     </div>
+                    <div class="form-group" id="samples">
+                        @php
+                            $samples = ['Si', 'No'];
+                        @endphp
+                        <label for="pantone">Este virtual requiere autorización por muestra fisica: </label><br>
+                        @foreach ($samples as $item)
+                            @php
+                                $check = false;
+                                if (old('samples') != null) {
+                                    foreach (old('samples') as $itemOld) {
+                                        if ($item == $itemOld) {
+                                            $check = true;
+                                        }
+                                    }
+                                }
+                            @endphp
+                            <input class="form-check-input" type="checkbox" name="samples[]" {{ $check ? 'checked' : '' }}
+                                value="{{ $item }}">
+                            <label class="form-check-label" style="margin-right: 1rem" for="">
+                                {{ $item }}
+                            </label>
+                        @endforeach
+                        @error('samples')
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
                     {{--     <div class="form-group">
                         <label for="pantone">Subtipos</label>
                         <select name="subtype" id="subtype"class="form-control">
@@ -284,6 +312,7 @@
         const companiesElement = document.querySelector('#companies');
         const measuresElement = document.querySelector('#measures');
         const subtypeSelect = document.querySelector('#subtype');
+        const samplesElement = document.querySelector('#samples');
         const opcional = document.querySelector('.opcional');
 
         let typeSelected = '{{ old('type') }}';
@@ -312,6 +341,7 @@
                     opcional.classList.remove('d-none');
                     positionElement.classList.remove('d-none');
                     measuresElement.classList.add('d-none');
+                    samplesElement.classList.remove('d-none');
                     break;
                 case '2':
                     companiesElement.classList.remove('d-none');
@@ -324,6 +354,7 @@
                     itemsElement.classList.remove('d-none');
                     opcional.classList.add('d-none');
                     measuresElement.classList.add('d-none');
+                    samplesElement.classList.add('d-none');
                     break;
                 case '3':
                     logoElement.classList.add('d-none');
@@ -336,6 +367,7 @@
                     pantoneElement.classList.add('d-none');
                     opcional.classList.add('d-none');
                     measuresElement.classList.add('d-none');
+                    samplesElement.classList.remove('d-none');
                     break;
                 case '4':
                     logoElement.classList.add('d-none');
@@ -348,6 +380,7 @@
                     pantoneElement.classList.add('d-none');
                     opcional.classList.add('d-none');
                     measuresElement.classList.add('d-none');
+                    samplesElement.classList.add('d-none');
                     break;
                 case '5':
                     logoElement.classList.remove('d-none');
@@ -360,6 +393,7 @@
                     pantoneElement.classList.add('d-none');
                     opcional.classList.add('d-none');
                     measuresElement.classList.remove('d-none');
+                    samplesElement.classList.remove('d-none');
                     break;
                 default:
             }

@@ -30,6 +30,7 @@ class CreateTicketInformationTable extends Migration
             $table->string('position')->nullable();
             $table->text('companies')->nullable();
             $table->text('measures')->nullable();
+            $table->text('samples')->nullable();
             $table->timestamps();
         });
     }
