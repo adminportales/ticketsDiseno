@@ -62,6 +62,16 @@
                             </div>
                         @enderror
                     </div>
+                    <div class="form-group" id="measures">
+                        <label for="measures">Medidas</label>
+                        <input type="text" class="form-control" placeholder="medidas del producto" name="measures"
+                            value="{{ old('measures') }}" />
+                        @error('measures')
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
                     <div class="form-group" id="tecnica">
                         <label for="technique">Tecnica</label>
                         <select name="technique" class="form-control">
@@ -102,6 +112,34 @@
                             </label>
                         @endforeach
                     </div>
+                    <div class="form-group" id="samples">
+                        @php
+                            $samples = ['Si', 'No'];
+                        @endphp
+                        <label for="pantone">Este virtual requiere autorización por muestra fisica: </label><br>
+                        @foreach ($samples as $item)
+                            @php
+                                $check = false;
+                                if (old('samples') != null) {
+                                    foreach (old('samples') as $itemOld) {
+                                        if ($item == $itemOld) {
+                                            $check = true;
+                                        }
+                                    }
+                                }
+                            @endphp
+                            <input class="form-check-input" type="checkbox" name="samples[]" {{ $check ? 'checked' : '' }}
+                                value="{{ $item }}">
+                            <label class="form-check-label" style="margin-right: 1rem" for="">
+                                {{ $item }}
+                            </label>
+                        @endforeach
+                        @error('samples')
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
                     <div class="form-group" id="position">
                         <label for="pantone">Posicion del logo en el virtual</label>
                         <input type="input" class="form-control" name="position"
@@ -118,7 +156,8 @@
                         modificar, <span class="text-success">pero si puedes agregar nuevos archivos</span></p>
                     <div class="form-group w-100" id="logoElement">
                         <label for="logo">Logo</label>
-                        <div id="dropzoneLogo" class="dropzone form-control text-center" style="height: auto; width: auto">
+                        <div id="dropzoneLogo" class="dropzone form-control text-center"
+                            style="height: auto; width: auto">
                         </div>
                         <input type="hidden" name="logo" id="logo" value="">
                         @error('logo')
@@ -198,16 +237,20 @@
             }, 5000);
         }
 
-        const selectType = document.querySelector('#type')
-        const logoElement = document.querySelector('#logoElement')
-        const itemsElement = document.querySelector('#itemsElement')
-        const productElement = document.querySelector('#productElement')
-        const pantoneElement = document.querySelector('#pantone')
-        const tecnicaElement = document.querySelector('#tecnica')
-        const clientElement = document.querySelector('#customer')
-        const positionElement = document.querySelector('#position')
-        const companiesElement = document.querySelector('#companies')
-        const opcional = document.querySelector('.opcional')
+        const selectType = document.querySelector('#type');
+        const logoElement = document.querySelector('#logoElement');
+        const itemsElement = document.querySelector('#itemsElement');
+        const productElement = document.querySelector('#productElement');
+        const pantoneElement = document.querySelector('#pantone');
+        const tecnicaElement = document.querySelector('#tecnica');
+        const clientElement = document.querySelector('#customer');
+        const positionElement = document.querySelector('#position');
+        const companiesElement = document.querySelector('#companies');
+        const measuresElement = document.querySelector('#measures');
+        const subtypeSelect = document.querySelector('#subtype');
+        const samplesElement = document.querySelector('#samples');
+        const opcional = document.querySelector('.opcional');
+
 
         let typeSelected = '{{ old('type') }}'
         formDynamic(typeSelected)
@@ -218,41 +261,71 @@
         function formDynamic(type) {
             switch (type) {
                 case '1':
-                    companiesElement.classList.add('d-none')
-                    logoElement.classList.remove('d-none')
-                    clientElement.classList.remove('d-none')
-                    productElement.classList.remove('d-none')
-                    tecnicaElement.classList.remove('d-none')
-                    pantoneElement.classList.remove('d-none')
-                    itemsElement.classList.remove('d-none')
-                    opcional.classList.remove('d-none')
-                    positionElement.classList.remove('d-none')
+                    companiesElement.classList.add('d-none');
+                    logoElement.classList.remove('d-none');
+                    clientElement.classList.remove('d-none');
+                    productElement.classList.remove('d-none');
+                    tecnicaElement.classList.remove('d-none');
+                    pantoneElement.classList.remove('d-none');
+                    itemsElement.classList.remove('d-none');
+                    opcional.classList.remove('d-none');
+                    positionElement.classList.remove('d-none');
+                    measuresElement.classList.add('d-none');
+                    samplesElement.classList.remove('d-none');
                     break;
                 case '2':
-                    companiesElement.classList.remove('d-none')
-                    positionElement.classList.add('d-none')
-                    tecnicaElement.classList.add('d-none')
-                    clientElement.classList.remove('d-none')
-                    pantoneElement.classList.add('d-none')
-                    logoElement.classList.remove('d-none')
-                    productElement.classList.add('d-none')
-                    itemsElement.classList.remove('d-none')
-                    opcional.classList.add('d-none')
+                    companiesElement.classList.remove('d-none');
+                    positionElement.classList.add('d-none');
+                    tecnicaElement.classList.add('d-none');
+                    clientElement.classList.remove('d-none');
+                    pantoneElement.classList.add('d-none');
+                    logoElement.classList.remove('d-none');
+                    productElement.classList.add('d-none');
+                    itemsElement.classList.remove('d-none');
+                    opcional.classList.add('d-none');
+                    measuresElement.classList.add('d-none');
+                    samplesElement.classList.add('d-none');
                     break;
                 case '3':
-                    logoElement.classList.add('d-none')
-                    companiesElement.classList.add('d-none')
-                    positionElement.classList.add('d-none')
-                    productElement.classList.add('d-none')
-                    itemsElement.classList.remove('d-none')
-                    clientElement.classList.add('d-none')
-                    tecnicaElement.classList.add('d-none')
-                    pantoneElement.classList.add('d-none')
-                    opcional.classList.add('d-none')
+                    logoElement.classList.add('d-none');
+                    companiesElement.classList.add('d-none');
+                    positionElement.classList.add('d-none');
+                    productElement.classList.add('d-none');
+                    itemsElement.classList.remove('d-none');
+                    clientElement.classList.add('d-none');
+                    tecnicaElement.classList.add('d-none');
+                    pantoneElement.classList.add('d-none');
+                    opcional.classList.add('d-none');
+                    measuresElement.classList.add('d-none');
+                    samplesElement.classList.remove('d-none');
                     break;
-
+                case '4':
+                    logoElement.classList.add('d-none');
+                    companiesElement.classList.add('d-none');
+                    positionElement.classList.add('d-none');
+                    productElement.classList.add('d-none');
+                    itemsElement.classList.add('d-none');
+                    clientElement.classList.remove('d-none');
+                    tecnicaElement.classList.add('d-none');
+                    pantoneElement.classList.add('d-none');
+                    opcional.classList.add('d-none');
+                    measuresElement.classList.add('d-none');
+                    samplesElement.classList.add('d-none');
+                    break;
+                case '5':
+                    logoElement.classList.remove('d-none');
+                    companiesElement.classList.remove('d-none');
+                    positionElement.classList.add('d-none');
+                    productElement.classList.remove('d-none');
+                    itemsElement.classList.add('d-none');
+                    clientElement.classList.remove('d-none');
+                    tecnicaElement.classList.add('d-none');
+                    pantoneElement.classList.add('d-none');
+                    opcional.classList.add('d-none');
+                    measuresElement.classList.remove('d-none');
+                    samplesElement.classList.remove('d-none');
+                    break;
                 default:
-                    break;
             }
         }
     </script>
