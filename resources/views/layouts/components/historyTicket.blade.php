@@ -159,7 +159,8 @@
                     @if ($ticket->status_id == 6) disabled @endif>
             </div>
             @if (!auth()->user()->hasRole(['designer', 'design_manager']) || auth()->user()->id == $ticket->designer_id)
-                <input type="submit" class="boton-enviar" value="Enviar" @if ($ticket->status_id == 6) disabled @endif>
+                <input type="submit" class="boton-enviar" value="Enviar"
+                    @if ($ticket->status_id == 6) disabled @endif>
             @endif
         </div>
     </form>
