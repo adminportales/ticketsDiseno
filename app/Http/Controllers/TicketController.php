@@ -315,7 +315,6 @@ class TicketController extends Controller
         $userCreator = User::find(auth()->user()->id);
         $creator_id = $userCreator->id;
         $creator_name = $userCreator->name . ' ' . $userCreator->lastname;
-
         switch ($ticket->typeTicket->id) {
             case 1:
                 request()->validate([
@@ -328,7 +327,7 @@ class TicketController extends Controller
                 ]);
                 $request->logo = $request->logo == null ?  $ticket->latestTicketInformation->logo : $request->logo;
                 $request->product = $request->product == null ? $ticket->latestTicketInformation->product : $request->product;
-                $request->items = null;
+                $request->items = $request->items;
                 $request->companies = null;
                 break;
             case 2:
@@ -344,6 +343,7 @@ class TicketController extends Controller
                 $request->pantone = null;
                 $request->technique = null;
                 $request->position = null;
+                $request->items = $request->items;
                 break;
             case 3:
                 request()->validate([
@@ -358,6 +358,44 @@ class TicketController extends Controller
                 $request->logo = null;
                 $request->customer = null;
                 $request->companies = null;
+                $request->items = $request->items;
+                break;
+            case 4:
+                request()->validate([
+                    'type' => 'required',
+                    'title' => ['required', 'string', 'max:191'],
+                    'customer' => ['required', 'string', 'max:191'],
+                    'description' => ['required', 'string', 'max:60000'],
+                    'items' => 'required',
+                ]);
+                $request->product = null;
+                $request->pantone = null;
+                $request->technique = null;
+                $request->position = null;
+                $request->logo = null;
+                $request->customer = null;
+                $request->companies = null;
+                $request->measures = null;
+                $request->subtype = null;
+                $request->samples = null;
+                break;
+            case 5:
+                request()->validate([
+                    'title' => ['required', 'string', 'max:191'],
+                    'companies' => ['required'],
+                    'samples' => ['required'],
+                    'type' => 'required',
+                    'description' => ['required', 'string', 'max:60000'],
+                    'logo' => 'required',
+                    'product' => 'required',
+                    'customer' => ['required', 'string', 'max:191'],
+                    'measures' => 'required'
+                ]);
+                $request->items = $request->items == null ?  $ticket->latestTicketInformation->items : $request->items;
+                $request->technique = null;
+                $request->position = null;
+                $request->pantone = null;
+                $request->subtype = null;
                 break;
             default:
                 break;
@@ -382,7 +420,6 @@ class TicketController extends Controller
             'position' => $request->position,
             'companies' => $request->companies,
         ]);
-
         $ticket->historyTicket()->create([
             'ticket_id' => $ticket->id,
             'reference_id' => $ticketInformation->id,
