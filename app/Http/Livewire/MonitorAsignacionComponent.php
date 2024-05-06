@@ -136,7 +136,7 @@ class MonitorAsignacionComponent extends Component
                 //TODO: Retornar a la persona que lleva mas tiempo si entregar un ticket
                 $lastestTicket = [];
                 foreach ($newData as $desNew) {
-                    $lastT =  $desNew['designer']->assignedTickets()->whereIn('status_id', [2,3,5])->orderBy('updated_at', 'desc')->first();
+                    $lastT =  $desNew['designer']->assignedTickets()->whereIn('status_id', [2, 3, 5])->orderBy('updated_at', 'desc')->first();
                     array_push($lastestTicket, $lastT);
                 }
 

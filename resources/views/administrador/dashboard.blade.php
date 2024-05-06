@@ -153,7 +153,7 @@
             labels: [
                 'Virtual',
                 'Presentacion',
-                'Diseños Especiales'
+                'Dise単os Especiales'
             ],
             datasets: [{
                 label: 'Tipos de Tickets Creados',
@@ -303,6 +303,12 @@
                     borderColor: 'rgb(255, 205, 86)',
                     backgroundColor: 'rgba(255, 205, 86, 0.5)',
                 },
+                {
+                    label: dataDeliveriesBackend[1][3].name,
+                    data: dataDeliveriesBackend[1][3].data, // Valores de ejemplo para Dataset 2
+                    borderColor: 'rgb(40, 114, 51)',
+                    backgroundColor: 'rgba(0, 128, 0, 0.5)',
+                }
             ]
         };
         const myChartDeliveries = new Chart(chartDeliveries, {
@@ -386,6 +392,12 @@
                     borderColor: 'rgb(255, 205, 86)',
                     backgroundColor: 'rgba(255, 205, 86, 0.5)',
                 },
+                {
+                    label: dataDeliveriesBackend[1][3].name,
+                    data: dataDeliveriesBackend[1][3].data, // Valores de ejemplo para Dataset 2
+                    borderColor: 'rgb(40, 114, 51)',
+                    backgroundColor: 'rgba(0, 128, 0, 0.5)',
+                }
             ]
         };
         const myChartTicketsReceived = new Chart(chartTicketsReceived, {
