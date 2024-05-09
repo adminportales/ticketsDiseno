@@ -115,6 +115,10 @@
                                                         @php $color = 'alert-secondary'; @endphp
                                                     @break
 
+                                                    @case('Entrega de artes')
+                                                        @php $color = 'alert-secondary'; @endphp
+                                                    @break
+
                                                     @case('Finalizado')
                                                         @php $color = 'alert-primary'; @endphp
                                                     @break
@@ -212,6 +216,10 @@
                                                         @break
 
                                                         @case('Solicitar artes')
+                                                            @php $color = 'alert-secondary'; @endphp
+                                                        @break
+
+                                                        @case('Entrega de artes')
                                                             @php $color = 'alert-secondary'; @endphp
                                                         @break
 

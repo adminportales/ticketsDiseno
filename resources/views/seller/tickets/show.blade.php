@@ -223,7 +223,7 @@
                 <div class="modal-body">
                     <h6 class="text-center">Estas seguro de continuar?</h6>
                     <br>
-                    @if ($ticket->status_id == 8)
+                    @if ($ticket->status_id == 9)
                         <button type="button" class="btn btn-secondary" onclick="cerrarTicket()">Finalizar
                             ticket</button>
                         <button type="button" class="btn btn-success" onclick="solicitarCambios()">No, deseo modificar
@@ -294,7 +294,7 @@
         let beforeUrl = "{{ url('/tickets') }}"
 
         document.addEventListener('DOMContentLoaded', () => {
-            if (status == 3 || status == 8) {
+            if (status == 3 || status == 8 || status == 9) {
                 verificar()
             }
         })

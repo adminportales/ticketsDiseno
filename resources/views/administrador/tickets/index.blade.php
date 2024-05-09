@@ -50,6 +50,7 @@
                         $cambio = null;
                         $Falta_de_información = null;
                         $entregado = null;
+                        $entrega_artes = null;
 
                         foreach ($data as $status) {
                             switch ($status->status_id) {
@@ -84,7 +85,21 @@
                                         $$Falta_de_información = $status->created_at;
                                     }
                                     break;
-
+                                case 8:
+                                    // Si el estado es "Solicitar artes"
+                                    if ($entrega_artes == null) {
+                                        $entrega_artes = $status->created_at;
+                                    }
+                                    break;
+                                case 9:
+                                    // Si el estado es "Entregar artes"
+                                    if ($entrega_artes != null) {
+                                        // Calcula la diferencia de tiempo en minutos entre la solicitud de artes y la entrega de artes
+                                        $diff = $entrega_artes->diffInMinutes($status->created_at);
+                                        array_push($tiempos, [' artes -> Entregar artes', $diff]);
+                                        $entrega_artes = null; // Reinicia la variable para futuros registros
+                                    }
+                                    break;
                                 default:
                                     # code...
                                     break;
@@ -136,6 +151,10 @@
                                 @break
 
                                 @case('Solicitar artes')
+                                    @php $color = 'alert-secondary'; @endphp
+                                @break
+
+                                @case('Entrega de artes')
                                     @php $color = 'alert-secondary'; @endphp
                                 @break
 

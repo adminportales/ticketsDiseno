@@ -70,12 +70,15 @@
                             @php $color = 'alert-secondary'; @endphp
                         @break
 
+                        @case('Entrega de artes')
+                            @php $color = 'alert-secondary'; @endphp
+                        @break
+
                         @case('Finalizado')
                             @php $color = 'alert-primary'; @endphp
                         @break
 
                         @default
-
                     @endswitch
                     <strong>Estado:</strong>
                     <div class="p-1 alert {{ $color }}">{{ $ticket->latestStatusChangeTicket->status }}</div><br>
