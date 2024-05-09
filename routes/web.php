@@ -56,6 +56,7 @@ Route::put('/design-manager/update-assign/{ticket}', 'TicketAssigmentController@
 Route::put('/design/update-status/{ticket}', 'StatusController@update');
 Route::get('/ticketsViewAll', 'AdminController@viewTickets')->name('admin.verTickets');
 
+
 // Gerente de Ventas
 Route::get('/sales_manager/all-tickets', 'SalesManagerController@allTickets')->name('sales_manager.all');
 Route::get('/sales_manager/tickets', 'TicketController@index')->name('sales_manager.index');
