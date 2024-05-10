@@ -21,6 +21,7 @@ class Notifications extends Component
             'echo:creado,TicketCreateSendEvent' => 'updateNotifies',
             'echo:priority,ChangePrioritySendEvent' => 'updateNotifies',
             'echo:change,ChangeTicketSendEvent' => 'updateNotifies',
+            'echo:arts,TicketDeliveryArtsSendEvent' => 'updateNotifies',
         ];
     }
     public function render()
@@ -39,6 +40,7 @@ class Notifications extends Component
 
     public function updateNotifies()
     {
+        \Log::info('Evento TicketDeliveryArtsSendEvent recibido');
         $this->reset(['countNotifications', 'unreadNotifications', 'active']);
     }
 }

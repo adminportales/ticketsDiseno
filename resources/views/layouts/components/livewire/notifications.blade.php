@@ -1,7 +1,7 @@
 <div>
     @if ($active)
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
             <svg class="bi bell" fill="currentColor">
                 <use xlink:href="{{ asset('assets/vendors/bootstrap-icons/bootstrap-icons.svg#bell-fill') }}" />
             </svg>
@@ -33,8 +33,10 @@
                                     @else
                                         <a href="#" class="link-dark">
                             @endif
-                            <h6 class="mb-1">{{ Str::limit($notification->data['ticket'], 28) }}</h6>
+                            <h6 class="mb-1">
+                                {{ Str::limit($notification->data['ticket'], 28) }}</h6>
                             <p class="m-0">{{ $notification->data['emisor'] }}</p>
+
                             @switch($notification->type)
                                 @case('App\Notifications\TicketCreateNotification')
                                     <p class="m-0">Se creo el ticket</p>
@@ -65,9 +67,14 @@
                                     <p class="m-0"><strong>Modificacion del Ticket</strong></p>
                                 @break
 
+                                @case('App\Notifications\TicketDeliveryArts')
+                                    <p class="m-0">Entrega de artes</p>
+                                @break
+
                                 @default
                             @endswitch
                             </a>
+
                             <p class="m-0 d-flex justify-content-between">
                                 <a href="{{ route('message.markAsRead', ['notification' => $notification->id]) }}">Marcar
                                     como
