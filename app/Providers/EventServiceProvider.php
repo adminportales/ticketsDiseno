@@ -35,6 +35,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\TicketCreateSendEvent' => [
             'App\Listeners\TicketCreateSendListener'
         ],
+        'App\Events\TicketDeliveryArtsSendEvent' => [
+            'App\Listeners\TicketDeliveryArtsSendListener'
+        ],
     ];
 
     /**
