@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Events\ChangeStatusSendEvent;
 use App\Events\MessageSendEvent;
+use App\Events\TicketDeliveryArtsSendEvent;
 use App\Events\TicketDeliverySendEvent;
 use App\Notifications\ChangeStatusNotification;
+use App\Notifications\TicketDeliveryArts;
 use App\Notifications\TicketDeliveryNotification;
 use App\Status;
 use App\Ticket;
@@ -53,6 +55,13 @@ class TicketDeliveryController extends Controller
             $status = 3;
         } else if ($ticket->latestStatusChangeTicket->status_id == 5) {
             $status = 3;
+        } else if ($ticket->latestStatusChangeTicket->status_id == 8) {
+            $status = 9;
+            if ($status == 9) {
+                // Si el nuevo estado es 9, enviar el evento TicketDeliveryArtsSendEvent
+                event(new TicketDeliveryArtsSendEvent($ticket->latestTicketInformation->title, $ticket->creator_id, $ticket->designer_name));
+                $userReceiver->notify(new TicketDeliveryNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->designer_name));
+            }
         } else {
             $status = $ticket->latestStatusChangeTicket->status_id;
         }
@@ -76,7 +85,7 @@ class TicketDeliveryController extends Controller
         }
         try {
             event(new TicketDeliverySendEvent($ticket->latestTicketInformation->title, $ticket->creator_id, $ticket->designer_name));
-            $userReceiver->notify(new TicketDeliveryNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->designer_name));
+            $userReceiver->notify(new TicketDeliveryArts($ticket->id, $ticket->latestTicketInformation->title, $ticket->designer_name, $status->status));
         } catch (Exception $th) {
             return redirect()->action('DesignerController@show', ['ticket' => $ticket->id])->with('error', 'No se pudo enviar la notificación');
         }

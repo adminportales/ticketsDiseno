@@ -63,6 +63,10 @@
                                         @php $color = 'alert-secondary'; @endphp
                                     @break
 
+                                    @case('Entrega de artes')
+                                        @php $color = 'alert-secondary'; @endphp
+                                    @break
+
                                     @case('Finalizado')
                                         @php $color = 'alert-primary'; @endphp
                                     @break
@@ -162,7 +166,7 @@
                                     @endif
                                     @if ($ticket->latestTicketInformation->samples)
                                         <p class="m-0"><strong>Muestra Fisica:
-                                            </strong>{{ $ticket->latestTicketInformation->samples}}
+                                            </strong>{{ $ticket->latestTicketInformation->samples }}
                                         </p>
                                     @endif
 
