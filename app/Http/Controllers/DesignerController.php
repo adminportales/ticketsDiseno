@@ -8,6 +8,7 @@ use App\Notifications\MissingInformation;
 use App\Notifications\StatusTicket;
 use App\Status;
 use App\Ticket;
+use App\TicketAssigment;
 use App\TicketAssignProcess;
 use App\TicketDelivery;
 use App\TicketHistory;
@@ -82,7 +83,6 @@ class DesignerController extends Controller
         // Mostramos la vista
         ///////////AQUÍ//////////
         return view('designer.listWait');
-        
     }
 
     public function deleteFile($delivery_id)
@@ -99,11 +99,11 @@ class DesignerController extends Controller
         return redirect()->back();
     }
 
-    public function returnticket(Request $request) 
+    public function returnticket(Request $request)
     {
         $user = auth()->user();
 
-        $this->validate($request,[
+        $this->validate($request, [
             'ticketid' => 'required',
             'message' => 'required'
         ]);
@@ -118,9 +118,9 @@ class DesignerController extends Controller
         ///OBTENEMOS EL ID DEL CREADOR DEL TICKET///
         $ticket = DB::table('tickets')->where('id', $request->ticketid)->first();
         $creatorId = $ticket->creator_id;
-        
+
         //OBTENEMOS EL NAME DEL CREADOR DEL TICKET///
-        $username = DB::table('users')->where('id', $creatorId)->first(); 
+        $username = DB::table('users')->where('id', $creatorId)->first();
         $name = $username->name;
 
         ///////Obtenemos el nombre del rol
@@ -128,12 +128,12 @@ class DesignerController extends Controller
         $id_rol = $rol->role_id;
         $name_rol = DB::table('roles')->where('id', $id_rol)->first();
         ////////////////////////////////////
-
         ////Creamos el registro de que se regreso el ticket/////
-        $return_ticket= TicketStatusChange::create([
+        $return_ticket = TicketStatusChange::create([
             'ticket_id' => $request->ticketid,
             'status_id' => 7,
             'status' => 'Falta de información',
+
         ]);
 
         $status = $return_ticket->status;
@@ -144,7 +144,7 @@ class DesignerController extends Controller
             'reference_id' => $return_ticket->id,
             'type' => 'status',
         ]);
-    
+
         ///////CREAMOS UN MENSAJE//////////////////////////////
         $Message = Message::create([
             'transmitter_id' => $user->id,
@@ -161,8 +161,32 @@ class DesignerController extends Controller
             'reference_id' => $Message->id,
             'type' => 'message'
         ]);
+        $desginer_id = auth()->user()->id;
+
         ///////////////////////////////////////////////////////
-        
+        TicketAssignProcess::create([
+            'ticket_id' => $ticket->id,
+            'designer_id' => $desginer_id,
+            'designer_name' => $user->name,
+            'designer_received_id' => null,
+            'designer_received_name' => null,
+            'date_response' => now(),
+            'status' => 'Seleccionado',
+        ]);
+        $ticket = Ticket::where('id', $ticket->id)->first();
+        DB::table('tickets')->where('id', $ticket->id)->update([
+            'seller_id' => $ticket->seller_id,
+            'creator_name' => $ticket->creator_name,
+            'creator_id' => $ticket->creator_id,
+            'seller_name' => $ticket->seller_name,
+            'designer_id' => $desginer_id,
+            'designer_name' => $user->name,
+            'priority_id' => $ticket->priority_id,
+            'type_id' => $ticket->type_id,
+            'subtype_id' => $ticket->subtype_id,
+            'status_id' => $ticket->status_id,
+        ]);
+        $ticket = Ticket::where('id', $ticket->id)->first();
         ///CON AYUDA DEL ID DEL CREADOR SE LE ENVIARA EL CORREO///
         $user = User::find($creatorId);
         try {
@@ -171,9 +195,7 @@ class DesignerController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'No se pudo enviar las notificaciones']);
         }
-        
+
         return redirect()->back();
     }
-    
-    
 }
