@@ -9,5 +9,5 @@ class TicketStatusChange extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['ticket_id','status_id','status'];
+    protected $fillable = ['ticket_id', 'status_id', 'status'];
 }
