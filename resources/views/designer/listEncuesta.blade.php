@@ -12,10 +12,10 @@
             <thead>
                 <tr>
                     <th>Diseñador</th>
-                    <th>Ticket_id</th>
-                    <th>ressuesta</th>
-                    <th>pregunta</th>
-                    <th>comentario</th>
+                    <th>Ticket</th>
+                    <th>Pregunta</th>
+                    <th>Respuesta</th>
+                    <th>Comentario</th>
                 </tr>
             </thead>
             <tbody>
