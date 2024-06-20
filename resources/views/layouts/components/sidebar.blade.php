@@ -59,6 +59,12 @@
                             <span>Todos los Tickets</span>
                         </a>
                     </li>
+                    <li class="sidebar-item  {{ request()->is('ticketsViewAll') ? 'active' : '' }}">
+                        <a href="{{ route('admin.encuestas') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Encuestas</span>
+                        </a>
+                    </li>
                 @endrole
                 @permission('create-ticket')
                     <li class="sidebar-item {{ request()->is('tickets*') ? 'active' : '' }}">
