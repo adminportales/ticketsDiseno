@@ -19,60 +19,6 @@
         <div class="row">
             <div class="col-md-8">
                 @include('layouts.components.historyTicket')
-                <form id="evaluationForm"
-                    action="{{ route('satisfaccion.submit', ['ticket_id' => $ticketDeliveries->first()->ticket_id]) }}"
-                    method="POST">
-                    @csrf
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Encuesta de Evaluación</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container">
-                            <div class="question" data-question="1">
-                                <p class="question-text">¿Cómo calificarías el trabajo y el servicio brindado?</p>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="emoji-rating text-center" data-rating="mal">
-                                            <input type="checkbox" class="btn-check" id="btn-check-outlined"
-                                                autocomplete="off">
-                                            <label class="btn btn-outline-primary" for="btn-check-outlined">
-                                                <div class="emoji-rating text-center" data-rating="mal">&#128577;</div>
-                                                <p>Mal</p>
-                                            </label><br>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="emoji-rating text-center" data-rating="neutral">
-                                            <input type="checkbox" class="btn-check" id="btn-check-outlined2"
-                                                autocomplete="off">
-                                            <label class="btn btn-outline-primary" for="btn-check-outlined2">
-                                                <div class="emoji-rating text-center" data-rating="neutral">&#128528; </div>
-                                                <p>Neutral</p>
-                                            </label><br>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="emoji-rating text-center" data-rating="bien">
-                                            <input type="checkbox" class="btn-check" id="btn-check-outlined3"
-                                                autocomplete="off">
-                                            <label class="btn btn-outline-primary" for="btn-check-outlined3">
-                                                <div class="emoji-rating text-center" data-rating="bien">&#128578;</div>
-                                                <p>Bien</p>
-                                            </label><br>
-                                        </div>
-                                    </div>
-                                </div>
-                                <input type="hidden" name="respuesta_1" id="respuesta_1">
-                                <div>
-                                    <p>Comentario(Opcional)</p>
-                                    <input type="text" name="comentario_1" id="comentario_1">
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary mt-3" id="submit-btn">Enviar</button>
-                        </div>
-                    </div>
-                </form>
             </div>
             <div class="col-md-4">
                 @if ($statusTicket !== 'Finalizado')
@@ -240,8 +186,8 @@
             </div>
         </div>
     @endif
-    <div class="modal fade" id="requestChange" data-bs-backdrop="false" tabindex="-1"
-        aria-labelledby="requestChangeLabel" aria-hidden="true">
+    <div class="modal fade" id="requestChange" data-bs-backdrop="false" tabindex="-1" aria-labelledby="requestChangeLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg shadow-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -337,26 +283,37 @@
                                     <p class="question-text">¿Cómo calificarías el trabajo y el servicio brindado?</p>
                                     <div class="row">
                                         <div class="col">
-                                            <button type="button" class="btn btn-outline-primary"
-                                                style="width: 80px; height: 65px; margin-bottom: 10px;">
-                                                <div class="emoji-rating text-center" data-rating="mal">&#128577;</div>
-                                                <p>Mal</p>
-                                            </button>
+                                            <div class="emoji-rating text-center" data-rating="mal">
+                                                <input type="checkbox" class="btn-check" id="btn-check-outlined"
+                                                    autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btn-check-outlined">
+                                                    <div class="emoji-rating text-center" data-rating="mal">&#128577;
+                                                    </div>
+                                                    <p>Mal</p>
+                                                </label><br>
+                                            </div>
                                         </div>
                                         <div class="col">
-                                            <button type="button" class="btn btn-outline-primary"
-                                                style="width: 80px; height: 65px; margin-bottom: 10px;">
-                                                <div class="emoji-rating text-center" data-rating="neutral">&#128528;
-                                                </div>
-                                                <p>Neutral</p>
-                                            </button>
+                                            <div class="emoji-rating text-center" data-rating="neutral">
+                                                <input type="checkbox" class="btn-check" id="btn-check-outlined2"
+                                                    autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btn-check-outlined2">
+                                                    <div class="emoji-rating text-center" data-rating="neutral">&#128528;
+                                                    </div>
+                                                    <p>Neutral</p>
+                                                </label><br>
+                                            </div>
                                         </div>
                                         <div class="col">
-                                            <button type="button" class="btn btn-outline-primary"
-                                                style="width: 80px; height: 65px; margin-bottom: 10px;">
-                                                <div class="emoji-rating text-center" data-rating="bien">&#128578;</div>
-                                                <p>Bien</p>
-                                            </button>
+                                            <div class="emoji-rating text-center" data-rating="bien">
+                                                <input type="checkbox" class="btn-check" id="btn-check-outlined3"
+                                                    autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btn-check-outlined3">
+                                                    <div class="emoji-rating text-center" data-rating="bien">&#128578;
+                                                    </div>
+                                                    <p>Bien</p>
+                                                </label><br>
+                                            </div>
                                         </div>
                                     </div>
                                     <input type="hidden" name="respuesta_1" id="respuesta_1">
