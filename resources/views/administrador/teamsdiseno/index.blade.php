@@ -9,7 +9,7 @@
         <div class="d-flex justify-content-between">
             <h4 class="card-title">Información general de cada equipo</h4>
             <div class="btn-group" style="text-align:left">
-                <a href="{{ route('teams.create') }}" class="boton" aria-current="page">Crear</a>
+                <a href="{{ route('teamsdiseno.create') }}" class="boton" aria-current="page">Crear</a>
             </div>
         </div>
     </div>
@@ -30,12 +30,12 @@
             </thead>
 
             <tbody>
-                @foreach ($teams as $team)
+                @foreach ($teamsdiseno as $team)
+                 {{$team->membersDiseno}}
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $team->name }}</td>
-                        <td>
-                            {{ $team->user->name . ' ' . $team->user->lastname }}</td>
+                        <td>{{ $team->userDiseno->name . ' ' . $team->userDiseno->lastname }}</td>
                         <td>
                             @if ($team->role == 1)
                                 Gerente
@@ -44,9 +44,8 @@
                             @endif
                         </td>
                         <td>
-                            @foreach ($team->members as $user)
-
-                                {{ $user->name . ' ' . $user->lastname }} <br>
+                            @foreach ($team->membersDiseno as $user)
+                                {{ $user }} <br>
                             @endforeach
                         </td>
                         <td class="text-center">

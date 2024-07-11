@@ -263,6 +263,74 @@
             </div>
         </div>
     </div>
+    {{-- Modal para encuesta de satisfaccion --}}
+    <div class="modal fade" id="finalizarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                @if ($ticketDeliveries->isNotEmpty())
+                    <form id="evaluationForm"
+                        action="{{ route('satisfaccion.submit', ['ticket_id' => $ticketDeliveries->first()->ticket_id]) }}"
+                        method="POST">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Encuesta de Evaluación</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="question" data-question="1">
+                                    <p class="question-text">¿Cómo calificarías el trabajo y el servicio brindado?</p>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="emoji-rating text-center" data-rating="mal">
+                                                <input type="checkbox" class="btn-check" id="btn-check-outlined"
+                                                    autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btn-check-outlined">
+                                                    <div class="emoji-rating text-center" data-rating="mal">&#128577;
+                                                    </div>
+                                                    <p>Mal</p>
+                                                </label><br>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="emoji-rating text-center" data-rating="neutral">
+                                                <input type="checkbox" class="btn-check" id="btn-check-outlined2"
+                                                    autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btn-check-outlined2">
+                                                    <div class="emoji-rating text-center" data-rating="neutral">&#128528;
+                                                    </div>
+                                                    <p>Neutral</p>
+                                                </label><br>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="emoji-rating text-center" data-rating="bien">
+                                                <input type="checkbox" class="btn-check" id="btn-check-outlined3"
+                                                    autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btn-check-outlined3">
+                                                    <div class="emoji-rating text-center" data-rating="bien">&#128578;
+                                                    </div>
+                                                    <p>Bien</p>
+                                                </label><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="respuesta_1" id="respuesta_1">
+                                    <div>
+                                        <p>Comentario(Opcional)</p>
+                                        <input type="text" name="comentario_1" id="comentario_1">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-3" id="submit-btn">Enviar</button>
+                            </div>
+                        </div>
+                    </form>
+                @endif
+            </div>
+        </div>
+    </div>
+
 
 @endsection
 
@@ -281,12 +349,23 @@
             grid-column-gap: 0px;
             grid-row-gap: 0px;
         }
+
+        a:hover {
+            background-color: gold;
+        }
+
+        .blue:focus {
+            outline: 2px solid black;
+        }
     </style>
 @endsection
 
 @section('scripts')
     <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/sweetalert2\sweetalert2.all.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <script>
         let ticket_id = '{{ $ticket->id }}'
         let status = '{{ $ticket->latestStatusChangeTicket->status_id }}'
@@ -350,7 +429,8 @@
                         'success'
                     );
                     setTimeout(() => {
-                        location.reload();
+                        /*    location.reload(); */
+
                     }, 300);
                 }
             } catch (error) {
@@ -381,11 +461,8 @@
                     ticket_id: '{{ $ticket->id }}' // Si $ticket->id no está disponible aquí, asegúrate de obtenerlo de alguna manera
                 },
                 success: function(response) {
-                    // Manejar la respuesta del servidor (opcional)
                     console.log(response);
-                    // Cerrar el modal después de enviar el mensaje
                     $('#messageModal').modal('hide');
-                    // Actualizar la página si es necesario
                     // location.reload();
                 },
                 error: function(xhr, status, error) {
@@ -436,13 +513,45 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     changeStatus(6, ticket_id)
-                    setTimeout(() => {
-                        location.reload();
-                    }, 300);
+                    /*   setTimeout(() => { */
+                    /*      location.reload(); */
+                    var myModal = new bootstrap.Modal(document.getElementById('finalizarModal'), {
+                        keyboard: false
+                    });
+                    myModal.show();
+                    /*     }, 300); */
+
                 }
+
             })
         }
 
         function verMas() {}
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const emojis = document.querySelectorAll('.emoji-rating');
+
+            emojis.forEach(emoji => {
+                emoji.addEventListener('click', function() {
+                    // Remover la clase 'selected' de todos los emojis en la misma pregunta
+                    const question = this.closest('.question');
+                    const emojisInQuestion = question.querySelectorAll('.emoji-rating');
+                    emojisInQuestion.forEach(e => e.classList.remove('selected'));
+
+                    // Agregar la clase 'selected' al emoji clicado
+                    this.classList.add('selected');
+
+                    // Obtener el número de la pregunta, la calificación seleccionada y el texto de la pregunta
+                    const questionNumber = question.getAttribute('data-question');
+                    const rating = this.getAttribute('data-rating');
+                    const questionText = question.querySelector('.question-text').textContent;
+
+                    // Actualizar el valor del campo oculto correspondiente a la pregunta
+                    document.getElementById('respuesta_' + questionNumber).value = questionText +
+                        ': ' + rating;
+                });
+            });
+        });
     </script>
 @endsection
