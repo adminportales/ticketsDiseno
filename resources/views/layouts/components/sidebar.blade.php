@@ -65,6 +65,12 @@
                             <span>Encuestas</span>
                         </a>
                     </li>
+                    <li class="sidebar-item  {{-- {{ request()->is('teamsdiseno') ? 'active' : '' }} --}}">
+                        <a href="{{ route('teamsdiseno.index') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Ver Equipos de diseño</span>
+                        </a>
+                    </li>
                 @endrole
                 @permission('create-ticket')
                     <li class="sidebar-item {{ request()->is('tickets*') ? 'active' : '' }}">
