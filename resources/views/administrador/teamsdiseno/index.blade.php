@@ -23,7 +23,6 @@
                     <th>#</th>
                     <th>Nombre</th>
                     <th>Encargado</th>
-                    <th>Rol de encargado</th>
                     <th>Equipo</th>
                     <th>Acciones</th>
                 </tr>
@@ -31,21 +30,13 @@
 
             <tbody>
                 @foreach ($teamsdiseno as $team)
-                 {{$team->membersDiseno}}
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $team->name }}</td>
                         <td>{{ $team->userDiseno->name . ' ' . $team->userDiseno->lastname }}</td>
                         <td>
-                            @if ($team->role == 1)
-                                Gerente
-                            @elseif ($team->role == 0)
-                                Asistente
-                            @endif
-                        </td>
-                        <td>
                             @foreach ($team->membersDiseno as $user)
-                                {{ $user }} <br>
+                                {{ $user->name }} <br>
                             @endforeach
                         </td>
                         <td class="text-center">

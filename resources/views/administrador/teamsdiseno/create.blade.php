@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="card-header">
-        <h4 class="card-title">Ingresa la información para crear un nuevo equipo</h4>
+        <h4 class="card-title">Ingresa la información para crear un nuevo equipo para el diseñador</h4>
     </div>
     <div class="card-body">
 
@@ -23,7 +23,7 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="email">Encargado</label>
+                        <label for="email">Diseñador</label>
                         <select name="user" class="form-control" id="userEncargado">
                             @foreach ($users as $item)
                                 <option value="{{ $item->id }}">{{ $item->name . ' ' . $item->lastname }}
@@ -34,23 +34,10 @@
                             {{ $message }}
                         @enderror
                     </div>
-                    <div class="form-group">
-                        <label for="role">Rol de Encargado</label>
-                        <select name="role" class="form-control" id="userEncargado">
-
-                            <option value="0"> Asistente
-                            </option>
-                            <option value="1"> Gerente
-                            </option>
-                        </select>
-                        @error('role')
-                            {{ $message }}
-                        @enderror
-                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="members">Participantes del equipo</label>
+                        <label for="members">Participantes (Vendedores)</label>
                         <members-team></members-team>
                         @error('team')
                             {{ $message }}

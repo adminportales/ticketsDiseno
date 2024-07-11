@@ -95,7 +95,7 @@ class User extends Authenticatable
     }
     public function teamMemberDesign()
     {
-        return $this->belongsToMany(TeamDiseno::class, 'team_diseno_id', 'user_id', 'team_id');
+        return $this->belongsToMany(TeamDiseno::class, 'team_diseno_user', 'user_id', 'teamteam_diseno_id_id');
     }
     public function deliveries()
     {

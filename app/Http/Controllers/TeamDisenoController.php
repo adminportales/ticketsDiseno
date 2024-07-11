@@ -47,16 +47,13 @@ class TeamDisenoController extends Controller
             'name' => 'required',
             'user' => ['required', 'string', 'max:255'],
             'team' => 'required',
-            'role' => 'required',
         ]);
-
         $teamsdiseno = TeamDiseno::create([
             'name' => $request->name,
             'user_id' => $request->user,
-            'role' => $request->role,
+            'role' => 0,
         ]);
-        $hola = $teamsdiseno->membersDiseno()->attach(explode(',', $request->teamsdiseno));
-        return $hola;
+        $teamsdiseno->membersDiseno()->attach(explode(',', $request->team));
         return redirect()->action('TeamDisenoController@index');
     }
 
@@ -108,7 +105,7 @@ class TeamDisenoController extends Controller
      */
     public function destroy(TeamDiseno $teamsdiseno)
     {
-        DB::table('team_diseno_user')->where('team_id', '=', $teamsdiseno->id)->delete();
+        DB::table('team_diseno_user')->where('team_diseno_id', '=', $teamsdiseno->id)->delete();
         $teamsdiseno->delete();
         return redirect()->action('TeamDisenoController@index');
     }

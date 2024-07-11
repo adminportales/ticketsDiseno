@@ -15,10 +15,10 @@ class CreateTeamDisenosTable extends Migration
     {
         Schema::create('team_disenos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
             $table->string('name');
-            $table->timestamps();
             $table->integer('role');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

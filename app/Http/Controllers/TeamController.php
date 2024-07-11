@@ -43,12 +43,12 @@ class TeamController extends Controller
             'name' => 'required',
             'user' => ['required', 'string', 'max:255'],
             'team' => 'required',
-            'role'=> 'required',
+            'role' => 'required',
         ]);
         $team = Team::create([
             'name' => $request->name,
             'user_id' => $request->user,
-            'role'=>$request->role,
+            'role' => $request->role,
         ]);
         $team->members()->attach(explode(',', $request->team));
         return redirect()->action('TeamController@index');
