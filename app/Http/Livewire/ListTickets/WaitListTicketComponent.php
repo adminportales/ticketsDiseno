@@ -25,9 +25,13 @@ class WaitListTicketComponent extends Component
 
     public function render()
     {
+        $tickets = [];
+        $TeamDisenoId = TeamDiseno::where('user_id', auth()->user()->id)->select('id')->first();
+        if ($TeamDisenoId == null) {
+            return view('livewire.list-tickets.wait-list-ticket-component', compact('tickets'));
+        }
         $tickets = Ticket::where('designer_id', null)
             ->orderByDesc('created_at')->paginate(15);
-        $TeamDisenoId = TeamDiseno::where('user_id', auth()->user()->id)->select('id')->first();
         $id = $TeamDisenoId->id;
         $TeamDisenoUser = TeamDisenoUser::where('team_diseno_id', $id)->get();
         //la variable TeamDisenoUser trae informacion como id, team_diseno_id, user_id quiero que con respecto a user_id me muestre los tickets que incluyan el valor en la propiedad creator_id de mi variable tickets

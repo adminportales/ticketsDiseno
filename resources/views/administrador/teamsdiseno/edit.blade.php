@@ -49,7 +49,7 @@
                 <div class="d-flex justify-content-end ">
                     <a href="{{ route('teamsdiseno.index') }}" class="btn btn-danger"
                         style="margin-right: 10px">Cancelar</a>
-                    <input type="submit" id="boton_crear" class="boton" value="Crear nuevo usuario">
+                    <input type="submit" id="boton_crear" class="boton" value="Actualizar equipo">
                 </div>
             </div>
         </form>
