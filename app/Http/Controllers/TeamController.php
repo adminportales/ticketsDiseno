@@ -27,8 +27,9 @@ class TeamController extends Controller
      */
     public function create()
     {
+        $list_users_ventas = User::where('status', '=', '1')->get();
         $users = User::where('status', '=', '1')->get();
-        return view('administrador.teams.create', compact('users'));
+        return view('administrador.teams.create', compact('users', 'list_users_ventas'));
     }
 
     /**
@@ -50,7 +51,8 @@ class TeamController extends Controller
             'user_id' => $request->user,
             'role' => $request->role,
         ]);
-        $team->members()->attach(explode(',', $request->team));
+        $num_team = implode(",", $request->team);
+        $team->members()->attach(explode(',', $num_team));
         return redirect()->action('TeamController@index');
     }
 

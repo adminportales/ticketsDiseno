@@ -36,14 +36,14 @@
                         <td>{{ $team->userDiseno->name . ' ' . $team->userDiseno->lastname }}</td>
                         <td>
                             @foreach ($team->membersDiseno as $user)
-                                {{ $user->name }} <br>
+                                {{ $user->name . ' ' . $user->lastname }} <br>
                             @endforeach
                         </td>
                         <td class="text-center">
-                            <a href="{{ route('teams.edit', ['team' => $team->id]) }}"
-                                class="btn btn-warning btn-sm">Editar</a>
+                            <a href="{{ route('teamsdiseno.edit', ['teamsdiseno' => $team->id]) }}"
+                                class="btn btn-warning btn-sm mb-2">Editar</a>
 
-                            <form action="{{ route('teams.destroy', ['team' => $team->id]) }}" method="post">
+                            <form action="{{ route('teamsdiseno.destroy', ['teamsdiseno' => $team->id]) }}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>

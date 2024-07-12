@@ -45,13 +45,12 @@
                         </td>
                         <td>
                             @foreach ($team->members as $user)
-
                                 {{ $user->name . ' ' . $user->lastname }} <br>
                             @endforeach
                         </td>
                         <td class="text-center">
                             <a href="{{ route('teams.edit', ['team' => $team->id]) }}"
-                                class="btn btn-warning btn-sm">Editar</a>
+                                class="btn btn-warning btn-sm mb-2">Editar</a>
 
                             <form action="{{ route('teams.destroy', ['team' => $team->id]) }}" method="post">
                                 @csrf
