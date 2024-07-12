@@ -9,7 +9,7 @@
         <div class="d-flex justify-content-between">
             <h4 class="card-title">Información general de cada equipo</h4>
             <div class="btn-group" style="text-align:left">
-                <a href="{{ route('teams.create') }}" class="boton" aria-current="page">Crear</a>
+                <a href="{{ route('teamsdiseno.create') }}" class="boton" aria-current="page">Crear</a>
             </div>
         </div>
     </div>
@@ -23,36 +23,27 @@
                     <th>#</th>
                     <th>Nombre</th>
                     <th>Encargado</th>
-                    <th>Rol de encargado</th>
                     <th>Equipo</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
 
             <tbody>
-                @foreach ($teams as $team)
+                @foreach ($teamsdiseno as $team)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $team->name }}</td>
+                        <td>{{ $team->userDiseno->name . ' ' . $team->userDiseno->lastname }}</td>
                         <td>
-                            {{ $team->user->name . ' ' . $team->user->lastname }}</td>
-                        <td>
-                            @if ($team->role == 1)
-                                Gerente
-                            @elseif ($team->role == 0)
-                                Asistente
-                            @endif
-                        </td>
-                        <td>
-                            @foreach ($team->members as $user)
+                            @foreach ($team->membersDiseno as $user)
                                 {{ $user->name . ' ' . $user->lastname }} <br>
                             @endforeach
                         </td>
                         <td class="text-center">
-                            <a href="{{ route('teams.edit', ['team' => $team->id]) }}"
+                            <a href="{{ route('teamsdiseno.edit', ['teamsdiseno' => $team->id]) }}"
                                 class="btn btn-warning btn-sm mb-2">Editar</a>
 
-                            <form action="{{ route('teams.destroy', ['team' => $team->id]) }}" method="post">
+                            <form action="{{ route('teamsdiseno.destroy', ['teamsdiseno' => $team->id]) }}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>

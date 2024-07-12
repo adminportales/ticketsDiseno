@@ -35,7 +35,7 @@ Route::post('/users/import', 'UserController@import')->name('user.import');
 Route::get('/users/all', 'UserController@allUsers');
 // Ruta de los equipos
 Route::resource('/teams', 'TeamController');
-
+Route::resource('/teamsdiseno', 'TeamDisenoController');
 // Rutas del diseñador
 route::get('/designer/ticketShow/{ticket}', 'DesignerController@show')->name('designer.show');
 Route::get('/designer/home', 'DesignerController@index')->name('designer.inicio');

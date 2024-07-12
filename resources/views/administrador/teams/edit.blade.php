@@ -35,7 +35,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <div class="form-group">
                         <label for="members">Participantes del equipo</label>
                         <members-team members='{{ $membersId }}'></members-team>
@@ -43,11 +43,25 @@
                             {{ $message }}
                         @enderror
                     </div>
+                </div> --}}
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="members">Participantes (Vendedores)</label>
+                        <select name="team[]" class="form-select" multiple data-placeholder="Selecciona Usuario"
+                            id="select2" data-coreui-search="true">
+                            {{-- @foreach ($list_users_ventas as $user)
+                                <option value="{{ $user->id }}">{{ $user->name . '' . $user->lastname }}</option>
+                            @endforeach --}}
+                        </select>
+                    </div>
                 </div>
-                <p>
+
+
+                <div class="d-flex justify-content-end ">
+                    <a href="{{ route('users.index') }}" class="btn btn-danger" style="margin-right: 10px">Cancelar</a>
                     <input type="submit" id="boton_crear" class="boton" value="Crear nuevo usuario">
-                    <a href="{{ route('users.index') }}" class="btn btn-danger">Cancelar</a>
-                </p>
+                </div>
             </div>
         </form>
     </div>
@@ -63,7 +77,6 @@
         .fontawesome-icons .the-icon svg {
             font-size: 24px;
         }
-
     </style>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endsection

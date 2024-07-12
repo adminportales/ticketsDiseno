@@ -12,6 +12,8 @@ use App\User;
 use Exception;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\TeamDiseno;
+use App\TeamDisenoUser;
 
 class WaitListTicketComponent extends Component
 {
@@ -25,7 +27,13 @@ class WaitListTicketComponent extends Component
     {
         $tickets = Ticket::where('designer_id', null)
             ->orderByDesc('created_at')->paginate(15);
-        return view('livewire.list-tickets.wait-list-ticket-component',  compact('tickets'));
+        $TeamDisenoId = TeamDiseno::where('user_id', auth()->user()->id)->select('id')->first();
+        $id = $TeamDisenoId->id;
+        $TeamDisenoUser = TeamDisenoUser::where('team_diseno_id', $id)->get();
+        //la variable TeamDisenoUser trae informacion como id, team_diseno_id, user_id quiero que con respecto a user_id me muestre los tickets que incluyan el valor en la propiedad creator_id de mi variable tickets
+        $TeamDisenoUser = $TeamDisenoUser->pluck('user_id');
+        $tickets = Ticket::whereIn('creator_id', $TeamDisenoUser)->where('designer_id', null)->orderByDesc('created_at')->paginate(15);
+        return view('livewire.list-tickets.wait-list-ticket-component', compact('tickets', 'TeamDisenoId', 'TeamDisenoUser', 'id'));
     }
     // show ticket
     public function showTicket(Ticket $ticket)
@@ -83,13 +91,12 @@ class WaitListTicketComponent extends Component
             } else if (auth()->user()->isAbleTo(['create-ticket'])) {
                 $userReceiver = User::find($this->ticket->designer_id);
             }
-            
+
             $receiver_id = $userReceiver->id;
             try {
                 event(new ChangeStatusSendEvent($this->ticket->latestTicketInformation->title, $status->status, $receiver_id, $transmitter_name));
-                $userReceiver->notify(new StatusTicket($this->ticket->latestTicketInformation->title,$status->status,$transmitter_name,$this->ticket->id));
+                $userReceiver->notify(new StatusTicket($this->ticket->latestTicketInformation->title, $status->status, $transmitter_name, $this->ticket->id));
                 $userReceiver->notify(new ChangeOfStatus($this->ticket->id, $this->ticket->latestTicketInformation->title, $transmitter_name, $status->status));
-                
             } catch (Exception $th) {
                 return 2;
             }

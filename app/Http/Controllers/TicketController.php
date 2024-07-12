@@ -160,7 +160,6 @@ class TicketController extends Controller
                 $request->technique = null;
                 $request->position = null;
                 $request->logo = null;
-                $request->customer = null;
                 $request->companies = null;
                 $request->measures = null;
                 $request->subtype = null;
@@ -185,7 +184,6 @@ class TicketController extends Controller
                 break;
             default:
         }
-
         // Si es un asistente, validacion extra y obtener el ejecutivo, y si no
         // El ejecutivo es el creador
         $seller_id = '';

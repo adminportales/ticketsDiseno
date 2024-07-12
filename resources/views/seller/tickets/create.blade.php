@@ -374,7 +374,7 @@
                     companiesElement.classList.add('d-none');
                     positionElement.classList.add('d-none');
                     productElement.classList.add('d-none');
-                    itemsElement.classList.add('d-none');
+                    itemsElement.classList.remove('d-none');
                     clientElement.classList.remove('d-none');
                     tecnicaElement.classList.add('d-none');
                     pantoneElement.classList.add('d-none');
