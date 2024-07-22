@@ -53,9 +53,14 @@ class TicketDeliveryController extends Controller
 
         if ($ticket->latestStatusChangeTicket->status_id == 2) {
             $status = 3;
+        } else if ($ticket->latestStatusChangeTicket->status_id == 7) {
+            $status = 2;
         } else if ($ticket->latestStatusChangeTicket->status_id == 5) {
             $status = 3;
-        } else if ($ticket->latestStatusChangeTicket->status_id == 8) {
+        } else if (
+            $ticket->latestStatusChangeTicket->status_id == 8 ||
+            $ticket->latestStatusChangeTicket->status_id == 12
+        ) {
             $status = 9;
             if ($status == 9) {
                 // Si el nuevo estado es 9, enviar el evento TicketDeliveryArtsSendEvent
@@ -85,7 +90,7 @@ class TicketDeliveryController extends Controller
         }
         try {
             event(new TicketDeliverySendEvent($ticket->latestTicketInformation->title, $ticket->creator_id, $ticket->designer_name));
-            $userReceiver->notify(new TicketDeliveryArts($ticket->id, $ticket->latestTicketInformation->title, $ticket->designer_name, $status->status));
+            $userReceiver->notify(new TicketDeliveryNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->designer_name, $status->status));
         } catch (Exception $th) {
             return redirect()->action('DesignerController@show', ['ticket' => $ticket->id])->with('error', 'No se pudo enviar la notificación');
         }

@@ -27,11 +27,23 @@
                                         class="link-dark">
                                     @endpermission
                                     @permission('create-ticket')
-                                        <a href="{{ route('tickets.show', ['ticket' => $notification->data['idTicket']]) }}"
-                                            class="link-dark">
-                                        @endpermission
-                                    @else
-                                        <a href="#" class="link-dark">
+                                        {{-- <a href="{{ route('tickets.show', ['ticket' => $notification->data['idTicket']]) }}"
+                                            class="link-dark"> --}}
+                                        @if (isset($notification->data['status']))
+                                            @if ($notification->data['status'] == 'Falta de información')
+                                                <a href="{{ route('tickets.edit', ['ticket' => $notification->data['idTicket']]) }}"
+                                                    class="link-dark">
+                                                @else
+                                                    <a href="{{ route('tickets.show', ['ticket' => $notification->data['idTicket']]) }}"
+                                                        class="link-dark">
+                                            @endif
+                                        @else
+                                            <a href="{{ route('tickets.show', ['ticket' => $notification->data['idTicket']]) }}"
+                                                class="link-dark">
+                                        @endif
+                                    @endpermission
+                                @else
+                                    <a href="#" class="link-dark">
                             @endif
                             <h6 class="mb-1">
                                 {{ Str::limit($notification->data['ticket'], 28) }}</h6>
@@ -64,7 +76,7 @@
                                 @break
 
                                 @case('App\Notifications\TicketChangeNotification')
-                                    <p class="m-0"><strong>Modificacion del Ticket</strong></p>
+                                    <p class="m-0"><strong>Modificación del Ticket</strong></p>
                                 @break
 
                                 @case('App\Notifications\TicketDeliveryArts')

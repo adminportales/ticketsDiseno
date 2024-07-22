@@ -741,6 +741,10 @@
                                         @php $color = 'alert-danger'; @endphp
                                     @break
 
+                                    @case('Modificación de ticket')
+                                        @php $color = 'alert-warning'; @endphp
+                                    @break
+
                                     @case('En revision')
                                         @php $color = 'alert-warning'; @endphp
                                     @break
@@ -766,6 +770,14 @@
                                     @break
 
                                     @case('Entrega de artes')
+                                        @php $color = 'alert-secondary'; @endphp
+                                    @break
+
+                                    @case('Solicitud modifación artes')
+                                        @php $color = 'alert-secondary'; @endphp
+                                    @break
+
+                                    @case('Modificando artes')
                                         @php $color = 'alert-secondary'; @endphp
                                     @break
 

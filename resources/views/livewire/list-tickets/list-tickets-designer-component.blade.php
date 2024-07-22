@@ -55,6 +55,18 @@
                                 @php $color = 'alert-warning'; @endphp
                             @break
 
+                            @case('Modificación de ticket')
+                                @php $color = 'alert-warning'; @endphp
+                            @break
+
+                            @case('Modificacion de ticket')
+                                @php $color = 'alert-warning'; @endphp
+                            @break
+
+                            @case('Ticket Editado')
+                                @php $color = 'alert-warning'; @endphp
+                            @break
+
                             @case('En revision')
                                 @php $color = 'alert-warning'; @endphp
                             @break
@@ -83,11 +95,20 @@
                                 @php $color = 'alert-secondary'; @endphp
                             @break
 
+                            @case('Solicitud modifación artes')
+                                @php $color = 'alert-secondary'; @endphp
+                            @break
+
+                            @case('Modificando artes')
+                                @php $color = 'alert-secondary'; @endphp
+                            @break
+
                             @case('Finalizado')
                                 @php $color = 'alert-primary'; @endphp
                             @break
 
                             @default
+                                @php $color = 'alert-warning'; @endphp
                         @endswitch
                         <strong>Estado:</strong>
                         <div class="p-1 alert {{ $color }}">{{ $ticket->latestStatusChangeTicket->status }}</div>

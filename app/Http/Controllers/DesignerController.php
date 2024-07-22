@@ -211,7 +211,7 @@ class DesignerController extends Controller
             'creator_id' => $ticket->creator_id,
             'seller_name' => $ticket->seller_name,
             'designer_id' => $desginer_id,
-            'designer_name' => $user->name,
+            'designer_name' => $user->name . ' ' . $user->lastname,
             'priority_id' => $ticket->priority_id,
             'type_id' => $ticket->type_id,
             'subtype_id' => $ticket->subtype_id,
@@ -220,13 +220,17 @@ class DesignerController extends Controller
         $ticket = Ticket::where('id', $ticket->id)->first();
         ///CON AYUDA DEL ID DEL CREADOR SE LE ENVIARA EL CORREO///
         $user = User::find($creatorId);
+
         try {
-            $user->notify(new MissingInformation($title, $send, $name, $request->ticketid, $request->message));
             $user->notify(new StatusTicket($title, $status, $send, $ticket->id));
         } catch (\Exception $e) {
-            return response()->json(['message' => 'No se pudo enviar las notificaciones']);
+            return response()->json(['error' => 'No se pudo enviar la notificación']);
         }
-
+        try {
+            $user->notify(new MissingInformation($title, $send, $name, $request->ticketid, $request->message));
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'No se pudo enviar el correo']);
+        }
         return redirect()->back();
     }
 }

@@ -62,7 +62,7 @@
         </div>
     </div>
 
-    @if ($ticket->latestTicketDelivery)
+    @if ($ticket->latestTicketDelivery && $ticket->status_id !== 8)
         <div class="modal fade" id="lastDelivery" data-bs-backdrop="false" tabindex="-1"
             aria-labelledby="lastDeliveryLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl shadow-lg">
@@ -74,6 +74,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-8">
+
                                 <p class="font-bold">Ultima entrega realizada por
                                     {{ $ticket->latestTicketDelivery->designer_name }}
                                 </p>
@@ -206,8 +207,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="verificar()">Cancelar</button>
-                    <button id="sendButton" type="button" class="btn btn-success"
-                        onclick="changeStatus(4, {{ $ticket->id }})">Enviar</button>
+                    @if ($ticket->status_id == 9)
+                        <button id="sendButton" type="button" class="btn btn-success"
+                            onclick="changeStatus(11, {{ $ticket->id }})">Enviar</button>
+                    @else
+                        <button id="sendButton" type="button" class="btn btn-success"
+                            onclick="changeStatus(4, {{ $ticket->id }})">Enviar</button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -227,7 +233,7 @@
                         <button type="button" class="btn btn-secondary" onclick="cerrarTicket()">Finalizar
                             ticket</button>
                         <button type="button" class="btn btn-success" onclick="solicitarCambios()">No, deseo modificar
-                            algo</button>
+                            artes</button>
                         <button type="button" class="btn btn-success" onclick="verificar()">Cancelar</button>
                     @else
                         <button type="button" class="btn btn-secondary" onclick="finalizarTicket()">Si,
@@ -284,8 +290,8 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="emoji-rating text-center" data-rating="mal">
-                                                <input type="checkbox" class="btn-check" id="btn-check-outlined"
-                                                    autocomplete="off">
+                                                <input type="checkbox" class="btn-check emoji-checkbox"
+                                                    id="btn-check-outlined" autocomplete="off">
                                                 <label class="btn btn-outline-primary" for="btn-check-outlined">
                                                     <div class="emoji-rating text-center" data-rating="mal">&#128577;
                                                     </div>
@@ -295,8 +301,8 @@
                                         </div>
                                         <div class="col">
                                             <div class="emoji-rating text-center" data-rating="neutral">
-                                                <input type="checkbox" class="btn-check" id="btn-check-outlined2"
-                                                    autocomplete="off">
+                                                <input type="checkbox" class="btn-check emoji-checkbox"
+                                                    id="btn-check-outlined2" autocomplete="off">
                                                 <label class="btn btn-outline-primary" for="btn-check-outlined2">
                                                     <div class="emoji-rating text-center" data-rating="neutral">&#128528;
                                                     </div>
@@ -306,8 +312,8 @@
                                         </div>
                                         <div class="col">
                                             <div class="emoji-rating text-center" data-rating="bien">
-                                                <input type="checkbox" class="btn-check" id="btn-check-outlined3"
-                                                    autocomplete="off">
+                                                <input type="checkbox" class="btn-check emoji-checkbox"
+                                                    id="btn-check-outlined3" autocomplete="off">
                                                 <label class="btn btn-outline-primary" for="btn-check-outlined3">
                                                     <div class="emoji-rating text-center" data-rating="bien">&#128578;
                                                     </div>
@@ -317,7 +323,7 @@
                                         </div>
                                     </div>
                                     <input type="hidden" name="respuesta_1" id="respuesta_1">
-                                    <div>
+                                    <div class="mt-1">
                                         <p>Comentario(Opcional)</p>
                                         <input type="text" name="comentario_1" id="comentario_1">
                                     </div>
@@ -365,6 +371,24 @@
     <script src="{{ asset('assets/vendors/sweetalert2\sweetalert2.all.min.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.emoji-checkbox');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        checkboxes.forEach(cb => {
+                            if (cb !== this) {
+                                cb.checked = false;
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 
     <script>
         let ticket_id = '{{ $ticket->id }}'
@@ -427,11 +451,12 @@
                         'Excelente!',
                         `Estado: ${data.status}.`,
                         'success'
-                    );
-                    setTimeout(() => {
-                        /*    location.reload(); */
-
-                    }, 300);
+                    ).then(() => {
+                        location.reload();
+                    });
+                    // setTimeout(() => {
+                    //     /*    location.reload(); */
+                    // }, 300);
                 }
             } catch (error) {
                 Swal.fire(
@@ -512,7 +537,7 @@
                 cancelButtonText: 'Cancelar',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    changeStatus(6, ticket_id)
+                    // changeStatus(6, ticket_id)
                     /*   setTimeout(() => { */
                     /*      location.reload(); */
                     var myModal = new bootstrap.Modal(document.getElementById('finalizarModal'), {
@@ -525,6 +550,40 @@
 
             })
         }
+
+
+        document.getElementById('evaluationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var form = event.target;
+            console.log(form);
+            var formData = new FormData(form);
+            fetch(form.action, {
+                method: form.method,
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                        'content')
+                }
+            }).then(data => {
+                console.log(data);
+                if (data.statusText == 'OK') {
+                    changeStatus(6, ticket_id);
+                } else {
+                    Swal.fire(
+                        'Error!',
+                        'No se pudo enviar la encuesta',
+                        'error'
+                    );
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                Swal.fire(
+                    'Error!',
+                    'Ocurrió un error al enviar la encuesta',
+                    'error'
+                );
+            });
+        });
 
         function verMas() {}
     </script>
