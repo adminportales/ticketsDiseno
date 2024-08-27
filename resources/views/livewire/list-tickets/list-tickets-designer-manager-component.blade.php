@@ -55,6 +55,10 @@
                                 @php $color = 'alert-warning'; @endphp
                             @break
 
+                            @case('Modificación de ticket')
+                                @php $color = 'alert-warning'; @endphp
+                            @break
+
                             @case('En revision')
                                 @php $color = 'alert-warning'; @endphp
                             @break
@@ -80,6 +84,14 @@
                             @break
 
                             @case('Entrega de artes')
+                                @php $color = 'alert-secondary'; @endphp
+                            @break
+
+                            @case('Solicitud modifación artes')
+                                @php $color = 'alert-secondary'; @endphp
+                            @break
+
+                            @case('Modificando artes')
                                 @php $color = 'alert-secondary'; @endphp
                             @break
 
@@ -119,7 +131,8 @@
                     </td>
                     <td>
                         @if ($ticketInformation)
-                            <a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="boton-ver">Ver
+                            <a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}"
+                                class="boton-ver btn-sm size-btn">Ver
                                 ticket</a>
                         @endif
                     </td>

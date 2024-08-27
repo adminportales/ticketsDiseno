@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="card-body">
-       @include('layouts.components.tableTickets')
+        @include('layouts.components.tableTickets')
     </div>
 @endsection
 
@@ -27,7 +27,6 @@
         .fontawesome-icons .the-icon svg {
             font-size: 24px;
         }
-
     </style>
 @endsection
 

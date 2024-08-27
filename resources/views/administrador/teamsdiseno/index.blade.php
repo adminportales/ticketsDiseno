@@ -41,13 +41,20 @@
                         </td>
                         <td class="text-center">
                             <a href="{{ route('teamsdiseno.edit', ['teamsdiseno' => $team->id]) }}"
-                                class="btn btn-warning btn-sm mb-2">Editar</a>
+                                class="btn size-btn btn-warning btn-sm mb-2">Editar</a>
 
                             <form action="{{ route('teamsdiseno.destroy', ['teamsdiseno' => $team->id]) }}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                <button type="submit" class="btn size-btn btn-danger btn-sm mb-2">Eliminar</button>
                             </form>
+                            @if ($team->disabled == 0)
+                                <button class="btn size-btn btn-outline-primary btn-sm"
+                                    onclick="disableEquipo({{ $team->id }}, '{{ 1 }}')">Habilitar</button>
+                            @else
+                                <button class="btn size-btn btn-outline-danger btn-sm"
+                                    onclick="disableEquipo({{ $team->id }}, '{{ 0 }}')">Deshabilitar</button>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -71,11 +78,58 @@
 @endsection
 
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
     <script>
         // Jquery Datatable
         let jquery_datatable = $("#tableUsers").DataTable()
+    </script>
+    <script>
+        function disableEquipo(teamIdc, disable) {
+            Swal.fire({
+                title: disable === 0 ? 'Deseas deshabilitar este equipo?' : 'Deseas habilitar este equipo?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    changeDisabled(teamIdc, disable);
+                }
+            });
+        }
+        async function changeDisabled(teamId, disable) {
+            try {
+                let params = {
+                    teamId: teamId,
+                    disabled: disable,
+                    _method: "post"
+                };
+                let res = await axios.post(
+                    `teamsdiseno/disable`,
+                    params
+                );
+                let data = res.data;
+                if (data.message == 'OK') {
+                    Swal.fire(
+                        'Excelente!',
+                        'Se cambio el estado correctamente',
+                        'success'
+                    ).then(() => {
+                        location.reload();
+                    });
+                }
+            } catch (error) {
+                Swal.fire(
+                    'Error!',
+                    'No se pudo cambiar el estado',
+                    'error'
+                );
+            }
+        }
     </script>
 @endsection

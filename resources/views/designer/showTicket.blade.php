@@ -149,11 +149,11 @@
         let ticket_id = '{{ $ticket->id }}'
         let status = '{{ $ticket->latestStatusChangeTicket->status_id }}'
         document.addEventListener('DOMContentLoaded', () => {
-            if (status == 1 || status == 4) {
-                let title = status == 1 ?
-                    'Deseas iniciar con esta solicitud?' :
+            if (status == 1 || status == 4 || status == 10 || status == 11) {
+                let title = status == 1 || status == 10 ?
+                    '¿Deseas iniciar con esta solicitud?' :
                     status == 8 ? 'Deseas realizar los artes de esta solicitud?' :
-                    'Deseas realizar los ajustes de esta solicitud?';
+                    '¿Deseas realizar los ajustes de esta solicitud?';
                 Swal.fire({
                     title: title,
                     text: "De no ser asi, seras enviado a la pantalla anterior!",
@@ -164,21 +164,26 @@
                     confirmButtonText: 'Si',
                     cancelButtonText: 'No',
                     allowOutsideClick: false,
-                    position: 'top-end',
+                    // position: 'top-end',
                     allowEscapeKey: false,
                 }).then((result) => {
                     if (result.isConfirmed) {
                         /*  let statusChange = status == 1 ? 2 : 5 */
-                        let statusChange = status == 1 ? 2 : (status == 8 ? 8 : 5);
+                        // let statusChange = status == 1 ? 2 : (status == 8 ? 9 : status == 10 ? 2 : 5);
+                        let statusChange = status == 1 ? 2 : (status == 8 ? 9 : status == 10 ? 2 : (
+                            status == 11 ? 12 : 5));
                         changeStatus(statusChange, ticket_id)
                     } else {
-                        window.location = beforeUrl;
+                        ///redireccionar a Route::get('/designer/home', 'DesignerController@index')->name('designer.inicio');
+                        window.location.href = beforeUrl + '/designer/home'
                     }
                 })
             }
         })
 
         async function changeStatus(status, ticket) {
+            console.log('status', status);
+            console.log('ticket', ticket);
             try {
                 let params = {
                     status: status,
@@ -195,7 +200,9 @@
                         'Excelente!',
                         'Esta solicitud ahora esta en proceso.',
                         'success'
-                    );
+                    ).then(() => {
+                        location.reload();
+                    });
                 }
             } catch (error) {
                 Swal.fire(

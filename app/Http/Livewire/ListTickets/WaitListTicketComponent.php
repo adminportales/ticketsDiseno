@@ -26,18 +26,23 @@ class WaitListTicketComponent extends Component
     public function render()
     {
         $tickets = [];
-        $TeamDisenoId = TeamDiseno::where('user_id', auth()->user()->id)->select('id')->first();
+        $TeamDisenoId = TeamDiseno::where('user_id', auth()->user()->id)->first();
+        $ticketsCreator = Ticket::where('designer_id', null)
+            ->where('status_id', 1)
+            ->orderByDesc('created_at')->paginate(15);
         if ($TeamDisenoId == null) {
+            $tickets = $ticketsCreator;
+            return view('livewire.list-tickets.wait-list-ticket-component', compact('tickets'));
+        } else if ($TeamDisenoId->disabled == 1) {
+            $id = $TeamDisenoId->id;
+            $TeamDisenoUser = TeamDisenoUser::where('team_diseno_id', $id)->get();
+            $TeamDisenoUser = $TeamDisenoUser->pluck('user_id');
+            $tickets = Ticket::whereIn('creator_id', $TeamDisenoUser)->where('status_id', 1)->where('designer_id', null)->orderByDesc('created_at')->paginate(15);
+            return view('livewire.list-tickets.wait-list-ticket-component', compact('tickets', 'TeamDisenoId', 'TeamDisenoUser', 'id'));
+        } else {
+            $tickets = $ticketsCreator;
             return view('livewire.list-tickets.wait-list-ticket-component', compact('tickets'));
         }
-        $tickets = Ticket::where('designer_id', null)
-            ->orderByDesc('created_at')->paginate(15);
-        $id = $TeamDisenoId->id;
-        $TeamDisenoUser = TeamDisenoUser::where('team_diseno_id', $id)->get();
-        //la variable TeamDisenoUser trae informacion como id, team_diseno_id, user_id quiero que con respecto a user_id me muestre los tickets que incluyan el valor en la propiedad creator_id de mi variable tickets
-        $TeamDisenoUser = $TeamDisenoUser->pluck('user_id');
-        $tickets = Ticket::whereIn('creator_id', $TeamDisenoUser)->where('designer_id', null)->orderByDesc('created_at')->paginate(15);
-        return view('livewire.list-tickets.wait-list-ticket-component', compact('tickets', 'TeamDisenoId', 'TeamDisenoUser', 'id'));
     }
     // show ticket
     public function showTicket(Ticket $ticket)

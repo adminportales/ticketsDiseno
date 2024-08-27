@@ -38,7 +38,8 @@
                         </td> --}}
 
                         <td><a href="{{ route('ticketAssigment.edit', ['user' => $user->id]) }}"
-                                class="boton">Editar asignación</a></td>
+                                class="boton  btn-sm size-btn ">Editar
+                                asignación</a></td>
 
                     </tr>
                 @endforeach
@@ -58,7 +59,6 @@
         .fontawesome-icons .the-icon svg {
             font-size: 24px;
         }
-
     </style>
 @endsection
 

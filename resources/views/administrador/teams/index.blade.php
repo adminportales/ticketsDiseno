@@ -50,12 +50,12 @@
                         </td>
                         <td class="text-center">
                             <a href="{{ route('teams.edit', ['team' => $team->id]) }}"
-                                class="btn btn-warning btn-sm mb-2">Editar</a>
+                                class="btn btn-warning btn-sm mb-2  size-btn">Editar</a>
 
                             <form action="{{ route('teams.destroy', ['team' => $team->id]) }}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                <button type="submit" class="btn btn-danger btn-sm size-btn">Eliminar</button>
                             </form>
                         </td>
                     </tr>

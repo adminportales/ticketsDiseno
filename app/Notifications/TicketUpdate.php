@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ChangeOfStatus extends Notification
+class TicketUpdate extends Notification
 {
     use Queueable;
 
@@ -17,15 +17,14 @@ class ChangeOfStatus extends Notification
      * @return void
      */
     public $ticket;
+    public $receptor;
     public $emisor;
-    public $status;
     public $idTicket;
-
-    public function __construct($idTicket, $ticket, $emisor, $status)
+    public function __construct($ticket, $receptor, $emisor, $idTicket)
     {
         $this->ticket  = $ticket;
-        $this->emisor  = $emisor;
-        $this->status  = $status;
+        $this->receptor = $receptor;
+        $this->emisor = $emisor;
         $this->idTicket  = $idTicket;
     }
 
@@ -46,31 +45,17 @@ class ChangeOfStatus extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-
-    public function toArray($notifiable)
-    {
-        return [
-            'ticket' => $this->ticket,
-            'emisor' => $this->emisor,
-            'status' => $this->status,
-            'idTicket' => $this->idTicket,
-        ];
-    }
-
     public function toMail($notifiable)
     {
+
         return (new MailMessage)
-            ->markdown('mail.Information.ChangeOfStatus', [
-                'url' => $this->status == 'Solicitud de ajustes' ||
-                    $this->status == 'Solicitar artes' ||
-                    $this->status == 'Solicitud modifación artes'
-                    ? url('/designer/ticketShow' . '/' . $this->idTicket) : url('/tickets' . '/' . $this->idTicket),
+            ->markdown('mail.Information.TicketUpdate', [
+                'url' => url('/designer/ticketShow' . '/' . $this->idTicket), 'ticket' => $this->ticket,
                 'ticket' => $this->ticket,
+                'receptor' => $this->receptor,
                 'emisor' => $this->emisor,
-                'status' => $this->status,
-                'idTicket' => $this->idTicket,
             ])
-            ->subject('Modificaciones en un ticket')
+            ->subject('TICKET ACTUALIZADO')
             ->from('adminportales@promolife.com.mx', 'T-Design');
     }
 }

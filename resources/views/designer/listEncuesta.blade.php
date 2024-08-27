@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="card-header">
-        <p> Lista especifica de Encuestas</p>
+        <p> Lista especifica de ncuestas</p>
     </div>
     <div class="card-body">
         <table class="table table-bordered">
