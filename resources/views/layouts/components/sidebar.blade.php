@@ -41,7 +41,7 @@
                             <span>Ver Usuarios</span>
                         </a>
                     </li>
-                    <li class="sidebar-item">
+                    <li class="sidebar-item {{ request()->is('viewHistory') ? 'active' : '' }}">
                         <a href="{{ route('viewChanges') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Historial de Diseño</span>
@@ -59,13 +59,13 @@
                             <span>Todos los Tickets</span>
                         </a>
                     </li>
-                    <li class="sidebar-item  {{ request()->is('ticketsViewAll') ? 'active' : '' }}">
+                    <li class="sidebar-item  {{ request()->is('encuestas') ? 'active' : '' }}">
                         <a href="{{ route('admin.encuestas') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Encuestas</span>
                         </a>
                     </li>
-                    <li class="sidebar-item  {{-- {{ request()->is('teamsdiseno') ? 'active' : '' }} --}}">
+                    <li class="sidebar-item  {{ request()->is('teamsdiseno') ? 'active' : '' }} ">
                         <a href="{{ route('teamsdiseno.index') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Ver Equipos de diseño</span>

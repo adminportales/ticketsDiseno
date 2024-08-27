@@ -116,7 +116,7 @@
                                         </td>
                                         <td>
                                             <a href="{{ route('designer.show', $ticketToTransfer) }}"
-                                                class="btn btn-primary btn-sm">Ver</a>
+                                                class="btn btn-primary btn-sm size-btn">Ver</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -248,7 +248,7 @@
                                             </td>
                                             <td>
                                                 <a href="{{ route('designer.show', $ticket) }}"
-                                                    class="btn btn-primary btn-sm">Ver</a>
+                                                    class="btn btn-primary btn-sm size-btn">Ver</a>
                                             </td>
                                         </tr>
                                     @endforeach

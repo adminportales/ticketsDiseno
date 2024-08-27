@@ -317,8 +317,6 @@
     @endif
 
     <script>
-        ///////////////////////////////////
-
         window.addEventListener('showTicket', event => {
             $('#showTicket').modal('show');
         });

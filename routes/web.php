@@ -3,6 +3,7 @@
 use App\Events\MessageSendEvent;
 use App\Events\OrderStatusChangeEvent;
 use App\Http\Controllers\StatisfactionController;
+use App\Http\Controllers\TeamDisenoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,9 +34,12 @@ Route::get('/viewHistory', 'AdminController@viewHistory')->name('viewChanges');
 Route::get('/users/import', 'UserController@sample')->name('user.import.create');
 Route::post('/users/import', 'UserController@import')->name('user.import');
 Route::get('/users/all', 'UserController@allUsers');
+
+
 // Ruta de los equipos
 Route::resource('/teams', 'TeamController');
 Route::resource('/teamsdiseno', 'TeamDisenoController');
+Route::post('/teamsdiseno/disable', 'TeamDisenoController@disable');
 // Rutas del diseñador
 route::get('/designer/ticketShow/{ticket}', 'DesignerController@show')->name('designer.show');
 Route::get('/designer/home', 'DesignerController@index')->name('designer.inicio');
@@ -73,7 +77,7 @@ Route::post('/tickets/upload-product', 'TicketUploadController@uploadProducts')-
 Route::post('/tickets/deleteProduct', 'TicketUploadController@deleteProduct')->name('tickets.deleteProduct');
 Route::post('/tickets/upload-logo', 'TicketUploadController@uploadLogos')->name('tickets.uploadLogos');
 Route::post('/tickets/deleteLogo', 'TicketUploadController@deleteLogo')->name('tickets.deleteLogo');
-Route::post('/satisfaccion', [StatisfactionController::class, 'store'])->name('satisfaccion.submit');;
+Route::post('/satisfaccion', [StatisfactionController::class, 'store'])->name('satisfaccion.store');
 
 //Entregas de parte de diseño
 Route::post('/tickets/delivery', 'TicketController@uploadDeliveries')->name('tickets.uploadDeliveries');

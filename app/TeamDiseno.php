@@ -9,7 +9,7 @@ class TeamDiseno extends Model
 {
     use HasFactory;
     public $table = 'team_disenos';
-    protected $fillable = ['name', 'role', 'user_id'];
+    protected $fillable = ['name', 'role', 'user_id', 'disabled'];
 
     public function membersDiseno()
     {

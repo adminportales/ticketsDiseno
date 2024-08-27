@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\Util\Log\TeamCity;
+use Illuminate\Support\Facades\Log;
 
 class TeamDisenoController extends Controller
 {
@@ -47,12 +48,21 @@ class TeamDisenoController extends Controller
         ]);
         $teamsdiseno = TeamDiseno::create([
             'name' => $request->name,
-            'user_id' => $request->user,
             'role' => 0,
+            'user_id' => $request->user,
+            'disabled' => 1,
         ]);
         $team = implode(",", $request->team);
         $teamsdiseno->membersDiseno()->attach(explode(',', $team));
         return redirect()->action('TeamDisenoController@index');
+    }
+
+    public function disable(Request $request)
+    {
+        $team = TeamDiseno::where('id', $request->teamId)->first();
+        $team->disabled = $request->disabled;
+        $team->save();
+        return response()->json(['message' => 'OK']);
     }
     /**
      * Display the specified resource.
