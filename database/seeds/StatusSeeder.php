@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Status;
 use Illuminate\Database\Seeder;
 
@@ -13,27 +15,54 @@ class StatusSeeder extends Seeder
     public function run()
     {
         Status::create([
-            'status' => 'Creado'
+            'status' => 'Creado',
         ]);
 
         Status::create([
-            'status' => 'En revision'
+            'status' => 'Diseño en proceso',
         ]);
 
         Status::create([
-            'status' => 'Entregado'
+            'status' => 'Entregado',
         ]);
 
         Status::create([
-            'status' => 'Solicitud de ajustes'
+            'status' => 'Solicitud de ajustes',
         ]);
 
         Status::create([
-            'status' => 'Realizando ajustes'
+            'status' => 'Realizando ajustes',
         ]);
 
         Status::create([
-            'status' => 'Finalizado'
+            'status' => 'Finalizado',
+        ]);
+
+        Status::create([
+            'status' => 'Falta de información',
+        ]);
+
+        Status::create([
+            'status' => 'Solicitar artes',
+        ]);
+
+        Status::create([
+            'status' => 'Entrega de artes',
+        ]);
+
+        Status::create([
+            'status' => 'Modificación de ticket',
+
+        ]);
+
+        Status::create([
+            'status' => 'Solicitud modifación artes',
+
+        ]);
+
+        Status::create([
+            'status' => 'Modificando artes',
+
         ]);
     }
 }
