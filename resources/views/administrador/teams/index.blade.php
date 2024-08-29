@@ -9,7 +9,7 @@
         <div class="d-flex justify-content-between">
             <h4 class="card-title">Información general de cada equipo</h4>
             <div class="btn-group" style="text-align:left">
-                <a href="{{ route('teams.create') }}" class="boton" aria-current="page">Crear</a>
+                <a href="{{ route('teams.create') }}" class="btn btn-primary size-btn" aria-current="page">Crear</a>
             </div>
         </div>
     </div>

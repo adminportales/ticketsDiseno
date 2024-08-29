@@ -363,7 +363,6 @@ class TicketController extends Controller
                 break;
             case 4:
                 request()->validate([
-                    'type' => 'required',
                     'title' => ['required', 'string', 'max:191'],
                     'customer' => ['required', 'string', 'max:191'],
                     'description' => ['required', 'string', 'max:60000'],
@@ -378,14 +377,13 @@ class TicketController extends Controller
                 $request->companies = null;
                 $request->measures = null;
                 $request->subtype = null;
-                $request->samples = null;
+                $request->samples = $request->samples == null ?  $ticket->latestTicketInformation->samples : $request->samples[0];
                 break;
             case 5:
                 request()->validate([
                     'title' => ['required', 'string', 'max:191'],
                     'companies' => ['required'],
                     'samples' => ['required'],
-                    'type' => 'required',
                     'description' => ['required', 'string', 'max:60000'],
                     'logo' => 'required',
                     'product' => 'required',
@@ -420,6 +418,7 @@ class TicketController extends Controller
             'pantone' => $request->pantone,
             'position' => $request->position,
             'companies' => $request->companies,
+            'samples' => $request->samples[0] ?? null,
         ]);
         $ticket->historyTicket()->create([
             'ticket_id' => $ticket->id,

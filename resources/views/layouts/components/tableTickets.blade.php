@@ -121,14 +121,14 @@
                 <td class="text-center">
                     @if ($latestTicketInformation)
                         <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
-                            class="btn btn-primary btn-sm size-btn mb-2">Ver</a>
+                            class="btn btn-primary size-btn mb-2">Ver</a>
                         @if ($ticket->status_id == 6)
                             <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
-                                class="btn btn-secondary  btn-sm size-btn"
+                                class="btn btn-secondary  size-btn"
                                 style="pointer-events: none; cursor: default;">Modificar</a>
                         @else
                             <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
-                                class="btn btn-danger  btn-sm size-btn">Modificar
+                                class="btn btn-danger  size-btn">Modificar
                             </a>
                         @endif
                     @else

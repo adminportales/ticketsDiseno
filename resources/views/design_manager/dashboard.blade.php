@@ -117,7 +117,7 @@
                                         </td>
                                         <td>
                                             <a href="{{ route('designer.show', $ticketToTransfer) }}"
-                                                class="btn btn-primary btn-sm">Ver</a>
+                                                class="btn btn-primary size-btn">Ver</a>
                                         </td>
                                     </tr>
                                 @endforeach

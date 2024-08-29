@@ -27,8 +27,13 @@ class WaitListTicketComponent extends Component
     {
         $tickets = [];
         $TeamDisenoId = TeamDiseno::where('user_id', auth()->user()->id)->first();
+
+        $disabledUserIds = TeamDisenoUser::whereHas('teamDiseno', function ($query) {
+            $query->where('disabled', 1);
+        })->pluck('user_id');
         $ticketsCreator = Ticket::where('designer_id', null)
             ->where('status_id', 1)
+            ->whereNotIn('creator_id', $disabledUserIds)
             ->orderByDesc('created_at')->paginate(15);
         if ($TeamDisenoId == null) {
             $tickets = $ticketsCreator;

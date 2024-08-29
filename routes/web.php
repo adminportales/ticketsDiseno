@@ -22,6 +22,7 @@ Route::get('/', function () {
 
 Route::post('/message', 'MessageController@store')->name('message.store');
 Route::get('/markNotification/{notification}', 'MessageController@markAsRead')->name('message.markAsRead');
+Route::get('/markAllNotifications', 'MessageController@markAllAsRead')->name('message.markAllAsRead');
 
 // Home de cada uno de los perfiles
 Route::get('/home', 'HomeController@index')->middleware('user.active')->name('home');

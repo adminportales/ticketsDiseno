@@ -125,7 +125,8 @@
                     </td>
                     <td>
                         @if ($latestTicketInformation)
-                            <a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}" class="boton">Ver
+                            <a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}"
+                                class="btn btn-primary  size-btn">Ver
                                 ticket</a>
                         @endif
                     </td>

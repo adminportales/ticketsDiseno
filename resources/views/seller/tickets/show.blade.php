@@ -346,9 +346,6 @@
             grid-row-gap: 0px;
         }
 
-        a:hover {
-            background-color: gold;
-        }
 
         .blue:focus {
             outline: 2px solid black;

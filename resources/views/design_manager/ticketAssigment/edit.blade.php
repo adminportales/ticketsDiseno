@@ -21,47 +21,46 @@
                             @foreach ($userTypes as $userType)
                                 @if ($type->id == $userType->id)
                                     @php $check = true; @endphp
-                                    @break
-                                @endif
-                            @endforeach
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="types[]" id="check"
-                                    {{ $check ? 'checked' : '' }} value="{{ $type->id }}">
-                                <label class="form-check-label" for="check">
-                                    {{ $type->type }}
-                                </label>
-                            </div>
+                                @break
+                            @endif
                         @endforeach
-                    </div>
-                    <br>
-                    <input type="submit" value="Guardar cambios" class="boton">
-                </form>
-            </div>
+                        <div class="form-check" style="margin-left: 40px">
+                            <input class="form-check-input " type="checkbox" name="types[]" id="check"
+                                {{ $check ? 'checked' : '' }} value="{{ $type->id }}">
+                            <label class="form-check-label" for="check">
+                                {{ $type->type }}
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
+                <br>
+                <input type="submit" value="Guardar cambios" class="boton">
+            </form>
         </div>
     </div>
+</div>
 @endsection
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}">
-    <style>
-        table.dataTable td {
-            padding: 15px 8px;
-        }
+<link rel="stylesheet" href="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vendors/fontawesome/all.min.css') }}">
+<style>
+    table.dataTable td {
+        padding: 15px 8px;
+    }
 
-        .fontawesome-icons .the-icon svg {
-            font-size: 24px;
-        }
-
-    </style>
+    .fontawesome-icons .the-icon svg {
+        font-size: 24px;
+    }
+</style>
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
-    <script>
-        // Jquery Datatable
-        let jquery_datatable = $("#tableTickets").DataTable()
-    </script>
+<script src="{{ asset('assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>
+<script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
+<script>
+    // Jquery Datatable
+    let jquery_datatable = $("#tableTickets").DataTable()
+</script>
 @endsection

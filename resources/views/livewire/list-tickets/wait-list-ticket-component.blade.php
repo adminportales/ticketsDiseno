@@ -102,7 +102,8 @@
                             </td>
                             <td>
                                 @if ($latestTicketInformation)
-                                    <button class="boton" wire:click="showTicket({{ $item->id }})">Ver
+                                    <button class="btn btn-primary size-btn"
+                                        wire:click="showTicket({{ $item->id }})">Ver
                                         ticket</button>
                                 @endif
                             </td>

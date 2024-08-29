@@ -132,7 +132,7 @@
                     <td>
                         @if ($ticketInformation)
                             <a href="{{ route('designer.show', ['ticket' => $ticket->id]) }}"
-                                class="boton-ver btn-sm size-btn">Ver
+                                class="btn btn-primary size-btn">Ver
                                 ticket</a>
                         @endif
                     </td>
