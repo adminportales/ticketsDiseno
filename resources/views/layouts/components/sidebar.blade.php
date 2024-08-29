@@ -119,10 +119,17 @@
                             <span>Diseño de Ventas </span>
                         </a>
                     </li>
+
                     <li class="sidebar-item {{ request()->is('designer/list-wait') ? 'active' : '' }}">
                         <a href="{{ route('designer.listWait') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Lista de Espera</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item  {{ request()->is('encuestas') ? 'active' : '' }}">
+                        <a href="{{ route('admin.encuestas') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Encuestas</span>
                         </a>
                     </li>
                 @endrole

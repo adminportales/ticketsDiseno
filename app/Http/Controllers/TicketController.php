@@ -452,7 +452,8 @@ class TicketController extends Controller
         if ($receiver) {
             try {
                 ///Si sirve la linea de abajo descomentarla
-                $receiver->notify(new TicketUpdate($request->title, $ticket->designer_name, $creator_name, $ticket->id));
+                $receiver->notify(new TicketUpdate($request->title, $ticket->designer_name, $ticket->creator_name, $ticket->id));
+
                 $receiver->notify(new TicketChangeNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->creator_name));
             } catch (Exception $th) {
                 return 'Error al enviar la notificación';
