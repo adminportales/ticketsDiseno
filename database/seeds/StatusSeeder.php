@@ -56,7 +56,7 @@ class StatusSeeder extends Seeder
         ]);
 
         Status::create([
-            'status' => 'Solicitud modifación artes',
+            'status' => 'Solicitud modificación artes',
 
         ]);
 
