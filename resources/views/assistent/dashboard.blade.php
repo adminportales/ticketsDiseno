@@ -9,11 +9,11 @@
     <section class="row">
         <div class="col-12 col-lg-8">
             <div class="row">
-                <div class="col-6 col-lg-4 col-md-6">
-                    <div class="card">
+                <div class="col-6 col-lg-6 col-md-6">
+                    <div class="card" style="height: 130px">
                         <div class="card-body px-3 py-4-5">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="stats-icon blue">
                                         <i class="iconly-boldProfile"></i>
                                     </div>
@@ -26,11 +26,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-lg-4 col-md-6">
+                <div class="col-6 col-lg-6 col-md-6">
                     <div class="card">
                         <div class="card-body px-3 py-4-5">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="stats-icon purple">
                                         <i class="iconly-boldProfile"></i>
                                     </div>

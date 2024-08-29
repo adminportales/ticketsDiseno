@@ -17,7 +17,7 @@ class CreateTeamDisenosTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('role');
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('user_id');
             $table->boolean('disabled');
             $table->timestamps();
         });

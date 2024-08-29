@@ -68,7 +68,7 @@
                     <li class="sidebar-item  {{ request()->is('teamsdiseno') ? 'active' : '' }} ">
                         <a href="{{ route('teamsdiseno.index') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
-                            <span>Ver Equipos de diseño</span>
+                            <span>Diseño de Ventas </span>
                         </a>
                     </li>
                 @endrole
@@ -111,6 +111,12 @@
                         <a href="{{ route('design_manager.assign') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Mi equipo</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item  {{ request()->is('teamsdiseno') ? 'active' : '' }} ">
+                        <a href="{{ route('teamsdiseno.index') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Diseño de Ventas </span>
                         </a>
                     </li>
                     <li class="sidebar-item {{ request()->is('designer/list-wait') ? 'active' : '' }}">
