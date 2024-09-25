@@ -2,6 +2,8 @@
 
 use App\Events\MessageSendEvent;
 use App\Events\OrderStatusChangeEvent;
+use App\Http\Controllers\StatisfactionController;
+use App\Http\Controllers\TeamDisenoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +22,7 @@ Route::get('/', function () {
 
 Route::post('/message', 'MessageController@store')->name('message.store');
 Route::get('/markNotification/{notification}', 'MessageController@markAsRead')->name('message.markAsRead');
+Route::get('/markAllNotifications', 'MessageController@markAllAsRead')->name('message.markAllAsRead');
 
 // Home de cada uno de los perfiles
 Route::get('/home', 'HomeController@index')->middleware('user.active')->name('home');
@@ -32,13 +35,17 @@ Route::get('/viewHistory', 'AdminController@viewHistory')->name('viewChanges');
 Route::get('/users/import', 'UserController@sample')->name('user.import.create');
 Route::post('/users/import', 'UserController@import')->name('user.import');
 Route::get('/users/all', 'UserController@allUsers');
+
+
 // Ruta de los equipos
 Route::resource('/teams', 'TeamController');
-
+Route::resource('/teamsdiseno', 'TeamDisenoController');
+Route::post('/teamsdiseno/disable', 'TeamDisenoController@disable');
 // Rutas del diseñador
 route::get('/designer/ticketShow/{ticket}', 'DesignerController@show')->name('designer.show');
 Route::get('/designer/home', 'DesignerController@index')->name('designer.inicio');
 Route::get("/designer/list-wait", 'DesignerController@listWait')->name('designer.listWait');
+Route::get("/designer/list-encuestas/{designer}", 'DesignerController@listEncuesta')->name('designer.listEncuesta');
 Route::get('/designer/deleteFile/{delivery_id}', 'DesignerController@deleteFile')->name('tickets.deleteFile');
 Route::post('/designer/return/ticket', 'DesignerController@returnticket')->name('return.ticket');
 
@@ -55,7 +62,7 @@ Route::put('/design-manager/update-assign/{ticket}', 'TicketAssigmentController@
 // Cambio de estado
 Route::put('/design/update-status/{ticket}', 'StatusController@update');
 Route::get('/ticketsViewAll', 'AdminController@viewTickets')->name('admin.verTickets');
-
+Route::get('/encuestas', 'AdminController@viewEncuestas')->name('admin.encuestas');
 
 // Gerente de Ventas
 Route::get('/sales_manager/all-tickets', 'SalesManagerController@allTickets')->name('sales_manager.all');
@@ -71,6 +78,7 @@ Route::post('/tickets/upload-product', 'TicketUploadController@uploadProducts')-
 Route::post('/tickets/deleteProduct', 'TicketUploadController@deleteProduct')->name('tickets.deleteProduct');
 Route::post('/tickets/upload-logo', 'TicketUploadController@uploadLogos')->name('tickets.uploadLogos');
 Route::post('/tickets/deleteLogo', 'TicketUploadController@deleteLogo')->name('tickets.deleteLogo');
+Route::post('/satisfaccion', [StatisfactionController::class, 'store'])->name('satisfaccion.store');
 
 //Entregas de parte de diseño
 Route::post('/tickets/delivery', 'TicketController@uploadDeliveries')->name('tickets.uploadDeliveries');

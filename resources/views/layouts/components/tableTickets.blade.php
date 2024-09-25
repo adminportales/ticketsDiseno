@@ -46,6 +46,10 @@
                             @php $color = 'alert-warning'; @endphp
                         @break
 
+                        @case('Modificación de ticket')
+                            @php $color = 'alert-warning'; @endphp
+                        @break
+
                         @case('En revision')
                             @php $color = 'alert-warning'; @endphp
                         @break
@@ -71,6 +75,14 @@
                         @break
 
                         @case('Entrega de artes')
+                            @php $color = 'alert-secondary'; @endphp
+                        @break
+
+                        @case('Solicitud modifación artes')
+                            @php $color = 'alert-secondary'; @endphp
+                        @break
+
+                        @case('Modificando artes')
                             @php $color = 'alert-secondary'; @endphp
                         @break
 
@@ -108,13 +120,15 @@
                 </td>
                 <td class="text-center">
                     @if ($latestTicketInformation)
-                        <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}" class="boton-ver">Ver</a>
+                        <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
+                            class="btn btn-primary size-btn mb-2">Ver</a>
                         @if ($ticket->status_id == 6)
-                            <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}" class="btn btn-secondary"
+                            <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
+                                class="btn btn-secondary  size-btn"
                                 style="pointer-events: none; cursor: default;">Modificar</a>
                         @else
                             <a href="{{ route('tickets.edit', ['ticket' => $ticket->id]) }}"
-                                class="btn btn-danger">Modificar
+                                class="btn btn-danger  size-btn">Modificar
                             </a>
                         @endif
                     @else

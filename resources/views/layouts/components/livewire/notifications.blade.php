@@ -17,6 +17,17 @@
                     <a class="m-0 dropdown-item">No hay notificaciones</a>
                 </li>
             @else
+                <div class="d-flex justify-content-center">
+                    <a href="{{ route('message.markAllAsRead') }}" style="color: red">
+                        <span style="margin-top: 20px">Marcar todas como leidas</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-x-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                            <path
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                        </svg>
+                    </a>
+                </div>
                 @foreach ($unreadNotifications as $notification)
                     <li>
                         {{-- {{ dd($notificacion) }} --}}
@@ -27,11 +38,23 @@
                                         class="link-dark">
                                     @endpermission
                                     @permission('create-ticket')
-                                        <a href="{{ route('tickets.show', ['ticket' => $notification->data['idTicket']]) }}"
-                                            class="link-dark">
-                                        @endpermission
-                                    @else
-                                        <a href="#" class="link-dark">
+                                        {{-- <a href="{{ route('tickets.show', ['ticket' => $notification->data['idTicket']]) }}"
+                                            class="link-dark"> --}}
+                                        @if (isset($notification->data['status']))
+                                            @if ($notification->data['status'] == 'Falta de información')
+                                                <a href="{{ route('tickets.edit', ['ticket' => $notification->data['idTicket']]) }}"
+                                                    class="link-dark">
+                                                @else
+                                                    <a href="{{ route('tickets.show', ['ticket' => $notification->data['idTicket']]) }}"
+                                                        class="link-dark">
+                                            @endif
+                                        @else
+                                            <a href="{{ route('tickets.show', ['ticket' => $notification->data['idTicket']]) }}"
+                                                class="link-dark">
+                                        @endif
+                                    @endpermission
+                                @else
+                                    <a href="#" class="link-dark">
                             @endif
                             <h6 class="mb-1">
                                 {{ Str::limit($notification->data['ticket'], 28) }}</h6>
@@ -64,7 +87,7 @@
                                 @break
 
                                 @case('App\Notifications\TicketChangeNotification')
-                                    <p class="m-0"><strong>Modificacion del Ticket</strong></p>
+                                    <p class="m-0"><strong>Modificación del Ticket</strong></p>
                                 @break
 
                                 @case('App\Notifications\TicketDeliveryArts')

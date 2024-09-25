@@ -16,7 +16,7 @@
                     <th>Nombre de Diseñador</th>
                     <th>Tipos de Tickets</th>
                     {{-- <th>Disponibilidad</th> --}}
-                    <th>Acciones</th>
+                    <th style="text-align: center;">Acciones</th>
 
                 </tr>
             </thead>
@@ -37,8 +37,9 @@
                             </change-status-designer>
                         </td> --}}
 
-                        <td><a href="{{ route('ticketAssigment.edit', ['user' => $user->id]) }}"
-                                class="boton">Editar asignación</a></td>
+                        <td style="text-align: center;"><a href="{{ route('ticketAssigment.edit', ['user' => $user->id]) }}"
+                                class="btn btn-primary">Editar
+                                asignación</a></td>
 
                     </tr>
                 @endforeach
@@ -58,7 +59,6 @@
         .fontawesome-icons .the-icon svg {
             font-size: 24px;
         }
-
     </style>
 @endsection
 

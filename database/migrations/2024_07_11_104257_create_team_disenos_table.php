@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTicketHistoriesTable extends Migration
+class CreateTeamDisenosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateTicketHistoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ticket_histories', function (Blueprint $table) {
+        Schema::create('team_disenos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ticket_id')->constrained();
-            $table->integer('reference_id');
-            $table->enum('type', ['message', 'info', 'delivery', 'status', 'assigment', 'arts', 'update']);
+            $table->string('name');
+            $table->integer('role');
+            $table->integer('user_id');
+            $table->boolean('disabled');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateTicketHistoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ticket_histories');
+        Schema::dropIfExists('team_disenos');
     }
 }

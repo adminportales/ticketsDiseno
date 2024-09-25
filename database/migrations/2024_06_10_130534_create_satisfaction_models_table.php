@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTicketHistoriesTable extends Migration
+class CreateSatisfactionModelsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateTicketHistoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ticket_histories', function (Blueprint $table) {
+        Schema::create('satisfaction_models', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ticket_id')->constrained();
-            $table->integer('reference_id');
-            $table->enum('type', ['message', 'info', 'delivery', 'status', 'assigment', 'arts', 'update']);
+            $table->string('designer');
+            $table->string('seller');
+            $table->integer('ticket_id');
+            $table->string('question');
+            $table->string('answer');
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ class CreateTicketHistoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ticket_histories');
+        Schema::dropIfExists('satisfaction_models');
     }
 }

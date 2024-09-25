@@ -119,4 +119,12 @@ class MessageController extends Controller
         $notification->markAsRead();
         return back();
     }
+
+    public function markAllAsRead()
+    {
+        $user = auth()->user();
+        $user->unreadNotifications->markAsRead();
+
+        return back();
+    }
 }

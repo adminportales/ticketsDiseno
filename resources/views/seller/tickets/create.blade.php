@@ -134,8 +134,8 @@
                                     }
                                 }
                             @endphp
-                            <input class="form-check-input" type="checkbox" name="companies[]"
-                                {{ $check ? 'checked' : '' }} value="{{ $item }}">
+                            <input class="form-check-input" type="radio" name="companies[]" {{ $check ? 'checked' : '' }}
+                                value="{{ $item }}">
                             <label class="form-check-label" style="margin-right: 1rem" for="">
                                 {{ $item }}
                             </label>
@@ -162,7 +162,7 @@
                                     }
                                 }
                             @endphp
-                            <input class="form-check-input" type="checkbox" name="samples[]" {{ $check ? 'checked' : '' }}
+                            <input class="form-check-input" type="radio" name="samples[]" {{ $check ? 'checked' : '' }}
                                 value="{{ $item }}">
                             <label class="form-check-label" style="margin-right: 1rem" for="">
                                 {{ $item }}
@@ -302,6 +302,7 @@
         }
 
         const selectType = document.querySelector('#type');
+        console.log('selects', selectType);
         const logoElement = document.querySelector('#logoElement');
         const itemsElement = document.querySelector('#itemsElement');
         const productElement = document.querySelector('#productElement');
@@ -317,9 +318,10 @@
 
         let typeSelected = '{{ old('type') }}';
         formDynamic(typeSelected);
-        selectType.addEventListener('change', () => {
-            formDynamic(selectType.value);
-        });
+        selectType.addEventListener('change',
+            () => {
+                formDynamic(selectType.value);
+            });
 
 
         /*  let typeSelected2 = '{{ old('subtype') }}';
@@ -374,7 +376,7 @@
                     companiesElement.classList.add('d-none');
                     positionElement.classList.add('d-none');
                     productElement.classList.add('d-none');
-                    itemsElement.classList.add('d-none');
+                    itemsElement.classList.remove('d-none');
                     clientElement.classList.remove('d-none');
                     tecnicaElement.classList.add('d-none');
                     pantoneElement.classList.add('d-none');

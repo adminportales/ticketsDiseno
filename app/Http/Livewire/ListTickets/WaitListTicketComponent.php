@@ -12,6 +12,8 @@ use App\User;
 use Exception;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\TeamDiseno;
+use App\TeamDisenoUser;
 
 class WaitListTicketComponent extends Component
 {
@@ -23,9 +25,29 @@ class WaitListTicketComponent extends Component
 
     public function render()
     {
-        $tickets = Ticket::where('designer_id', null)
+        $tickets = [];
+        $TeamDisenoId = TeamDiseno::where('user_id', auth()->user()->id)->first();
+
+        $disabledUserIds = TeamDisenoUser::whereHas('teamDiseno', function ($query) {
+            $query->where('disabled', 1);
+        })->pluck('user_id');
+        $ticketsCreator = Ticket::where('designer_id', null)
+            ->where('status_id', 1)
+            ->whereNotIn('creator_id', $disabledUserIds)
             ->orderByDesc('created_at')->paginate(15);
-        return view('livewire.list-tickets.wait-list-ticket-component',  compact('tickets'));
+        if ($TeamDisenoId == null) {
+            $tickets = $ticketsCreator;
+            return view('livewire.list-tickets.wait-list-ticket-component', compact('tickets'));
+        } else if ($TeamDisenoId->disabled == 1) {
+            $id = $TeamDisenoId->id;
+            $TeamDisenoUser = TeamDisenoUser::where('team_diseno_id', $id)->get();
+            $TeamDisenoUser = $TeamDisenoUser->pluck('user_id');
+            $tickets = Ticket::whereIn('creator_id', $TeamDisenoUser)->where('status_id', 1)->where('designer_id', null)->orderByDesc('created_at')->paginate(15);
+            return view('livewire.list-tickets.wait-list-ticket-component', compact('tickets', 'TeamDisenoId', 'TeamDisenoUser', 'id'));
+        } else {
+            $tickets = $ticketsCreator;
+            return view('livewire.list-tickets.wait-list-ticket-component', compact('tickets'));
+        }
     }
     // show ticket
     public function showTicket(Ticket $ticket)
@@ -83,13 +105,12 @@ class WaitListTicketComponent extends Component
             } else if (auth()->user()->isAbleTo(['create-ticket'])) {
                 $userReceiver = User::find($this->ticket->designer_id);
             }
-            
+
             $receiver_id = $userReceiver->id;
             try {
                 event(new ChangeStatusSendEvent($this->ticket->latestTicketInformation->title, $status->status, $receiver_id, $transmitter_name));
-                $userReceiver->notify(new StatusTicket($this->ticket->latestTicketInformation->title,$status->status,$transmitter_name,$this->ticket->id));
+                $userReceiver->notify(new StatusTicket($this->ticket->latestTicketInformation->title, $status->status, $transmitter_name, $this->ticket->id));
                 $userReceiver->notify(new ChangeOfStatus($this->ticket->id, $this->ticket->latestTicketInformation->title, $transmitter_name, $status->status));
-                
             } catch (Exception $th) {
                 return 2;
             }

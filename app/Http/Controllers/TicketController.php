@@ -7,6 +7,10 @@ use App\Events\TicketCreateSendEvent;
 use App\HistoryAvailability;
 use App\Notifications\TicketChangeNotification;
 use App\Notifications\TicketCreateNotification;
+use App\Notifications\TicketDeliveryNotification;
+use App\Notifications\TicketUpdate;
+use App\Events\TicketDeliverySendEvent;
+use App\Events\TicketUpdateSendEvent;
 use App\Priority;
 use App\Role;
 use App\Status;
@@ -160,7 +164,6 @@ class TicketController extends Controller
                 $request->technique = null;
                 $request->position = null;
                 $request->logo = null;
-                $request->customer = null;
                 $request->companies = null;
                 $request->measures = null;
                 $request->subtype = null;
@@ -185,7 +188,6 @@ class TicketController extends Controller
                 break;
             default:
         }
-
         // Si es un asistente, validacion extra y obtener el ejecutivo, y si no
         // El ejecutivo es el creador
         $seller_id = '';
@@ -310,7 +312,6 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
-        ///dd($request);
         // Obtener el id y el nombre del vendedor o asistente que esta editando
         $userCreator = User::find(auth()->user()->id);
         $creator_id = $userCreator->id;
@@ -362,7 +363,6 @@ class TicketController extends Controller
                 break;
             case 4:
                 request()->validate([
-                    'type' => 'required',
                     'title' => ['required', 'string', 'max:191'],
                     'customer' => ['required', 'string', 'max:191'],
                     'description' => ['required', 'string', 'max:60000'],
@@ -377,14 +377,13 @@ class TicketController extends Controller
                 $request->companies = null;
                 $request->measures = null;
                 $request->subtype = null;
-                $request->samples = null;
+                $request->samples = $request->samples == null ?  $ticket->latestTicketInformation->samples : $request->samples[0];
                 break;
             case 5:
                 request()->validate([
                     'title' => ['required', 'string', 'max:191'],
                     'companies' => ['required'],
                     'samples' => ['required'],
-                    'type' => 'required',
                     'description' => ['required', 'string', 'max:60000'],
                     'logo' => 'required',
                     'product' => 'required',
@@ -419,22 +418,49 @@ class TicketController extends Controller
             'pantone' => $request->pantone,
             'position' => $request->position,
             'companies' => $request->companies,
+            'samples' => $request->samples[0] ?? null,
         ]);
         $ticket->historyTicket()->create([
             'ticket_id' => $ticket->id,
             'reference_id' => $ticketInformation->id,
             'type' => 'info'
         ]);
+        $status = 0;
+
+        if ($ticket->latestStatusChangeTicket->status_id == 7) {
+            $status = 10;
+        } else {
+            $status = $ticket->latestStatusChangeTicket->status_id;
+        }
+
+        if ($status != $ticket->latestStatusChangeTicket->status_id) {
+            $newStatus = Status::find($status);
+            $status = $ticket->statusChangeTicket()->create([
+                'status_id' => $newStatus->id,
+                'status' => $newStatus->status,
+            ]);
+            $ticket->status_id = $newStatus->id;
+            $ticket->save();
+            $ticket->historyTicket()->create([
+                'ticket_id' => $ticket->id,
+                'reference_id' => $status->id,
+                'type' => 'status'
+            ]);
+        }
 
         $receiver = User::find($ticket->designer_id);
         if ($receiver) {
             try {
-                event(new ChangeTicketSendEvent($ticket->latestTicketInformation->title, $ticket->designer_id, $ticket->creator_name));
+                ///Si sirve la linea de abajo descomentarla
+                $receiver->notify(new TicketUpdate($request->title, $ticket->designer_name, $ticket->creator_name, $ticket->id));
+
                 $receiver->notify(new TicketChangeNotification($ticket->id, $ticket->latestTicketInformation->title, $ticket->creator_name));
             } catch (Exception $th) {
+                return 'Error al enviar la notificación';
                 // Manejar la excepción de manera adecuada
             }
         }
+
 
         return redirect()->action('TicketController@show', ['ticket' => $ticket->id]);
     }

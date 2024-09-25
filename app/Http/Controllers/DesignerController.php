@@ -6,12 +6,15 @@ use App\Message;
 use App\Notifications\MessageNotification;
 use App\Notifications\MissingInformation;
 use App\Notifications\StatusTicket;
+use App\Role;
+use App\SatisfactionModel;
 use App\Status;
 use App\Ticket;
 use App\TicketAssigment;
 use App\TicketAssignProcess;
 use App\TicketDelivery;
 use App\TicketHistory;
+use App\TicketInformation;
 use App\TicketStatusChange;
 use App\User;
 use Illuminate\Support\Facades\File;
@@ -84,7 +87,35 @@ class DesignerController extends Controller
         ///////////AQUÍ//////////
         return view('designer.listWait');
     }
+    public function listEncuesta($designer)
+    {
+        $user_designers = Role::find(3)->whatUsers->where('status', 1);
 
+        $info = [];
+
+        /*    foreach ($user_designers as $designer) {
+            $designerName = $designer->name . ' ' . $designer->lastname; */
+
+        $satisfactions = SatisfactionModel::where('designer', $designer)->get();
+        if ($satisfactions->isNotEmpty()) {
+            foreach ($satisfactions as $satisfaction) {
+                $ticket_name = TicketInformation::where('ticket_id', $satisfaction->ticket_id)->select('description')->first();
+                $description_text = strip_tags($ticket_name['description']);
+                $description_text = html_entity_decode($description_text);
+
+                $dataSatisfaction = [
+                    'diseñador' => $designer,
+                    'ticket_id' => $description_text,
+                    'pregunta' => $satisfaction->question,
+                    'respuesta' => $satisfaction->answer,
+                    'comentario' => $satisfaction->comment,
+                ];
+                $info[] = $dataSatisfaction;
+            }
+        }
+
+        return view('designer.listEncuesta', compact('info'));
+    }
     public function deleteFile($delivery_id)
     {
 
@@ -180,7 +211,7 @@ class DesignerController extends Controller
             'creator_id' => $ticket->creator_id,
             'seller_name' => $ticket->seller_name,
             'designer_id' => $desginer_id,
-            'designer_name' => $user->name,
+            'designer_name' => $user->name . ' ' . $user->lastname,
             'priority_id' => $ticket->priority_id,
             'type_id' => $ticket->type_id,
             'subtype_id' => $ticket->subtype_id,
@@ -189,13 +220,17 @@ class DesignerController extends Controller
         $ticket = Ticket::where('id', $ticket->id)->first();
         ///CON AYUDA DEL ID DEL CREADOR SE LE ENVIARA EL CORREO///
         $user = User::find($creatorId);
+
         try {
-            $user->notify(new MissingInformation($title, $send, $name, $request->ticketid, $request->message));
             $user->notify(new StatusTicket($title, $status, $send, $ticket->id));
         } catch (\Exception $e) {
-            return response()->json(['message' => 'No se pudo enviar las notificaciones']);
+            return response()->json(['error' => 'No se pudo enviar la notificación']);
         }
-
+        try {
+            $user->notify(new MissingInformation($title, $send, $name, $request->ticketid, $request->message));
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'No se pudo enviar el correo']);
+        }
         return redirect()->back();
     }
 }

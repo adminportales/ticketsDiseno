@@ -39,6 +39,10 @@
                                         @php $color = 'alert-warning'; @endphp
                                     @break
 
+                                    @case('Modificación de ticket')
+                                        @php $color = 'alert-warning'; @endphp
+                                    @break
+
                                     @case('En revision')
                                         @php $color = 'alert-warning'; @endphp
                                     @break
@@ -67,6 +71,14 @@
                                         @php $color = 'alert-secondary'; @endphp
                                     @break
 
+                                    @case('Solicitud modifación artes')
+                                        @php $color = 'alert-secondary'; @endphp
+                                    @break
+
+                                    @case('Modificando artes')
+                                        @php $color = 'alert-secondary'; @endphp
+                                    @break
+
                                     @case('Finalizado')
                                         @php $color = 'alert-primary'; @endphp
                                     @break
@@ -90,7 +102,8 @@
                             </td>
                             <td>
                                 @if ($latestTicketInformation)
-                                    <button class="boton" wire:click="showTicket({{ $item->id }})">Ver
+                                    <button class="btn btn-primary size-btn"
+                                        wire:click="showTicket({{ $item->id }})">Ver
                                         ticket</button>
                                 @endif
                             </td>
@@ -305,8 +318,6 @@
     @endif
 
     <script>
-        ///////////////////////////////////
-
         window.addEventListener('showTicket', event => {
             $('#showTicket').modal('show');
         });

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\HistoryAvailability;
 use App\Priority;
+use App\Role;
+use App\SatisfactionModel;
 use App\Status;
 use App\Ticket;
 use App\TicketStatusChange;
@@ -16,7 +18,7 @@ class AdminController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'role:admin']);
+        $this->middleware(['auth', 'role:admin|design_manager']);
     }
 
     static function dashboard()
@@ -146,7 +148,7 @@ class AdminController extends Controller
         for ($i = $dias; $i >= 0; $i--) {
             $daysChartTypeTicketDeliveries[] = now()->subDays($i)->format('d-m');
         }
-        $typesTickets =Type::all();
+        $typesTickets = Type::all();
         foreach ($typesTickets as $typeTicket) {
             $ticketsDeliveries = [];
             for ($i = $dias; $i >= 0; $i--) {
@@ -179,7 +181,7 @@ class AdminController extends Controller
         $dataTicketsReceived = [$daysChartTicketReceived, $dataUserReceivedTickets];
         // Regresamos la vista
 
-        return view('administrador.dashboard', compact('tickets', 'user', 'dataTypeTickets', 'dataUserInfoTickets', 'dataUserInfoTicketsDesign', 'dataInfoStatus','dataDeliveries', 'dataTypeDelivered', 'dataTicketsReceived'));
+        return view('administrador.dashboard', compact('tickets', 'user', 'dataTypeTickets', 'dataUserInfoTickets', 'dataUserInfoTicketsDesign', 'dataInfoStatus', 'dataDeliveries', 'dataTypeDelivered', 'dataTicketsReceived'));
     }
 
     public function viewTickets()
@@ -193,9 +195,9 @@ class AdminController extends Controller
         // Obtener los registros de ticket_status_changes relacionados con los IDs de los tickets
         foreach ($tickets as $ticket) {
             $ticket->statusChanges = TicketStatusChange::where('ticket_id', $ticket->id)
-                                                       ->where('status', 'Finalizado')
-                                                       ->orderByDesc('id')
-                                                       ->get();
+                ->where('status', 'Finalizado')
+                ->orderByDesc('id')
+                ->get();
             // Verificar si se encontraron cambios de estado con 'Entregado'
             if ($ticket->statusChanges->isEmpty()) {
                 $ticket->statusChanges = ['Revisar status del ticket'];
@@ -206,8 +208,55 @@ class AdminController extends Controller
 
         return view('administrador.tickets.index', compact('tickets', 'priorities'));
     }
+    public function viewEncuestas()
+    {
+        // Obtenemos todos los diseñadores con el rol especificado y con estado activo
+        $user_designers = Role::find(3)->whatUsers->where('status', 1);
 
-    // Funcion para vaer el historyAvailability
+        $info = [];
+
+        foreach ($user_designers as $designer) {
+            $designerName = $designer->name . ' ' . $designer->lastname;
+            // Obtenemos todas las satisfacciones para el diseñador actual
+            $satisfactions = SatisfactionModel::where('designer', $designerName)->get();
+
+            if ($satisfactions->isNotEmpty()) {
+                $tickets = [];
+                $malas = 0;
+                $neutrales = 0;
+                $buenas = 0;
+
+                foreach ($satisfactions as $satisfaction) {
+                    $tickets[] = $satisfaction->ticket_id;
+
+                    if ($satisfaction->answer == 'mal') {
+                        $malas++;
+                    } elseif ($satisfaction->answer == 'neutral') {
+                        $neutrales++;
+                    } elseif ($satisfaction->answer == 'bien') {
+                        $buenas++;
+                    }
+                }
+
+                $dataSatisfaction = [
+                    'diseñador' => $designerName,
+                    'tickets' => count($tickets),
+                    'mal' => $malas,
+                    'neutral' => $neutrales,
+                    'buena' => $buenas,
+                ];
+
+                $info[] = $dataSatisfaction;
+            }
+        }
+
+        return view('administrador.tickets.encuestas', compact('user_designers', 'info'));
+    }
+    /*  public function Encuestas()
+    {
+
+        return view('designer.listEncuesta', compact('user_designers', 'info'));
+    } */
     public function viewHistory()
     {
         $history = HistoryAvailability::orderByDesc('created_at')->paginate(30);

@@ -46,11 +46,7 @@
                                     {{ $type->type }}</option>
                             @endforeach
                         </select>
-                        @error('type')
-                            <div class="text-danger">
-                                {{ $message }}
-                            </div>
-                        @enderror
+
                     </div>
                     <div class="form-group" id="customer">
                         <label for="customer">Cliente</label>
@@ -65,7 +61,7 @@
                     <div class="form-group" id="measures">
                         <label for="measures">Medidas</label>
                         <input type="text" class="form-control" placeholder="medidas del producto" name="measures"
-                            value="{{ old('measures') }}" />
+                            value="{{ $ticketInformation->measures }}" />
                         @error('measures')
                             <div class="text-danger">
                                 {{ $message }}
@@ -105,8 +101,8 @@
                                     }
                                 }
                             @endphp
-                            <input class="form-check-input" type="checkbox" name="companies[]"
-                                {{ $check ? 'checked' : '' }} value="{{ $item }}">
+                            <input class="form-check-input" type="radio" name="companies[]" {{ $check ? 'checked' : '' }}
+                                value="{{ $item }}">
                             <label class="form-check-label" style="margin-right: 1rem" for="">
                                 {{ $item }}
                             </label>
@@ -115,20 +111,18 @@
                     <div class="form-group" id="samples">
                         @php
                             $samples = ['Si', 'No'];
+                            $selectedSamples = old(
+                                'samples',
+                                $ticketInformation->samples ? explode(',', $ticketInformation->samples) : [],
+                            );
                         @endphp
                         <label for="pantone">Este virtual requiere autorización por muestra fisica: </label><br>
                         @foreach ($samples as $item)
                             @php
-                                $check = false;
-                                if (old('samples') != null) {
-                                    foreach (old('samples') as $itemOld) {
-                                        if ($item == $itemOld) {
-                                            $check = true;
-                                        }
-                                    }
-                                }
+                                // Verificar si la opción actual está en el array de seleccionados
+                                $check = in_array($item, $selectedSamples);
                             @endphp
-                            <input class="form-check-input" type="checkbox" name="samples[]" {{ $check ? 'checked' : '' }}
+                            <input class="form-check-input" type="radio" name="samples[]" {{ $check ? 'checked' : '' }}
                                 value="{{ $item }}">
                             <label class="form-check-label" style="margin-right: 1rem" for="">
                                 {{ $item }}
@@ -184,13 +178,18 @@
                                 Opcional, agrega archivos solo si es necesario</span>
                         </label>
                         <div id="dropzoneItems" class="dropzone form-control text-center" style="height: auto;"></div>
-                        <input type="hidden" name="items" id="items" value="">
+                        <input type="hidden" name="items" id="items" value="{{ old('items') }}">
                         @error('items')
+                            <div class="text-danger">
+                                {{ $message }}</div>
+                        @enderror
+                        <p id="error"></p>
+                        {{-- @error('items')
                             <div class="text-danger">
                                 {{ $message }}
                             </div>
-                        @enderror
-                        <p id="error"></p>
+                        @enderror --}}
+                        {{-- <p id="error"></p> --}}
                     </div>
                 </div>
                 <div class="form-group">
@@ -251,15 +250,11 @@
         const samplesElement = document.querySelector('#samples');
         const opcional = document.querySelector('.opcional');
 
+        formDynamic(selectType.value)
 
-        let typeSelected = '{{ old('type') }}'
-        formDynamic(typeSelected)
-        selectType.addEventListener('change', () => {
-            formDynamic(selectType.value)
-        })
-
-        function formDynamic(type) {
-            switch (type) {
+        function formDynamic(selectType) {
+            console.log('selectType formDynamic', selectType)
+            switch (selectType) {
                 case '1':
                     companiesElement.classList.add('d-none');
                     logoElement.classList.remove('d-none');
@@ -304,7 +299,7 @@
                     companiesElement.classList.add('d-none');
                     positionElement.classList.add('d-none');
                     productElement.classList.add('d-none');
-                    itemsElement.classList.add('d-none');
+                    itemsElement.classList.remove('d-none');
                     clientElement.classList.remove('d-none');
                     tecnicaElement.classList.add('d-none');
                     pantoneElement.classList.add('d-none');

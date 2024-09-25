@@ -10,7 +10,9 @@
             <h4 class="card-title">Información general de cada usuario</h4>
             <div class="btn-group" style="text-align:left">
                 <a href="{{ route('users.create') }}" class="boton" aria-current="page">Crear</a>
-                <a href="{{ Request::root() . '/roles_assignment' }}" class="boton">Asignar permisos</a>
+                <div class="px-2">
+                    <a href="{{ Request::root() . '/roles_assignment' }}" class="boton">Asignar permisos</a>
+                </div>
                 <a href="{{ route('user.import') }}" class="boton">Importar</a>
             </div>
         </div>
@@ -56,15 +58,22 @@
                             @endif
                         </td>
                         <td class="text-center">
-                            <a href="{{ route('users.edit', ['user' => $user->id]) }}"
-                                class="btn btn-warning btn-sm">Editar</a>
-                            <a href="{{ url('roles_assignment/roles-assignment/' . $user->id . '/edit?model=users') }}"
-                                class="btn btn-warning btn-sm">Permisos</a>
-                            <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Desactivar</button>
-                            </form>
+                            <div class="mb-2">
+                                <a href="{{ route('users.edit', ['user' => $user->id]) }}"
+                                    class="btn btn-warning btn-sm size-btn">Editar</a>
+                            </div>
+                            <div class="mb-2">
+                                <a href="{{ url('roles_assignment/roles-assignment/' . $user->id . '/edit?model=users') }}"
+                                    class="btn btn-primary btn-sm size-btn">Permisos</a>
+                            </div>
+                            <div>
+                                <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="btn btn-outline-danger btn-sm size-btn">Desactivar</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

@@ -62,7 +62,7 @@
         </div>
     </div>
 
-    @if ($ticket->latestTicketDelivery)
+    @if ($ticket->latestTicketDelivery && $ticket->status_id !== 8)
         <div class="modal fade" id="lastDelivery" data-bs-backdrop="false" tabindex="-1"
             aria-labelledby="lastDeliveryLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl shadow-lg">
@@ -74,6 +74,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-8">
+
                                 <p class="font-bold">Ultima entrega realizada por
                                     {{ $ticket->latestTicketDelivery->designer_name }}
                                 </p>
@@ -206,8 +207,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="verificar()">Cancelar</button>
-                    <button id="sendButton" type="button" class="btn btn-success"
-                        onclick="changeStatus(4, {{ $ticket->id }})">Enviar</button>
+                    @if ($ticket->status_id == 9)
+                        <button id="sendButton" type="button" class="btn btn-success"
+                            onclick="changeStatus(11, {{ $ticket->id }})">Enviar</button>
+                    @else
+                        <button id="sendButton" type="button" class="btn btn-success"
+                            onclick="changeStatus(4, {{ $ticket->id }})">Enviar</button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -227,7 +233,7 @@
                         <button type="button" class="btn btn-secondary" onclick="cerrarTicket()">Finalizar
                             ticket</button>
                         <button type="button" class="btn btn-success" onclick="solicitarCambios()">No, deseo modificar
-                            algo</button>
+                            artes</button>
                         <button type="button" class="btn btn-success" onclick="verificar()">Cancelar</button>
                     @else
                         <button type="button" class="btn btn-secondary" onclick="finalizarTicket()">Si,
@@ -236,11 +242,6 @@
                             algo</button>
                         <button type="button" class="btn btn-success" onclick="verificar()">Cancelar</button>
                     @endif
-                    {{-- <button type="button" class="btn btn-secondary" onclick="cerrarTicket()">Si,
-                        solicitar artes</button>
-                    <button type="button" class="btn btn-success" onclick="solicitarCambios()">No, deseo modificar
-                        algo</button>
-                    <button type="button" class="btn btn-success" onclick="verificar()">Cancelar</button> --}}
                 </div>
             </div>
         </div>
@@ -263,6 +264,69 @@
             </div>
         </div>
     </div>
+    {{-- Modal para encuesta de satisfaccion --}}
+    <div class="modal fade" id="finalizarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="evaluationForm">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Encuesta de Evaluación</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="question" data-question="1">
+                                <p class="question-text">¿Cómo calificarías el trabajo y el servicio brindado?</p>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="emoji-rating text-center" data-rating="mal">
+                                            <input type="checkbox" class="btn-check emoji-checkbox"
+                                                id="btn-check-outlined" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="btn-check-outlined">
+                                                <div class="emoji-rating text-center" data-rating="mal">&#128577;
+                                                </div>
+                                                <p>Mal</p>
+                                            </label><br>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="emoji-rating text-center" data-rating="neutral">
+                                            <input type="checkbox" class="btn-check emoji-checkbox"
+                                                id="btn-check-outlined2" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="btn-check-outlined2">
+                                                <div class="emoji-rating text-center" data-rating="neutral">&#128528;
+                                                </div>
+                                                <p>Neutral</p>
+                                            </label><br>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="emoji-rating text-center" data-rating="bien">
+                                            <input type="checkbox" class="btn-check emoji-checkbox"
+                                                id="btn-check-outlined3" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="btn-check-outlined3">
+                                                <div class="emoji-rating text-center" data-rating="bien">&#128578;
+                                                </div>
+                                                <p>Bien</p>
+                                            </label><br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="respuesta_1" id="respuesta_1">
+                                <div class="mt-1">
+                                    <p>Comentario(Opcional)</p>
+                                    <input type="text" name="comentario_1" id="comentario_1">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3" id="submit-btn">Enviar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
 @endsection
 
@@ -281,12 +345,38 @@
             grid-column-gap: 0px;
             grid-row-gap: 0px;
         }
+
+
+        .blue:focus {
+            outline: 2px solid black;
+        }
     </style>
 @endsection
 
 @section('scripts')
     <script src="{{ asset('assets/vendors/fontawesome/all.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/sweetalert2\sweetalert2.all.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.emoji-checkbox');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        checkboxes.forEach(cb => {
+                            if (cb !== this) {
+                                cb.checked = false;
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
     <script>
         let ticket_id = '{{ $ticket->id }}'
         let status = '{{ $ticket->latestStatusChangeTicket->status_id }}'
@@ -348,10 +438,12 @@
                         'Excelente!',
                         `Estado: ${data.status}.`,
                         'success'
-                    );
-                    setTimeout(() => {
+                    ).then(() => {
                         location.reload();
-                    }, 300);
+                    });
+                    // setTimeout(() => {
+                    //     /*    location.reload(); */
+                    // }, 300);
                 }
             } catch (error) {
                 Swal.fire(
@@ -381,11 +473,8 @@
                     ticket_id: '{{ $ticket->id }}' // Si $ticket->id no está disponible aquí, asegúrate de obtenerlo de alguna manera
                 },
                 success: function(response) {
-                    // Manejar la respuesta del servidor (opcional)
                     console.log(response);
-                    // Cerrar el modal después de enviar el mensaje
                     $('#messageModal').modal('hide');
-                    // Actualizar la página si es necesario
                     // location.reload();
                 },
                 error: function(xhr, status, error) {
@@ -434,15 +523,95 @@
                 confirmButtonText: 'Si',
                 cancelButtonText: 'Cancelar',
             }).then((result) => {
-                if (result.isConfirmed) {
-                    changeStatus(6, ticket_id)
-                    setTimeout(() => {
-                        location.reload();
-                    }, 300);
+                if (result?.isConfirmed || result?.isConfirmed == 'true') {
+                    var myModal = new bootstrap.Modal(document.getElementById('finalizarModal'), {
+                        keyboard: false
+                    });
+                    myModal.show();
+
                 }
+
             })
         }
 
+
+        document.getElementById('evaluationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var form = event.target;
+            var formData = new FormData(form);
+
+            var formDataObject = {};
+            formData.forEach((value, key) => {
+                formDataObject[key] = value;
+            });
+
+            handleEvaluationForm(formDataObject, ticket_id);
+        })
+
+        async function handleEvaluationForm(forData, ticket_id) {
+            try {
+                let params = {
+                    comentario_1: forData.comentario_1,
+                    pregunta: forData.respuesta_1.split(':')[0],
+                    respuesta_1: forData.respuesta_1.split(':')[1],
+                    ticket_id: ticket_id,
+                };
+                console.log('params', params);
+                let res = await axios.post(
+                    `/satisfaccion`,
+                    params
+                );
+                console.log('res', res);
+                let data = res.data;
+                if (data.message == 'OK') {
+                    changeStatus(6, ticket_id);
+
+                    Swal.fire(
+                        'Excelente!',
+                        'Se cambio el estado correctamente',
+                        'success'
+                    ).then(() => {
+                        location.reload();
+                    });
+                }
+            } catch (error) {
+                console.log('error', error);
+                Swal.fire(
+                    'Error!',
+                    'No se pudo cambiar el estado',
+                    'error'
+                );
+            }
+
+        }
+
         function verMas() {}
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const emojis = document.querySelectorAll('.emoji-rating');
+
+            emojis.forEach(emoji => {
+                emoji.addEventListener('click', function() {
+                    // Remover la clase 'selected' de todos los emojis en la misma pregunta
+                    const question = this.closest('.question');
+                    const emojisInQuestion = question.querySelectorAll('.emoji-rating');
+                    emojisInQuestion.forEach(e => e.classList.remove('selected'));
+
+                    // Agregar la clase 'selected' al emoji clicado
+                    this.classList.add('selected');
+
+                    // Obtener el número de la pregunta, la calificación seleccionada y el texto de la pregunta
+                    const questionNumber = question.getAttribute('data-question');
+                    const rating = this.getAttribute('data-rating');
+                    const questionText = question.querySelector('.question-text').textContent;
+
+                    // Actualizar el valor del campo oculto correspondiente a la pregunta
+                    document.getElementById('respuesta_' + questionNumber).value = questionText +
+                        ': ' + rating;
+                });
+            });
+        });
     </script>
 @endsection

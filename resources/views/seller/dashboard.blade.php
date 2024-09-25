@@ -12,7 +12,7 @@
                     <div class="card">
                         <div class="card-body px-3 py-4-5">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="stats-icon purple">
                                         <i class="iconly-boldShow"></i>
                                     </div>
@@ -26,11 +26,11 @@
                     </div>
                 </div>
                 @if (!empty($ticketAssistant))
-                    <div class="col-6 col-lg-4 col-md-6">
+                    <div class="col-6 col-lg-5 col-md-6">
                         <div class="card">
                             <div class="card-body px-3 py-4-5">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="stats-icon blue">
                                             <i class="iconly-boldProfile"></i>
                                         </div>
@@ -91,6 +91,10 @@
                                                         @php $color = 'alert-warning'; @endphp
                                                     @break
 
+                                                    @case('Modificación de ticket')
+                                                        @php $color = 'alert-warning'; @endphp
+                                                    @break
+
                                                     @case('En revision')
                                                         @php $color = 'alert-warning'; @endphp
                                                     @break
@@ -116,6 +120,14 @@
                                                     @break
 
                                                     @case('Entrega de artes')
+                                                        @php $color = 'alert-secondary'; @endphp
+                                                    @break
+
+                                                    @case('Solicitud modifación artes')
+                                                        @php $color = 'alert-secondary'; @endphp
+                                                    @break
+
+                                                    @case('Modificando artes')
                                                         @php $color = 'alert-secondary'; @endphp
                                                     @break
 
@@ -195,6 +207,10 @@
                                                             @php $color = 'alert-warning'; @endphp
                                                         @break
 
+                                                        @case('Modificación de ticket')
+                                                            @php $color = 'alert-warning'; @endphp
+                                                        @break
+
                                                         @case('En revision')
                                                             @php $color = 'alert-warning'; @endphp
                                                         @break
@@ -220,6 +236,14 @@
                                                         @break
 
                                                         @case('Entrega de artes')
+                                                            @php $color = 'alert-secondary'; @endphp
+                                                        @break
+
+                                                        @case('Solicitud modifación artes')
+                                                            @php $color = 'alert-secondary'; @endphp
+                                                        @break
+
+                                                        @case('Modificando artes')
                                                             @php $color = 'alert-secondary'; @endphp
                                                         @break
 

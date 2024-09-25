@@ -9,11 +9,11 @@
     <section class="row">
         <div class="col-12 col-lg-8">
             <div class="row">
-                <div class="col-6 col-lg-4 col-md-6">
-                    <div class="card">
+                <div class="col-6 col-lg-6 col-md-6">
+                    <div class="card" style="height: 130px">
                         <div class="card-body px-3 py-4-5">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="stats-icon blue">
                                         <i class="iconly-boldProfile"></i>
                                     </div>
@@ -26,11 +26,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-lg-4 col-md-6">
+                <div class="col-6 col-lg-6 col-md-6">
                     <div class="card">
                         <div class="card-body px-3 py-4-5">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="stats-icon purple">
                                         <i class="iconly-boldProfile"></i>
                                     </div>
@@ -91,6 +91,10 @@
                                                         @php $color = 'alert-warning'; @endphp
                                                     @break
 
+                                                    @case('Modificación de ticket')
+                                                        @php $color = 'alert-warning'; @endphp
+                                                    @break
+
                                                     @case('En revision')
                                                         @php $color = 'alert-warning'; @endphp
                                                     @break
@@ -119,6 +123,14 @@
                                                         @php $color = 'alert-secondary'; @endphp
                                                     @break
 
+                                                    @case('Solicitud modifación artes')
+                                                        @php $color = 'alert-secondary'; @endphp
+                                                    @break
+
+                                                    @case('Modificando artes')
+                                                        @php $color = 'alert-secondary'; @endphp
+                                                    @break
+
                                                     @case('Finalizado')
                                                         @php $color = 'alert-primary'; @endphp
                                                     @break
@@ -141,7 +153,7 @@
                                             <td>
                                                 @if ($latestTicketInformation)
                                                     <a href="{{ route('tickets.show', ['ticket' => $ticket->id]) }}"
-                                                        class="boton">Ver ticket</a>
+                                                        class="boton btn-sm size-btn ">Ver ticket</a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -200,6 +212,10 @@
                                                                     @php $color = 'alert-warning'; @endphp
                                                                 @break
 
+                                                                @case('Modificación de ticket')
+                                                                    @php $color = 'alert-warning'; @endphp
+                                                                @break
+
                                                                 @case('En revision')
                                                                     @php $color = 'alert-warning'; @endphp
                                                                 @break
@@ -225,6 +241,14 @@
                                                                 @break
 
                                                                 @case('Entrega de artes')
+                                                                    @php $color = 'alert-secondary'; @endphp
+                                                                @break
+
+                                                                @case('Solicitud modifación artes')
+                                                                    @php $color = 'alert-secondary'; @endphp
+                                                                @break
+
+                                                                @case('Modificando artes')
                                                                     @php $color = 'alert-secondary'; @endphp
                                                                 @break
 

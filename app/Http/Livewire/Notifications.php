@@ -22,6 +22,7 @@ class Notifications extends Component
             'echo:priority,ChangePrioritySendEvent' => 'updateNotifies',
             'echo:change,ChangeTicketSendEvent' => 'updateNotifies',
             'echo:arts,TicketDeliveryArtsSendEvent' => 'updateNotifies',
+            'echo:info,TicketUpdateSendEvent' => 'updateNotifies',
         ];
     }
     public function render()
