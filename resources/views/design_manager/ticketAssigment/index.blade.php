@@ -24,7 +24,7 @@
                 @foreach ($users as $user)
                     <tr>
                         <td>{{ $loop->iteration + 1 }}</td>
-                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->name . ' ' . $user->lastname }}</td>
 
                         <td>
                             @foreach ($user->whatTypes as $type)
